@@ -1,0 +1,308 @@
+    fish: window.fishSVG('classic', '#d97757', '#f4ecd8'),
+    water: '<svg viewBox="0 0 100 64"><path d="M50,4 Q68,30 68,42 A18,18 0 1,1 32,42 Q32,30 50,4 Z" fill="#2e6378"/><path d="M41,44 Q41,36 47,28" stroke="rgba(255,255,255,0.55)" stroke-width="3.5" fill="none" stroke-linecap="round"/></svg>',
+  };
+  const cards = [
+    { id:'tank',  n:'01', accent:'var(--tide)',  title:t.path_tank,  desc:t.path_tank_desc,  steps:t.path_tank_steps },
+    { id:'fish',  n:'02', accent:'var(--coral)', title:t.path_fish,  desc:t.path_fish_desc,  steps:t.path_fish_steps },
+    { id:'water', n:'03', accent:'var(--algae)', title:t.path_water, desc:t.path_water_desc, steps:t.path_water_steps },
+  ];
+  return (
+    <div className="slide">
+      <div className="eyebrow">{t.welcome_eyebrow}</div>
+      <h1 className="slide-title">{t.welcome_title}</h1>
+      <p className="slide-sub">{t.welcome_sub}</p>
+      <div className="path-grid">
+        {cards.map(c => (
+          <button key={c.id} className="path-card" style={{ '--accent': c.accent }} onClick={() => onPick(c.id)}>
+            <span className="path-num">{c.n}</span>
+            <div className="icon" dangerouslySetInnerHTML={{ __html: icons[c.id] }}></div>
+            <h3>{c.title}</h3>
+            <p>{c.desc}</p>
+            <div className="steps">{c.steps}</div>
+            <span className="path-go">→</span>
+          </button>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+// ─── TANK STEP ───
+function TankStep({ state, setState, t }) {
+  const [mode, setMode] = useState(state.volume ? 'custom' : 'preset');
+  const [length, setLength] = useState(state.tankL || 80);
+  const [width, setWidth] = useState(state.tankW || 35);
+  const [height, setHeight] = useState(state.tankH || 45);
+
+  useEffect(() => {
+    if (mode === 'custom') {
+      const vol = Math.round(length * width * height / 1000);
+      setState(s => ({ ...s, volume: vol, tankL: length, tankW: width, tankH: height }));
+    }
+  }, [length, width, height, mode]);
+
+  return (
+    <div className="slide">
+      <div className="eyebrow">{t.tank_eyebrow}</div>
+      <h1 className="slide-title">{t.tank_title}</h1>
+      <p className="slide-sub">{t.tank_sub}</p>
+
+      <div style={{display:'flex', gap:8, marginBottom:18}}>
+        <button className={'chip ' + (mode==='preset'?'active':'')} onClick={()=>setMode('preset')}>{t.presets}</button>
+        <button className={'chip ' + (mode==='custom'?'active':'')} onClick={()=>setMode('custom')}>{t.custom}</button>
+      </div>
+
+      {mode === 'preset' ? (
+        <div className="option-grid">
+          {window.DB.tankPresets.map(p => (
+            <button key={p.id}
+              className={'option-card ' + (state.volume === p.vol ? 'selected' : '')}
+              onClick={()=>setState(s => ({...s, volume:p.vol, tankL:p.l, tankW:p.w, tankH:p.h}))}>
+              <div className="preset-tank">
+                <div className="preset-glass" style={{width: Math.min(100, p.l / 1.5) + '%', aspectRatio: p.l + ' / ' + p.h}}></div>
+              </div>
+              <h4>{state.lang === 'tr' ? p.tr : p.en}</h4>
+              <p>{p.l}×{p.w}×{p.h} cm · {p.vol}L</p>
+            </button>
+          ))}
+        </div>
+      ) : (
+        <div style={{display:'grid', gridTemplateColumns:'1fr 1fr', gap:32, marginTop:8}}>
+          <div>
+            <div className="field">
+              <label>{t.length}</label>
+              <div className="range-row">
+                <input type="range" min="20" max="300" step="5" value={length} onChange={e=>setLength(+e.target.value)} />
+                <span className="range-val">{length} {t.cm}</span>
+              </div>
+            </div>
+            <div className="field">
+              <label>{t.width}</label>
+              <div className="range-row">
+                <input type="range" min="20" max="100" step="5" value={width} onChange={e=>setWidth(+e.target.value)} />
+                <span className="range-val">{width} {t.cm}</span>
+              </div>
+            </div>
+            <div className="field">
+              <label>{t.height}</label>
+              <div className="range-row">
+                <input type="range" min="20" max="80" step="5" value={height} onChange={e=>setHeight(+e.target.value)} />
+                <span className="range-val">{height} {t.cm}</span>
+              </div>
+            </div>
+            <div className="field">
+              <label>{t.liters}</label>
+              <div className="range-val" style={{display:'inline-block', fontSize:24, padding:'10px 18px'}}>
+                {Math.round(length*width*height/1000)} L
+              </div>
+            </div>
+          </div>
+          <div>
+            <div className="tank-visual" style={{aspectRatio: `${length}/${height}`, maxWidth: '100%'}}>
+              <span className="tank-dim-label" style={{bottom:6, left:6}}>{length} {t.cm}</span>
+              <span className="tank-dim-label" style={{top:6, right:6}}>{height} {t.cm}</span>
+            </div>
+            <div className="tag" style={{marginTop:8}}>
+              {state.lang === 'tr' ? `Yaklaşık ${Math.round(length*width*height/1000)} litre` : `Approximately ${Math.round(length*width*height/1000)} liters`}
+            </div>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}
+
+// ─── WATER STEP ───
+function WaterStep({ state, setState, t }) {
+  const lang = state.lang || 'tr';
+  const opts = [
+    { id:'fresh', title:t.fresh, desc:t.fresh_desc,
+      tags:['22–27°C', 'pH 6.0–7.5', lang==='tr' ? 'Kolay başlangıç' : 'Beginner-friendly'] },
+    { id:'salt', title:t.salt, desc:t.salt_desc,
+      tags:['24–26°C', 'pH 8.0–8.4', lang==='tr' ? 'İleri seviye' : 'Advanced'] },
+  ];
+  function pick(id) {
+    setState(s => ({...s, water:id, fish: (s.fish||[]).filter(f => {
+      const def = window.DB.fish.find(d => d.id === f.id);
+      return def && def.water === id;
+    })}));
+  }
+  return (
+    <div className="slide">
+      <div className="eyebrow">{t.water_eyebrow}</div>
+      <h1 className="slide-title">{t.water_title}</h1>
+      <p className="slide-sub">{t.water_sub}</p>
+      <div className="water-grid">
+        {opts.map(o => (
+          <button key={o.id}
+            className={'water-card ' + (state.water === o.id ? 'selected' : '')}
+            onClick={()=>pick(o.id)}>
+            <div className={'water-scene ' + o.id}>
+              {o.id === 'fresh' ? (
+                <React.Fragment>
+                  <span className="ws-plant" style={{left:'8%', width:46}} dangerouslySetInnerHTML={{__html: window.plantSVG('grass', '#4a6b3a')}}></span>
+                  <span className="ws-plant" style={{left:'24%', width:38}} dangerouslySetInnerHTML={{__html: window.plantSVG('stem', '#6b8e4e')}}></span>
+                  <span className="ws-fish" style={{right:'12%', top:'22%', width:58}} dangerouslySetInnerHTML={{__html: window.fishSVG('classic', '#d97757', '#f4ecd8')}}></span>
+                  <span className="ws-fish" style={{right:'36%', top:'48%', width:40}} dangerouslySetInnerHTML={{__html: window.fishSVG('long', '#2e6378', '#c9e2e3')}}></span>
+                </React.Fragment>
+              ) : (
+                <React.Fragment>
+                  <span className="ws-plant" style={{left:'9%', width:54}} dangerouslySetInnerHTML={{__html: window.plantSVG('rosette', '#d97757')}}></span>
+                  <span className="ws-plant" style={{left:'26%', width:40}} dangerouslySetInnerHTML={{__html: window.plantSVG('moss', '#c89b3c')}}></span>
+                  <span className="ws-fish" style={{right:'14%', top:'24%', width:52}} dangerouslySetInnerHTML={{__html: window.fishSVG('tall', '#c89b3c', '#faf6ec')}}></span>
+                  <span className="ws-fish" style={{right:'40%', top:'50%', width:38}} dangerouslySetInnerHTML={{__html: window.fishSVG('round', '#6da9b8', '#0a1f2e')}}></span>
+                </React.Fragment>
+              )}
+              <span className="ws-sand"></span>
+            </div>
+            <div className="water-body">
+              <h4>{o.title}</h4>
+              <p>{o.desc}</p>
+              <div className="water-tags">
+                {o.tags.map((tg, i) => <span className="tag" key={i}>{tg}</span>)}
+              </div>
+            </div>
+          </button>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+// ─── FISH STEP ───
+function FishStep({ state, setState, t, lang }) {
+  const [search, setSearch] = useState('');
+  const [filter, setFilter] = useState('all');
+  const [detail, setDetail] = useState(null);
+
+  const filteredFish = useMemo(() => {
+    let list = window.Engine.filterFish(state);
+    if (search) {
+      const q = search.toLowerCase();
+      list = list.filter(f =>
+        f.nameTr.toLowerCase().includes(q) ||
+        f.nameEn.toLowerCase().includes(q) ||
+        f.sci.toLowerCase().includes(q)
+      );
+    }
+    if (filter === 'peaceful') list = list.filter(f => f.aggression === 'peaceful');
+    if (filter === 'semi') list = list.filter(f => f.aggression === 'semi');
+    if (filter === 'aggressive') list = list.filter(f => f.aggression === 'aggressive');
+    if (filter === 'schooling') list = list.filter(f => f.schooling >= 4);
+    return list;
+  }, [state.water, state.volume, search, filter]);
+
+  // Compatibility hint per fish
+  function isCompatibleWith(fish) {
+    if (!state.fish || state.fish.length === 0) return 'ok';
+    const dummyState = { ...state, fish: [...state.fish, { id: fish.id, qty: 1 }] };
+    const a = window.Engine.analyze(dummyState);
+    const newIssues = a.issues.length - (window.Engine.analyze(state).issues.length);
+    const newWarnings = a.warnings.length - (window.Engine.analyze(state).warnings.length);
+    if (newIssues > 0) return 'bad';
+    if (newWarnings > 0) return 'warn';
+    return 'ok';
+  }
+
+  function getQty(id) {
+    const found = (state.fish || []).find(f => f.id === id);
+    return found ? found.qty : 0;
+  }
+
+  function setQty(id, qty) {
+    setState(s => {
+      const list = (s.fish || []).filter(f => f.id !== id);
+      if (qty > 0) list.push({ id, qty });
+      return { ...s, fish: list };
+    });
+  }
+
+  function addFish(id) { setQty(id, getQty(id) + 1); }
+
+  const selectedDefs = (state.fish || []).map(s => ({
+    ...window.DB.fish.find(f => f.id === s.id),
+    qty: s.qty
+  })).filter(x => x.id);
+
+  return (
+    <div className="slide">
+      <div className="eyebrow">{t.fish_eyebrow}</div>
+      <h1 className="slide-title">{t.fish_title}</h1>
+      <p className="slide-sub">{t.fish_sub}</p>
+
+      <div className="picker-layout">
+        <div>
+          <div className="picker-search">
+            <span style={{color:'var(--tide)', fontSize:18}}>🔎</span>
+            <input type="text" placeholder={t.search_fish} value={search} onChange={e=>setSearch(e.target.value)} />
+          </div>
+          <div className="filter-chips">
+            {[
+              {id:'all', label:t.all},
+              {id:'peaceful', label:t.peaceful},
+              {id:'semi', label:t.semi},
+              {id:'aggressive', label:t.aggressive},
+              {id:'schooling', label:t.schooling},
+            ].map(c => (
+              <button key={c.id} className={'chip ' + (filter===c.id?'active':'')} onClick={()=>setFilter(c.id)}>{c.label}</button>
+            ))}
+          </div>
+          <div className="fish-grid">
+            {filteredFish.map(f => {
+              const compat = isCompatibleWith(f);
+              const qty = getQty(f.id);
+              const aggBadge = { peaceful: t.peaceful, semi: t.semi, aggressive: t.aggressive }[f.aggression];
+              return (
+                <button key={f.id}
+                  className={'fish-card ' + (qty > 0 ? 'selected' : '')}
+                  style={{opacity: compat === 'bad' ? 0.55 : 1}}
+                  onClick={()=>{ addFish(f.id); setDetail(f); }}>
+                  {qty > 0 && <span className="qty-badge">×{qty}</span>}
+                  <div className="silhouette" dangerouslySetInnerHTML={{__html: window.fishSVG(f.silhouette, f.color[0], f.color[1])}} />
+                  <div className="name">{lang==='tr'?f.nameTr:f.nameEn}</div>
+                  <div className="sci">{f.sci}</div>
+                  <div className="meta">
+                    <span>{f.adultSize}cm</span>
+                    <span>pH {f.pH.join('-')}</span>
+                    {compat === 'bad' && <span style={{background:'rgba(184,84,80,0.2)', color:'var(--bad)'}}>!</span>}
+                    {compat === 'warn' && <span style={{background:'rgba(200,155,60,0.25)', color:'#8c6a1f'}}>⚠</span>}
+                  </div>
+                </button>
+              );
+            })}
+            {filteredFish.length === 0 && <div className="empty">{lang==='tr'?'Filtrelere uyan balık yok.':'No fish match the filters.'}</div>}
+          </div>
+        </div>
+
+        <div>
+          <div className="selected-panel">
+            <h4>
+              {t.selected}
+              <span className="count">{selectedDefs.length} {t.species}</span>
+            </h4>
+            {selectedDefs.length === 0 ? (
+              <div className="empty">{t.no_selection}</div>
+            ) : (
+              <div className="selected-list">
+                {selectedDefs.map(f => (
+                  <div className="selected-item" key={f.id}>
+                    <div style={{width:32, height:18}} dangerouslySetInnerHTML={{__html: window.fishSVG(f.silhouette, f.color[0], f.color[1])}} />
+                    <span className="name">{lang==='tr'?f.nameTr:f.nameEn}</span>
+                    <div className="qty-control">
+                      <button onClick={()=>setQty(f.id, Math.max(0, f.qty-1))}>−</button>
+                      <span className="qty">{f.qty}</span>
+                      <button onClick={()=>setQty(f.id, f.qty+1)}>+</button>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            )}
+            {detail && (
+              <div className="fish-detail">
+                <h5>{lang==='tr'?detail.nameTr:detail.nameEn}</h5>
+                <div className="sci">{detail.sci}</div>
+                <div className="row"><span className="k">pH</span><span className="v">{detail.pH.join('–')}</span></div>
+                <div className="row"><span className="k">{t.temp}</span><span className="v">{detail.temp.join('–')}°C</span></div>
+                <div className="row"><span className="k">{t.bioload}</span><span className="v">{detail.minVolume}L+</span></div>
+                <div className="row"><span className="k">{lang==='tr'?'Boyut':'Size'}</span><span className="v">{detail.adultSize}cm</span></div>
+                <div className="row"><span className="k">{lang==='tr'?'Davranış':'Behavior'}</span><span className="v">{ {peaceful:t.peaceful, semi:t.semi, aggressive:t.aggressive}[detail.aggression]}</span></div>
