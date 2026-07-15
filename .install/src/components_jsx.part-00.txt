@@ -1,0 +1,215 @@
+// AKVARYUM — UI components
+
+const { useState, useEffect, useMemo, useRef } = React;
+
+// ─── Bubbles background ───
+function Bubbles() {
+  const bubbles = useMemo(() => Array.from({length: 18}, (_, i) => ({
+    id: i,
+    left: Math.random() * 100,
+    size: 6 + Math.random() * 18,
+    duration: 12 + Math.random() * 18,
+    delay: Math.random() * 20,
+  })), []);
+  return (
+    <div className="bubbles">
+      {bubbles.map(b => (
+        <div key={b.id} className="bubble" style={{
+          left: b.left + '%',
+          width: b.size, height: b.size,
+          animationDuration: b.duration + 's',
+          animationDelay: b.delay + 's',
+        }} />
+      ))}
+    </div>
+  );
+}
+
+// ─── Topbar ───
+function Topbar({ lang, setLang, step, total, onRestart, t }) {
+  return (
+    <header className="topbar">
+      <button className="brand" onClick={onRestart}>
+        <span className="brand-mark"></span>
+        <span>{t.brand}</span>
+        <span className="muted" style={{fontFamily:'var(--mono)', fontSize:11, letterSpacing:'0.1em', marginLeft:6}}>v1</span>
+      </button>
+      <div className="topbar-actions">
+        {total > 0 && (
+          <span className="step-counter">
+            {t.step} {String(step+1).padStart(2,'0')} {t.of} {String(total).padStart(2,'0')}
+          </span>
+        )}
+        <div className="lang-toggle">
+          <button className={lang==='tr'?'active':''} onClick={()=>setLang('tr')}>TR</button>
+          <button className={lang==='en'?'active':''} onClick={()=>setLang('en')}>EN</button>
+        </div>
+      </div>
+    </header>
+  );
+}
+
+// ─── Recipe strip (shows current selections, clickable to jump) ───
+function RecipeStrip({ state, t, jumpTo }) {
+  const items = [];
+  if (state.path) {
+    const pathLabels = { tank: t.path_tank, fish: t.path_fish, water: t.path_water };
+    items.push({ lab: '✦', v: pathLabels[state.path], step: null });
+  }
+  if (state.volume) items.push({ lab: t.liters, v: state.volume + 'L', step: 'tank' });
+  if (state.water) {
+    const m = { fresh: t.fresh, salt: t.salt };
+    items.push({ lab: t.water_eyebrow, v: m[state.water], step: 'water' });
+  }
+  if (state.fish && state.fish.length > 0) {
+    const total = state.fish.reduce((s, f) => s + f.qty, 0);
+    items.push({ lab: t.fish_eyebrow, v: `${total} ${t.individuals} · ${state.fish.length} ${t.species}`, step: 'fish' });
+  }
+  if (state.plants && state.plants.length > 0) items.push({ lab: t.plants, v: state.plants.length, step: 'plants' });
+  if (state.substrate) {
+    const sub = window.DB.substrates.find(s => s.id === state.substrate);
+    if (sub) items.push({ lab: t.substrate_eyebrow, v: t === window.I18N.tr ? sub.tr : sub.en, step: 'substrate' });
+  }
+  if (items.length === 0) return null;
+  return (
+    <div className="recipe-strip">
+      {items.map((it, i) => (
+        <button className={'item ' + (it.step ? 'clickable' : '')}
+          key={i}
+          disabled={!it.step}
+          onClick={() => it.step && jumpTo && jumpTo(it.step)}>
+          <span className="lab">{it.lab}</span>
+          <span className="v">{it.v}</span>
+        </button>
+      ))}
+    </div>
+  );
+}
+
+// ─── Progress dots (clickable to jump) ───
+function Progress({ steps, current, labels, onJump }) {
+  return (
+    <div className="progress">
+      {steps.map((s, i) => (
+        <button key={i}
+          className={'progress-dot ' + (i === current ? 'active' : i < current ? 'done' : 'future')}
+          title={labels ? labels[i] : ''}
+          onClick={() => i < current && onJump && onJump(i)}
+          disabled={i > current}>
+          {i === current && labels && <span className="dot-label">{labels[i]}</span>}
+        </button>
+      ))}
+    </div>
+  );
+}
+
+// ─── LANDING (ana sayfa) ───
+function Landing({ t, onStart }) {
+  const freshCount = window.DB_FRESH.length;
+  const saltCount = window.DB_SALT.length;
+  const plantCount = window.DB.plants.length;
+
+  const heroFish = useMemo(() => [
+    { shape:'classic', c1:'#d97757', c2:'#f4ecd8', top:'14%', dur:26, delay:-4,  size:72, flip:false },
+    { shape:'tall',    c1:'#c89b3c', c2:'#faf6ec', top:'32%', dur:34, delay:-16, size:54, flip:true  },
+    { shape:'long',    c1:'#2e6378', c2:'#c9e2e3', top:'46%', dur:30, delay:-9,  size:82, flip:false },
+    { shape:'round',   c1:'#6da9b8', c2:'#0a1f2e', top:'24%', dur:42, delay:-30, size:46, flip:true  },
+    { shape:'classic', c1:'#8a5a44', c2:'#e8dcc4', top:'58%', dur:38, delay:-22, size:42, flip:false },
+  ], []);
+
+  const heroPlants = useMemo(() => [
+    { kind:'grass',   color:'#4a6b3a', left:'3%',  w:72 },
+    { kind:'stem',    color:'#6b8e4e', left:'13%', w:56 },
+    { kind:'stem',    color:'#2d4a2b', left:'60%', w:48 },
+    { kind:'rosette', color:'#2d4a2b', left:'70%', w:88 },
+    { kind:'moss',    color:'#4a6b3a', left:'86%', w:62 },
+  ], []);
+
+  const hows = [
+    { n:'01', h:t.how1_t, d:t.how1_d },
+    { n:'02', h:t.how2_t, d:t.how2_d },
+    { n:'03', h:t.how3_t, d:t.how3_d },
+  ];
+
+  const stats = [
+    { num:freshCount, lab:t.stat_fresh },
+    { num:saltCount,  lab:t.stat_salt },
+    { num:plantCount, lab:t.stat_plants },
+    { num:'TR·EN',    lab:t.stat_lang },
+  ];
+
+  return (
+    <main className="landing">
+      <section className="hero">
+        <div className="hero-copy">
+          <div className="eyebrow">{t.hero_eyebrow}</div>
+          <h1 className="hero-title">{t.hero_title}</h1>
+          <p className="hero-sub">{t.hero_sub}</p>
+          <div className="hero-ctas">
+            <button className="btn btn-primary btn-hero" onClick={onStart}>{t.hero_cta} →</button>
+            <a className="btn btn-ghost btn-hero" href="#how">{t.hero_how}</a>
+          </div>
+        </div>
+        <div className="hero-tank" aria-hidden="true">
+          <div className="tank-glass">
+            <div className="tank-rays"></div>
+            {heroFish.map((f, i) => (
+              <span key={i}
+                className={'swim-fish' + (f.flip ? ' flip' : '')}
+                style={{ top:f.top, width:f.size, animationDuration:f.dur + 's', animationDelay:f.delay + 's' }}
+                dangerouslySetInnerHTML={{ __html: window.fishSVG(f.shape, f.c1, f.c2) }}></span>
+            ))}
+            <div className="tank-plants">
+              {heroPlants.map((p, i) => (
+                <span key={i} className="tank-plant" style={{ left:p.left, width:p.w }}
+                  dangerouslySetInnerHTML={{ __html: window.plantSVG(p.kind, p.color) }}></span>
+              ))}
+            </div>
+            <div className="tank-sand"></div>
+            {Array.from({ length: 7 }, (_, i) => (
+              <span key={'b' + i} className="t-bub"
+                style={{ left:(8 + i * 13) + '%', width:5 + (i % 3) * 4, height:5 + (i % 3) * 4,
+                  animationDuration:(5 + i * 1.3) + 's', animationDelay:(-i * 2) + 's' }}></span>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section className="stats-band">
+        {stats.map((s, i) => (
+          <div className="stat" key={i}>
+            <span className="stat-num">{s.num}</span>
+            <span className="stat-lab">{s.lab}</span>
+          </div>
+        ))}
+      </section>
+
+      <section className="how" id="how">
+        <div className="eyebrow">{t.how_eyebrow}</div>
+        <h2 className="how-title">{t.how_title}</h2>
+        <div className="how-grid">
+          {hows.map(h => (
+            <div className="how-card" key={h.n}>
+              <span className="how-num">{h.n}</span>
+              <h3>{h.h}</h3>
+              <p>{h.d}</p>
+            </div>
+          ))}
+        </div>
+        <div className="how-cta">
+          <button className="btn btn-primary btn-hero" onClick={onStart}>{t.hero_cta} →</button>
+        </div>
+      </section>
+
+      <footer className="landing-foot">
+        <span className="brand-mini"><span className="brand-mark"></span>{t.brand}</span>
+        <p>{t.foot_note}</p>
+      </footer>
+    </main>
+  );
+}
+
+// ─── PATH SELECTION ───
+function PathStep({ onPick, t }) {
+  const icons = {
+    tank: '<svg viewBox="0 0 100 64"><rect x="6" y="8" width="88" height="50" rx="4" fill="none" stroke="#2e6378" stroke-width="3.5"/><path d="M10,24 Q30,19 50,24 T90,24 L90,54 L10,54 Z" fill="rgba(109,169,184,0.5)"/><circle cx="30" cy="40" r="2.5" fill="rgba(255,255,255,0.7)"/><circle cx="36" cy="33" r="1.8" fill="rgba(255,255,255,0.6)"/></svg>',
