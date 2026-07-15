@@ -1,0 +1,292 @@
+                {detail.schooling > 0 && <div className="row"><span className="k">{t.schooling}</span><span className="v">{detail.schooling}+</span></div>}
+                {(lang==='tr'?detail.notes:detail.notesEn) && (
+                  <div style={{marginTop:8, fontSize:12, color:'var(--sea)', lineHeight:1.5, fontStyle:'italic'}}>
+                    {lang==='tr'?detail.notes:detail.notesEn}
+                  </div>
+                )}
+              </div>
+            )}
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// ─── PLANTS STEP (freshwater only) ───
+function PlantsStep({ state, setState, t, lang }) {
+  const items = window.DB.plants;
+
+  function toggle(id) {
+    setState(s => {
+      const list = s.plants || [];
+      const next = list.includes(id) ? list.filter(x => x !== id) : [...list, id];
+      return { ...s, plants: next };
+    });
+  }
+
+  const selected = state.plants || [];
+  const svg = window.plantSVG;
+
+  return (
+    <div className="slide">
+      <div className="eyebrow">{t.plants_eyebrow}</div>
+      <h1 className="slide-title">{t.plants}</h1>
+      <p className="slide-sub">{t.plants_sub}</p>
+      <div className="tile-grid">
+        {items.map(p => (
+          <button key={p.id} className={'tile ' + (selected.includes(p.id) ? 'selected' : '')} onClick={()=>toggle(p.id)}>
+            <div className="ico" dangerouslySetInnerHTML={{__html: svg(p.kind, p.color)}} style={{width:56, height:56}} />
+            <div className="name">{lang==='tr'?p.tr:p.en}</div>
+            <div className="sub">
+              {lang==='tr'?'Işık':'Light'}: {p.light}
+              {p.co2 && ' · CO₂'}
+              {' · '}{p.difficulty}
+            </div>
+          </button>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+// ─── SUBSTRATE STEP ───
+function SubstrateStep({ state, setState, t, lang }) {
+  const water = state.water || 'fresh';
+  const subs = window.DB.substrates.filter(s => s.water.includes(water));
+  return (
+    <div className="slide">
+      <div className="eyebrow">{t.substrate_eyebrow}</div>
+      <h1 className="slide-title">{t.substrate_title}</h1>
+      <p className="slide-sub">{t.substrate_sub}</p>
+      <div className="option-grid">
+        {subs.map(s => (
+          <button key={s.id} className={'option-card ' + (state.substrate === s.id ? 'selected' : '')}
+            onClick={()=>setState(st => ({...st, substrate: s.id}))}>
+            <div className="sub-swatch" style={{background:s.color}}></div>
+            <h4>{lang==='tr'?s.tr:s.en}</h4>
+            <p>{lang==='tr'?s.desc:s.descEn}</p>
+            <div style={{marginTop:6, display:'flex', gap:4}}>
+              {s.plantFriendly && <span className="tag">{lang==='tr'?'Bitki dostu':'Plant-friendly'}</span>}
+              <span className="tag">pH: {s.ph}</span>
+            </div>
+          </button>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+// ─── RESULT ───
+function ResultStep({ state, setState, t, lang }) {
+  const a = useMemo(() => window.Engine.analyze({...state, lang}), [state, lang]);
+  const equip = useMemo(() => window.Engine.equipment(state, a, lang), [state, a, lang]);
+  const [tab, setTab] = useState('overview');
+
+  const verdictText = { excellent: t.excellent, good: t.good, fair: t.fair, poor: t.poor }[a.verdict];
+  const verdictColor = { excellent: 'var(--ok)', good: 'var(--ok)', fair: 'var(--warn)', poor: 'var(--bad)' }[a.verdict];
+
+  const C = 2 * Math.PI * 80;
+  const offset = C * (1 - a.score / 100);
+
+  const TABS = [
+    { id:'overview',    label:t.tab_overview,    icon:'◆' },
+    { id:'preview',     label:t.tab_preview,     icon:'◐' },
+    { id:'params',      label:t.tab_params,      icon:'≋' },
+    { id:'equipment',   label:t.tab_equipment,   icon:'⚙' },
+    { id:'maintenance', label:t.tab_maintenance, icon:'⟲' },
+    { id:'cycling',     label:t.tab_cycling,     icon:'∿' },
+  ];
+
+  const RV = window.ResultViews || {};
+
+  return (
+    <div className="slide">
+      <div className="eyebrow">{t.result_eyebrow}</div>
+      <h1 className="slide-title">{t.result_title}</h1>
+      <p className="slide-sub">{t.result_sub}</p>
+
+      <div className="score-hero">
+        <div className="score-circle">
+          <svg viewBox="0 0 200 200">
+            <circle cx="100" cy="100" r="80" className="track" />
+            <circle cx="100" cy="100" r="80" className="bar"
+              style={{stroke: verdictColor, strokeDasharray: C, strokeDashoffset: offset}} />
+          </svg>
+          <div className="num">
+            <div style={{textAlign:'center'}}>
+              <strong>{a.score}</strong>
+              <small style={{display:'block'}}>/ 100</small>
+            </div>
+          </div>
+        </div>
+        <div className="score-summary">
+          <h2>{verdictText}</h2>
+          <p>{lang==='tr'
+            ? `${a.totalSpecies} tür · ${a.totalFish} birey${state.volume?` · ${state.volume}L tank · biyo-yük %${a.bioloadPct}`:''}.`
+            : `${a.totalSpecies} species · ${a.totalFish} individuals${state.volume?` · ${state.volume}L tank · ${a.bioloadPct}% bioload`:''}.`}</p>
+          <div className="score-stats">
+            {a.params.pH && <div className="score-stat"><div className="label">{t.ph}</div><div className="val">{a.params.pH[0].toFixed(1)}–{a.params.pH[1].toFixed(1)}</div></div>}
+            {a.params.temp && <div className="score-stat"><div className="label">{t.temp}</div><div className="val">{a.params.temp[0]}–{a.params.temp[1]}°C</div></div>}
+            {a.params.gh && <div className="score-stat"><div className="label">{t.hardness}</div><div className="val">{a.params.gh[0]}–{a.params.gh[1]}</div></div>}
+            <div className="score-stat"><div className="label">{t.bioload}</div><div className="val">{a.bioloadPct}%</div></div>
+          </div>
+        </div>
+      </div>
+
+      <div className="result-tabs">
+        {TABS.map(tb => (
+          <button key={tb.id}
+            className={'result-tab ' + (tab === tb.id ? 'active' : '')}
+            onClick={() => setTab(tb.id)}>
+            <span className="tab-glyph">{tb.icon}</span>
+            <span>{tb.label}</span>
+          </button>
+        ))}
+      </div>
+
+      <div className="result-panel">
+        {tab === 'overview' && (
+          <>
+            <h3 className="sec-h">
+              {a.issues.length > 0 ? `🚨 ${t.critical_issues}` : `✓ ${t.no_issues}`}
+              <span className="sub">{a.issues.length}</span>
+            </h3>
+            {a.issues.length > 0 && (
+              <div className="advisories">
+                {a.issues.map((i, idx) => (
+                  <div className="advisory bad" key={idx}>
+                    <h5><span className="icon-pip">!</span>{i.title}</h5>
+                    <p>{i.desc}</p>
+                  </div>
+                ))}
+              </div>
+            )}
+
+            <h3 className="sec-h">
+              ⚠ {t.warnings}
+              <span className="sub">{a.warnings.length}</span>
+            </h3>
+            {a.warnings.length > 0 ? (
+              <div className="advisories">
+                {a.warnings.map((w, idx) => (
+                  <div className="advisory warn" key={idx}>
+                    <h5><span className="icon-pip">⚠</span>{w.title}</h5>
+                    <p>{w.desc}</p>
+                  </div>
+                ))}
+              </div>
+            ) : <p className="muted" style={{marginTop:0}}>— {t.no_warnings}</p>}
+
+            {a.tips.length > 0 && (
+              <>
+                <h3 className="sec-h">💡 {t.tips}<span className="sub">{a.tips.length}</span></h3>
+                <div className="advisories">
+                  {a.tips.map((tp, idx) => (
+                    <div className="advisory" key={idx}>
+                      <h5><span className="icon-pip">✓</span>{tp.title}</h5>
+                      <p>{tp.desc}</p>
+                    </div>
+                  ))}
+                </div>
+              </>
+            )}
+
+            {a.fishItems.length >= 2 && (
+              <>
+                <h3 className="sec-h">🔀 {t.compatibility_matrix}</h3>
+                <div className="matrix">
+                  <table>
+                    <thead>
+                      <tr>
+                        <th></th>
+                        {a.fishItems.map(f => (
+                          <th key={f.id} title={lang==='tr'?f.nameTr:f.nameEn}>
+                            {(lang==='tr'?f.nameTr:f.nameEn).slice(0,8)}
+                          </th>
+                        ))}
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {a.fishItems.map(rowFish => (
+                        <tr key={rowFish.id}>
+                          <th className="row-label">{lang==='tr'?rowFish.nameTr:rowFish.nameEn}</th>
+                          {a.fishItems.map(colFish => {
+                            const c = a.compat.find(x =>
+                              (x.a === rowFish.id && x.b === colFish.id) ||
+                              (x.a === colFish.id && x.b === rowFish.id)
+                            );
+                            const cls = c ? c.status : 'self';
+                            const icon = cls === 'ok' ? '✓' : cls === 'warn' ? '⚠' : cls === 'bad' ? '✕' : '·';
+                            return <td key={colFish.id}><div className={'cell ' + cls} title={c ? c.reasons.join(', ') : ''}>{icon}</div></td>;
+                          })}
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              </>
+            )}
+
+            {a.plants.length > 0 && (
+              <>
+                <h3 className="sec-h">🌿 {t.plants}</h3>
+                <div className="rec-grid">
+                  {a.plants.map(p => (
+                    <div className="rec" key={p.id}>
+                      <div className="label">{lang==='tr'?'Bitki':'Plant'}</div>
+                      <div className="name">{lang==='tr'?p.tr:p.en}</div>
+                      <div className="desc">{lang==='tr'?'Işık':'Light'}: {p.light}{p.co2?' · CO₂':''} · {p.difficulty}</div>
+                    </div>
+                  ))}
+                </div>
+              </>
+            )}
+          </>
+        )}
+
+        {tab === 'preview' && RV.TankPreview && (
+          <>
+            <h3 className="sec-h">◐ {t.preview_title}</h3>
+            <p className="muted" style={{margin:'0 0 18px', fontSize:14, lineHeight:1.55, maxWidth:720}}>{t.preview_sub}</p>
+            <RV.TankPreview state={state} t={t} lang={lang} />
+          </>
+        )}
+
+        {tab === 'params' && RV.ParametersView && (
+          <>
+            <h3 className="sec-h">≋ {t.params_title_long}</h3>
+            <RV.ParametersView state={state} t={t} lang={lang} />
+          </>
+        )}
+
+        {tab === 'equipment' && RV.EquipmentView && (
+          <>
+            <h3 className="sec-h">⚙ {t.equipment}</h3>
+            <RV.EquipmentView state={state} analysis={a} t={t} lang={lang} />
+          </>
+        )}
+
+        {tab === 'maintenance' && RV.MaintenanceView && (
+          <>
+            <h3 className="sec-h">⟲ {t.maintenance_title}</h3>
+            <p className="muted" style={{margin:'0 0 18px', fontSize:14, lineHeight:1.55, maxWidth:720}}>{t.maintenance_sub}</p>
+            <RV.MaintenanceView state={state} analysis={a} t={t} lang={lang} />
+          </>
+        )}
+
+        {tab === 'cycling' && RV.CyclingView && (
+          <>
+            <h3 className="sec-h">∿ {t.cycling_title}</h3>
+            <p className="muted" style={{margin:'0 0 18px', fontSize:14, lineHeight:1.55, maxWidth:740}}>{t.cycling_sub}</p>
+            <RV.CyclingView state={state} t={t} lang={lang} />
+          </>
+        )}
+      </div>
+
+      <div style={{height:60}}></div>
+    </div>
+  );
+}
+
+window.UI = { Bubbles, Topbar, RecipeStrip, Progress, Landing, PathStep, TankStep, WaterStep, FishStep, PlantsStep, SubstrateStep, ResultStep };
