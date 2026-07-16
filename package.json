@@ -9,7 +9,8 @@
     "preview": "vite preview --config vite.config.js",
     "check:legacy": "node scripts/check-legacy-data.mjs",
     "check:native": "node scripts/check-native-build.mjs",
-    "check:schema": "node scripts/check-data-schema.mjs"
+    "check:schema": "node scripts/check-data-schema.mjs",
+    "check:classification": "node scripts/check-fish-classification.mjs"
   },
   "dependencies": {
     "react": "18.3.1",
