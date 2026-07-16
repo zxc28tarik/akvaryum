@@ -1,12 +1,27 @@
-import React from 'react';
-import * as ReactDOM from 'react-dom/client';
-import * as Babel from '@babel/standalone';
-
 import './migration-shell.css';
-import { startLegacyApp } from './startLegacyApp.js';
+import 'virtual:akvaryum/styles.css';
 
-window.React = React;
-window.ReactDOM = ReactDOM;
-window.Babel = Babel;
+const root = document.getElementById('root');
 
-startLegacyApp();
+function showError(error) {
+  console.error(error);
+  root.replaceChildren();
+
+  const panel = document.createElement('main');
+  panel.className = 'migration-error';
+
+  const title = document.createElement('h1');
+  title.textContent = 'AKVARYUM yüklenemedi';
+
+  const text = document.createElement('p');
+  text.textContent =
+    'Sayfayı yenileyin. Sorun devam ederse tarayıcı konsolundaki hata kaydını kontrol edin.';
+
+  const detail = document.createElement('pre');
+  detail.textContent = error?.message ?? String(error);
+
+  panel.append(title, text, detail);
+  root.append(panel);
+}
+
+import('virtual:akvaryum/app.jsx').catch(showError);
