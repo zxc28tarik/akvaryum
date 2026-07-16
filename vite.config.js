@@ -6,6 +6,7 @@ import { gunzipSync } from 'node:zlib';
 import react from '@vitejs/plugin-react';
 import { defineConfig } from 'vite';
 
+import { buildLegacyFishClassification } from './scripts/lib/classify-legacy-fish.mjs';
 import { validateRepositoryData } from './scripts/lib/validate-data-schema.mjs';
 
 const repositoryRoot = dirname(fileURLToPath(import.meta.url));
@@ -70,6 +71,20 @@ function nativeLegacyModules() {
       const source = archivedPath
         ? readArchive(archivedPath)
         : readPlain(plainPath);
+
+      if (sourceName === 'fish-fresh.js' || sourceName === 'fish-salt.js') {
+        const collectionName = sourceName === 'fish-fresh.js' ? 'DB_FRESH' : 'DB_SALT';
+        const bootstrap = {};
+        const collector = new Function('window', `${source}\nreturn window.${collectionName};`);
+        const records = collector(bootstrap) ?? [];
+        const classification = buildLegacyFishClassification(source, records);
+
+        return [
+          source,
+          `const __classification = ${JSON.stringify(classification)};`,
+          `for (const __record of window.${collectionName} || []) Object.assign(__record, __classification[__record.id]);`,
+        ].join('\n');
+      }
 
       switch (sourceName) {
         case 'data.js':
