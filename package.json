@@ -7,10 +7,10 @@
     "dev": "vite --config vite.config.js",
     "build": "vite build --config vite.config.js",
     "preview": "vite preview --config vite.config.js",
-    "check:legacy": "node scripts/check-legacy-data.mjs"
+    "check:legacy": "node scripts/check-legacy-data.mjs",
+    "check:native": "node scripts/check-native-build.mjs"
   },
   "dependencies": {
-    "@babel/standalone": "8.0.4",
     "react": "18.3.1",
     "react-dom": "18.3.1"
   },
