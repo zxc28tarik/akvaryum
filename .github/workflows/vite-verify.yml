@@ -32,6 +32,9 @@ jobs:
       - name: Ortak veri şemasını doğrula
         run: npm run check:schema
 
+      - name: Canlı sınıflandırmasını doğrula
+        run: npm run check:classification
+
       - name: Production build al
         run: npm run build
 
