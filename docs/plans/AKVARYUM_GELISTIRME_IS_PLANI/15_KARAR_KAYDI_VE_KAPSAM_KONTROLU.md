@@ -1,0 +1,90 @@
+# 15 — Karar Kaydı ve Kapsam Kontrolü
+
+## Amaç
+
+Projenin veri ekledikçe veya özellik büyüttükçe dağılmasını engellemek.
+
+## Karar kaydı şablonu
+
+```md
+## ADR-000 — Karar başlığı
+
+- Tarih:
+- Durum: önerildi / kabul / kaldırıldı
+- Bağlam:
+- Karar:
+- Neden:
+- Alternatifler:
+- Sonuçlar:
+- Etkilenen görevler:
+```
+
+## Başlangıç kararları
+
+### ADR-001 — Veri kalitesi sayıdan önce gelir
+
+- **Durum:** Kabul
+- **Karar:** Doğrulayıcı ve kaynak modeli kurulmadan büyük veri partisi yapılmaz.
+
+### ADR-002 — Canlı türleri ayrılır
+
+- **Durum:** Kabul
+- **Karar:** Balık, omurgasız ve mercan aynı genel temel modeli paylaşabilir; fakat `entityType` ve özel alt alanlarla ayrılır.
+
+### ADR-003 — Kimlikler kalıcıdır
+
+- **Durum:** Kabul
+- **Karar:** Yayınlanmış `id` değiştirilmez. Ad değişiminde alias veya yönlendirme kullanılır.
+
+### ADR-004 — Motor açıklanabilir olmalıdır
+
+- **Durum:** Kabul
+- **Karar:** Her uyarı kural kimliği, neden ve çözüm taşır.
+
+### ADR-005 — Genel kural tek başına yeterli değildir
+
+- **Durum:** Kabul
+- **Karar:** Genel heuristikler, kaynaklı tür çifti istisnalarıyla desteklenir.
+
+### ADR-006 — İki dil aynı sürümde tamamlanır
+
+- **Durum:** Kabul
+- **Karar:** Türkçe veya İngilizce alanı eksik özellik/veri `DONE` olmaz.
+
+### ADR-007 — Vite geçişi paralel yapılır
+
+- **Tarih:** 16 Temmuz 2026
+- **Durum:** Kabul
+- **Bağlam:** Kökteki statik uygulama GitHub Pages üzerinden çalışırken Vite girişine doğrudan geçmek canlı sürümü bozabilir.
+- **Karar:** Yeni Vite + React uygulaması ilk aşamada `vite-app/` altında tutulur. Kökteki mevcut statik giriş, production build ve tarayıcı duman testi tamamlanana kadar korunur.
+- **Neden:** Migrasyon sırasında kullanıcıya açık sürümün kesintisiz çalışmasını sağlamak.
+- **Alternatifler:** Kökteki `index.html` dosyasını doğrudan Vite girişine çevirmek veya ayrı dalda bekletmek.
+- **Sonuçlar:** Bir süre iki giriş yapısı birlikte bulunur. `AKV-ARCH-002` tamamlanırken eski yükleyici kaldırılır ve yayınlama yeni build’e geçirilir.
+- **Etkilenen görevler:** AKV-ARCH-001, AKV-ARCH-002, AKV-CI-001
+
+## Şimdilik kapsam dışı
+
+Temel aşamalar bitene kadar:
+
+- Canlı veya ekipman satışı
+- Mağaza fiyat karşılaştırması
+- Kullanıcılar arası mesajlaşma
+- Sınırsız topluluk içerik yayını
+- Yapay zekânın kaynaksız bakım bilgisi üretmesi
+- Otomatik hastalık teşhisi
+- Veterinerlik önerisi
+- Gerçek zamanlı sensör/IoT entegrasyonu
+- Yerel mevzuatın otomatik hukuki yorumu
+
+## Yeni özellik değerlendirme soruları
+
+1. Mevcut ana kullanıcı akışlarından hangisini iyileştiriyor?
+2. Veri modeli hazır mı?
+3. Güvenilir kaynak gerektiriyor mu?
+4. Motor testlerini etkiliyor mu?
+5. Mobil ve iki dil maliyeti nedir?
+6. Bakım yükü ne kadar?
+7. Daha küçük bir çözüm aynı değeri sağlar mı?
+8. Hangi mevcut görevi geciktiriyor?
+
+Bu sorulara cevap verilmeden özellik backlog’a P0/P1 olarak alınmamalıdır.
