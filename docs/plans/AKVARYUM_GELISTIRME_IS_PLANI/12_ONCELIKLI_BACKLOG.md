@@ -7,11 +7,11 @@
 | AKV-ARCH-001 | REVIEW | Vite + React proje iskeleti kur | Yok | Mevcut ana akış production build’de çalışır |
 | AKV-ARCH-002 | DONE | Runtime gzip/eval yükleyicisini kaldır | ARCH-001 | Üretimde `eval` ve Babel standalone yok |
 | AKV-TEST-001 | REVIEW | Veri envanter testi oluştur | Yok | Sayılar ve benzersiz kimlikler doğrulanır |
-| AKV-DATA-001 | READY | Ortak veri şeması oluştur | ARCH-001 | Şema build sırasında çalışır |
-| AKV-DATA-002 | TODO | `entityType/category/family` alanlarını ekle | DATA-001 | 580 kayıt kategorilenir |
-| AKV-DATA-003 | TODO | Kaynak ve doğrulama modeli ekle | DATA-001 | Kayıtlar kaynak kimliği taşıyabilir |
+| AKV-DATA-001 | DONE | Ortak veri şeması oluştur | ARCH-001 | Şema build sırasında çalışır |
+| AKV-DATA-002 | READY | `entityType/category/family` alanlarını ekle | DATA-001 | 580 kayıt kategorilenir |
+| AKV-DATA-003 | READY | Kaynak ve doğrulama modeli ekle | DATA-001 | Kayıtlar kaynak kimliği taşıyabilir |
 | AKV-ENG-001 | READY | Parametre ortak aralık hatasını düzelt | TEST-001 | Çakışma yoksa sonuç `null` ve kritik sorun |
-| AKV-ENG-002 | TODO | Kural çıktı tipini standartlaştır | DATA-001 | Her sonuç `ruleId/severity/resolution` taşır |
+| AKV-ENG-002 | READY | Kural çıktı tipini standartlaştır | DATA-001 | Her sonuç `ruleId/severity/resolution` taşır |
 | AKV-I18N-001 | TODO | TR/EN anahtar bütünlüğü testi | TEST-001 | Eksik veya fazla anahtar CI’da hata verir |
 | AKV-UI-001 | TODO | Mobil ana akış duman testi ve düzeltme | ARCH-001 | 360 px genişlikte taşma yok |
 
@@ -23,6 +23,11 @@
 - Büyük eski arşivler geçici olarak yalnız Node.js/Vite build sırasında açılıyor; tarayıcıya normal derlenmiş JavaScript ve CSS gönderiliyor.
 - Eski `vite-app/src/startLegacyApp.js` dosyası ve `@babel/standalone` bağımlılığı kaldırıldı.
 - `npm run check:native` eklendi ve GitHub Actions hattına bağlandı.
+- `AKV-DATA-001` tamamlandı: `schemas/akvaryum.schema.json` ortak sözleşme olarak eklendi.
+- Şema; hedef `BaseEntity`, canlı, bitki, taban ve kaynak modellerinin yanında mevcut kayıtlar için geçiş şemalarını içeriyor.
+- `npm run check:schema` 580 canlı, 26 bitki, 8 taban ve 6 tank ölçüsü olmak üzere 620 kaydı doğruluyor.
+- Kimlik biçimi ve benzersizliği, zorunlu iki dil metinleri, enum değerleri, pozitif sayılar, tuzlu su tuzluluk alanı ve sayısal aralık sırası denetleniyor.
+- Şema doğrulaması Vite `buildStart` aşamasına ve GitHub Actions hattına bağlandı; hatalı veri production build’i durduruyor.
 - Son yerel production çıktısı: 352.424 bayt JavaScript ve 38.997 bayt CSS. Önceki geçici JavaScript paketi yaklaşık 2,56 MB idi.
 - Envanter kontrolünde 278 tatlı su, 302 tuzlu su, 580 toplam canlı, 26 bitki ve 8 taban doğrulandı.
 - Tekrarlanan canlı kimliği bulunmadı ve `Engine.analyze` yüklendi.
