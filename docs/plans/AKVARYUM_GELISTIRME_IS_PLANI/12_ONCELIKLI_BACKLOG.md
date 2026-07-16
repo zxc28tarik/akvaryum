@@ -5,7 +5,7 @@
 | Kimlik | Durum | Görev | Bağımlılık | Kabul özeti |
 |---|---|---|---|---|
 | AKV-ARCH-001 | REVIEW | Vite + React proje iskeleti kur | Yok | Mevcut ana akış production build’de çalışır |
-| AKV-ARCH-002 | TODO | Runtime gzip/eval yükleyicisini kaldır | ARCH-001 | Üretimde `eval` ve Babel standalone yok |
+| AKV-ARCH-002 | DONE | Runtime gzip/eval yükleyicisini kaldır | ARCH-001 | Üretimde `eval` ve Babel standalone yok |
 | AKV-TEST-001 | REVIEW | Veri envanter testi oluştur | Yok | Sayılar ve benzersiz kimlikler doğrulanır |
 | AKV-DATA-001 | READY | Ortak veri şeması oluştur | ARCH-001 | Şema build sırasında çalışır |
 | AKV-DATA-002 | TODO | `entityType/category/family` alanlarını ekle | DATA-001 | 580 kayıt kategorilenir |
@@ -19,10 +19,14 @@
 
 - `vite-app/` altında Vite + React geçiş yapısı kuruldu.
 - Kökteki mevcut statik sürüm korunarak canlı siteyi bozmayacak paralel geçiş uygulandı.
-- `npm run build` başarıyla tamamlandı.
+- `AKV-ARCH-002` tamamlandı: Vite production paketinden tarayıcı içi Babel, `eval`, `DecompressionStream` ve runtime `.gz.b64` yükleme kaldırıldı.
+- Büyük eski arşivler geçici olarak yalnız Node.js/Vite build sırasında açılıyor; tarayıcıya normal derlenmiş JavaScript ve CSS gönderiliyor.
+- Eski `vite-app/src/startLegacyApp.js` dosyası ve `@babel/standalone` bağımlılığı kaldırıldı.
+- `npm run check:native` eklendi ve GitHub Actions hattına bağlandı.
+- Son yerel production çıktısı: 352.424 bayt JavaScript ve 38.997 bayt CSS. Önceki geçici JavaScript paketi yaklaşık 2,56 MB idi.
 - Envanter kontrolünde 278 tatlı su, 302 tuzlu su, 580 toplam canlı, 26 bitki ve 8 taban doğrulandı.
 - Tekrarlanan canlı kimliği bulunmadı ve `Engine.analyze` yüklendi.
-- Tarayıcı duman testi çalışma ortamının yerel adresleri engellemesi nedeniyle dışarıdan doğrulanamadı; bu nedenle görevler `REVIEW` durumundadır.
+- Tarayıcı duman testi çalışma ortamının yerel adresleri engellemesi nedeniyle dışarıdan doğrulanamadı; bu nedenle `AKV-ARCH-001` ve `AKV-TEST-001` hâlâ `REVIEW` durumundadır.
 
 ## P1 — Veri modeli ve katalog
 
@@ -81,7 +85,7 @@
 | Kimlik | Durum | Görev | Bağımlılık | Kabul özeti |
 |---|---|---|---|---|
 | AKV-CI-001 | TODO | GitHub Actions kalite hattı | ARCH-001 | Test/build/veri kontrolü zorunlu |
-| AKV-PERF-001 | TODO | Paket ve render performans bütçesi | ARCH-002 | Bütçe aşımı CI uyarısı/hatası |
+| AKV-PERF-001 | READY | Paket ve render performans bütçesi | ARCH-002 | Bütçe aşımı CI uyarısı/hatası |
 | AKV-SEO-001 | TODO | Canlı ayrıntı sayfalarının indekslenmesi | UI-012 | Canonical, meta, sitemap |
 | AKV-SEO-002 | TODO | İlk 10 rehber içeriği | SEO-001 | Kaynaklı ve iki dilli plan |
 | AKV-FEED-001 | TODO | Hatalı veri bildirme akışı | DATA-003 | Alan ve kaynakla bildirim |
