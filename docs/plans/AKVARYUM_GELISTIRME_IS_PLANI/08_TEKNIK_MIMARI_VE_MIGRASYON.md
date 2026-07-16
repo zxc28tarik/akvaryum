@@ -43,6 +43,16 @@ Tek seferde tüm sistemi yeniden yazmak yerine çalışan uygulama korunarak aş
 - Yeni build eski uygulamanın ana akışını aynı şekilde çalıştırır.
 - Üretim çıktısında Babel standalone ve `eval` yoktur.
 
+### Uygulama durumu — 16 Temmuz 2026
+
+- `AKV-ARCH-001` ile Vite + React iskeleti `vite-app/` altında kuruldu.
+- `AKV-ARCH-002` ile tarayıcıdaki gzip/base64 açıcı, Babel standalone ve `eval` tabanlı çalıştırma kaldırıldı.
+- Eski büyük arşivler geçiş süresince yalnız Vite build aşamasında Node.js ile açılıp sanal ES modüllerine dönüştürülüyor.
+- Tarayıcıya yalnız derlenmiş JavaScript ve CSS gönderiliyor; `.gz.b64`, `DecompressionStream` veya Babel derleyicisi gitmiyor.
+- `scripts/check-native-build.mjs`, production paketinde eski yükleyici izlerinin bulunmadığını doğruluyor.
+- Son doğrulanan production çıktısı 352.424 bayt JavaScript ve 38.997 bayt CSS’tir.
+- Büyük kaynakların kalıcı gerçek modül dosyalarına bölünmesi ve `window.DB`, `window.Engine`, `window.UI` kullanımının kaldırılması Aşama B’de yapılacaktır.
+
 ## Aşama B — Modüllere ayır
 
 Önerilen yapı:
