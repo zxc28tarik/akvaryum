@@ -26,8 +26,11 @@ jobs:
       - name: Bağımlılıkları kur
         run: npm install --no-audit --no-fund
 
-      - name: Mevcut veriyi doğrula
+      - name: Mevcut veri envanterini doğrula
         run: npm run check:legacy
+
+      - name: Ortak veri şemasını doğrula
+        run: npm run check:schema
 
       - name: Production build al
         run: npm run build
