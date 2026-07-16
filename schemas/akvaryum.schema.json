@@ -1,0 +1,441 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://zxc28tarik.github.io/akvaryum/schemas/akvaryum.schema.json",
+  "title": "AKVARYUM veri şeması",
+  "description": "Hedef ortak veri modeli ve mevcut prototip verileri için geçiş şemaları.",
+  "type": "object",
+  "required": ["fish", "plants", "substrates", "tankPresets"],
+  "additionalProperties": false,
+  "properties": {
+    "fish": { "type": "array", "items": { "$ref": "#/$defs/legacyFish" } },
+    "plants": { "type": "array", "items": { "$ref": "#/$defs/legacyPlant" } },
+    "substrates": { "type": "array", "items": { "$ref": "#/$defs/legacySubstrate" } },
+    "tankPresets": { "type": "array", "items": { "$ref": "#/$defs/legacyTankPreset" } }
+  },
+  "$defs": {
+    "slugId": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 120,
+      "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$"
+    },
+    "nonEmptyText": { "type": "string", "minLength": 1 },
+    "localizedText": {
+      "type": "object",
+      "required": ["tr", "en"],
+      "additionalProperties": false,
+      "properties": {
+        "tr": { "$ref": "#/$defs/nonEmptyText" },
+        "en": { "$ref": "#/$defs/nonEmptyText" }
+      }
+    },
+    "numberRange": {
+      "type": "array",
+      "minItems": 2,
+      "maxItems": 2,
+      "prefixItems": [{ "type": "number" }, { "type": "number" }],
+      "items": false
+    },
+    "positiveRange": {
+      "type": "array",
+      "minItems": 2,
+      "maxItems": 2,
+      "prefixItems": [
+        { "type": "number", "minimum": 0 },
+        { "type": "number", "minimum": 0 }
+      ],
+      "items": false
+    },
+    "hexColor": { "type": "string", "pattern": "^#[0-9a-fA-F]{6}$" },
+    "sourceRef": {
+      "type": "object",
+      "required": ["id", "title", "publisher", "accessedAt", "fields", "sourceType"],
+      "additionalProperties": false,
+      "properties": {
+        "id": { "$ref": "#/$defs/slugId" },
+        "title": { "$ref": "#/$defs/nonEmptyText" },
+        "publisher": { "$ref": "#/$defs/nonEmptyText" },
+        "url": { "type": "string", "minLength": 1 },
+        "accessedAt": { "type": "string", "pattern": "^\\d{4}-\\d{2}-\\d{2}$" },
+        "fields": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": { "$ref": "#/$defs/nonEmptyText" }
+        },
+        "sourceType": {
+          "enum": ["primary", "institutional", "book", "expert", "retailer", "community"]
+        },
+        "note": { "type": "string" }
+      }
+    },
+    "baseEntity": {
+      "type": "object",
+      "required": [
+        "id",
+        "status",
+        "name",
+        "entityType",
+        "category",
+        "tags",
+        "summary",
+        "sources",
+        "confidence",
+        "dataVersion"
+      ],
+      "properties": {
+        "id": { "$ref": "#/$defs/slugId" },
+        "status": { "enum": ["draft", "reviewed", "verified", "needs_update", "deprecated"] },
+        "name": { "$ref": "#/$defs/localizedText" },
+        "scientificName": { "type": "string", "minLength": 1 },
+        "aliases": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": { "$ref": "#/$defs/nonEmptyText" }
+        },
+        "entityType": { "$ref": "#/$defs/nonEmptyText" },
+        "category": { "$ref": "#/$defs/nonEmptyText" },
+        "tags": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": { "$ref": "#/$defs/nonEmptyText" }
+        },
+        "summary": { "$ref": "#/$defs/localizedText" },
+        "sources": { "type": "array", "items": { "$ref": "#/$defs/sourceRef" } },
+        "verifiedAt": { "type": "string", "pattern": "^\\d{4}-\\d{2}-\\d{2}$" },
+        "confidence": { "enum": ["low", "medium", "high"] },
+        "dataVersion": { "type": "integer", "minimum": 1 },
+        "replacedBy": { "$ref": "#/$defs/slugId" }
+      },
+      "allOf": [
+        {
+          "if": { "properties": { "status": { "const": "verified" } }, "required": ["status"] },
+          "then": { "required": ["verifiedAt"], "properties": { "sources": { "minItems": 1 } } }
+        },
+        {
+          "if": { "properties": { "status": { "const": "deprecated" } }, "required": ["status"] },
+          "then": { "required": ["replacedBy"] }
+        }
+      ]
+    },
+    "inhabitant": {
+      "allOf": [
+        { "$ref": "#/$defs/baseEntity" },
+        {
+          "type": "object",
+          "required": ["water", "size", "tank", "social", "behavior", "feeding", "compatibility", "habitat", "care"],
+          "properties": {
+            "entityType": {
+              "enum": [
+                "freshwater_fish", "brackish_fish", "marine_fish",
+                "freshwater_shrimp", "marine_shrimp", "snail", "crab", "crayfish",
+                "bivalve", "echinoderm", "anemone", "soft_coral", "lps_coral",
+                "sps_coral", "other_invertebrate"
+              ]
+            },
+            "taxonomy": {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "family": { "type": "string", "minLength": 1 },
+                "genus": { "type": "string", "minLength": 1 },
+                "acceptedName": { "type": "string", "minLength": 1 }
+              }
+            },
+            "water": {
+              "type": "object",
+              "required": ["types", "temperatureC", "pH"],
+              "additionalProperties": false,
+              "properties": {
+                "types": {
+                  "type": "array", "minItems": 1, "uniqueItems": true,
+                  "items": { "enum": ["fresh", "brackish", "salt"] }
+                },
+                "temperatureC": { "$ref": "#/$defs/numberRange" },
+                "pH": { "$ref": "#/$defs/numberRange" },
+                "gh": { "$ref": "#/$defs/numberRange" },
+                "kh": { "$ref": "#/$defs/numberRange" },
+                "salinityPpt": { "$ref": "#/$defs/numberRange" },
+                "recommendedTemperatureC": { "$ref": "#/$defs/numberRange" },
+                "recommendedPH": { "$ref": "#/$defs/numberRange" }
+              }
+            },
+            "size": {
+              "type": "object",
+              "required": ["adultCm"],
+              "additionalProperties": false,
+              "properties": {
+                "adultCm": { "$ref": "#/$defs/positiveRange" },
+                "maxReportedCm": { "type": "number", "exclusiveMinimum": 0 },
+                "bodyMassClass": { "enum": ["tiny", "small", "medium", "large", "giant"] },
+                "mouthSizeClass": { "enum": ["micro", "small", "medium", "large"] }
+              }
+            },
+            "tank": {
+              "type": "object",
+              "required": ["minVolumeL"],
+              "additionalProperties": false,
+              "properties": {
+                "minVolumeL": { "type": "number", "exclusiveMinimum": 0 },
+                "minLengthCm": { "type": "number", "exclusiveMinimum": 0 },
+                "minFootprintCm2": { "type": "number", "exclusiveMinimum": 0 },
+                "preferredShape": {
+                  "type": "array", "uniqueItems": true,
+                  "items": { "enum": ["long", "standard", "cube", "tall"] }
+                },
+                "lidRequired": { "type": "boolean" }
+              }
+            },
+            "social": {
+              "type": "object",
+              "required": ["mode", "conspecificAggression", "territoriality"],
+              "additionalProperties": false,
+              "properties": {
+                "mode": { "enum": ["solitary", "pair", "harem", "group", "school", "colony"] },
+                "minGroup": { "type": "integer", "minimum": 1 },
+                "recommendedGroup": { "type": "integer", "minimum": 1 },
+                "sexRatio": { "type": "string", "minLength": 1 },
+                "conspecificAggression": { "enum": ["none", "low", "medium", "high", "extreme"] },
+                "territoriality": { "enum": ["none", "low", "medium", "high"] }
+              }
+            },
+            "behavior": {
+              "type": "object",
+              "required": ["temperament", "activity", "zone"],
+              "additionalProperties": false,
+              "properties": {
+                "temperament": { "enum": ["peaceful", "semi_aggressive", "aggressive", "predatory"] },
+                "activity": { "enum": ["slow", "moderate", "active", "very_active"] },
+                "zone": {
+                  "type": "array", "minItems": 1, "uniqueItems": true,
+                  "items": { "enum": ["surface", "mid", "bottom", "rockwork", "sand", "open_water"] }
+                },
+                "nocturnal": { "type": "boolean" },
+                "burrower": { "type": "boolean" },
+                "jumper": { "type": "boolean" },
+                "finNipper": { "type": "boolean" },
+                "longFinned": { "type": "boolean" }
+              }
+            },
+            "feeding": {
+              "type": "object",
+              "required": ["diet", "feedingDifficulty"],
+              "additionalProperties": false,
+              "properties": {
+                "diet": {
+                  "type": "array", "minItems": 1, "uniqueItems": true,
+                  "items": { "enum": ["herbivore", "omnivore", "carnivore", "planktivore", "filter_feeder"] }
+                },
+                "feedingDifficulty": { "enum": ["easy", "medium", "hard", "expert"] },
+                "liveFoodDependency": { "type": "boolean" },
+                "feedingFrequencyPerDay": { "$ref": "#/$defs/positiveRange" }
+              }
+            },
+            "compatibility": {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "plantSafe": { "type": "boolean" },
+                "shrimpSafe": { "type": "boolean" },
+                "snailSafe": { "type": "boolean" },
+                "crabSafe": { "type": "boolean" },
+                "coralSafe": { "enum": ["yes", "with_caution", "no", "not_applicable"] },
+                "spsSafe": { "type": "boolean" },
+                "lpsSafe": { "type": "boolean" },
+                "softCoralSafe": { "type": "boolean" },
+                "clamSafe": { "type": "boolean" },
+                "mayEatSmallerThanCm": { "type": "number", "minimum": 0 },
+                "avoidEntityTypes": {
+                  "type": "array", "uniqueItems": true,
+                  "items": { "type": "string", "minLength": 1 }
+                }
+              }
+            },
+            "habitat": {
+              "type": "object",
+              "required": ["flow", "oxygen", "substrate", "shelter"],
+              "additionalProperties": false,
+              "properties": {
+                "flow": { "enum": ["low", "medium", "high", "variable"] },
+                "oxygen": { "enum": ["normal", "high"] },
+                "substrate": { "type": "array", "items": { "type": "string", "minLength": 1 } },
+                "shelter": { "type": "array", "items": { "type": "string", "minLength": 1 } },
+                "light": { "enum": ["low", "medium", "high"] }
+              }
+            },
+            "care": {
+              "type": "object",
+              "required": ["difficulty"],
+              "additionalProperties": false,
+              "properties": {
+                "difficulty": { "enum": ["beginner", "intermediate", "advanced", "expert"] },
+                "lifespanYears": { "$ref": "#/$defs/positiveRange" },
+                "sensitiveTo": { "type": "array", "items": { "type": "string", "minLength": 1 } },
+                "specialWarnings": { "type": "array", "items": { "$ref": "#/$defs/localizedText" } },
+                "venomous": { "type": "boolean" },
+                "toxicWhenStressed": { "type": "boolean" }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "plant": {
+      "allOf": [
+        { "$ref": "#/$defs/baseEntity" },
+        {
+          "type": "object",
+          "required": ["placement", "temperatureC", "pH", "light", "co2Need", "growthRate", "nutrientDemand", "rootFeeder", "waterColumnFeeder", "heightCm", "propagation", "attachToHardscape", "difficulty"],
+          "properties": {
+            "entityType": { "const": "aquatic_plant" },
+            "placement": {
+              "type": "array", "minItems": 1, "uniqueItems": true,
+              "items": { "enum": ["foreground", "midground", "background", "floating", "hardscape"] }
+            },
+            "temperatureC": { "$ref": "#/$defs/numberRange" },
+            "pH": { "$ref": "#/$defs/numberRange" },
+            "gh": { "$ref": "#/$defs/numberRange" },
+            "light": {
+              "type": "object", "required": ["min", "max"], "additionalProperties": false,
+              "properties": {
+                "min": { "enum": ["low", "medium", "high"] },
+                "max": { "enum": ["low", "medium", "high"] }
+              }
+            },
+            "co2Need": { "enum": ["none", "beneficial", "required"] },
+            "growthRate": { "enum": ["slow", "medium", "fast"] },
+            "nutrientDemand": { "enum": ["low", "medium", "high"] },
+            "rootFeeder": { "type": "boolean" },
+            "waterColumnFeeder": { "type": "boolean" },
+            "heightCm": { "$ref": "#/$defs/positiveRange" },
+            "propagation": { "type": "array", "items": { "type": "string", "minLength": 1 } },
+            "attachToHardscape": { "type": "boolean" },
+            "difficulty": { "enum": ["beginner", "intermediate", "advanced"] }
+          }
+        }
+      ]
+    },
+    "substrate": {
+      "allOf": [
+        { "$ref": "#/$defs/baseEntity" },
+        {
+          "type": "object",
+          "required": ["waterTypes", "material", "grainSizeMm", "activeBuffering", "khEffect", "ghEffect", "nutrientRich", "plantFriendly", "burrowFriendly", "bottomFishSafe", "sharpnessRisk", "recommendedDepthCm", "bestFor", "avoidFor"],
+          "properties": {
+            "entityType": { "const": "substrate" },
+            "waterTypes": {
+              "type": "array", "minItems": 1, "uniqueItems": true,
+              "items": { "enum": ["fresh", "brackish", "salt"] }
+            },
+            "material": { "type": "string", "minLength": 1 },
+            "grainSizeMm": { "$ref": "#/$defs/positiveRange" },
+            "activeBuffering": { "type": "boolean" },
+            "targetPH": { "$ref": "#/$defs/numberRange" },
+            "khEffect": { "enum": ["lower", "neutral", "raise"] },
+            "ghEffect": { "enum": ["lower", "neutral", "raise"] },
+            "nutrientRich": { "type": "boolean" },
+            "plantFriendly": { "type": "boolean" },
+            "burrowFriendly": { "type": "boolean" },
+            "bottomFishSafe": { "type": "boolean" },
+            "sharpnessRisk": { "enum": ["none", "low", "medium", "high"] },
+            "recommendedDepthCm": { "$ref": "#/$defs/positiveRange" },
+            "replacementMonths": { "$ref": "#/$defs/positiveRange" },
+            "bestFor": { "type": "array", "items": { "type": "string", "minLength": 1 } },
+            "avoidFor": { "type": "array", "items": { "type": "string", "minLength": 1 } }
+          }
+        }
+      ]
+    },
+    "legacyFish": {
+      "type": "object",
+      "required": ["id", "nameTr", "nameEn", "sci", "water", "minVolume", "perFishL", "pH", "temp", "gh", "aggression", "schooling", "diet", "adultSize", "layer", "plantSafe", "reefSafe", "finNippers", "longFinned", "silhouette", "color", "notes", "notesEn"],
+      "additionalProperties": false,
+      "properties": {
+        "id": { "$ref": "#/$defs/slugId" },
+        "nameTr": { "$ref": "#/$defs/nonEmptyText" },
+        "nameEn": { "$ref": "#/$defs/nonEmptyText" },
+        "sci": { "$ref": "#/$defs/nonEmptyText" },
+        "water": { "enum": ["fresh", "salt"] },
+        "minVolume": { "type": "number", "exclusiveMinimum": 0 },
+        "perFishL": { "type": "number", "exclusiveMinimum": 0 },
+        "pH": { "$ref": "#/$defs/numberRange" },
+        "temp": { "$ref": "#/$defs/numberRange" },
+        "gh": { "$ref": "#/$defs/numberRange" },
+        "salinity": { "$ref": "#/$defs/numberRange" },
+        "aggression": { "enum": ["peaceful", "semi", "aggressive"] },
+        "schooling": { "type": "integer", "minimum": 0 },
+        "diet": { "enum": ["omni", "herbi", "carni"] },
+        "adultSize": { "type": "number", "exclusiveMinimum": 0 },
+        "layer": { "enum": ["top", "mid", "bottom"] },
+        "plantSafe": { "type": "boolean" },
+        "reefSafe": { "type": "boolean" },
+        "finNippers": { "type": "boolean" },
+        "longFinned": { "type": "boolean" },
+        "silhouette": { "enum": ["classic", "long", "round", "tall", "eel"] },
+        "color": {
+          "type": "array", "minItems": 2, "maxItems": 2,
+          "items": { "$ref": "#/$defs/hexColor" }
+        },
+        "notes": { "type": "string" },
+        "notesEn": { "type": "string" }
+      },
+      "allOf": [
+        {
+          "if": { "properties": { "water": { "const": "salt" } }, "required": ["water"] },
+          "then": { "required": ["salinity"] },
+          "else": { "not": { "required": ["salinity"] } }
+        }
+      ]
+    },
+    "legacyPlant": {
+      "type": "object",
+      "required": ["id", "tr", "en", "sci", "light", "co2", "difficulty", "kind", "placement", "color"],
+      "additionalProperties": false,
+      "properties": {
+        "id": { "$ref": "#/$defs/slugId" },
+        "tr": { "$ref": "#/$defs/nonEmptyText" },
+        "en": { "$ref": "#/$defs/nonEmptyText" },
+        "sci": { "$ref": "#/$defs/nonEmptyText" },
+        "light": { "enum": ["low", "medium", "high"] },
+        "co2": { "type": "boolean" },
+        "difficulty": { "enum": ["easy", "medium", "hard"] },
+        "kind": { "enum": ["rosette", "grass", "moss", "stem", "floating"] },
+        "placement": { "enum": ["foreground", "mid", "background", "surface"] },
+        "color": { "$ref": "#/$defs/hexColor" }
+      }
+    },
+    "legacySubstrate": {
+      "type": "object",
+      "required": ["id", "tr", "en", "water", "plantFriendly", "ph", "color", "desc", "descEn"],
+      "additionalProperties": false,
+      "properties": {
+        "id": { "$ref": "#/$defs/slugId" },
+        "tr": { "$ref": "#/$defs/nonEmptyText" },
+        "en": { "$ref": "#/$defs/nonEmptyText" },
+        "water": {
+          "type": "array", "minItems": 1, "uniqueItems": true,
+          "items": { "enum": ["fresh", "salt"] }
+        },
+        "plantFriendly": { "type": "boolean" },
+        "ph": { "enum": ["low", "neutral", "high"] },
+        "color": { "$ref": "#/$defs/hexColor" },
+        "desc": { "$ref": "#/$defs/nonEmptyText" },
+        "descEn": { "$ref": "#/$defs/nonEmptyText" }
+      }
+    },
+    "legacyTankPreset": {
+      "type": "object",
+      "required": ["id", "tr", "en", "l", "w", "h", "vol"],
+      "additionalProperties": false,
+      "properties": {
+        "id": { "$ref": "#/$defs/slugId" },
+        "tr": { "$ref": "#/$defs/nonEmptyText" },
+        "en": { "$ref": "#/$defs/nonEmptyText" },
+        "l": { "type": "number", "exclusiveMinimum": 0 },
+        "w": { "type": "number", "exclusiveMinimum": 0 },
+        "h": { "type": "number", "exclusiveMinimum": 0 },
+        "vol": { "type": "number", "exclusiveMinimum": 0 }
+      }
+    }
+  }
+}
