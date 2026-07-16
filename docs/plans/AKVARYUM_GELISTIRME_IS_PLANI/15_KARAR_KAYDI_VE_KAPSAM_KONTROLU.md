@@ -84,6 +84,17 @@ Projenin veri ekledikçe veya özellik büyüttükçe dağılmasını engellemek
 - **Sonuçlar:** Hedef `BaseEntity`, kaynak, canlı, bitki ve taban modelleri aynı sözleşmede tanımlanır. Mevcut kayıtlar geçiş süresince `legacy*` şemalarıyla korunur. Bilinmeyen bilgi tahmin edilmez; sonraki migrasyon görevlerinde açıkça tamamlanır.
 - **Etkilenen görevler:** AKV-DATA-001, AKV-DATA-002, AKV-DATA-003, AKV-PLANT-001, AKV-SUB-001, AKV-CI-001
 
+### ADR-010 — Taksonomi eşlemesi doğrulanana kadar çıkarımsal kabul edilir
+
+- **Tarih:** 16 Temmuz 2026
+- **Durum:** Kabul
+- **Bağlam:** Mevcut 580 kayıtta bilimsel ad bulunuyor; ancak aile ve kabul edilmiş ad alanları henüz alan bazlı kaynak kimliği taşımıyor.
+- **Karar:** `entityType`, kategori, cins ve aile alanları tek sınıflandırma çekirdeğiyle üretilecek. Aile eşlemeleri kaynak modeli tamamlanana kadar `inferred`, belirsiz kayıtlar `needs_review` olarak işaretlenecek.
+- **Neden:** Katalog ve dosya ayrıştırma çalışmalarını başlatırken doğrulanmamış taksonomiyi yanlış biçimde `verified` göstermemek.
+- **Alternatifler:** Aile alanlarını boş bırakmak, bütün kayıtları tek seferde elle doğrulamak veya kaynak olmadan doğrulanmış saymak.
+- **Sonuçlar:** 580 kaydın tamamı sınıflandırılabilir ve filtrelenebilir. `AKV-DATA-003` sonrasında aile ve kabul edilmiş adlar kaynak kimlikleriyle doğrulanır. Yapay melez gibi cinsi olmayan kayıtlar açık inceleme durumunda kalır.
+- **Etkilenen görevler:** AKV-DATA-002, AKV-DATA-003, AKV-DATA-010, AKV-DATA-011, AKV-UI-010
+
 ## Şimdilik kapsam dışı
 
 Temel aşamalar bitene kadar:
