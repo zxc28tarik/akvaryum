@@ -73,6 +73,17 @@ Projenin veri ekledikçe veya özellik büyüttükçe dağılmasını engellemek
 - **Sonuçlar:** `AKV-ARCH-002` kabul kriteri karşılanır. Arşiv dosyaları geçici build girdisi olarak kalır; kalıcı kaynak modüllerine ayrıştırma Aşama B ve veri migrasyonu görevlerinde yapılır.
 - **Etkilenen görevler:** AKV-ARCH-002, AKV-DATA-001, AKV-DATA-010, AKV-PERF-001
 
+### ADR-009 — Ortak veri sözleşmesi JSON Schema olur
+
+- **Tarih:** 16 Temmuz 2026
+- **Durum:** Kabul
+- **Bağlam:** Mevcut canlı, bitki ve taban kayıtları JavaScript nesneleri içinde tutuluyor ve alan hataları yalnız uygulama çalışırken fark edilebiliyordu.
+- **Karar:** Projenin ortak veri sözleşmesi JSON Schema Draft 2020-12 biçiminde `schemas/akvaryum.schema.json` dosyasında tutulacak. Ajv doğrulaması hem bağımsız komutta hem Vite build başlangıcında çalışacak.
+- **Neden:** Veri sayısı büyürken alan tipi, zorunlu değer, kimlik, enum ve aralık hatalarını production öncesinde durdurmak.
+- **Alternatifler:** Yalnız elle yazılmış JavaScript kontrolleri kullanmak, TypeScript tiplerini tek kaynak kabul etmek veya doğrulamayı veri migrasyonunun sonuna bırakmak.
+- **Sonuçlar:** Hedef `BaseEntity`, kaynak, canlı, bitki ve taban modelleri aynı sözleşmede tanımlanır. Mevcut kayıtlar geçiş süresince `legacy*` şemalarıyla korunur. Bilinmeyen bilgi tahmin edilmez; sonraki migrasyon görevlerinde açıkça tamamlanır.
+- **Etkilenen görevler:** AKV-DATA-001, AKV-DATA-002, AKV-DATA-003, AKV-PLANT-001, AKV-SUB-001, AKV-CI-001
+
 ## Şimdilik kapsam dışı
 
 Temel aşamalar bitene kadar:
