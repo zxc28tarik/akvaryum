@@ -6,6 +6,8 @@ import { gunzipSync } from 'node:zlib';
 import react from '@vitejs/plugin-react';
 import { defineConfig } from 'vite';
 
+import { validateRepositoryData } from './scripts/lib/validate-data-schema.mjs';
+
 const repositoryRoot = dirname(fileURLToPath(import.meta.url));
 const publicPrefix = 'virtual:akvaryum/';
 const internalPrefix = '\0akvaryum:';
@@ -38,6 +40,13 @@ function nativeLegacyModules() {
   return {
     name: 'akvaryum-native-legacy-modules',
     enforce: 'pre',
+
+    buildStart() {
+      const report = validateRepositoryData(repositoryRoot);
+      this.info(
+        `AKVARYUM veri şeması doğrulandı: ${report.totalEntities} kayıt, ${report.fish} canlı.`,
+      );
+    },
 
     resolveId(id) {
       if (id.startsWith(publicPrefix)) {
