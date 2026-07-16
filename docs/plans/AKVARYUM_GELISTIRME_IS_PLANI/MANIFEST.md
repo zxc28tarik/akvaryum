@@ -9,7 +9,7 @@
 | `02_ANA_YOL_HARITASI.md` | Aşamalı ana geliştirme sırası | Yüklendi |
 | `03_CANLI_VERITABANI_GENISLETME_PLANI.md` | Balık, omurgasız ve mercan veri büyümesi | Sırada |
 | `04_BITKI_TABAN_DEKOR_EKIPMAN_PLANI.md` | Bitki, kum, taban, hardscape ve ekipman | Sırada |
-| `05_VERI_MODELI_VE_KODLANACAK_ALANLAR.md` | Yeni veri sözleşmesi ve alanlar | Sırada |
+| `05_VERI_MODELI_VE_KODLANACAK_ALANLAR.md` | Yeni veri sözleşmesi ve alanlar | Yüklendi |
 | `06_UYUMLULUK_MOTORU_V2.md` | Motorun ikinci sürüm tasarımı | Sırada |
 | `07_UI_UX_VE_URUN_OZELLIKLERI.md` | Kullanıcı deneyimi ve özellikler | Sırada |
 | `08_TEKNIK_MIMARI_VE_MIGRASYON.md` | Vite/React/TypeScript geçişi | Yüklendi |
