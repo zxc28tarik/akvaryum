@@ -31,3 +31,6 @@ jobs:
 
       - name: Production build al
         run: npm run build
+
+      - name: Native production paketini doğrula
+        run: npm run check:native
