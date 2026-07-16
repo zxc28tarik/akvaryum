@@ -62,6 +62,17 @@ Projenin veri ekledikçe veya özellik büyüttükçe dağılmasını engellemek
 - **Sonuçlar:** Bir süre iki giriş yapısı birlikte bulunur. `AKV-ARCH-002` tamamlanırken eski yükleyici kaldırılır ve yayınlama yeni build’e geçirilir.
 - **Etkilenen görevler:** AKV-ARCH-001, AKV-ARCH-002, AKV-CI-001
 
+### ADR-008 — Eski arşivler yalnız build sırasında açılır
+
+- **Tarih:** 16 Temmuz 2026
+- **Durum:** Kabul
+- **Bağlam:** Büyük balık ve arayüz kaynakları depoda gzip + base64 arşivleri olarak bulunuyor. Bunların tarayıcıda açılması `eval`, Babel standalone ve modern tarayıcıya özel `DecompressionStream` gerektiriyordu.
+- **Karar:** Geçiş süresince arşivler yalnız Vite build aşamasında Node.js ile açılıp sanal ES modüllerine dönüştürülecek. Tarayıcı yalnız normal derlenmiş JavaScript ve CSS alacak.
+- **Neden:** Runtime güvenlik ve performans sorunlarını hemen kaldırırken canlı veri içeriğini ve mevcut akışı korumak.
+- **Alternatifler:** Bütün büyük kaynakları tek seferde elle gerçek modüllere ayırmak veya eski runtime yükleyicisini korumak.
+- **Sonuçlar:** `AKV-ARCH-002` kabul kriteri karşılanır. Arşiv dosyaları geçici build girdisi olarak kalır; kalıcı kaynak modüllerine ayrıştırma Aşama B ve veri migrasyonu görevlerinde yapılır.
+- **Etkilenen görevler:** AKV-ARCH-002, AKV-DATA-001, AKV-DATA-010, AKV-PERF-001
+
 ## Şimdilik kapsam dışı
 
 Temel aşamalar bitene kadar:
