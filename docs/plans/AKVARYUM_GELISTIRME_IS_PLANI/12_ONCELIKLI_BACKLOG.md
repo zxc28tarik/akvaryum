@@ -8,7 +8,7 @@
 | AKV-ARCH-002 | DONE | Runtime gzip/eval yükleyicisini kaldır | ARCH-001 | Üretimde `eval` ve Babel standalone yok |
 | AKV-TEST-001 | REVIEW | Veri envanter testi oluştur | Yok | Sayılar ve benzersiz kimlikler doğrulanır |
 | AKV-DATA-001 | DONE | Ortak veri şeması oluştur | ARCH-001 | Şema build sırasında çalışır |
-| AKV-DATA-002 | READY | `entityType/category/family` alanlarını ekle | DATA-001 | 580 kayıt kategorilenir |
+| AKV-DATA-002 | DONE | `entityType/category/family` alanlarını ekle | DATA-001 | 580 kayıt kategorilenir |
 | AKV-DATA-003 | READY | Kaynak ve doğrulama modeli ekle | DATA-001 | Kayıtlar kaynak kimliği taşıyabilir |
 | AKV-ENG-001 | READY | Parametre ortak aralık hatasını düzelt | TEST-001 | Çakışma yoksa sonuç `null` ve kritik sorun |
 | AKV-ENG-002 | READY | Kural çıktı tipini standartlaştır | DATA-001 | Her sonuç `ruleId/severity/resolution` taşır |
@@ -17,34 +17,30 @@
 
 ### Aktif çalışma notu — 16 Temmuz 2026
 
-- `vite-app/` altında Vite + React geçiş yapısı kuruldu.
-- Kökteki mevcut statik sürüm korunarak canlı siteyi bozmayacak paralel geçiş uygulandı.
-- `AKV-ARCH-002` tamamlandı: Vite production paketinden tarayıcı içi Babel, `eval`, `DecompressionStream` ve runtime `.gz.b64` yükleme kaldırıldı.
-- Büyük eski arşivler geçici olarak yalnız Node.js/Vite build sırasında açılıyor; tarayıcıya normal derlenmiş JavaScript ve CSS gönderiliyor.
-- Eski `vite-app/src/startLegacyApp.js` dosyası ve `@babel/standalone` bağımlılığı kaldırıldı.
-- `npm run check:native` eklendi ve GitHub Actions hattına bağlandı.
-- `AKV-DATA-001` tamamlandı: `schemas/akvaryum.schema.json` ortak sözleşme olarak eklendi.
-- Şema; hedef `BaseEntity`, canlı, bitki, taban ve kaynak modellerinin yanında mevcut kayıtlar için geçiş şemalarını içeriyor.
-- `npm run check:schema` 580 canlı, 26 bitki, 8 taban ve 6 tank ölçüsü olmak üzere 620 kaydı doğruluyor.
-- Kimlik biçimi ve benzersizliği, zorunlu iki dil metinleri, enum değerleri, pozitif sayılar, tuzlu su tuzluluk alanı ve sayısal aralık sırası denetleniyor.
-- Şema doğrulaması Vite `buildStart` aşamasına ve GitHub Actions hattına bağlandı; hatalı veri production build’i durduruyor.
-- Son yerel production çıktısı: 352.424 bayt JavaScript ve 38.997 bayt CSS. Önceki geçici JavaScript paketi yaklaşık 2,56 MB idi.
-- Envanter kontrolünde 278 tatlı su, 302 tuzlu su, 580 toplam canlı, 26 bitki ve 8 taban doğrulandı.
-- Tekrarlanan canlı kimliği bulunmadı ve `Engine.analyze` yüklendi.
-- Tarayıcı duman testi çalışma ortamının yerel adresleri engellemesi nedeniyle dışarıdan doğrulanamadı; bu nedenle `AKV-ARCH-001` ve `AKV-TEST-001` hâlâ `REVIEW` durumundadır.
+- `vite-app/` altında Vite + React geçiş yapısı kuruldu; kökteki mevcut statik sürüm korunuyor.
+- `AKV-ARCH-002` tamamlandı: production paketinden tarayıcı içi Babel, `eval`, `DecompressionStream` ve runtime `.gz.b64` yükleme kaldırıldı.
+- `AKV-DATA-001` tamamlandı: ortak JSON Schema, build başlangıcı ve GitHub Actions doğrulaması kuruldu.
+- `AKV-DATA-002` tamamlandı: 580 canlı kaydı `entityType`, kontrollü `category` ve `taxonomy` alanlarıyla zenginleştirildi.
+- Sınıflandırma sonucu: 256 tatlı su balığı, 211 deniz balığı ve 113 omurgasız/mercan kaydı.
+- 580 kaydın tamamında aile alanı var; aileler kaynak doğrulaması tamamlanana kadar `inferred` durumunda tutuluyor.
+- 579 kaydın cinsi bilimsel addan çıkarıldı. Yapay melez `flowerhorn` kaydı `needs_review` olarak işaretlendi.
+- `npm run check:classification` eklendi ve GitHub Actions hattına bağlandı.
+- Sınıflandırma Vite production verisine de uygulanıyor; test ve uygulama aynı çekirdeği kullanıyor.
+- Son yerel production kontrolü başarılı: 580 canlı, 620 toplam kayıt, yinelenen kimlik 0, bozuk aralık 0.
+- Tarayıcı duman testi çalışma ortamının yerel adresleri engellemesi nedeniyle dışarıdan doğrulanamadı; `AKV-ARCH-001` ve `AKV-TEST-001` hâlâ `REVIEW` durumunda.
 
 ## P1 — Veri modeli ve katalog
 
 | Kimlik | Durum | Görev | Bağımlılık | Kabul özeti |
 |---|---|---|---|---|
-| AKV-DATA-010 | TODO | Balık/omurgasız/mercan dosyalarını ayır | DATA-002 | Ayrı koleksiyonlar, ortak arama indeksi |
+| AKV-DATA-010 | READY | Balık/omurgasız/mercan dosyalarını ayır | DATA-002 | Ayrı koleksiyonlar, ortak arama indeksi |
 | AKV-DATA-011 | TODO | Mevcut 580 kaydı yeni modele migrate et | DATA-010 | Kimlikler korunur, kayıp kayıt yok |
 | AKV-DATA-012 | TODO | Bilimsel ad/kimlik tekrar denetimi | DATA-011 | Rapor ve çözüm listesi oluşur |
 | AKV-DATA-013 | TODO | Zorluk ve sosyal yapı alanlarını doldurma partisi 1 | DATA-011 | En popüler 100 kayıt tamamlanır |
 | AKV-DATA-014 | TODO | Tank uzunluğu alanını doldurma partisi 1 | DATA-011 | En popüler 100 kayıt tamamlanır |
 | AKV-PLANT-001 | TODO | Bitki şemasını oluştur | DATA-001 | 26 bitki migrate edilir |
 | AKV-SUB-001 | TODO | Taban şemasını oluştur | DATA-001 | 8 taban migrate edilir |
-| AKV-UI-010 | TODO | Kategori ve gelişmiş filtreler | DATA-002 | URL’de korunabilen filtreler |
+| AKV-UI-010 | READY | Kategori ve gelişmiş filtreler | DATA-002 | URL’de korunabilen filtreler |
 | AKV-UI-011 | TODO | Bilimsel/eş ad araması | DATA-011 | Türkçe/İngilizce/bilimsel arama çalışır |
 | AKV-UI-012 | TODO | Canlı ayrıntı paneli/sayfası | DATA-011 | Kaynak ve bakım tablosu görünür |
 
