@@ -36,6 +36,29 @@ function assertUniqueIds(collections) {
   }
 }
 
+function classificationSummary(fish) {
+  const entityTypes = {};
+  const categories = {};
+  let familyMapped = 0;
+  let taxonomyNeedsReview = 0;
+
+  for (const record of fish) {
+    entityTypes[record.entityType] = (entityTypes[record.entityType] ?? 0) + 1;
+    categories[record.category] = (categories[record.category] ?? 0) + 1;
+    if (record.taxonomy.family) familyMapped += 1;
+    if (record.taxonomy.reviewStatus === 'needs_review') taxonomyNeedsReview += 1;
+  }
+
+  if (Object.values(entityTypes).reduce((sum, count) => sum + count, 0) !== fish.length) {
+    throw new Error('Canlı entityType sınıflandırması eksik.');
+  }
+  if (Object.values(categories).reduce((sum, count) => sum + count, 0) !== fish.length) {
+    throw new Error('Canlı category sınıflandırması eksik.');
+  }
+
+  return { entityTypes, categories, familyMapped, taxonomyNeedsReview };
+}
+
 export function validateRepositoryData(repositoryRoot) {
   const schemaPath = resolve(repositoryRoot, 'schemas/akvaryum.schema.json');
   const schema = JSON.parse(readFileSync(schemaPath, 'utf8'));
@@ -69,8 +92,10 @@ export function validateRepositoryData(repositoryRoot) {
     if (fish.salinity) assertOrderedRange(fish.salinity, `${fish.id}.salinity`);
   }
 
+  const classification = classificationSummary(data.fish);
+
   return {
-    schemaVersion: 1,
+    schemaVersion: 2,
     fish: data.fish.length,
     plants: data.plants.length,
     substrates: data.substrates.length,
@@ -82,5 +107,6 @@ export function validateRepositoryData(repositoryRoot) {
       data.tankPresets.length,
     uniqueIds: true,
     orderedRanges: true,
+    classification,
   };
 }
