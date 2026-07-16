@@ -3,6 +3,8 @@ import { resolve } from 'node:path';
 import vm from 'node:vm';
 import { gunzipSync } from 'node:zlib';
 
+import { enrichLegacyFish } from './classify-legacy-fish.mjs';
+
 function readText(repositoryRoot, relativePath) {
   return readFileSync(resolve(repositoryRoot, relativePath), 'utf8');
 }
@@ -18,8 +20,15 @@ export function loadLegacyData(repositoryRoot) {
     new vm.Script(source, { filename }).runInContext(context);
 
   run(readText(repositoryRoot, 'i18n.js'), 'i18n.js');
-  run(readArchive(repositoryRoot, '.runtime/fish-fresh.js.gz.b64'), 'fish-fresh.js');
-  run(readArchive(repositoryRoot, '.runtime/fish-salt.js.gz.b64'), 'fish-salt.js');
+  const freshSource = readArchive(repositoryRoot, '.runtime/fish-fresh.js.gz.b64');
+  const saltSource = readArchive(repositoryRoot, '.runtime/fish-salt.js.gz.b64');
+
+  run(freshSource, 'fish-fresh.js');
+  run(saltSource, 'fish-salt.js');
+
+  context.window.DB_FRESH = enrichLegacyFish(context.window.DB_FRESH ?? [], freshSource);
+  context.window.DB_SALT = enrichLegacyFish(context.window.DB_SALT ?? [], saltSource);
+
   run(readText(repositoryRoot, 'data.js'), 'data.js');
   run(readText(repositoryRoot, 'engine.js'), 'engine.js');
 
