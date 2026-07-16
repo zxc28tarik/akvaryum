@@ -1,0 +1,67 @@
+// AKVARYUM — Tuzlu su balık veritabanı (mercanlar dahil tek su tipi: 'salt')
+window.DB_SALT = (function(){
+  const list = [];
+  const f = (o) => list.push({
+    id:o.id, nameTr:o.tr, nameEn:o.en, sci:o.sci, water:'salt',
+    minVolume:o.vol, perFishL:o.perL||Math.max(40,Math.round(o.vol/4)),
+    pH:o.pH||[8.1,8.4], temp:o.temp||[24,27], gh:[8,12],
+    salinity:o.sal||[33,35],
+    aggression:o.agg, schooling:o.school||0, diet:o.diet,
+    adultSize:o.size, layer:o.layer||'mid',
+    plantSafe:true, reefSafe:o.reefSafe!==false,
+    finNippers:o.finNip||false, longFinned:o.longFin||false,
+    silhouette:o.silh||'classic', color:o.color||['#d97757','#c89b3c'],
+    notes:o.notes||'', notesEn:o.notesEn||''
+  });
+
+  // ═══ CLOWNFISH ~12 ═══
+  f({id:'clown-ocellaris',tr:'Ocellaris Palyaço',en:'Ocellaris Clownfish',sci:'Amphiprion ocellaris',vol:80,perL:40,agg:'peaceful',diet:'omni',size:9,silh:'round',color:['#d97757','#faf6ec']});
+  f({id:'clown-percula',tr:'Percula Palyaço',en:'Percula Clownfish',sci:'Amphiprion percula',vol:80,perL:40,agg:'peaceful',diet:'omni',size:8,silh:'round',color:['#d97757','#faf6ec']});
+  f({id:'clown-tomato',tr:'Domates Palyaço',en:'Tomato Clownfish',sci:'Amphiprion frenatus',vol:120,agg:'semi',diet:'omni',size:14,silh:'round',color:['#b85450','#faf6ec']});
+  f({id:'clown-maroon',tr:'Maroon Palyaço',en:'Maroon Clownfish',sci:'Premnas biaculeatus',vol:200,agg:'aggressive',diet:'omni',size:17,silh:'round',color:['#7a1f1f','#c89b3c']});
+  f({id:'clown-pink-skunk',tr:'Pembe Skunk',en:'Pink Skunk Clown',sci:'Amphiprion perideraion',vol:120,agg:'peaceful',diet:'omni',size:10,silh:'round',color:['#d97757','#faf6ec']});
+  f({id:'clown-skunk',tr:'Skunk Palyaço',en:'Skunk Clownfish',sci:'Amphiprion akallopisos',vol:120,agg:'peaceful',diet:'omni',size:11,silh:'round',color:['#c89b3c','#faf6ec']});
+  f({id:'clown-clarkii',tr:'Clarkii Palyaço',en:'Clarkii Clownfish',sci:'Amphiprion clarkii',vol:200,agg:'semi',diet:'omni',size:15,silh:'round',color:['#0a1f2e','#c89b3c']});
+  f({id:'clown-saddleback',tr:'Eyer Palyaço',en:'Saddleback Clownfish',sci:'Amphiprion polymnus',vol:200,agg:'semi',diet:'omni',size:13,silh:'round',color:['#0a1f2e','#faf6ec']});
+  f({id:'clown-black-ocellaris',tr:'Siyah Ocellaris',en:'Black Ocellaris',sci:'Amphiprion ocellaris var.',vol:80,agg:'peaceful',diet:'omni',size:9,silh:'round',color:['#0a1f2e','#faf6ec']});
+  f({id:'clown-snowflake',tr:'Kar Tanesi Palyaço',en:'Snowflake Clownfish',sci:'Amphiprion ocellaris var.',vol:80,agg:'peaceful',diet:'omni',size:9,silh:'round',color:['#d97757','#faf6ec']});
+
+  // ═══ TANGS / SURGEONFISH ~15 ═══
+  f({id:'yellow-tang',tr:'Sarı Tang',en:'Yellow Tang',sci:'Zebrasoma flavescens',vol:300,perL:200,agg:'semi',diet:'herbi',size:20,silh:'tall',color:['#c89b3c','#d97757']});
+  f({id:'blue-tang',tr:'Mavi Tang (Dory)',en:'Blue Tang',sci:'Paracanthurus hepatus',vol:400,perL:300,agg:'semi',diet:'herbi',size:30,silh:'round',color:['#1a4256','#c89b3c']});
+  f({id:'powder-blue-tang',tr:'Toz Mavi Tang',en:'Powder Blue Tang',sci:'Acanthurus leucosternon',vol:600,perL:400,agg:'semi',diet:'herbi',size:23,silh:'tall',color:['#3b78a3','#c89b3c']});
+  f({id:'powder-brown-tang',tr:'Toz Kahve Tang',en:'Powder Brown Tang',sci:'Acanthurus japonicus',vol:500,agg:'semi',diet:'herbi',size:21,silh:'tall',color:['#4a3a28','#c89b3c']});
+  f({id:'sailfin-tang',tr:'Yelken Tang',en:'Sailfin Tang',sci:'Zebrasoma veliferum',vol:600,agg:'semi',diet:'herbi',size:40,silh:'tall',color:['#c89b3c','#0a1f2e']});
+  f({id:'purple-tang',tr:'Mor Tang',en:'Purple Tang',sci:'Zebrasoma xanthurum',vol:400,agg:'semi',diet:'herbi',size:25,silh:'tall',color:['#7d4a9c','#c89b3c']});
+  f({id:'kole-tang',tr:'Kole Tang',en:'Kole Tang',sci:'Ctenochaetus strigosus',vol:300,agg:'peaceful',diet:'herbi',size:18,silh:'tall',color:['#3a2818','#c89b3c']});
+  f({id:'naso-tang',tr:'Naso Tang',en:'Naso Tang',sci:'Naso lituratus',vol:1200,perL:600,agg:'semi',diet:'herbi',size:45,silh:'long',color:['#3b78a3','#c89b3c']});
+  f({id:'achilles-tang',tr:'Achilles Tang',en:'Achilles Tang',sci:'Acanthurus achilles',vol:800,agg:'semi',diet:'herbi',size:24,silh:'round',color:['#0a1f2e','#d44648']});
+  f({id:'convict-tang',tr:'Mahkum Tang',en:'Convict Tang',sci:'Acanthurus triostegus',vol:400,agg:'peaceful',school:5,diet:'herbi',size:27,silh:'tall',color:['#c9e2e3','#0a1f2e']});
+  f({id:'chevron-tang',tr:'Şevron Tang',en:'Chevron Tang',sci:'Ctenochaetus hawaiiensis',vol:600,agg:'semi',diet:'herbi',size:28,silh:'tall',color:['#3a2818','#d97757']});
+
+  // ═══ ANGELFISH ~15 ═══
+  f({id:'flame-angel',tr:'Alev Melek',en:'Flame Angelfish',sci:'Centropyge loricula',vol:300,perL:150,agg:'semi',diet:'omni',size:10,silh:'tall',reefSafe:false,color:['#d44648','#0a1f2e'],notes:'Bazı mercanları kemirebilir.',notesEn:'May nip at some corals.'});
+  f({id:'coral-beauty',tr:'Mercan Güzeli',en:'Coral Beauty Angel',sci:'Centropyge bispinosa',vol:300,agg:'semi',diet:'omni',size:10,silh:'tall',reefSafe:false,color:['#7d4a9c','#d44648']});
+  f({id:'lemonpeel-angel',tr:'Limon Kabuğu Melek',en:'Lemonpeel Angel',sci:'Centropyge flavissima',vol:300,agg:'semi',diet:'herbi',size:14,silh:'tall',reefSafe:false,color:['#c89b3c','#3b78a3']});
+  f({id:'bicolor-angel',tr:'İki Renkli Melek',en:'Bicolor Angel',sci:'Centropyge bicolor',vol:300,agg:'semi',diet:'omni',size:15,silh:'tall',reefSafe:false,color:['#c89b3c','#1a4256']});
+  f({id:'pearlscale-angel',tr:'İnci Melek',en:'Pearlscale Angel',sci:'Centropyge vrolikii',vol:300,agg:'semi',diet:'omni',size:12,silh:'tall',reefSafe:false,color:['#c9e2e3','#0a1f2e']});
+  f({id:'queen-angel',tr:'Kraliçe Melek',en:'Queen Angelfish',sci:'Holacanthus ciliaris',vol:1500,perL:800,agg:'semi',diet:'omni',size:45,silh:'tall',reefSafe:false,color:['#3b78a3','#c89b3c']});
+  f({id:'french-angel',tr:'Fransız Melek',en:'French Angelfish',sci:'Pomacanthus paru',vol:1500,perL:800,agg:'semi',diet:'omni',size:60,silh:'tall',reefSafe:false,color:['#0a1f2e','#c89b3c']});
+  f({id:'emperor-angel',tr:'İmparator Melek',en:'Emperor Angelfish',sci:'Pomacanthus imperator',vol:1500,perL:800,agg:'semi',diet:'omni',size:40,silh:'tall',reefSafe:false,color:['#1a4256','#c89b3c']});
+  f({id:'majestic-angel',tr:'Görkemli Melek',en:'Majestic Angel',sci:'Pomacanthus navarchus',vol:800,agg:'semi',diet:'omni',size:25,silh:'tall',reefSafe:false,color:['#3b78a3','#c89b3c']});
+  f({id:'regal-angel',tr:'Asil Melek',en:'Regal Angel',sci:'Pygoplites diacanthus',vol:600,agg:'semi',diet:'omni',size:25,silh:'tall',reefSafe:false,color:['#c89b3c','#3b78a3']});
+
+  // ═══ DAMSELS ~15 ═══
+  f({id:'green-chromis',tr:'Yeşil Chromis',en:'Green Chromis',sci:'Chromis viridis',vol:120,perL:30,agg:'peaceful',school:5,diet:'omni',size:8,silh:'long',color:['#6b8e4e','#c9e2e3']});
+  f({id:'blue-damsel',tr:'Mavi Damsel',en:'Blue Damsel',sci:'Chrysiptera cyanea',vol:80,agg:'aggressive',diet:'omni',size:8,silh:'round',color:['#1a4256','#3b78a3']});
+  f({id:'yellowtail-damsel',tr:'Sarı Kuyruk Damsel',en:'Yellowtail Damsel',sci:'Chrysiptera parasema',vol:80,agg:'semi',diet:'omni',size:7,silh:'round',color:['#3b78a3','#c89b3c']});
+  f({id:'three-stripe-damsel',tr:'Üç Çizgili Damsel',en:'Three Stripe Damsel',sci:'Dascyllus aruanus',vol:120,agg:'aggressive',diet:'omni',size:9,silh:'round',color:['#faf6ec','#0a1f2e']});
+  f({id:'domino-damsel',tr:'Domino Damsel',en:'Domino Damsel',sci:'Dascyllus trimaculatus',vol:200,agg:'aggressive',diet:'omni',size:14,silh:'round',color:['#0a1f2e','#faf6ec']});
+  f({id:'azure-damsel',tr:'Azure Damsel',en:'Azure Damsel',sci:'Chrysiptera hemicyanea',vol:80,agg:'semi',diet:'omni',size:7,silh:'round',color:['#1a4256','#c89b3c']});
+  f({id:'fiji-blue-devil',tr:'Fiji Mavi Şeytan',en:'Fiji Blue Devil',sci:'Chrysiptera taupou',vol:120,agg:'aggressive',diet:'omni',size:8,silh:'round',color:['#1a4256','#c89b3c']});
+  f({id:'talbot-damsel',tr:'Talbot Damsel',en:'Talbot\'s Damsel',sci:'Chrysiptera talboti',vol:80,agg:'peaceful',diet:'omni',size:6,silh:'round',color:['#7d4a9c','#c89b3c']});
+  f({id:'springeri-damsel',tr:'Springer Damsel',en:'Springer\'s Damsel',sci:'Chrysiptera springeri',vol:80,agg:'semi',diet:'omni',size:6,silh:'round',color:['#3b78a3','#0a1f2e']});
+
+  // ═══ WRASSES ~20 ═══
+  f({id:'sixline-wrasse',tr:'Altı Çizgili Wrasse',en:'Sixline Wrasse',sci:'Pseudocheilinus hexataenia',vol:120,agg:'semi',diet:'carni',size:8,silh:'long',color:['#b85450','#3b78a3']});
+  f({id:'fairy-wrasse-flame',tr:'Alev Peri Wrasse',en:'Flame Fairy Wrasse',sci:'Cirrhilabrus jordani',vol:200,a
