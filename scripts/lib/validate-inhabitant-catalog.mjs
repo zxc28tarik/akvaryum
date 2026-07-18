@@ -1,19 +1,27 @@
 import { buildInhabitantCatalog } from '../../data/catalog/index.mjs';
 import { loadLegacyData } from './load-legacy-data.mjs';
 
-const EXPECTED_TOTAL = 580;
+const EXPECTED_COUNTS = Object.freeze({
+  total: 580,
+  fish: 467,
+  invertebrates: 63,
+  corals: 50,
+});
 
 export function validateInhabitantCatalog(repositoryRoot) {
   const database = loadLegacyData(repositoryRoot, { withProvenance: true, withCatalog: false });
   const catalog = buildInhabitantCatalog(database.fish);
 
-  if (catalog.counts.all !== EXPECTED_TOTAL) {
-    throw new Error(`Canlı kataloğunda ${catalog.counts.all} kayıt var; ${EXPECTED_TOTAL} bekleniyordu.`);
+  for (const [key, expected] of Object.entries(EXPECTED_COUNTS)) {
+    const actual = key === 'total' ? catalog.counts.all : catalog.counts[key];
+    if (actual !== expected) {
+      throw new Error(`${key} koleksiyonunda ${actual} kayıt var; ${expected} bekleniyordu.`);
+    }
   }
 
   const indexIds = new Set(catalog.searchIndex.map((entry) => entry.id));
-  if (indexIds.size !== EXPECTED_TOTAL) {
-    throw new Error(`Arama indeksinde ${indexIds.size} benzersiz kimlik var; ${EXPECTED_TOTAL} bekleniyordu.`);
+  if (indexIds.size !== EXPECTED_COUNTS.total) {
+    throw new Error(`Arama indeksinde ${indexIds.size} benzersiz kimlik var; ${EXPECTED_COUNTS.total} bekleniyordu.`);
   }
 
   for (const entry of catalog.searchIndex) {
