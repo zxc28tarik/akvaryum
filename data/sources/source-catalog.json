@@ -1,0 +1,102 @@
+{
+  "version": 1,
+  "updatedAt": "2026-07-18",
+  "sources": [
+    {
+      "id": "legacy-fresh-dataset-v1",
+      "title": "AKVARYUM eski tatlı su veri dosyası",
+      "publisher": "AKVARYUM projesi",
+      "location": ".runtime/fish-fresh.js.gz.b64",
+      "accessedAt": "2026-07-18",
+      "fields": ["core", "name", "scientificName", "water", "tank", "behavior", "feeding", "compatibility", "appearance", "notes"],
+      "sourceType": "internal_legacy",
+      "status": "unverified",
+      "confidence": "low",
+      "note": "Prototipten devralınan değerlerdir; dış kaynak doğrulaması bekler."
+    },
+    {
+      "id": "legacy-salt-dataset-v1",
+      "title": "AKVARYUM eski tuzlu su veri dosyası",
+      "publisher": "AKVARYUM projesi",
+      "location": ".runtime/fish-salt.js.gz.b64",
+      "accessedAt": "2026-07-18",
+      "fields": ["core", "name", "scientificName", "water", "tank", "behavior", "feeding", "compatibility", "appearance", "notes"],
+      "sourceType": "internal_legacy",
+      "status": "unverified",
+      "confidence": "low",
+      "note": "Prototipten devralınan değerlerdir; dış kaynak doğrulaması bekler."
+    },
+    {
+      "id": "legacy-plant-dataset-v1",
+      "title": "AKVARYUM eski bitki veri dosyası",
+      "publisher": "AKVARYUM projesi",
+      "location": "data.js#plants",
+      "accessedAt": "2026-07-18",
+      "fields": ["core", "name", "scientificName", "light", "co2", "difficulty", "kind", "placement", "appearance"],
+      "sourceType": "internal_legacy",
+      "status": "unverified",
+      "confidence": "low",
+      "note": "Bitki alanları henüz kurumsal veya bilimsel kaynaklarla doğrulanmadı."
+    },
+    {
+      "id": "legacy-substrate-dataset-v1",
+      "title": "AKVARYUM eski taban malzemesi veri dosyası",
+      "publisher": "AKVARYUM projesi",
+      "location": "data.js#substrates",
+      "accessedAt": "2026-07-18",
+      "fields": ["core", "name", "waterTypes", "plantFriendly", "phEffect", "description", "appearance"],
+      "sourceType": "internal_legacy",
+      "status": "unverified",
+      "confidence": "low",
+      "note": "Ürün veya malzeme özellikleri kaynak doğrulaması bekler."
+    },
+    {
+      "id": "legacy-tank-preset-dataset-v1",
+      "title": "AKVARYUM eski tank ölçüsü veri dosyası",
+      "publisher": "AKVARYUM projesi",
+      "location": "data.js#tankPresets",
+      "accessedAt": "2026-07-18",
+      "fields": ["core", "name", "dimensions", "volume"],
+      "sourceType": "internal_legacy",
+      "status": "unverified",
+      "confidence": "low",
+      "note": "Hazır tank ölçüleri uygulama kolaylığı için tanımlanmış prototip değerleridir."
+    },
+    {
+      "id": "classification-heading-rules-v1",
+      "title": "Kaynak başlığına göre canlı sınıflandırma kuralları",
+      "publisher": "AKVARYUM projesi",
+      "location": "scripts/lib/classify-legacy-fish.mjs",
+      "accessedAt": "2026-07-18",
+      "fields": ["entityType", "category"],
+      "sourceType": "derived",
+      "status": "reviewed",
+      "confidence": "medium",
+      "note": "Kategori ve canlı türü eski veri dosyası grup başlığı ile cins eşlemelerinden türetilir."
+    },
+    {
+      "id": "taxonomy-genus-parser-v1",
+      "title": "Bilimsel addan cins çıkarma kuralı",
+      "publisher": "AKVARYUM projesi",
+      "location": "scripts/lib/classify-legacy-fish.mjs#scientificGenus",
+      "accessedAt": "2026-07-18",
+      "fields": ["taxonomy.genus"],
+      "sourceType": "derived",
+      "status": "reviewed",
+      "confidence": "medium",
+      "note": "Bilimsel adın ilk parçası cins olarak ayrılır; melez kayıtlar incelemeye bırakılır."
+    },
+    {
+      "id": "taxonomy-family-map-v1",
+      "title": "Cins-aile geçiş eşleme tablosu",
+      "publisher": "AKVARYUM projesi",
+      "location": "scripts/lib/classify-legacy-fish.mjs#FAMILY_BY_GENUS",
+      "accessedAt": "2026-07-18",
+      "fields": ["taxonomy.family"],
+      "sourceType": "derived",
+      "status": "unverified",
+      "confidence": "low",
+      "note": "Aile değerleri dış taksonomi kaynağıyla alan bazında doğrulanana kadar çıkarımsaldır."
+    }
+  ]
+}
