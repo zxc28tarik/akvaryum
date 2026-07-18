@@ -4,6 +4,7 @@ import vm from 'node:vm';
 import { gunzipSync } from 'node:zlib';
 
 import { applyInhabitantCatalog } from '../../data/catalog/index.mjs';
+import { migrateLegacyInhabitants } from '../../data/migration/legacy-to-inhabitant.mjs';
 import { enrichLegacyFish } from './classify-legacy-fish.mjs';
 import { applySourceProvenance } from './source-provenance.mjs';
 
@@ -18,7 +19,7 @@ function readArchive(repositoryRoot, relativePath) {
 
 export function loadLegacyData(
   repositoryRoot,
-  { withProvenance = false, withCatalog = false } = {},
+  { withProvenance = false, withMigration = false, withCatalog = false } = {},
 ) {
   const context = vm.createContext({ window: {} });
   const run = (source, filename) =>
@@ -35,7 +36,10 @@ export function loadLegacyData(
   context.window.DB_SALT = enrichLegacyFish(context.window.DB_SALT ?? [], saltSource);
 
   run(readText(repositoryRoot, 'data.js'), 'data.js');
-  if (withProvenance) applySourceProvenance(context.window.DB);
+  if (withProvenance || withMigration) applySourceProvenance(context.window.DB);
+  if (withMigration) {
+    context.window.DB.inhabitants = migrateLegacyInhabitants(context.window.DB.fish ?? []);
+  }
   if (withCatalog) applyInhabitantCatalog(context.window.DB);
   run(readText(repositoryRoot, 'engine.js'), 'engine.js');
 
@@ -43,6 +47,7 @@ export function loadLegacyData(
     fresh: context.window.DB_FRESH ?? [],
     salt: context.window.DB_SALT ?? [],
     fish: context.window.DB?.fish ?? [],
+    inhabitants: context.window.DB?.inhabitants ?? [],
     plants: context.window.DB?.plants ?? [],
     substrates: context.window.DB?.substrates ?? [],
     tankPresets: context.window.DB?.tankPresets ?? [],
