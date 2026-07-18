@@ -1,6 +1,6 @@
 {
-  "version": 1,
-  "updatedAt": "2026-07-18",
+  "version": 2,
+  "updatedAt": "2026-07-19",
   "sources": [
     {
       "id": "legacy-fresh-dataset-v1",
@@ -8,7 +8,7 @@
       "publisher": "AKVARYUM projesi",
       "location": "legacy-source:fish-fresh",
       "accessedAt": "2026-07-18",
-      "fields": ["core", "name", "scientificName", "water", "tank", "behavior", "feeding", "compatibility", "appearance", "notes"],
+      "fields": ["core", "name", "scientificName", "water", "size", "tank", "social", "behavior", "feeding", "compatibility", "appearance", "notes"],
       "sourceType": "internal_legacy",
       "status": "unverified",
       "confidence": "low",
@@ -20,7 +20,7 @@
       "publisher": "AKVARYUM projesi",
       "location": "legacy-source:fish-salt",
       "accessedAt": "2026-07-18",
-      "fields": ["core", "name", "scientificName", "water", "tank", "behavior", "feeding", "compatibility", "appearance", "notes"],
+      "fields": ["core", "name", "scientificName", "water", "size", "tank", "social", "behavior", "feeding", "compatibility", "appearance", "notes"],
       "sourceType": "internal_legacy",
       "status": "unverified",
       "confidence": "low",
@@ -97,6 +97,18 @@
       "status": "unverified",
       "confidence": "low",
       "note": "Aile değerleri dış taksonomi kaynağıyla alan bazında doğrulanana kadar çıkarımsaldır."
+    },
+    {
+      "id": "legacy-inhabitant-migration-v1",
+      "title": "LegacyFish v1 → Inhabitant v1 dönüşüm kuralları",
+      "publisher": "AKVARYUM projesi",
+      "location": "data/migration/legacy-to-inhabitant.mjs",
+      "accessedAt": "2026-07-19",
+      "fields": ["social", "habitat", "care", "summary", "migration"],
+      "sourceType": "derived",
+      "status": "reviewed",
+      "confidence": "medium",
+      "note": "Alanlar kayıpsız taşınır; eski veride bulunmayan değerler tahmin edilmeden unknown olarak işaretlenir."
     }
   ]
 }
