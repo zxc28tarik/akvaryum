@@ -24,14 +24,17 @@
 - Sınıflandırma sonucu: 256 tatlı su balığı, 211 deniz balığı ve 113 omurgasız/mercan kaydı.
 - 580 kaydın tamamında aile alanı var; aileler dış kaynak doğrulaması tamamlanana kadar `inferred` durumunda tutuluyor.
 - 579 kaydın cinsi bilimsel addan çıkarıldı. Yapay melez `flowerhorn` kaydı `needs_review` olarak işaretlendi.
-- `AKV-DATA-003` tamamlandı: 8 kayıtlık kaynak kataloğu ve ayrı kaynak/doğrulama JSON Schema eklendi.
-- 620 veri kaydının tamamı `sourceIds`, alan bazlı `fieldSourceIds` ve `verification` bilgisi taşıyor.
-- Kaynak doğrulaması 2.940 alan-kaynak bağlantısını denetliyor; çözülemeyen kaynak kimliği yok.
-- Eski 620 kaydın tamamı bilinçli olarak `needs_review/low` durumda; dış doğrulama yapılmadan hiçbir kayıt `verified` sayılmıyor.
+- `AKV-DATA-003` tamamlandı: kaynak kataloğu ve ayrı kaynak/doğrulama JSON Schema eklendi.
+- Eski 620 kaydın tamamı `sourceIds`, alan bazlı `fieldSourceIds` ve `verification` bilgisi taşıyor.
+- Eski kayıtların tamamı bilinçli olarak `needs_review/low` durumda; dış doğrulama yapılmadan hiçbir kayıt `verified` sayılmıyor.
 - `AKV-DATA-010` tamamlandı: canlılar `data/catalog/` altında balık, omurgasız ve mercan koleksiyonlarına ayrıldı.
 - Başlangıç katalog sayıları 467 balık, 63 omurgasız ve 50 mercan; ortak arama indeksinde 580 benzersiz kayıt var.
-- `DB.fish` eski ekran uyumluluğu için korunuyor; yeni kod `DB.inhabitantCatalog` üzerinden ilerleyecek.
-- `npm run check:catalog` Vite build başlangıcına ve GitHub Actions hattına bağlandı.
+- `AKV-DATA-011` kodlaması tamamlandı ve CI incelemesinde: 580 legacy kayıt `Inhabitant v1` modeline kimlik değiştirmeden taşınıyor.
+- Yeni ana erişim `DB.inhabitants`; `DB.fish` yalnız eski ekran uyumluluğu için korunuyor.
+- Adlar, bilimsel adlar, su aralıkları, boy, tank hacmi ve kaynak kimlikleri birebir kayıp testine bağlı.
+- Eski veride bulunmayan bölgesellik, etkinlik, beslenme zorluğu, akıntı, oksijen ve bakım zorluğu `unknown` olarak işaretleniyor; tahmin edilmiyor.
+- Kaynak kataloğu sürüm 2 ve 9 kaynak kaydı taşıyor; migrasyon kuralları `legacy-inhabitant-migration-v1` kaynağıyla izleniyor.
+- `npm run check:migration` Vite build başlangıcına ve GitHub Actions hattına bağlandı.
 - Tarayıcı duman testi çalışma ortamının yerel adresleri engellemesi nedeniyle dışarıdan doğrulanamadı; `AKV-ARCH-001` ve `AKV-TEST-001` hâlâ `REVIEW` durumunda.
 
 ## P1 — Veri modeli ve katalog
@@ -39,7 +42,7 @@
 | Kimlik | Durum | Görev | Bağımlılık | Kabul özeti |
 |---|---|---|---|---|
 | AKV-DATA-010 | DONE | Balık/omurgasız/mercan dosyalarını ayır | DATA-002 | Ayrı koleksiyonlar, ortak arama indeksi |
-| AKV-DATA-011 | READY | Mevcut 580 kaydı yeni modele migrate et | DATA-010 | Kimlikler korunur, kayıp kayıt yok |
+| AKV-DATA-011 | REVIEW | Mevcut 580 kaydı yeni modele migrate et | DATA-010 | Kimlikler korunur, kayıp kayıt yok |
 | AKV-DATA-012 | TODO | Bilimsel ad/kimlik tekrar denetimi | DATA-011 | Rapor ve çözüm listesi oluşur |
 | AKV-DATA-013 | TODO | Zorluk ve sosyal yapı alanlarını doldurma partisi 1 | DATA-011 | En popüler 100 kayıt tamamlanır |
 | AKV-DATA-014 | TODO | Tank uzunluğu alanını doldurma partisi 1 | DATA-011 | En popüler 100 kayıt tamamlanır |
