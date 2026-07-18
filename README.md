@@ -12,6 +12,8 @@ Ortak veri sözleşmesi `schemas/akvaryum.schema.json` dosyasındadır. Şema; m
 
 Kaynak kataloğu `data/sources/source-catalog.json`, kaynak ve doğrulama sözleşmesi ise `schemas/source-provenance.schema.json` dosyasındadır. Uygulama verileri `sourceIds`, alan bazlı `fieldSourceIds` ve `verification` bilgisi taşır. Eski veriler dış kaynaklarla doğrulanana kadar `needs_review` durumunda kalır.
 
+Canlı katalog modülleri `data/catalog/` altındadır. Tek ana canlı dizisi build sırasında balık, omurgasız ve mercan koleksiyonlarına ayrılır; bütün kayıtlar aynı ortak arama indeksinde tutulur. Mevcut `DB.fish` alanı eski arayüz uyumluluğu için korunur, yeni erişim noktası `DB.inhabitantCatalog` alanıdır.
+
 ## Mevcut statik sürüm
 
 ```bash
@@ -28,6 +30,7 @@ npm run check:legacy
 npm run check:schema
 npm run check:classification
 npm run check:sources
+npm run check:catalog
 npm run dev
 ```
 
@@ -38,6 +41,7 @@ npm run check:legacy
 npm run check:schema
 npm run check:classification
 npm run check:sources
+npm run check:catalog
 npm run build
 npm run check:native
 npm run preview
@@ -47,10 +51,25 @@ npm run preview
 - `check:schema`: 620 kaydın alan tiplerini, zorunlu değerlerini, bütün kimliklerini ve sayısal aralıklarını ortak JSON Schema ile doğrular.
 - `check:classification`: 580 canlıda `entityType`, kategori, cins ve aile kapsamını doğrular.
 - `check:sources`: kaynak kataloğunu, 620 kaydın kaynak kimliklerini, 2.940 alan-kaynak bağlantısını ve doğrulama durumlarını denetler.
-- `build`: başlamadan önce veri ve kaynak doğrulamalarını otomatik olarak yeniden çalıştırır.
+- `check:catalog`: 580 canlıyı balık, omurgasız ve mercan koleksiyonlarına ayırır; kayıt kaybı, çifte üyelik, bilinmeyen `entityType` ve eksik arama indeksi durumlarını reddeder.
+- `build`: başlamadan önce veri, kaynak ve katalog doğrulamalarını otomatik olarak yeniden çalıştırır.
 - `check:native`: production paketinde eski runtime yükleyicisi, Babel standalone, gzip açıcı veya `eval` bulunmadığını doğrular.
 - Build çıktısı `dist/` klasörüne yazılır.
 - GitHub Pages taban yolu `/akvaryum/` olarak ayarlanmıştır.
+
+## Yeni canlı katalog erişimi
+
+```js
+const { collections, searchIndex, counts } = window.DB.inhabitantCatalog;
+
+collections.fish;
+collections.invertebrates;
+collections.corals;
+searchIndex;
+counts;
+```
+
+Arama indeksi Türkçe ad, İngilizce ad, bilimsel ad, kimlik, kategori, canlı türü, cins ve aile alanlarını birlikte tarayabilecek biçimde hazırlanır.
 
 ## Kaynaklandırma ilkesi
 
