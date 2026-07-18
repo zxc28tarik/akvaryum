@@ -3,7 +3,7 @@ import { selectFish } from './fish.mjs';
 import { selectInvertebrates } from './invertebrates.mjs';
 import { buildInhabitantSearchIndex } from './search-index.mjs';
 
-export const INHABITANT_CATALOG_VERSION = 1;
+export const INHABITANT_CATALOG_VERSION = 2;
 
 function assertUniqueRecords(collections, expectedTotal) {
   const seen = new Set();
@@ -50,6 +50,7 @@ export function buildInhabitantCatalog(records) {
 
   return {
     version: INHABITANT_CATALOG_VERSION,
+    model: records[0]?.migration?.targetModel ?? 'legacyFishV1',
     collections,
     all: records,
     searchIndex,
@@ -63,7 +64,8 @@ export function buildInhabitantCatalog(records) {
 }
 
 export function applyInhabitantCatalog(database) {
-  database.inhabitantCatalog = buildInhabitantCatalog(database.fish ?? []);
+  const records = database.inhabitants ?? database.fish ?? [];
+  database.inhabitantCatalog = buildInhabitantCatalog(records);
   return database;
 }
 
@@ -81,7 +83,7 @@ export function buildRuntimeInhabitantCatalogBootstrap() {
     .replace(/[^a-z0-9çğıöşü\\s-]/g, ' ')
     .replace(/\\s+/g, ' ')
     .trim();
-  const __all = window.DB?.fish || [];
+  const __all = window.DB?.inhabitants || window.DB?.fish || [];
   const __collections = { fish: [], invertebrates: [], corals: [] };
   const __seen = new Set();
   for (const __record of __all) {
@@ -94,29 +96,36 @@ export function buildRuntimeInhabitantCatalogBootstrap() {
     __seen.add(__record.id);
     __collections[__collection].push(__record);
   }
-  const __searchIndex = __all.map((__record) => ({
-    id: __record.id,
-    collection: __fishTypes.has(__record.entityType) ? 'fish' : (__invertebrateTypes.has(__record.entityType) ? 'invertebrates' : 'corals'),
-    entityType: __record.entityType,
-    category: __record.category,
-    nameTr: __record.nameTr,
-    nameEn: __record.nameEn,
-    scientificName: __record.sci,
-    genus: __record.taxonomy?.genus ?? null,
-    family: __record.taxonomy?.family ?? null,
-    searchText: __normalize([
-      __record.id,
-      __record.nameTr,
-      __record.nameEn,
-      __record.sci,
-      __record.entityType,
-      __record.category,
-      __record.taxonomy?.genus,
-      __record.taxonomy?.family,
-    ].filter(Boolean).join(' ')),
-  }));
+  const __searchIndex = __all.map((__record) => {
+    const __nameTr = __record.name?.tr ?? __record.nameTr;
+    const __nameEn = __record.name?.en ?? __record.nameEn;
+    const __scientificName = __record.scientificName ?? __record.sci;
+    return {
+      id: __record.id,
+      collection: __fishTypes.has(__record.entityType) ? 'fish' : (__invertebrateTypes.has(__record.entityType) ? 'invertebrates' : 'corals'),
+      entityType: __record.entityType,
+      category: __record.category,
+      nameTr: __nameTr,
+      nameEn: __nameEn,
+      scientificName: __scientificName,
+      genus: __record.taxonomy?.genus ?? null,
+      family: __record.taxonomy?.family ?? null,
+      searchText: __normalize([
+        __record.id,
+        __nameTr,
+        __nameEn,
+        __scientificName,
+        __record.entityType,
+        __record.category,
+        __record.taxonomy?.genus,
+        __record.taxonomy?.family,
+        ...(__record.aliases || []),
+      ].filter(Boolean).join(' ')),
+    };
+  });
   window.DB.inhabitantCatalog = {
     version: ${INHABITANT_CATALOG_VERSION},
+    model: __all[0]?.migration?.targetModel ?? 'legacyFishV1',
     collections: __collections,
     all: __all,
     searchIndex: __searchIndex,
