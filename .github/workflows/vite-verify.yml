@@ -38,6 +38,9 @@ jobs:
       - name: Kaynak ve doğrulama modelini doğrula
         run: npm run check:sources
 
+      - name: Inhabitant v1 migrasyonunu doğrula
+        run: npm run check:migration
+
       - name: Balık, omurgasız ve mercan kataloglarını doğrula
         run: npm run check:catalog
 
