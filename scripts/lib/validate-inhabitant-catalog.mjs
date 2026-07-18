@@ -9,14 +9,22 @@ const EXPECTED_COUNTS = Object.freeze({
 });
 
 export function validateInhabitantCatalog(repositoryRoot) {
-  const database = loadLegacyData(repositoryRoot, { withProvenance: true, withCatalog: false });
-  const catalog = buildInhabitantCatalog(database.fish);
+  const database = loadLegacyData(repositoryRoot, {
+    withProvenance: true,
+    withMigration: true,
+    withCatalog: false,
+  });
+  const catalog = buildInhabitantCatalog(database.inhabitants);
 
   for (const [key, expected] of Object.entries(EXPECTED_COUNTS)) {
     const actual = key === 'total' ? catalog.counts.all : catalog.counts[key];
     if (actual !== expected) {
       throw new Error(`${key} koleksiyonunda ${actual} kayıt var; ${expected} bekleniyordu.`);
     }
+  }
+
+  if (catalog.model !== 'inhabitantV1') {
+    throw new Error(`Katalog eski veri modelini kullanıyor: ${catalog.model}`);
   }
 
   const indexIds = new Set(catalog.searchIndex.map((entry) => entry.id));
@@ -27,10 +35,14 @@ export function validateInhabitantCatalog(repositoryRoot) {
   for (const entry of catalog.searchIndex) {
     if (!entry.searchText) throw new Error(`${entry.id}: arama metni boş.`);
     if (!entry.collection) throw new Error(`${entry.id}: katalog koleksiyonu eksik.`);
+    if (!entry.nameTr || !entry.nameEn || !entry.scientificName) {
+      throw new Error(`${entry.id}: yeni model arama alanlarından biri eksik.`);
+    }
   }
 
   return {
     version: catalog.version,
+    model: catalog.model,
     total: catalog.counts.all,
     fish: catalog.counts.fish,
     invertebrates: catalog.counts.invertebrates,
