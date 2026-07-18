@@ -3,6 +3,7 @@ import { resolve } from 'node:path';
 import vm from 'node:vm';
 import { gunzipSync } from 'node:zlib';
 
+import { applyInhabitantCatalog } from '../../data/catalog/index.mjs';
 import { enrichLegacyFish } from './classify-legacy-fish.mjs';
 import { applySourceProvenance } from './source-provenance.mjs';
 
@@ -15,7 +16,10 @@ function readArchive(repositoryRoot, relativePath) {
   return gunzipSync(Buffer.from(encoded, 'base64')).toString('utf8');
 }
 
-export function loadLegacyData(repositoryRoot, { withProvenance = false } = {}) {
+export function loadLegacyData(
+  repositoryRoot,
+  { withProvenance = false, withCatalog = false } = {},
+) {
   const context = vm.createContext({ window: {} });
   const run = (source, filename) =>
     new vm.Script(source, { filename }).runInContext(context);
@@ -32,6 +36,7 @@ export function loadLegacyData(repositoryRoot, { withProvenance = false } = {}) 
 
   run(readText(repositoryRoot, 'data.js'), 'data.js');
   if (withProvenance) applySourceProvenance(context.window.DB);
+  if (withCatalog) applyInhabitantCatalog(context.window.DB);
   run(readText(repositoryRoot, 'engine.js'), 'engine.js');
 
   return {
@@ -43,6 +48,7 @@ export function loadLegacyData(repositoryRoot, { withProvenance = false } = {}) 
     tankPresets: context.window.DB?.tankPresets ?? [],
     sources: context.window.DB?.sources ?? [],
     sourceCatalogVersion: context.window.DB?.sourceCatalogVersion ?? null,
+    inhabitantCatalog: context.window.DB?.inhabitantCatalog ?? null,
     engine: context.window.Engine,
   };
 }
