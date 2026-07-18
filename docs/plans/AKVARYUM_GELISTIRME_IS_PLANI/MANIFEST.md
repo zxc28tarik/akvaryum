@@ -25,5 +25,6 @@
 | `18_AKV_DATA_001_VERI_SEMASI_UYGULAMA_NOTU.md` | Ortak veri şeması uygulama sonucu | Yüklendi |
 | `19_AKV_DATA_003_KAYNAK_VE_DOGRULAMA_UYGULAMASI.md` | Kaynak ve doğrulama modeli uygulama sonucu | Yüklendi |
 | `20_AKV_DATA_010_KATALOG_AYRIMI.md` | Balık, omurgasız, mercan koleksiyonları ve ortak arama indeksi | Yüklendi |
+| `21_AKV_DATA_011_INHABITANT_MIGRASYONU.md` | 580 legacy canlı kaydının Inhabitant v1 modeline kayıpsız geçişi | CI incelemesinde |
 
 Planın tamamı yerel ZIP paketinde korunmaktadır. GitHub’a aktarılan dosyalar aktif geliştirme sırasında öncelikli kaynak kabul edilir; kalan uzmanlık belgeleri ilgili göreve başlanmadan önce depoya eklenir.
