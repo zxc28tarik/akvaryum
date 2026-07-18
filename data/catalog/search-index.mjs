@@ -20,17 +20,29 @@ function collectionFor(record) {
   throw new Error(`${record?.id ?? 'bilinmeyen'}: desteklenmeyen entityType (${record?.entityType ?? 'eksik'}).`);
 }
 
+function localizedName(record, language) {
+  return record.name?.[language] ?? record[language === 'tr' ? 'nameTr' : 'nameEn'];
+}
+
+function scientificName(record) {
+  return record.scientificName ?? record.sci;
+}
+
 export function buildInhabitantSearchIndex(records) {
   return records.map((record) => {
+    const nameTr = localizedName(record, 'tr');
+    const nameEn = localizedName(record, 'en');
+    const scientific = scientificName(record);
     const terms = [
       record.id,
-      record.nameTr,
-      record.nameEn,
-      record.sci,
+      nameTr,
+      nameEn,
+      scientific,
       record.entityType,
       record.category,
       record.taxonomy?.genus,
       record.taxonomy?.family,
+      ...(record.aliases ?? []),
     ].filter(Boolean);
 
     return {
@@ -38,9 +50,9 @@ export function buildInhabitantSearchIndex(records) {
       collection: collectionFor(record),
       entityType: record.entityType,
       category: record.category,
-      nameTr: record.nameTr,
-      nameEn: record.nameEn,
-      scientificName: record.sci,
+      nameTr,
+      nameEn,
+      scientificName: scientific,
       genus: record.taxonomy?.genus ?? null,
       family: record.taxonomy?.family ?? null,
       searchText: normalizeSearchText(terms.join(' ')),
