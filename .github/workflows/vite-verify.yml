@@ -27,7 +27,26 @@ jobs:
         run: npm install --no-audit --no-fund
 
       - name: Mevcut veri envanterini doğrula
-        run: npm run check:legacy
+        id: legacy-check
+        shell: bash
+        run: |
+          set +e
+          npm run check:legacy > legacy-check.log 2>&1
+          code=$?
+          cat legacy-check.log
+          echo "exit_code=$code" >> "$GITHUB_OUTPUT"
+          exit 0
+
+      - name: Başarısız envanter logunu sakla
+        if: steps.legacy-check.outputs.exit_code != '0'
+        uses: actions/upload-artifact@v4
+        with:
+          name: legacy-check-log
+          path: legacy-check.log
+
+      - name: Envanter hatasında işi durdur
+        if: steps.legacy-check.outputs.exit_code != '0'
+        run: exit 1
 
       - name: Ortak veri şemasını doğrula
         run: npm run check:schema
