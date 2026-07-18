@@ -10,6 +10,7 @@ import { buildRuntimeInhabitantCatalogBootstrap } from './data/catalog/index.mjs
 import { buildLegacyFishClassification } from './scripts/lib/classify-legacy-fish.mjs';
 import { buildRuntimeSourceProvenanceBootstrap } from './scripts/lib/source-provenance.mjs';
 import { validateInhabitantCatalog } from './scripts/lib/validate-inhabitant-catalog.mjs';
+import { validateInhabitantMigration } from './scripts/lib/validate-inhabitant-migration.mjs';
 import { validateRepositoryData } from './scripts/lib/validate-data-schema.mjs';
 import { validateSourceProvenance } from './scripts/lib/validate-source-provenance.mjs';
 
@@ -30,6 +31,7 @@ const plainSources = {
   'data.js': 'data.js',
   'engine.js': 'engine.js',
   'app.jsx': 'app.jsx',
+  'legacy-to-inhabitant.mjs': 'data/migration/legacy-to-inhabitant.mjs',
 };
 
 function readPlain(relativePath) {
@@ -49,12 +51,16 @@ function nativeLegacyModules() {
     buildStart() {
       const report = validateRepositoryData(repositoryRoot);
       const sourceReport = validateSourceProvenance(repositoryRoot);
+      const migrationReport = validateInhabitantMigration(repositoryRoot);
       const catalogReport = validateInhabitantCatalog(repositoryRoot);
       this.info(
         `AKVARYUM veri şeması doğrulandı: ${report.totalEntities} kayıt, ${report.fish} canlı.`,
       );
       this.info(
         `AKVARYUM kaynak modeli doğrulandı: ${sourceReport.sources} kaynak, ${sourceReport.fieldLinks} alan bağlantısı.`,
+      );
+      this.info(
+        `AKVARYUM Inhabitant migrasyonu doğrulandı: ${migrationReport.migratedRecords} kayıt, ${migrationReport.preservedIds} korunan kimlik.`,
       );
       this.info(
         `AKVARYUM canlı kataloğu doğrulandı: ${catalogReport.fish} balık, ${catalogReport.invertebrates} omurgasız, ${catalogReport.corals} mercan.`,
@@ -103,8 +109,10 @@ function nativeLegacyModules() {
           return [
             "import 'virtual:akvaryum/fish-fresh.js';",
             "import 'virtual:akvaryum/fish-salt.js';",
+            "import { migrateLegacyInhabitants } from 'virtual:akvaryum/legacy-to-inhabitant.mjs';",
             source,
             buildRuntimeSourceProvenanceBootstrap(),
+            'window.DB.inhabitants = migrateLegacyInhabitants(window.DB.fish || []);',
             buildRuntimeInhabitantCatalogBootstrap(),
           ].join('\n');
 
