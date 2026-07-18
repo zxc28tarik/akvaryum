@@ -12,7 +12,8 @@
     "check:schema": "node scripts/check-data-schema.mjs",
     "check:classification": "node scripts/check-fish-classification.mjs",
     "check:sources": "node scripts/check-source-provenance.mjs",
-    "check:catalog": "node scripts/check-inhabitant-catalog.mjs"
+    "check:catalog": "node scripts/check-inhabitant-catalog.mjs",
+    "check:migration": "node scripts/check-inhabitant-migration.mjs"
   },
   "dependencies": {
     "react": "18.3.1",
