@@ -117,6 +117,17 @@ Projenin veri ekledikçe veya özellik büyüttükçe dağılmasını engellemek
 - **Sonuçlar:** Başlangıçta 467 balık, 63 omurgasız ve 50 mercan koleksiyonu oluşur. Bilinmeyen `entityType`, kayıt kaybı, çifte üyelik veya eksik arama indeksi build’i durdurur. Yeni katalog özellikleri `DB.inhabitantCatalog` kullanır; eski ekranlar geçici olarak `DB.fish` ile çalışmaya devam eder.
 - **Etkilenen görevler:** AKV-DATA-010, AKV-DATA-011, AKV-DATA-012, AKV-CORAL-001, AKV-INVERT-001, AKV-UI-010, AKV-UI-011, AKV-ENG-014
 
+### ADR-013 — Yeni canlı modeli eski ekranlarla paralel yaşar
+
+- **Tarih:** 19 Temmuz 2026
+- **Durum:** Kabul
+- **Bağlam:** 580 canlı kaydı hedef `Inhabitant v1` modeline taşınırken mevcut arayüz ve eski uyumluluk motoru hâlâ `DB.fish` alanlarını kullanıyor. Eski alanı aynı anda kaldırmak canlı sürümde geniş kapsamlı kırılma riski oluşturur.
+- **Karar:** Production build her çalışmada legacy kayıtları `DB.inhabitants` altında `Inhabitant v1` modeline dönüştürecek. `DB.fish` yalnız geçici uyumluluk katmanı olarak korunacak. Yeni katalog, arama, ayrıntı ekranları ve Motor 2.0 çalışmaları doğrudan `DB.inhabitants` kullanacak.
+- **Neden:** Kimlikleri ve mevcut kullanıcı akışını korurken yeni veri modeline aşamalı ve test edilebilir geçiş sağlamak.
+- **Alternatifler:** Legacy alanı tek seferde kaldırmak, 580 yeni kaydı ayrı kopya olarak elle tutmak veya yeni modeli yalnız belge düzeyinde bırakmak.
+- **Sonuçlar:** 580 eski ve 580 yeni kayıt CI’da birebir karşılaştırılır. Doğrudan değer veya kaynak kimliği kaybı build’i durdurur. Eski veride bulunmayan alanlar uydurulmaz; `unknown` ve migrasyon raporuyla açıkça işaretlenir. Eski ekranların yeni modele geçirilmesi tamamlanınca `DB.fish` ayrı bir temizlik göreviyle kaldırılabilir.
+- **Etkilenen görevler:** AKV-DATA-011, AKV-DATA-012, AKV-DATA-013, AKV-DATA-014, AKV-UI-011, AKV-UI-012, AKV-ENG-010, AKV-ENG-013
+
 ## Şimdilik kapsam dışı
 
 Temel aşamalar bitene kadar:
