@@ -25,16 +25,15 @@
 - 580 kaydın tamamında aile alanı var; aileler dış kaynak doğrulaması tamamlanana kadar `inferred` durumunda tutuluyor.
 - 579 kaydın cinsi bilimsel addan çıkarıldı. Yapay melez `flowerhorn` kaydı `needs_review` olarak işaretlendi.
 - `AKV-DATA-003` tamamlandı: kaynak kataloğu ve ayrı kaynak/doğrulama JSON Schema eklendi.
-- Eski 620 kaydın tamamı `sourceIds`, alan bazlı `fieldSourceIds` ve `verification` bilgisi taşıyor.
 - Eski kayıtların tamamı bilinçli olarak `needs_review/low` durumda; dış doğrulama yapılmadan hiçbir kayıt `verified` sayılmıyor.
-- `AKV-DATA-010` tamamlandı: canlılar `data/catalog/` altında balık, omurgasız ve mercan koleksiyonlarına ayrıldı.
-- Başlangıç katalog sayıları 467 balık, 63 omurgasız ve 50 mercan; ortak arama indeksinde 580 benzersiz kayıt var.
-- `AKV-DATA-011` kodlaması tamamlandı ve CI incelemesinde: 580 legacy kayıt `Inhabitant v1` modeline kimlik değiştirmeden taşınıyor.
+- `AKV-DATA-010` tamamlandı: canlılar balık, omurgasız ve mercan koleksiyonlarına ayrıldı; 580 benzersiz kayıt ortak arama indeksinde bulunuyor.
+- `AKV-DATA-011` tamamlandı: 580 legacy kayıt `Inhabitant v1` modeline kimlik değiştirmeden taşındı.
 - Yeni ana erişim `DB.inhabitants`; `DB.fish` yalnız eski ekran uyumluluğu için korunuyor.
-- Adlar, bilimsel adlar, su aralıkları, boy, tank hacmi ve kaynak kimlikleri birebir kayıp testine bağlı.
+- Adlar, bilimsel adlar, su aralıkları, boy, tank hacmi ve bütün eski kaynak kimlikleri birebir kayıp testinden geçti.
 - Eski veride bulunmayan bölgesellik, etkinlik, beslenme zorluğu, akıntı, oksijen ve bakım zorluğu `unknown` olarak işaretleniyor; tahmin edilmiyor.
 - Kaynak kataloğu sürüm 2 ve 9 kaynak kaydı taşıyor; migrasyon kuralları `legacy-inhabitant-migration-v1` kaynağıyla izleniyor.
-- `npm run check:migration` Vite build başlangıcına ve GitHub Actions hattına bağlandı.
+- GitHub Actions koşusunda envanter, eski şema, sınıflandırma, kaynak modeli, migrasyon, yeni katalog, production build ve native paket kontrollerinin tamamı geçti.
+- CI sırasında GitHub’daki eksik tatlı ve tuzlu su runtime arşivleri yereldeki tam kaynaklarla yenilendi; blob özetleri tam kaynaklarla eşleşiyor.
 - Tarayıcı duman testi çalışma ortamının yerel adresleri engellemesi nedeniyle dışarıdan doğrulanamadı; `AKV-ARCH-001` ve `AKV-TEST-001` hâlâ `REVIEW` durumunda.
 
 ## P1 — Veri modeli ve katalog
@@ -42,24 +41,24 @@
 | Kimlik | Durum | Görev | Bağımlılık | Kabul özeti |
 |---|---|---|---|---|
 | AKV-DATA-010 | DONE | Balık/omurgasız/mercan dosyalarını ayır | DATA-002 | Ayrı koleksiyonlar, ortak arama indeksi |
-| AKV-DATA-011 | REVIEW | Mevcut 580 kaydı yeni modele migrate et | DATA-010 | Kimlikler korunur, kayıp kayıt yok |
-| AKV-DATA-012 | TODO | Bilimsel ad/kimlik tekrar denetimi | DATA-011 | Rapor ve çözüm listesi oluşur |
+| AKV-DATA-011 | DONE | Mevcut 580 kaydı yeni modele migrate et | DATA-010 | Kimlikler korunur, kayıp kayıt yok |
+| AKV-DATA-012 | READY | Bilimsel ad/kimlik tekrar denetimi | DATA-011 | Rapor ve çözüm listesi oluşur |
 | AKV-DATA-013 | TODO | Zorluk ve sosyal yapı alanlarını doldurma partisi 1 | DATA-011 | En popüler 100 kayıt tamamlanır |
 | AKV-DATA-014 | TODO | Tank uzunluğu alanını doldurma partisi 1 | DATA-011 | En popüler 100 kayıt tamamlanır |
 | AKV-PLANT-001 | TODO | Bitki şemasını oluştur | DATA-001 | 26 bitki migrate edilir |
 | AKV-SUB-001 | TODO | Taban şemasını oluştur | DATA-001 | 8 taban migrate edilir |
 | AKV-UI-010 | READY | Kategori ve gelişmiş filtreler | DATA-002 | URL’de korunabilen filtreler |
-| AKV-UI-011 | TODO | Bilimsel/eş ad araması | DATA-011 | Türkçe/İngilizce/bilimsel arama çalışır |
-| AKV-UI-012 | TODO | Canlı ayrıntı paneli/sayfası | DATA-011 | Kaynak ve bakım tablosu görünür |
+| AKV-UI-011 | READY | Bilimsel/eş ad araması | DATA-011 | Türkçe/İngilizce/bilimsel arama çalışır |
+| AKV-UI-012 | READY | Canlı ayrıntı paneli/sayfası | DATA-011 | Kaynak ve bakım tablosu görünür |
 
 ## P1 — Motor 2.0 çekirdeği
 
 | Kimlik | Durum | Görev | Bağımlılık | Kabul özeti |
 |---|---|---|---|---|
-| AKV-ENG-010 | TODO | Hacim, biyolojik yük ve davranış alanını ayır | DATA-011 | Üç bağımsız sonuç hesaplanır |
+| AKV-ENG-010 | READY | Hacim, biyolojik yük ve davranış alanını ayır | DATA-011 | Üç bağımsız sonuç hesaplanır |
 | AKV-ENG-011 | TODO | Sürü/çift/harem/cinsiyet kuralları | DATA-013 | Sosyal yapı testleri geçer |
 | AKV-ENG-012 | TODO | Aynı tür ve yakın tür agresyonu | DATA-013 | Conspecific kuralları veri tabanlıdır |
-| AKV-ENG-013 | TODO | Avcı-av modeli | DATA-011 | Ağız boyu + canlı boyu + istisna kullanır |
+| AKV-ENG-013 | READY | Avcı-av modeli | DATA-011 | Ağız boyu + canlı boyu + istisna kullanır |
 | AKV-ENG-014 | READY | Omurgasız ve mercan güvenliği ayrımı | DATA-010 | Soft/LPS/SPS ve shrimp/snail ayrı değerlendirilir |
 | AKV-ENG-015 | READY | Tür çifti istisna tablosu | DATA-003 | En az 50 doğrulanmış istisna |
 | AKV-ENG-016 | TODO | Yeni alt skor sistemi | ENG-010..015 | Dört alt puan ve açıklama |
