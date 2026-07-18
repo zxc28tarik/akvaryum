@@ -7,7 +7,9 @@ import react from '@vitejs/plugin-react';
 import { defineConfig } from 'vite';
 
 import { buildLegacyFishClassification } from './scripts/lib/classify-legacy-fish.mjs';
+import { buildRuntimeSourceProvenanceBootstrap } from './scripts/lib/source-provenance.mjs';
 import { validateRepositoryData } from './scripts/lib/validate-data-schema.mjs';
+import { validateSourceProvenance } from './scripts/lib/validate-source-provenance.mjs';
 
 const repositoryRoot = dirname(fileURLToPath(import.meta.url));
 const publicPrefix = 'virtual:akvaryum/';
@@ -44,8 +46,12 @@ function nativeLegacyModules() {
 
     buildStart() {
       const report = validateRepositoryData(repositoryRoot);
+      const sourceReport = validateSourceProvenance(repositoryRoot);
       this.info(
         `AKVARYUM veri şeması doğrulandı: ${report.totalEntities} kayıt, ${report.fish} canlı.`,
+      );
+      this.info(
+        `AKVARYUM kaynak modeli doğrulandı: ${sourceReport.sources} kaynak, ${sourceReport.fieldLinks} alan bağlantısı.`,
       );
     },
 
@@ -92,6 +98,7 @@ function nativeLegacyModules() {
             "import 'virtual:akvaryum/fish-fresh.js';",
             "import 'virtual:akvaryum/fish-salt.js';",
             source,
+            buildRuntimeSourceProvenanceBootstrap(),
           ].join('\n');
 
         case 'engine.js':
