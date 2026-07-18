@@ -106,6 +106,17 @@ Projenin veri ekledikçe veya özellik büyüttükçe dağılmasını engellemek
 - **Sonuçlar:** Kaynak kimliği bulunmayan, kataloğa bağlanmayan veya alan desteği tutarsız kayıt build’i durdurur. `verified` kayıt yalnız doğrulanmış kaynaklarla oluşturulabilir. Mevcut 620 kayıt doğrulama kuyruğunda kalır.
 - **Etkilenen görevler:** AKV-DATA-003, AKV-DATA-010, AKV-DATA-011, AKV-DATA-012, AKV-ENG-015, AKV-FEED-001, AKV-SEO-001
 
+### ADR-012 — Ayrı canlı koleksiyonları tek ana kayıttan türetilir
+
+- **Tarih:** 19 Temmuz 2026
+- **Durum:** Kabul
+- **Bağlam:** Balık, omurgasız ve mercanların ayrı kataloglarda kullanılması gerekiyor; ancak 580 kaydı üç ayrı veri kopyasına bölmek kimlik, kaynak ve bakım alanlarının zamanla birbirinden sapmasına neden olabilir.
+- **Karar:** `DB.fish` geçiş süresince tek ana kayıt dizisi olarak korunacak. `data/catalog/fish.mjs`, `invertebrates.mjs` ve `corals.mjs` kayıtları `entityType` üzerinden seçen modüller olacak. Production verisinde ayrı koleksiyonlar ve ortak arama indeksi `DB.inhabitantCatalog` altında üretilecek.
+- **Neden:** Mevcut arayüzü bozmadan kategori ayrımı sağlamak, veri kopyasını önlemek ve `AKV-DATA-011` migrasyonuna tek doğruluk kaynağıyla girmek.
+- **Alternatifler:** 580 tam kaydı üç JSON dosyasına kopyalamak, eski `DB.fish` alanını hemen kaldırmak veya koleksiyon ayrımını yalnız arayüz filtrelerine bırakmak.
+- **Sonuçlar:** Başlangıçta 467 balık, 63 omurgasız ve 50 mercan koleksiyonu oluşur. Bilinmeyen `entityType`, kayıt kaybı, çifte üyelik veya eksik arama indeksi build’i durdurur. Yeni katalog özellikleri `DB.inhabitantCatalog` kullanır; eski ekranlar geçici olarak `DB.fish` ile çalışmaya devam eder.
+- **Etkilenen görevler:** AKV-DATA-010, AKV-DATA-011, AKV-DATA-012, AKV-CORAL-001, AKV-INVERT-001, AKV-UI-010, AKV-UI-011, AKV-ENG-014
+
 ## Şimdilik kapsam dışı
 
 Temel aşamalar bitene kadar:
