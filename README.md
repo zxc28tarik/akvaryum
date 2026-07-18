@@ -8,11 +8,11 @@ Projenin mevcut statik sürümü kökte korunmaktadır. Yeni Vite + React yapıs
 
 Büyük eski kaynak arşivleri geçici olarak yalnız Vite build sırasında Node.js ile açılır ve normal JavaScript/CSS paketine çevrilir. Tarayıcıya `.gz.b64` dosyaları veya kaynak derleyici gönderilmez.
 
-Ortak veri sözleşmesi `schemas/akvaryum.schema.json` dosyasındadır. Şema; mevcut canlı, bitki, taban ve tank kayıtlarını doğrular, ayrıca yeni veri modelinin ortak alanlarını tanımlar.
+Ortak eski-veri sözleşmesi `schemas/akvaryum.schema.json`, yeni canlı sözleşmesi ise `schemas/inhabitant-v1.schema.json` dosyasındadır. Production build, 580 legacy canlı kaydını kimlikleri değiştirmeden `Inhabitant v1` modeline taşır.
 
 Kaynak kataloğu `data/sources/source-catalog.json`, kaynak ve doğrulama sözleşmesi ise `schemas/source-provenance.schema.json` dosyasındadır. Uygulama verileri `sourceIds`, alan bazlı `fieldSourceIds` ve `verification` bilgisi taşır. Eski veriler dış kaynaklarla doğrulanana kadar `needs_review` durumunda kalır.
 
-Canlı katalog modülleri `data/catalog/` altındadır. Tek ana canlı dizisi build sırasında balık, omurgasız ve mercan koleksiyonlarına ayrılır; bütün kayıtlar aynı ortak arama indeksinde tutulur. Mevcut `DB.fish` alanı eski arayüz uyumluluğu için korunur, yeni erişim noktası `DB.inhabitantCatalog` alanıdır.
+Canlı katalog modülleri `data/catalog/` altındadır. Yeni modeldeki 580 kayıt balık, omurgasız ve mercan koleksiyonlarına ayrılır; bütün kayıtlar aynı ortak arama indeksinde tutulur. `DB.fish` eski arayüz uyumluluğu için korunur, yeni ana model `DB.inhabitants`, katalog erişimi ise `DB.inhabitantCatalog` alanıdır.
 
 ## Mevcut statik sürüm
 
@@ -30,6 +30,7 @@ npm run check:legacy
 npm run check:schema
 npm run check:classification
 npm run check:sources
+npm run check:migration
 npm run check:catalog
 npm run dev
 ```
@@ -41,6 +42,7 @@ npm run check:legacy
 npm run check:schema
 npm run check:classification
 npm run check:sources
+npm run check:migration
 npm run check:catalog
 npm run build
 npm run check:native
@@ -48,19 +50,25 @@ npm run preview
 ```
 
 - `check:legacy`: canlı, bitki ve taban sayılarıyla canlı kimliği tekrarlarını kontrol eder.
-- `check:schema`: 620 kaydın alan tiplerini, zorunlu değerlerini, bütün kimliklerini ve sayısal aralıklarını ortak JSON Schema ile doğrular.
+- `check:schema`: 620 eski kaydın alan tiplerini, zorunlu değerlerini, bütün kimliklerini ve sayısal aralıklarını doğrular.
 - `check:classification`: 580 canlıda `entityType`, kategori, cins ve aile kapsamını doğrular.
-- `check:sources`: kaynak kataloğunu, 620 kaydın kaynak kimliklerini, 2.940 alan-kaynak bağlantısını ve doğrulama durumlarını denetler.
-- `check:catalog`: 580 canlıyı balık, omurgasız ve mercan koleksiyonlarına ayırır; kayıt kaybı, çifte üyelik, bilinmeyen `entityType` ve eksik arama indeksi durumlarını reddeder.
-- `build`: başlamadan önce veri, kaynak ve katalog doğrulamalarını otomatik olarak yeniden çalıştırır.
+- `check:sources`: kaynak kataloğunu, kayıtların kaynak kimliklerini, alan-kaynak bağlantılarını ve doğrulama durumlarını denetler.
+- `check:migration`: 580 legacy kayıtla 580 `Inhabitant v1` kaydını birebir karşılaştırır; kimlik, doğrudan değer ve kaynak kaybını reddeder.
+- `check:catalog`: yeni modeldeki 580 canlıyı balık, omurgasız ve mercan koleksiyonlarına ayırır; kayıt kaybı, çifte üyelik ve eksik arama indeksi durumlarını reddeder.
+- `build`: başlamadan önce veri, kaynak, migrasyon ve katalog doğrulamalarını otomatik olarak yeniden çalıştırır.
 - `check:native`: production paketinde eski runtime yükleyicisi, Babel standalone, gzip açıcı veya `eval` bulunmadığını doğrular.
 - Build çıktısı `dist/` klasörüne yazılır.
 - GitHub Pages taban yolu `/akvaryum/` olarak ayarlanmıştır.
 
-## Yeni canlı katalog erişimi
+## Yeni canlı modeli
 
 ```js
+const inhabitants = window.DB.inhabitants;
 const { collections, searchIndex, counts } = window.DB.inhabitantCatalog;
+
+inhabitants[0].name.tr;
+inhabitants[0].water.temperatureC;
+inhabitants[0].migration.unknownFields;
 
 collections.fish;
 collections.invertebrates;
@@ -69,7 +77,7 @@ searchIndex;
 counts;
 ```
 
-Arama indeksi Türkçe ad, İngilizce ad, bilimsel ad, kimlik, kategori, canlı türü, cins ve aile alanlarını birlikte tarayabilecek biçimde hazırlanır.
+Eski veride bulunmayan etkinlik, bölgesellik, beslenme zorluğu, akıntı, oksijen ve bakım zorluğu gibi alanlar tahmin edilmez; `unknown` olarak işaretlenir ve veri tamamlama görevlerine bırakılır.
 
 ## Kaynaklandırma ilkesi
 
