@@ -1,6 +1,6 @@
 # Plan Paketi İçeriği ve GitHub Durumu
 
-**Son güncelleme:** 18 Temmuz 2026
+**Son güncelleme:** 19 Temmuz 2026
 
 | Dosya | Amaç | GitHub durumu |
 |---|---|---|
@@ -24,5 +24,6 @@
 | `17_PROJEYE_YUKLEME_VE_AI_CALISMA_TALIMATI.md` | Modeller için çalışma talimatı | Yüklendi |
 | `18_AKV_DATA_001_VERI_SEMASI_UYGULAMA_NOTU.md` | Ortak veri şeması uygulama sonucu | Yüklendi |
 | `19_AKV_DATA_003_KAYNAK_VE_DOGRULAMA_UYGULAMASI.md` | Kaynak ve doğrulama modeli uygulama sonucu | Yüklendi |
+| `20_AKV_DATA_010_KATALOG_AYRIMI.md` | Balık, omurgasız, mercan koleksiyonları ve ortak arama indeksi | Yüklendi |
 
 Planın tamamı yerel ZIP paketinde korunmaktadır. GitHub’a aktarılan dosyalar aktif geliştirme sırasında öncelikli kaynak kabul edilir; kalan uzmanlık belgeleri ilgili göreve başlanmadan önce depoya eklenir.
