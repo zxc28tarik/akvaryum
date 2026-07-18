@@ -4,6 +4,7 @@ import vm from 'node:vm';
 import { gunzipSync } from 'node:zlib';
 
 import { enrichLegacyFish } from './classify-legacy-fish.mjs';
+import { applySourceProvenance } from './source-provenance.mjs';
 
 function readText(repositoryRoot, relativePath) {
   return readFileSync(resolve(repositoryRoot, relativePath), 'utf8');
@@ -14,7 +15,7 @@ function readArchive(repositoryRoot, relativePath) {
   return gunzipSync(Buffer.from(encoded, 'base64')).toString('utf8');
 }
 
-export function loadLegacyData(repositoryRoot) {
+export function loadLegacyData(repositoryRoot, { withProvenance = false } = {}) {
   const context = vm.createContext({ window: {} });
   const run = (source, filename) =>
     new vm.Script(source, { filename }).runInContext(context);
@@ -30,6 +31,7 @@ export function loadLegacyData(repositoryRoot) {
   context.window.DB_SALT = enrichLegacyFish(context.window.DB_SALT ?? [], saltSource);
 
   run(readText(repositoryRoot, 'data.js'), 'data.js');
+  if (withProvenance) applySourceProvenance(context.window.DB);
   run(readText(repositoryRoot, 'engine.js'), 'engine.js');
 
   return {
@@ -39,6 +41,8 @@ export function loadLegacyData(repositoryRoot) {
     plants: context.window.DB?.plants ?? [],
     substrates: context.window.DB?.substrates ?? [],
     tankPresets: context.window.DB?.tankPresets ?? [],
+    sources: context.window.DB?.sources ?? [],
+    sourceCatalogVersion: context.window.DB?.sourceCatalogVersion ?? null,
     engine: context.window.Engine,
   };
 }
