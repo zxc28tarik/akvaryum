@@ -1,7 +1,7 @@
 # AKV-DATA-011 — Inhabitant v1 Migrasyonu
 
 **Tarih:** 19 Temmuz 2026  
-**Durum:** İnceleme / CI doğrulaması bekliyor
+**Durum:** Tamamlandı
 
 ## Amaç
 
@@ -120,9 +120,9 @@ Kontrol şu durumlarda hata verir:
 
 Migrasyon kontrolü Vite `buildStart` aşamasına ve GitHub Actions hattına bağlanmıştır.
 
-## Kabul özeti
+## Kabul sonucu
 
-Görev GitHub Actions doğrulaması başarılı olduktan sonra `DONE` yapılacaktır. Beklenen sonuç:
+GitHub Actions `Vite doğrulama` koşusu başarılı tamamlandı:
 
 ```text
 Legacy kayıt: 580
@@ -134,6 +134,12 @@ Mercan: 50
 Kayıp doğrudan değer: 0
 Kayıp kaynak kimliği: 0
 ```
+
+Aynı koşuda envanter, eski şema, sınıflandırma, kaynak modeli, yeni katalog, production build ve native paket kontrolleri de geçti.
+
+## Ek düzeltme
+
+CI doğrulaması sırasında GitHub’daki iki eski `.runtime` canlı arşivinin eksik yüklendiği tespit edildi. Tatlı ve tuzlu su arşivleri yerelde korunmuş tam kaynaklarla yenilendi; yeni Git blob özetleri tam yerel kaynaklarla eşleşti.
 
 ## Sonraki görev
 
