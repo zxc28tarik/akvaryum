@@ -1,0 +1,257 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://zxc28tarik.github.io/akvaryum/schemas/inhabitant-v1.schema.json",
+  "title": "AKVARYUM Inhabitant v1",
+  "type": "array",
+  "items": { "$ref": "#/$defs/inhabitant" },
+  "$defs": {
+    "slugId": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 120,
+      "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$"
+    },
+    "nonEmptyText": { "type": "string", "minLength": 1 },
+    "localizedText": {
+      "type": "object",
+      "required": ["tr", "en"],
+      "additionalProperties": false,
+      "properties": {
+        "tr": { "$ref": "#/$defs/nonEmptyText" },
+        "en": { "$ref": "#/$defs/nonEmptyText" }
+      }
+    },
+    "numberRange": {
+      "type": "array",
+      "minItems": 2,
+      "maxItems": 2,
+      "prefixItems": [{ "type": "number" }, { "type": "number" }],
+      "items": false
+    },
+    "positiveRange": {
+      "type": "array",
+      "minItems": 2,
+      "maxItems": 2,
+      "prefixItems": [
+        { "type": "number", "exclusiveMinimum": 0 },
+        { "type": "number", "exclusiveMinimum": 0 }
+      ],
+      "items": false
+    },
+    "sourceIds": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": { "$ref": "#/$defs/slugId" }
+    },
+    "fieldSourceIds": {
+      "type": "object",
+      "minProperties": 1,
+      "additionalProperties": { "$ref": "#/$defs/sourceIds" }
+    },
+    "inhabitant": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id", "status", "name", "scientificName", "aliases", "entityType",
+        "category", "taxonomy", "tags", "summary", "water", "size", "tank",
+        "social", "behavior", "feeding", "compatibility", "habitat", "care",
+        "appearance", "notes", "sourceIds", "fieldSourceIds", "verification",
+        "dataVersion", "migration"
+      ],
+      "properties": {
+        "id": { "$ref": "#/$defs/slugId" },
+        "status": { "enum": ["draft", "reviewed", "verified", "needs_update", "deprecated"] },
+        "name": { "$ref": "#/$defs/localizedText" },
+        "scientificName": { "$ref": "#/$defs/nonEmptyText" },
+        "aliases": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": { "$ref": "#/$defs/nonEmptyText" }
+        },
+        "entityType": {
+          "enum": [
+            "freshwater_fish", "brackish_fish", "marine_fish",
+            "freshwater_shrimp", "marine_shrimp", "snail", "crab", "crayfish",
+            "bivalve", "echinoderm", "anemone", "soft_coral", "lps_coral",
+            "sps_coral", "other_invertebrate"
+          ]
+        },
+        "category": { "$ref": "#/$defs/nonEmptyText" },
+        "taxonomy": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["genus", "family", "reviewStatus"],
+          "properties": {
+            "genus": { "type": ["string", "null"], "minLength": 1 },
+            "family": { "type": ["string", "null"], "minLength": 1 },
+            "reviewStatus": { "enum": ["inferred", "needs_review", "reviewed", "verified"] }
+          }
+        },
+        "tags": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": { "$ref": "#/$defs/nonEmptyText" }
+        },
+        "summary": { "$ref": "#/$defs/localizedText" },
+        "water": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["types", "temperatureC", "pH", "gh"],
+          "properties": {
+            "types": {
+              "type": "array",
+              "minItems": 1,
+              "uniqueItems": true,
+              "items": { "enum": ["fresh", "brackish", "salt"] }
+            },
+            "temperatureC": { "$ref": "#/$defs/numberRange" },
+            "pH": { "$ref": "#/$defs/numberRange" },
+            "gh": { "$ref": "#/$defs/numberRange" },
+            "salinityPpt": { "$ref": "#/$defs/numberRange" }
+          }
+        },
+        "size": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["adultCm"],
+          "properties": {
+            "adultCm": { "$ref": "#/$defs/positiveRange" }
+          }
+        },
+        "tank": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["minVolumeL", "additionalVolumePerInhabitantL"],
+          "properties": {
+            "minVolumeL": { "type": "number", "exclusiveMinimum": 0 },
+            "additionalVolumePerInhabitantL": { "type": "number", "exclusiveMinimum": 0 }
+          }
+        },
+        "social": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["mode", "conspecificAggression", "territoriality"],
+          "properties": {
+            "mode": { "enum": ["solitary", "pair", "harem", "group", "school", "colony", "unknown"] },
+            "minGroup": { "type": "integer", "minimum": 1 },
+            "recommendedGroup": { "type": "integer", "minimum": 1 },
+            "conspecificAggression": { "enum": ["none", "low", "medium", "high", "extreme", "unknown"] },
+            "territoriality": { "enum": ["none", "low", "medium", "high", "unknown"] }
+          }
+        },
+        "behavior": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["temperament", "activity", "zone", "finNipper", "longFinned"],
+          "properties": {
+            "temperament": { "enum": ["peaceful", "semi_aggressive", "aggressive", "predatory", "unknown"] },
+            "activity": { "enum": ["slow", "moderate", "active", "very_active", "unknown"] },
+            "zone": {
+              "type": "array",
+              "minItems": 1,
+              "uniqueItems": true,
+              "items": { "enum": ["surface", "mid", "bottom", "rockwork", "sand", "open_water", "unknown"] }
+            },
+            "finNipper": { "type": "boolean" },
+            "longFinned": { "type": "boolean" }
+          }
+        },
+        "feeding": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["diet", "feedingDifficulty"],
+          "properties": {
+            "diet": {
+              "type": "array",
+              "minItems": 1,
+              "uniqueItems": true,
+              "items": { "enum": ["herbivore", "omnivore", "carnivore", "planktivore", "filter_feeder", "unknown"] }
+            },
+            "feedingDifficulty": { "enum": ["easy", "medium", "hard", "expert", "unknown"] }
+          }
+        },
+        "compatibility": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["plantSafe", "coralSafe"],
+          "properties": {
+            "plantSafe": { "type": "boolean" },
+            "coralSafe": { "enum": ["yes", "with_caution", "no", "not_applicable", "unknown"] }
+          }
+        },
+        "habitat": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["flow", "oxygen", "substrate", "shelter"],
+          "properties": {
+            "flow": { "enum": ["low", "medium", "high", "variable", "unknown"] },
+            "oxygen": { "enum": ["normal", "high", "unknown"] },
+            "substrate": { "type": "array", "items": { "$ref": "#/$defs/nonEmptyText" } },
+            "shelter": { "type": "array", "items": { "$ref": "#/$defs/nonEmptyText" } }
+          }
+        },
+        "care": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["difficulty", "sensitiveTo", "specialWarnings"],
+          "properties": {
+            "difficulty": { "enum": ["beginner", "intermediate", "advanced", "expert", "unknown"] },
+            "sensitiveTo": { "type": "array", "items": { "$ref": "#/$defs/nonEmptyText" } },
+            "specialWarnings": { "type": "array", "items": { "$ref": "#/$defs/localizedText" } }
+          }
+        },
+        "appearance": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["silhouette", "colors"],
+          "properties": {
+            "silhouette": { "enum": ["classic", "long", "round", "tall", "eel"] },
+            "colors": {
+              "type": "array",
+              "minItems": 2,
+              "maxItems": 2,
+              "items": { "type": "string", "pattern": "^#[0-9a-fA-F]{6}$" }
+            }
+          }
+        },
+        "notes": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["tr", "en"],
+          "properties": {
+            "tr": { "type": "string" },
+            "en": { "type": "string" }
+          }
+        },
+        "sourceIds": { "$ref": "#/$defs/sourceIds" },
+        "fieldSourceIds": { "$ref": "#/$defs/fieldSourceIds" },
+        "verification": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["status", "confidence", "notes"],
+          "properties": {
+            "status": { "enum": ["needs_review", "reviewed", "verified", "rejected"] },
+            "confidence": { "enum": ["low", "medium", "high"] },
+            "notes": { "type": "array", "items": { "$ref": "#/$defs/nonEmptyText" } }
+          }
+        },
+        "dataVersion": { "const": 1 },
+        "migration": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["sourceModel", "targetModel", "schemaVersion", "directFields", "derivedFields", "unknownFields"],
+          "properties": {
+            "sourceModel": { "const": "legacyFishV1" },
+            "targetModel": { "const": "inhabitantV1" },
+            "schemaVersion": { "const": 1 },
+            "directFields": { "type": "array", "minItems": 1, "uniqueItems": true, "items": { "$ref": "#/$defs/nonEmptyText" } },
+            "derivedFields": { "type": "array", "minItems": 1, "uniqueItems": true, "items": { "$ref": "#/$defs/nonEmptyText" } },
+            "unknownFields": { "type": "array", "minItems": 1, "uniqueItems": true, "items": { "$ref": "#/$defs/nonEmptyText" } }
+          }
+        }
+      }
+    }
+  }
+}
