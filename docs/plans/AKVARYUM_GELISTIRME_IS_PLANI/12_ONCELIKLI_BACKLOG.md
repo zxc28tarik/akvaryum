@@ -9,24 +9,26 @@
 | AKV-TEST-001 | REVIEW | Veri envanter testi oluştur | Yok | Sayılar ve benzersiz kimlikler doğrulanır |
 | AKV-DATA-001 | DONE | Ortak veri şeması oluştur | ARCH-001 | Şema build sırasında çalışır |
 | AKV-DATA-002 | DONE | `entityType/category/family` alanlarını ekle | DATA-001 | 580 kayıt kategorilenir |
-| AKV-DATA-003 | READY | Kaynak ve doğrulama modeli ekle | DATA-001 | Kayıtlar kaynak kimliği taşıyabilir |
+| AKV-DATA-003 | DONE | Kaynak ve doğrulama modeli ekle | DATA-001 | Kayıtlar kaynak kimliği taşıyabilir |
 | AKV-ENG-001 | READY | Parametre ortak aralık hatasını düzelt | TEST-001 | Çakışma yoksa sonuç `null` ve kritik sorun |
 | AKV-ENG-002 | READY | Kural çıktı tipini standartlaştır | DATA-001 | Her sonuç `ruleId/severity/resolution` taşır |
 | AKV-I18N-001 | TODO | TR/EN anahtar bütünlüğü testi | TEST-001 | Eksik veya fazla anahtar CI’da hata verir |
 | AKV-UI-001 | TODO | Mobil ana akış duman testi ve düzeltme | ARCH-001 | 360 px genişlikte taşma yok |
 
-### Aktif çalışma notu — 16 Temmuz 2026
+### Aktif çalışma notu — 18 Temmuz 2026
 
 - `vite-app/` altında Vite + React geçiş yapısı kuruldu; kökteki mevcut statik sürüm korunuyor.
 - `AKV-ARCH-002` tamamlandı: production paketinden tarayıcı içi Babel, `eval`, `DecompressionStream` ve runtime `.gz.b64` yükleme kaldırıldı.
 - `AKV-DATA-001` tamamlandı: ortak JSON Schema, build başlangıcı ve GitHub Actions doğrulaması kuruldu.
 - `AKV-DATA-002` tamamlandı: 580 canlı kaydı `entityType`, kontrollü `category` ve `taxonomy` alanlarıyla zenginleştirildi.
 - Sınıflandırma sonucu: 256 tatlı su balığı, 211 deniz balığı ve 113 omurgasız/mercan kaydı.
-- 580 kaydın tamamında aile alanı var; aileler kaynak doğrulaması tamamlanana kadar `inferred` durumunda tutuluyor.
+- 580 kaydın tamamında aile alanı var; aileler dış kaynak doğrulaması tamamlanana kadar `inferred` durumunda tutuluyor.
 - 579 kaydın cinsi bilimsel addan çıkarıldı. Yapay melez `flowerhorn` kaydı `needs_review` olarak işaretlendi.
-- `npm run check:classification` eklendi ve GitHub Actions hattına bağlandı.
-- Sınıflandırma Vite production verisine de uygulanıyor; test ve uygulama aynı çekirdeği kullanıyor.
-- Son yerel production kontrolü başarılı: 580 canlı, 620 toplam kayıt, yinelenen kimlik 0, bozuk aralık 0.
+- `AKV-DATA-003` tamamlandı: 8 kayıtlık kaynak kataloğu ve ayrı kaynak/doğrulama JSON Schema eklendi.
+- 620 veri kaydının tamamı `sourceIds`, alan bazlı `fieldSourceIds` ve `verification` bilgisi taşıyor.
+- Kaynak doğrulaması 2.940 alan-kaynak bağlantısını denetliyor; çözülemeyen kaynak kimliği yok.
+- Eski 620 kaydın tamamı bilinçli olarak `needs_review/low` durumda; dış doğrulama yapılmadan hiçbir kayıt `verified` sayılmıyor.
+- `npm run check:sources` Vite build başlangıcına ve GitHub Actions hattına bağlandı.
 - Tarayıcı duman testi çalışma ortamının yerel adresleri engellemesi nedeniyle dışarıdan doğrulanamadı; `AKV-ARCH-001` ve `AKV-TEST-001` hâlâ `REVIEW` durumunda.
 
 ## P1 — Veri modeli ve katalog
@@ -53,7 +55,7 @@
 | AKV-ENG-012 | TODO | Aynı tür ve yakın tür agresyonu | DATA-013 | Conspecific kuralları veri tabanlıdır |
 | AKV-ENG-013 | TODO | Avcı-av modeli | DATA-011 | Ağız boyu + canlı boyu + istisna kullanır |
 | AKV-ENG-014 | TODO | Omurgasız ve mercan güvenliği ayrımı | DATA-010 | Soft/LPS/SPS ve shrimp/snail ayrı değerlendirilir |
-| AKV-ENG-015 | TODO | Tür çifti istisna tablosu | DATA-003 | En az 50 doğrulanmış istisna |
+| AKV-ENG-015 | READY | Tür çifti istisna tablosu | DATA-003 | En az 50 doğrulanmış istisna |
 | AKV-ENG-016 | TODO | Yeni alt skor sistemi | ENG-010..015 | Dört alt puan ve açıklama |
 | AKV-TEST-010 | TODO | 100 altın motor senaryosu | ENG-002 | Tüm senaryolar CI’da çalışır |
 
@@ -89,7 +91,7 @@
 | AKV-PERF-001 | READY | Paket ve render performans bütçesi | ARCH-002 | Bütçe aşımı CI uyarısı/hatası |
 | AKV-SEO-001 | TODO | Canlı ayrıntı sayfalarının indekslenmesi | UI-012 | Canonical, meta, sitemap |
 | AKV-SEO-002 | TODO | İlk 10 rehber içeriği | SEO-001 | Kaynaklı ve iki dilli plan |
-| AKV-FEED-001 | TODO | Hatalı veri bildirme akışı | DATA-003 | Alan ve kaynakla bildirim |
+| AKV-FEED-001 | READY | Hatalı veri bildirme akışı | DATA-003 | Alan ve kaynakla bildirim |
 | AKV-AN-001 | TODO | Gizlilik dostu ürün analitiği | UI-020 | Kişisel veri olmadan olaylar |
 
 ## Öncelik kuralı
