@@ -6,8 +6,10 @@ import { gunzipSync } from 'node:zlib';
 import react from '@vitejs/plugin-react';
 import { defineConfig } from 'vite';
 
+import { buildRuntimeInhabitantCatalogBootstrap } from './data/catalog/index.mjs';
 import { buildLegacyFishClassification } from './scripts/lib/classify-legacy-fish.mjs';
 import { buildRuntimeSourceProvenanceBootstrap } from './scripts/lib/source-provenance.mjs';
+import { validateInhabitantCatalog } from './scripts/lib/validate-inhabitant-catalog.mjs';
 import { validateRepositoryData } from './scripts/lib/validate-data-schema.mjs';
 import { validateSourceProvenance } from './scripts/lib/validate-source-provenance.mjs';
 
@@ -47,11 +49,15 @@ function nativeLegacyModules() {
     buildStart() {
       const report = validateRepositoryData(repositoryRoot);
       const sourceReport = validateSourceProvenance(repositoryRoot);
+      const catalogReport = validateInhabitantCatalog(repositoryRoot);
       this.info(
         `AKVARYUM veri şeması doğrulandı: ${report.totalEntities} kayıt, ${report.fish} canlı.`,
       );
       this.info(
         `AKVARYUM kaynak modeli doğrulandı: ${sourceReport.sources} kaynak, ${sourceReport.fieldLinks} alan bağlantısı.`,
+      );
+      this.info(
+        `AKVARYUM canlı kataloğu doğrulandı: ${catalogReport.fish} balık, ${catalogReport.invertebrates} omurgasız, ${catalogReport.corals} mercan.`,
       );
     },
 
@@ -99,6 +105,7 @@ function nativeLegacyModules() {
             "import 'virtual:akvaryum/fish-salt.js';",
             source,
             buildRuntimeSourceProvenanceBootstrap(),
+            buildRuntimeInhabitantCatalogBootstrap(),
           ].join('\n');
 
         case 'engine.js':
