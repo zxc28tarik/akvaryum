@@ -35,6 +35,9 @@ jobs:
       - name: Canlı sınıflandırmasını doğrula
         run: npm run check:classification
 
+      - name: Kaynak ve doğrulama modelini doğrula
+        run: npm run check:sources
+
       - name: Production build al
         run: npm run build
 
