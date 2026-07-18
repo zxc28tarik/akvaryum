@@ -95,6 +95,17 @@ Projenin veri ekledikçe veya özellik büyüttükçe dağılmasını engellemek
 - **Sonuçlar:** 580 kaydın tamamı sınıflandırılabilir ve filtrelenebilir. `AKV-DATA-003` sonrasında aile ve kabul edilmiş adlar kaynak kimlikleriyle doğrulanır. Yapay melez gibi cinsi olmayan kayıtlar açık inceleme durumunda kalır.
 - **Etkilenen görevler:** AKV-DATA-002, AKV-DATA-003, AKV-DATA-010, AKV-DATA-011, AKV-UI-010
 
+### ADR-011 — Kaynak varlığı ile doğrulanmış bilgi birbirinden ayrılır
+
+- **Tarih:** 18 Temmuz 2026
+- **Durum:** Kabul
+- **Bağlam:** Eski prototip verilerinin hangi dosyadan geldiği biliniyor; fakat bu dosyaların varlığı bakım değerlerinin bilimsel veya kurumsal olarak doğrulandığı anlamına gelmiyor.
+- **Karar:** Her kayıt `sourceIds`, alan bazlı `fieldSourceIds` ve ayrı `verification` durumu taşıyacak. İç eski dosyalar `internal_legacy`, otomatik türetilen alanlar `derived` kaynak türü sayılacak. Dış doğrulama yapılmayan kayıtlar `needs_review/low` durumda kalacak.
+- **Neden:** Kaynak izini kaybetmeden doğrulanmamış bilgiyi kesin gerçek gibi göstermemek ve daha sonra alan bazında güvenilir kaynak ekleyebilmek.
+- **Alternatifler:** Kaynak dosyasını doğrulama saymak, bütün kaydı tek kaynakla ilişkilendirmek veya kaynaklandırmayı veri migrasyonunun sonuna bırakmak.
+- **Sonuçlar:** Kaynak kimliği bulunmayan, kataloğa bağlanmayan veya alan desteği tutarsız kayıt build’i durdurur. `verified` kayıt yalnız doğrulanmış kaynaklarla oluşturulabilir. Mevcut 620 kayıt doğrulama kuyruğunda kalır.
+- **Etkilenen görevler:** AKV-DATA-003, AKV-DATA-010, AKV-DATA-011, AKV-DATA-012, AKV-ENG-015, AKV-FEED-001, AKV-SEO-001
+
 ## Şimdilik kapsam dışı
 
 Temel aşamalar bitene kadar:
