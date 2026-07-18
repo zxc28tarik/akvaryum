@@ -11,7 +11,8 @@
     "check:native": "node scripts/check-native-build.mjs",
     "check:schema": "node scripts/check-data-schema.mjs",
     "check:classification": "node scripts/check-fish-classification.mjs",
-    "check:sources": "node scripts/check-source-provenance.mjs"
+    "check:sources": "node scripts/check-source-provenance.mjs",
+    "check:catalog": "node scripts/check-inhabitant-catalog.mjs"
   },
   "dependencies": {
     "react": "18.3.1",
