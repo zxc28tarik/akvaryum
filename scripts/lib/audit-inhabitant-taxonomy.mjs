@@ -58,7 +58,7 @@ function scientificKind(name) {
   if (/^hybrid\b/i.test(normalized) || /\bhybrid\b/i.test(normalized)) return 'hybrid_placeholder';
   if (/\(gen\)/i.test(normalized)) return 'genetic_marker';
   if (/\bvar\.?\s*$/i.test(normalized) || /\bvar\.\b/i.test(normalized)) return 'variety_placeholder';
-  if (/\bsp\.?\b/i.test(normalized)) return 'open_nomenclature';
+  if (/\b(?:sp|cf|aff)\.?(?:\s|$)/i.test(normalized)) return 'open_nomenclature';
   if (/^[A-Z][A-Za-z-]+\s+[a-z][A-Za-z-]+(?:\s+.*)?$/.test(normalized)) return 'binomial_or_extended';
   return 'nonstandard';
 }
@@ -120,7 +120,7 @@ export function auditInhabitantTaxonomy(inhabitants) {
       hybrid_placeholder: 'Melez ebeveynlerini ve gösterim biçimini kaynakla doğrula; uydurma cins/tür yazma.',
       genetic_marker: 'Genetik olarak değiştirilmiş ticari varyantı temel tür ve varyant etiketiyle ayrı göster.',
       variety_placeholder: 'Genel “var.” ifadesini kaldır; ticari varyant adını ayrı alan veya alias olarak kaydet.',
-      open_nomenclature: 'Tür düzeyi belirlenebiliyorsa doğrula; belirlenemiyorsa sp. kaydının nedenini açıkça not et.',
+      open_nomenclature: 'sp., cf. veya aff. kullanımını kaynakla doğrula; belirsizlik nedenini not et ve mümkünse tür düzeyinde güncelle.',
       nonstandard: 'Bilimsel ad biçimini ve kabul edilmiş taksonomik karşılığını doğrula.',
     };
     findings.push(makeFinding({
