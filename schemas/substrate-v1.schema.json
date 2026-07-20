@@ -1,0 +1,161 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://zxc28tarik.github.io/akvaryum/schemas/substrate-v1.schema.json",
+  "title": "AKVARYUM Substrate v1",
+  "type": "array",
+  "items": { "$ref": "#/$defs/substrate" },
+  "$defs": {
+    "slugId": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 120,
+      "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$"
+    },
+    "nonEmptyText": { "type": "string", "minLength": 1 },
+    "localizedText": {
+      "type": "object",
+      "required": ["tr", "en"],
+      "additionalProperties": false,
+      "properties": {
+        "tr": { "$ref": "#/$defs/nonEmptyText" },
+        "en": { "$ref": "#/$defs/nonEmptyText" }
+      }
+    },
+    "positiveRange": {
+      "type": "array",
+      "minItems": 2,
+      "maxItems": 2,
+      "prefixItems": [
+        { "type": "number", "exclusiveMinimum": 0 },
+        { "type": "number", "exclusiveMinimum": 0 }
+      ],
+      "items": false
+    },
+    "numberRange": {
+      "type": "array",
+      "minItems": 2,
+      "maxItems": 2,
+      "prefixItems": [{ "type": "number" }, { "type": "number" }],
+      "items": false
+    },
+    "sourceIds": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": { "$ref": "#/$defs/slugId" }
+    },
+    "fieldSourceIds": {
+      "type": "object",
+      "minProperties": 1,
+      "additionalProperties": { "$ref": "#/$defs/sourceIds" }
+    },
+    "stringList": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": { "$ref": "#/$defs/nonEmptyText" }
+    },
+    "substrate": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id", "status", "name", "aliases", "entityType", "category", "tags",
+        "summary", "waterTypes", "material", "grainSizeMm", "activeBuffering",
+        "targetPH", "phEffect", "khEffect", "ghEffect", "nutrientRich",
+        "plantFriendly", "burrowFriendly", "bottomFishSafe", "sharpnessRisk",
+        "recommendedDepthCm", "replacementMonths", "bestFor", "avoidFor",
+        "appearance", "sourceIds", "fieldSourceIds", "verification", "dataVersion",
+        "migration"
+      ],
+      "properties": {
+        "id": { "$ref": "#/$defs/slugId" },
+        "status": { "enum": ["draft", "reviewed", "verified", "needs_update", "deprecated"] },
+        "name": { "$ref": "#/$defs/localizedText" },
+        "aliases": { "$ref": "#/$defs/stringList" },
+        "entityType": { "const": "substrate" },
+        "category": { "enum": ["sand", "gravel", "soil", "rock", "other"] },
+        "tags": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": { "$ref": "#/$defs/nonEmptyText" }
+        },
+        "summary": { "$ref": "#/$defs/localizedText" },
+        "waterTypes": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": { "enum": ["fresh", "brackish", "salt"] }
+        },
+        "material": { "$ref": "#/$defs/nonEmptyText" },
+        "grainSizeMm": { "oneOf": [{ "$ref": "#/$defs/positiveRange" }, { "type": "null" }] },
+        "activeBuffering": { "type": "boolean" },
+        "targetPH": { "oneOf": [{ "$ref": "#/$defs/numberRange" }, { "type": "null" }] },
+        "phEffect": { "enum": ["lower", "neutral", "raise"] },
+        "khEffect": { "enum": ["lower", "neutral", "raise", "unknown"] },
+        "ghEffect": { "enum": ["lower", "neutral", "raise", "unknown"] },
+        "nutrientRich": { "type": ["boolean", "null"] },
+        "plantFriendly": { "type": "boolean" },
+        "burrowFriendly": { "type": ["boolean", "null"] },
+        "bottomFishSafe": { "type": ["boolean", "null"] },
+        "sharpnessRisk": { "enum": ["none", "low", "medium", "high", "unknown"] },
+        "recommendedDepthCm": { "oneOf": [{ "$ref": "#/$defs/positiveRange" }, { "type": "null" }] },
+        "replacementMonths": { "oneOf": [{ "$ref": "#/$defs/positiveRange" }, { "type": "null" }] },
+        "bestFor": { "$ref": "#/$defs/stringList" },
+        "avoidFor": { "$ref": "#/$defs/stringList" },
+        "appearance": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["color"],
+          "properties": {
+            "color": { "type": "string", "pattern": "^#[0-9a-fA-F]{6}$" }
+          }
+        },
+        "sourceIds": { "$ref": "#/$defs/sourceIds" },
+        "fieldSourceIds": { "$ref": "#/$defs/fieldSourceIds" },
+        "verification": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["status", "confidence", "notes"],
+          "properties": {
+            "status": { "enum": ["needs_review", "reviewed", "verified", "rejected"] },
+            "confidence": { "enum": ["low", "medium", "high"] },
+            "notes": {
+              "type": "array",
+              "minItems": 1,
+              "items": { "$ref": "#/$defs/nonEmptyText" }
+            }
+          }
+        },
+        "dataVersion": { "const": 1 },
+        "migration": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["sourceModel", "targetModel", "schemaVersion", "directFields", "derivedFields", "unknownFields"],
+          "properties": {
+            "sourceModel": { "const": "legacySubstrateV1" },
+            "targetModel": { "const": "substrateV1" },
+            "schemaVersion": { "const": 1 },
+            "directFields": {
+              "type": "array",
+              "minItems": 1,
+              "uniqueItems": true,
+              "items": { "$ref": "#/$defs/nonEmptyText" }
+            },
+            "derivedFields": {
+              "type": "array",
+              "minItems": 1,
+              "uniqueItems": true,
+              "items": { "$ref": "#/$defs/nonEmptyText" }
+            },
+            "unknownFields": {
+              "type": "array",
+              "minItems": 1,
+              "uniqueItems": true,
+              "items": { "$ref": "#/$defs/nonEmptyText" }
+            }
+          }
+        }
+      }
+    }
+  }
+}
