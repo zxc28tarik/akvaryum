@@ -1,0 +1,24 @@
+{
+  "version": 1,
+  "generatedAt": "2026-07-20",
+  "program": "legacy-plant-v1-to-plant-v1",
+  "legacyRecords": 26,
+  "migratedRecords": 26,
+  "preservedIds": 26,
+  "externalReviewRequired": true,
+  "directFields": ["id", "name", "scientificName", "light", "appearance"],
+  "derivedFields": ["status", "entityType", "category", "tags", "summary", "placement", "co2Need", "difficulty"],
+  "unknownFields": [
+    "water.temperatureC",
+    "water.pH",
+    "water.gh",
+    "growthRate",
+    "nutrientDemand",
+    "rootFeeder",
+    "waterColumnFeeder",
+    "heightCm",
+    "propagation",
+    "attachToHardscape"
+  ],
+  "verificationNote": "Eski veride bulunmayan bakım alanları uydurulmadı. Bütün Plant v1 kayıtları needs_review/low durumunda dış kaynak doğrulaması bekler."
+}
