@@ -44,6 +44,9 @@ jobs:
       - name: İlk 100 sosyal yapı ve bakım zorluğunu doğrula
         run: npm run check:priority100
 
+      - name: İlk 100 minimum tank uzunluğunu doğrula
+        run: npm run check:tanklength100
+
       - name: Bilimsel ad ve kimlik tekrarlarını denetle
         run: npm run check:taxonomy
 

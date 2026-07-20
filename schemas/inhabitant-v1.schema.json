@@ -126,7 +126,8 @@
           "required": ["minVolumeL", "additionalVolumePerInhabitantL"],
           "properties": {
             "minVolumeL": { "type": "number", "exclusiveMinimum": 0 },
-            "additionalVolumePerInhabitantL": { "type": "number", "exclusiveMinimum": 0 }
+            "additionalVolumePerInhabitantL": { "type": "number", "exclusiveMinimum": 0 },
+            "minLengthCm": { "type": "number", "exclusiveMinimum": 0 }
           }
         },
         "social": {

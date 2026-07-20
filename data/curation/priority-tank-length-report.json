@@ -1,0 +1,47 @@
+{
+  "version": 1,
+  "generatedAt": "2026-07-20",
+  "program": "priority-100-tank-length-v1",
+  "selectionMethod": "legacy_catalog_priority_order",
+  "selectionNote": "Backlogdaki ilk 100 ürün öncelik setidir; dış pazar popülerlik sıralaması değildir.",
+  "recordCount": 100,
+  "externalReviewRequired": true,
+  "completedField": "tank.minLengthCm",
+  "lengthCountsCm": {
+    "60": 9,
+    "75": 49,
+    "80": 2,
+    "90": 12,
+    "100": 12,
+    "120": 6,
+    "150": 5,
+    "180": 4,
+    "300": 1
+  },
+  "limitingRuleCounts": {
+    "volume": 81,
+    "body_length": 13,
+    "both": 6
+  },
+  "movementFactorCounts": {
+    "1": 45,
+    "1.2": 55
+  },
+  "volumeRule": {
+    "assumption": "Dikdörtgen tankta genişlik ve yükseklik, uzunluğun yaklaşık yüzde 45'i kabul edilir.",
+    "formula": "cubeRoot(minVolumeL * 1000 / (0.45 * 0.45))",
+    "rounding": "Sonuç bir sonraki standart tank uzunluğuna yukarı yuvarlanır."
+  },
+  "bodyRule": {
+    "multipliers": {
+      "adultCm<=5": 10,
+      "adultCm<=10": 8,
+      "adultCm<=20": 6,
+      "adultCm<=35": 5,
+      "adultCm>35": 4.5
+    },
+    "movementFactor": "Grup/sürü halinde yaşayan uzun gövdeli veya yüzey bölgesi canlılarında 1.2 katsayısı uygulanır.",
+    "finalRule": "Minimum tank uzunluğu, hacim alt sınırı ile vücut/yüzme alt sınırının büyük olanıdır."
+  },
+  "verificationNote": "Bu uzunluklar mevcut legacy hacim, yetişkin boyu, sosyal mod, silüet ve yüzme bölgesi verilerinden türetilmiştir. Tür bazlı dış kaynak doğrulaması tamamlanana kadar confidence=low ve needs_review durumu korunur."
+}

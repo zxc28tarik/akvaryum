@@ -5,6 +5,7 @@ import { gunzipSync } from 'node:zlib';
 
 import { applyInhabitantCatalog } from '../../data/catalog/index.mjs';
 import { applyPrioritySocialCare } from '../../data/curation/priority-social-care-v1.mjs';
+import { applyPriorityTankLength } from '../../data/curation/priority-tank-length-v1.mjs';
 import { migrateLegacyInhabitants } from '../../data/migration/legacy-to-inhabitant.mjs';
 import { enrichLegacyFish } from './classify-legacy-fish.mjs';
 import { applySourceProvenance } from './source-provenance.mjs';
@@ -50,6 +51,7 @@ export function loadLegacyData(
   }
   if (withPriorityCuration) {
     context.window.DB.inhabitants = applyPrioritySocialCare(context.window.DB.inhabitants);
+    context.window.DB.inhabitants = applyPriorityTankLength(context.window.DB.inhabitants);
   }
   if (withCatalog) applyInhabitantCatalog(context.window.DB);
   run(readText(repositoryRoot, 'engine.js'), 'engine.js');

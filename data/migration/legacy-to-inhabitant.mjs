@@ -179,7 +179,7 @@ export function migrateLegacyInhabitant(record) {
         'social.conspecificAggression', 'behavior.temperament',
       ],
       unknownFields: [
-        'social.territoriality', 'behavior.activity',
+        'tank.minLengthCm', 'social.territoriality', 'behavior.activity',
         'feeding.feedingDifficulty', 'habitat.flow',
         'habitat.oxygen', 'care.difficulty',
       ],
