@@ -1,6 +1,6 @@
 {
-  "version": 2,
-  "updatedAt": "2026-07-19",
+  "version": 3,
+  "updatedAt": "2026-07-20",
   "sources": [
     {
       "id": "legacy-fresh-dataset-v1",
@@ -109,6 +109,18 @@
       "status": "reviewed",
       "confidence": "medium",
       "note": "Alanlar kayıpsız taşınır; eski veride bulunmayan değerler tahmin edilmeden unknown olarak işaretlenir."
+    },
+    {
+      "id": "priority-social-care-rules-v1",
+      "title": "İlk 100 sosyal yapı ve bakım zorluğu türetim kuralları",
+      "publisher": "AKVARYUM projesi",
+      "location": "data/curation/priority-social-care-v1.mjs",
+      "accessedAt": "2026-07-20",
+      "fields": ["social", "care"],
+      "sourceType": "derived",
+      "status": "reviewed",
+      "confidence": "low",
+      "note": "İlk ürün öncelik setinde territoriality ve care.difficulty mevcut tank, boy, davranış, beslenme, su aralığı ve grup kısıtlarından şeffaf puanlama ile türetilir. Tür bazlı dış kaynak doğrulaması değildir."
     }
   ]
 }
