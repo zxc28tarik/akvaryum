@@ -1,0 +1,109 @@
+{
+  "version": 1,
+  "generatedAt": "2026-07-20",
+  "recordCount": 580,
+  "scope": "Kimlik, bilimsel ad, ortak ad, açık nomenklatür ve mevcut cins-aile alanlarının iç tutarlılık denetimi",
+  "acceptedNameVerification": {
+    "verifiedRecords": 0,
+    "needsExternalReview": 580,
+    "note": "Bu rapor kabul edilmiş taksonomik ad doğrulaması değildir. Dış taksonomi kaynaklarıyla alan bazlı doğrulama sonraki veri partilerinde yapılacaktır."
+  },
+  "countsByType": {
+    "duplicate_common_name_en": 1,
+    "duplicate_scientific_name": 23,
+    "scientific_genetic_marker": 1,
+    "scientific_hybrid_placeholder": 1,
+    "scientific_open_nomenclature": 1,
+    "scientific_variety_placeholder": 1
+  },
+  "countsBySeverity": {
+    "review": 28
+  },
+  "blockingResults": {
+    "duplicateIdGroups": 0,
+    "normalizedIdCollisionGroups": 0,
+    "taxonomyGenusMismatches": 0,
+    "genusFamilyConflicts": 0
+  },
+  "findingFingerprints": [
+    "duplicate_common_name_en-4a9bde5f29ed",
+    "duplicate_scientific_name-a1e544fd70b6",
+    "duplicate_scientific_name-f4a708ac072f",
+    "duplicate_scientific_name-44ef1633e814",
+    "duplicate_scientific_name-bd0ad7ceda40",
+    "duplicate_scientific_name-dd99207d9cfd",
+    "duplicate_scientific_name-5f02e4156bf6",
+    "duplicate_scientific_name-37fa0b623727",
+    "duplicate_scientific_name-39a796fa5697",
+    "duplicate_scientific_name-e305bdd26cda",
+    "duplicate_scientific_name-fe5c464c7721",
+    "duplicate_scientific_name-4bd6744317a8",
+    "duplicate_scientific_name-77524cf827d5",
+    "duplicate_scientific_name-f8f678493975",
+    "duplicate_scientific_name-9ba37813c847",
+    "duplicate_scientific_name-a9c535211d20",
+    "duplicate_scientific_name-63baa9c908bd",
+    "duplicate_scientific_name-b3bca2e5bffc",
+    "duplicate_scientific_name-28fc5f79a678",
+    "duplicate_scientific_name-d196be8267b7",
+    "duplicate_scientific_name-4a670e09c773",
+    "duplicate_scientific_name-6a92d8e293a8",
+    "duplicate_scientific_name-b3786a6cf178",
+    "duplicate_scientific_name-352c8d1dcba1",
+    "scientific_genetic_marker-8147262d951d",
+    "scientific_hybrid_placeholder-313b159241b8",
+    "scientific_open_nomenclature-ef4ed6595854",
+    "scientific_variety_placeholder-dcc661e3587a"
+  ],
+  "resolutionGroups": [
+    {
+      "id": "canonical-record-review",
+      "status": "open",
+      "priority": "high",
+      "findingType": "duplicate_scientific_name",
+      "groupCount": 12,
+      "action": "Her grup için tek kanonik kimlik seç. İkinci kayıt gerçek eş ad ise adını aliases alanına taşı; bakım verilerini birleştir ve gereksiz kaydı kaldır. Discosoma sp. gibi tür düzeyi belirsiz gruplar önce dış taksonomi incelemesine alınmalıdır."
+    },
+    {
+      "id": "commercial-variant-model",
+      "status": "open",
+      "priority": "high",
+      "findingType": "duplicate_scientific_name + scientific_variety_placeholder",
+      "groupCount": 11,
+      "recordCount": 47,
+      "action": "Ticari varyantları ayrı canlı türü gibi çoğaltmak yerine temel bilimsel ad, variantName ve aliases alanlarıyla temsil et. Genel 'var.' ifadesini bilimsel ad alanından kaldır."
+    },
+    {
+      "id": "open-nomenclature-review",
+      "status": "open",
+      "priority": "medium",
+      "findingType": "scientific_open_nomenclature",
+      "recordCount": 42,
+      "action": "sp., cf. ve benzeri açık nomenklatür kullanımını kaynakla doğrula. Tür düzeyi bilinmiyorsa belirsizlik nedenini notlarda tut; tahminle tür adı üretme."
+    },
+    {
+      "id": "genetic-variant-metadata",
+      "status": "open",
+      "priority": "medium",
+      "findingType": "scientific_genetic_marker",
+      "recordCount": 2,
+      "action": "GloFish kayıtlarında temel türü scientificName alanında tut; genetik/ticari varyant bilgisini ayrı etiket ve varyant alanına taşı."
+    },
+    {
+      "id": "hybrid-parentage-review",
+      "status": "open",
+      "priority": "medium",
+      "findingType": "scientific_hybrid_placeholder",
+      "recordCount": 1,
+      "action": "Flowerhorn kaydının melez durumunu koru; ebeveyn ve gösterim biçimi güvenilir kaynakla doğrulanana kadar uydurma cins veya tür yazma."
+    },
+    {
+      "id": "common-name-disambiguation",
+      "status": "open",
+      "priority": "low",
+      "findingType": "duplicate_common_name_en",
+      "recordCount": 2,
+      "action": "Ptychognathus barbatus ile Lybia tessellata için aynı 'Pom Pom Crab' İngilizce adını su türü veya kabul gören ayırt edici ortak adla ayrıştır."
+    }
+  ]
+}
