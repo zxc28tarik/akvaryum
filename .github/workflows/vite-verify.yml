@@ -53,6 +53,9 @@ jobs:
       - name: Motor bulgu sözleşmesini doğrula
         run: npm run check:engine-findings
 
+      - name: İlk 25 altın motor senaryosunu doğrula
+        run: npm run check:engine-golden25
+
       - name: İlk 100 sosyal yapı ve bakım zorluğunu doğrula
         run: npm run check:priority100
 
