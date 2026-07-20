@@ -5,7 +5,30 @@
   "legacyRecords": 26,
   "migratedRecords": 26,
   "preservedIds": 26,
+  "preservedDirectValues": 286,
+  "unknownFieldMarkers": 260,
   "externalReviewRequired": true,
+  "lightCounts": {
+    "low": 10,
+    "medium": 6,
+    "high": 10
+  },
+  "co2Counts": {
+    "none": 15,
+    "required": 11
+  },
+  "difficultyCounts": {
+    "beginner": 14,
+    "intermediate": 10,
+    "advanced": 2
+  },
+  "categoryCounts": {
+    "stem": 8,
+    "rosette": 8,
+    "grass": 5,
+    "floating": 3,
+    "moss": 2
+  },
   "directFields": ["id", "name", "scientificName", "light", "appearance"],
   "derivedFields": ["status", "entityType", "category", "tags", "summary", "placement", "co2Need", "difficulty"],
   "unknownFields": [
