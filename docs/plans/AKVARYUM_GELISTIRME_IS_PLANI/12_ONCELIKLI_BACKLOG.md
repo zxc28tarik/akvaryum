@@ -11,7 +11,7 @@
 | AKV-DATA-002 | DONE | `entityType/category/family` alanlarını ekle | DATA-001 | 580 kayıt kategorilenir |
 | AKV-DATA-003 | DONE | Kaynak ve doğrulama modeli ekle | DATA-001 | Kayıtlar kaynak kimliği taşıyabilir |
 | AKV-ENG-001 | DONE | Parametre ortak aralık hatasını düzelt | TEST-001 | Çakışma yoksa sonuç `null` ve kritik sorun |
-| AKV-ENG-002 | READY | Kural çıktı tipini standartlaştır | DATA-001 | Her sonuç `ruleId/severity/resolution` taşır |
+| AKV-ENG-002 | DONE | Kural çıktı tipini standartlaştır | DATA-001 | Her sonuç `ruleId/severity/resolution` taşır |
 | AKV-I18N-001 | TODO | TR/EN anahtar bütünlüğü testi | TEST-001 | Eksik veya fazla anahtar CI’da hata verir |
 | AKV-UI-001 | TODO | Mobil ana akış duman testi ve düzeltme | ARCH-001 | 360 px genişlikte taşma yok |
 
@@ -48,6 +48,10 @@
 - `AKV-ENG-001` tamamlandı: pH, sıcaklık ve GH toplu kesişiminde ortak aralık bulunamadığında önceki aralığın korunması kaldırıldı.
 - Ortak aralık yoksa ilgili parametre artık `null`; çakışan tür çiftleri Türkçe/İngilizce kritik sorun olarak gösteriliyor.
 - 10 motor sınır senaryosu `npm run check:engine-params` komutuna, GitHub Actions hattına ve Vite production build başlangıcına bağlandı.
+- `AKV-ENG-002` tamamlandı: sorun, uyarı, öneri, ikili uyumluluk ve ekipman çıktıları Engine Finding v1 sözleşmesine geçirildi.
+- 27 sabit kural kimliği ve dokuz zorunlu alan bulunuyor: `ruleId`, `severity`, `title`, `desc`, `reason`, `impact`, `resolution`, `subjects`, `evidence`.
+- Eski `title/desc`, uyumluluk ve ekipman alanları korunuyor; yeni sözleşme Vite production motoruna uyumluluk katmanı olarak ekleniyor.
+- `npm run check:engine-findings` JSON Schema, Türkçe/İngilizce çıktılar ve 27/27 kural kimliği için CI ve build başlangıcında çalışıyor.
 - Sosyal bakım, tank uzunluğu, Plant v1 ve Substrate v1 değerleri dış kaynak doğrulaması değildir; kayıtlar `needs_review/low` durumunda tutuluyor.
 - Tarayıcı duman testi çalışma ortamının yerel adresleri engellemesi nedeniyle dışarıdan doğrulanamadı; `AKV-ARCH-001` ve `AKV-TEST-001` hâlâ `REVIEW` durumunda.
 
@@ -77,7 +81,7 @@
 | AKV-ENG-014 | READY | Omurgasız ve mercan güvenliği ayrımı | DATA-010 | Soft/LPS/SPS ve shrimp/snail ayrı değerlendirilir |
 | AKV-ENG-015 | READY | Tür çifti istisna tablosu | DATA-003 | En az 50 doğrulanmış istisna |
 | AKV-ENG-016 | TODO | Yeni alt skor sistemi | ENG-010..015 | Dört alt puan ve açıklama |
-| AKV-TEST-010 | TODO | 100 altın motor senaryosu | ENG-002 | Tüm senaryolar CI’da çalışır |
+| AKV-TEST-010 | READY | 100 altın motor senaryosu | ENG-002 | Tüm senaryolar CI’da çalışır |
 
 ## P2 — Veri büyümesi
 
@@ -100,7 +104,7 @@
 | AKV-SAVE-001 | TODO | Yerel kurulum kaydı | ARCH-001 | Adlandır, aç, kopyala, sil |
 | AKV-SHARE-001 | TODO | Paylaşılabilir kurulum URL’si | SAVE-001 | Şema doğrulamalı URL |
 | AKV-UI-021 | TODO | Sonuç alt skorları | ENG-016 | 4 bölüm puanı görünür |
-| AKV-UI-022 | TODO | Neden/etki/çözüm kartları | ENG-002 | Her uyarıda standart çıktı |
+| AKV-UI-022 | READY | Neden/etki/çözüm kartları | ENG-002 | Her uyarıda standart çıktı |
 | AKV-A11Y-001 | TODO | WCAG AA ana akış | UI-001 | Axe + klavye kontrolleri geçer |
 
 ## P3 — Üretim ve büyüme
