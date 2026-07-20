@@ -1,5 +1,5 @@
 {
-  "version": 3,
+  "version": 4,
   "updatedAt": "2026-07-20",
   "sources": [
     {
@@ -121,6 +121,18 @@
       "status": "reviewed",
       "confidence": "low",
       "note": "İlk ürün öncelik setinde territoriality ve care.difficulty mevcut tank, boy, davranış, beslenme, su aralığı ve grup kısıtlarından şeffaf puanlama ile türetilir. Tür bazlı dış kaynak doğrulaması değildir."
+    },
+    {
+      "id": "priority-tank-length-rules-v1",
+      "title": "İlk 100 minimum tank uzunluğu türetim kuralları",
+      "publisher": "AKVARYUM projesi",
+      "location": "data/curation/priority-tank-length-v1.mjs",
+      "accessedAt": "2026-07-20",
+      "fields": ["tank"],
+      "sourceType": "derived",
+      "status": "reviewed",
+      "confidence": "low",
+      "note": "İlk ürün öncelik setinde minLengthCm, minimum hacimden hesaplanan standart tank uzunluğu ile yetişkin boyu ve yüzme gereksiniminden hesaplanan alt sınırın büyüğü olarak türetilir. Tür bazlı dış kaynak doğrulaması değildir."
     }
   ]
 }
