@@ -12,6 +12,7 @@ import { buildRuntimeSourceProvenanceBootstrap } from './scripts/lib/source-prov
 import { validateInhabitantCatalog } from './scripts/lib/validate-inhabitant-catalog.mjs';
 import { validateInhabitantMigration } from './scripts/lib/validate-inhabitant-migration.mjs';
 import { validatePrioritySocialCare } from './scripts/lib/validate-priority-social-care.mjs';
+import { validatePriorityTankLength } from './scripts/lib/validate-priority-tank-length.mjs';
 import { validateRepositoryData } from './scripts/lib/validate-data-schema.mjs';
 import { validateSourceProvenance } from './scripts/lib/validate-source-provenance.mjs';
 import { validateTaxonomyAudit } from './scripts/lib/validate-taxonomy-audit.mjs';
@@ -35,6 +36,7 @@ const plainSources = {
   'app.jsx': 'app.jsx',
   'legacy-to-inhabitant.mjs': 'data/migration/legacy-to-inhabitant.mjs',
   'priority-social-care-v1.mjs': 'data/curation/priority-social-care-v1.mjs',
+  'priority-tank-length-v1.mjs': 'data/curation/priority-tank-length-v1.mjs',
 };
 
 function readPlain(relativePath) {
@@ -56,6 +58,7 @@ function nativeLegacyModules() {
       const sourceReport = validateSourceProvenance(repositoryRoot);
       const migrationReport = validateInhabitantMigration(repositoryRoot);
       const priorityReport = validatePrioritySocialCare(repositoryRoot);
+      const tankLengthReport = validatePriorityTankLength(repositoryRoot);
       const taxonomyReport = validateTaxonomyAudit(repositoryRoot, { requireSnapshot: true });
       const catalogReport = validateInhabitantCatalog(repositoryRoot);
       this.info(
@@ -71,6 +74,9 @@ function nativeLegacyModules() {
         `AKVARYUM öncelik 100 doğrulandı: ${priorityReport.completedSocialStructures} sosyal yapı, ${priorityReport.completedCareDifficulties} bakım zorluğu.`,
       );
       this.info(
+        `AKVARYUM tank uzunluğu doğrulandı: ${tankLengthReport.completedTankLengths} kayıt.`,
+      );
+      this.info(
         `AKVARYUM taksonomi raporu doğrulandı: ${taxonomyReport.audit.findings.length} kayıtlı inceleme bulgusu, engelleyici çakışma yok.`,
       );
       this.info(
@@ -78,9 +84,15 @@ function nativeLegacyModules() {
       );
     },
 
-    resolveId(id) {
+    resolveId(id, importer) {
       if (id.startsWith(publicPrefix)) {
         return `${internalPrefix}${id.slice(publicPrefix.length)}`;
+      }
+      if (importer?.startsWith(internalPrefix) && id.startsWith('./')) {
+        const relativeName = id.slice(2);
+        if (plainSources[relativeName] || archivedSources[relativeName]) {
+          return `${internalPrefix}${relativeName}`;
+        }
       }
       return null;
     },
@@ -118,9 +130,10 @@ function nativeLegacyModules() {
             "import 'virtual:akvaryum/fish-salt.js';",
             "import { migrateLegacyInhabitants } from 'virtual:akvaryum/legacy-to-inhabitant.mjs';",
             "import { applyPrioritySocialCare } from 'virtual:akvaryum/priority-social-care-v1.mjs';",
+            "import { applyPriorityTankLength } from 'virtual:akvaryum/priority-tank-length-v1.mjs';",
             source,
             buildRuntimeSourceProvenanceBootstrap(),
-            'window.DB.inhabitants = applyPrioritySocialCare(migrateLegacyInhabitants(window.DB.fish || []));',
+            'window.DB.inhabitants = applyPriorityTankLength(applyPrioritySocialCare(migrateLegacyInhabitants(window.DB.fish || [])));',
             buildRuntimeInhabitantCatalogBootstrap(),
           ].join('\n');
 
