@@ -3,113 +3,33 @@ export const PRIORITY_SOCIAL_CARE_SOURCE_ID = 'priority-social-care-rules-v1';
 export const PRIORITY_SOCIAL_CARE_PROGRAM = 'priority-100-social-care-v1';
 
 export const PRIORITY_100_IDS = Object.freeze([
-  'neon-tetra',
-  'cardinal-tetra',
-  'green-neon',
-  'rummy-nose',
-  'glowlight',
-  'black-neon',
-  'serpae-tetra',
-  'lemon-tetra',
-  'rosy-tetra',
-  'bleeding-heart',
-  'black-skirt',
-  'white-skirt',
-  'glofish-tetra',
-  'congo-tetra',
-  'penguin-tetra',
-  'emperor-tetra',
-  'diamond-tetra',
-  'redeye-tetra',
-  'flame-tetra',
-  'silvertip',
-  'buenos-aires',
-  'ember-tetra',
-  'rummy-false',
-  'cochu-blue',
-  'pristella',
-  'green-fire',
-  'bloodfin',
-  'splash-tetra',
-  'pencilfish',
-  'dwarf-pencil',
-  'three-line-pencil',
-  'hatchet-marble',
-  'hatchet-silver',
-  'pacu-red',
-  'silver-dollar',
-  'red-hook',
-  'piranha-red',
-  'cardinal-flame',
-  'kerri-tetra',
-  'red-phantom',
-  'black-phantom',
-  'cave-tetra',
-  'bucktoothed',
-  'colombian-tetra',
-  'rainbow-emperor',
-  'gold-tetra',
-  'head-tail-light',
-  'green-tetra',
-  'rasbora-harlequin',
-  'rasbora-lambchop',
-  'rasbora-hengeli',
-  'chili-rasbora',
-  'phoenix-rasbora',
-  'pygmy-rasbora',
-  'galaxy-rasbora',
-  'scissortail',
-  'rasbora-pork',
-  'rasbora-emerald',
-  'rasbora-clown',
-  'danio-zebra',
-  'danio-leopard',
-  'danio-pearl',
-  'danio-gold',
-  'danio-glofish',
-  'giant-danio',
-  'celestial-pearl',
-  'glow-light-danio',
-  'rosy-danio',
-  'white-cloud',
-  'gold-white-cloud',
-  'barb-tiger',
-  'barb-green-tiger',
-  'barb-cherry',
-  'barb-rosy',
-  'barb-gold',
-  'barb-checkered',
-  'barb-tinfoil',
-  'barb-denisonii',
-  'barb-five-banded',
-  'barb-odessa',
-  'barb-melon',
-  'barb-arulius',
-  'barb-black-ruby',
-  'angelfish',
-  'angel-altum',
-  'angel-koi',
-  'angel-marble',
-  'angel-platinum',
-  'discus',
-  'discus-blue',
-  'discus-heckel',
-  'oscar',
-  'oscar-tiger',
-  'oscar-albino',
-  'jack-dempsey',
-  'firemouth',
-  'convict',
-  'convict-pink',
-  'green-terror',
-  'blue-acara',
+  'neon-tetra', 'cardinal-tetra', 'green-neon', 'rummy-nose', 'glowlight',
+  'black-neon', 'serpae-tetra', 'lemon-tetra', 'rosy-tetra', 'bleeding-heart',
+  'black-skirt', 'white-skirt', 'glofish-tetra', 'congo-tetra', 'penguin-tetra',
+  'emperor-tetra', 'diamond-tetra', 'redeye-tetra', 'flame-tetra', 'silvertip',
+  'buenos-aires', 'ember-tetra', 'rummy-false', 'cochu-blue', 'pristella',
+  'green-fire', 'bloodfin', 'splash-tetra', 'pencilfish', 'dwarf-pencil',
+  'three-line-pencil', 'hatchet-marble', 'hatchet-silver', 'pacu-red', 'silver-dollar',
+  'red-hook', 'piranha-red', 'cardinal-flame', 'kerri-tetra', 'red-phantom',
+  'black-phantom', 'cave-tetra', 'bucktoothed', 'colombian-tetra', 'rainbow-emperor',
+  'gold-tetra', 'head-tail-light', 'green-tetra', 'rasbora-harlequin', 'rasbora-lambchop',
+  'rasbora-hengeli', 'chili-rasbora', 'phoenix-rasbora', 'pygmy-rasbora', 'galaxy-rasbora',
+  'scissortail', 'rasbora-pork', 'rasbora-emerald', 'rasbora-clown', 'danio-zebra',
+  'danio-leopard', 'danio-pearl', 'danio-gold', 'danio-glofish', 'giant-danio',
+  'celestial-pearl', 'glow-light-danio', 'rosy-danio', 'white-cloud', 'gold-white-cloud',
+  'barb-tiger', 'barb-green-tiger', 'barb-cherry', 'barb-rosy', 'barb-gold',
+  'barb-checkered', 'barb-tinfoil', 'barb-denisonii', 'barb-five-banded', 'barb-odessa',
+  'barb-melon', 'barb-arulius', 'barb-black-ruby', 'angelfish', 'angel-altum',
+  'angel-koi', 'angel-marble', 'angel-platinum', 'discus', 'discus-blue',
+  'discus-heckel', 'oscar', 'oscar-tiger', 'oscar-albino', 'jack-dempsey',
+  'firemouth', 'convict', 'convict-pink', 'green-terror', 'blue-acara',
 ]);
 
 const PRIORITY_RANK_BY_ID = new Map(
   PRIORITY_100_IDS.map((id, index) => [id, index + 1]),
 );
 
-const DIFFICULTY_REASONS = Object.freeze({
+export const DIFFICULTY_REASON_NOTES = Object.freeze({
   very_large_tank: 'Minimum tank hacmi 500 litre veya üzeri.',
   large_tank: 'Minimum tank hacmi 250 litre veya üzeri.',
   medium_large_tank: 'Minimum tank hacmi 120 litre veya üzeri.',
@@ -210,40 +130,43 @@ function territorialityProfile(record) {
   return { territoriality: 'low', rule: 'peaceful_solitary' };
 }
 
+export function derivePrioritySocialCareProfile(record) {
+  const priorityRank = PRIORITY_RANK_BY_ID.get(record.id);
+  if (!priorityRank) return null;
+  const difficulty = difficultyProfile(record);
+  const territoriality = territorialityProfile(record);
+  return {
+    program: PRIORITY_SOCIAL_CARE_PROGRAM,
+    version: PRIORITY_SOCIAL_CARE_VERSION,
+    priorityRank,
+    selectionMethod: 'legacy_catalog_priority_order',
+    method: 'derived_from_legacy_constraints',
+    fieldsCompleted: ['social.territoriality', 'care.difficulty'],
+    difficulty: difficulty.difficulty,
+    difficultyScore: difficulty.score,
+    difficultyReasons: difficulty.reasons,
+    difficultyReasonNotes: difficulty.reasons.map((reason) => DIFFICULTY_REASON_NOTES[reason]),
+    territoriality: territoriality.territoriality,
+    territorialityRule: territoriality.rule,
+    externalReviewRequired: true,
+  };
+}
+
 export function applyPrioritySocialCare(records) {
   return records.map((record) => {
-    const priorityRank = PRIORITY_RANK_BY_ID.get(record.id);
-    if (!priorityRank) return record;
+    const profile = derivePrioritySocialCareProfile(record);
+    if (!profile) return record;
 
-    const difficulty = difficultyProfile(record);
-    const territoriality = territorialityProfile(record);
     const note = 'Öncelik 100 sosyal yapı ve bakım zorluğu mevcut kayıt kısıtlarından türetildi; dış tür kaynağı doğrulaması bekliyor.';
-
     return {
       ...record,
-      social: {
-        ...record.social,
-        territoriality: territoriality.territoriality,
-      },
-      care: {
-        ...record.care,
-        difficulty: difficulty.difficulty,
-      },
-      sourceIds: unique([
-        ...(record.sourceIds ?? []),
-        PRIORITY_SOCIAL_CARE_SOURCE_ID,
-      ]),
+      social: { ...record.social, territoriality: profile.territoriality },
+      care: { ...record.care, difficulty: profile.difficulty },
+      sourceIds: unique([...(record.sourceIds ?? []), PRIORITY_SOCIAL_CARE_SOURCE_ID]),
       fieldSourceIds: {
         ...record.fieldSourceIds,
-        social: unique([
-          ...(record.fieldSourceIds?.social ?? []),
-          PRIORITY_SOCIAL_CARE_SOURCE_ID,
-        ]),
-        care: unique([
-          ...(record.fieldSourceIds?.care ?? []),
-          PRIORITY_SOCIAL_CARE_SOURCE_ID,
-        ]),
-        curation: [PRIORITY_SOCIAL_CARE_SOURCE_ID],
+        social: unique([...(record.fieldSourceIds?.social ?? []), PRIORITY_SOCIAL_CARE_SOURCE_ID]),
+        care: unique([...(record.fieldSourceIds?.care ?? []), PRIORITY_SOCIAL_CARE_SOURCE_ID]),
       },
       verification: {
         ...record.verification,
@@ -260,19 +183,6 @@ export function applyPrioritySocialCare(records) {
         unknownFields: (record.migration?.unknownFields ?? []).filter(
           (field) => field !== 'social.territoriality' && field !== 'care.difficulty',
         ),
-      },
-      curation: {
-        program: PRIORITY_SOCIAL_CARE_PROGRAM,
-        version: PRIORITY_SOCIAL_CARE_VERSION,
-        priorityRank,
-        selectionMethod: 'legacy_catalog_priority_order',
-        method: 'derived_from_legacy_constraints',
-        fieldsCompleted: ['social.territoriality', 'care.difficulty'],
-        difficultyScore: difficulty.score,
-        difficultyReasons: difficulty.reasons,
-        difficultyReasonNotes: difficulty.reasons.map((reason) => DIFFICULTY_REASONS[reason]),
-        territorialityRule: territoriality.rule,
-        externalReviewRequired: true,
       },
     };
   });
