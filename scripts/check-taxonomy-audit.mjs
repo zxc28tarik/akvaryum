@@ -4,7 +4,7 @@ import { fileURLToPath } from 'node:url';
 import { validateTaxonomyAudit } from './lib/validate-taxonomy-audit.mjs';
 
 const repositoryRoot = resolve(dirname(fileURLToPath(import.meta.url)), '..');
-const result = validateTaxonomyAudit(repositoryRoot);
+const result = validateTaxonomyAudit(repositoryRoot, { requireSnapshot: true });
 const { audit } = result;
 
 console.log('AKVARYUM bilimsel ad ve kimlik denetimi tamamlandı.');
