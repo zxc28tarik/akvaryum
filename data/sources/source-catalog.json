@@ -1,5 +1,5 @@
 {
-  "version": 4,
+  "version": 5,
   "updatedAt": "2026-07-20",
   "sources": [
     {
@@ -32,7 +32,7 @@
       "publisher": "AKVARYUM projesi",
       "location": "data.js#plants",
       "accessedAt": "2026-07-18",
-      "fields": ["core", "name", "scientificName", "light", "co2", "difficulty", "kind", "placement", "appearance"],
+      "fields": ["core", "name", "scientificName", "light", "co2", "co2Need", "difficulty", "kind", "category", "placement", "appearance"],
       "sourceType": "internal_legacy",
       "status": "unverified",
       "confidence": "low",
@@ -133,6 +133,18 @@
       "status": "reviewed",
       "confidence": "low",
       "note": "İlk ürün öncelik setinde minLengthCm, minimum hacimden hesaplanan standart tank uzunluğu ile yetişkin boyu ve yüzme gereksiniminden hesaplanan alt sınırın büyüğü olarak türetilir. Tür bazlı dış kaynak doğrulaması değildir."
+    },
+    {
+      "id": "legacy-plant-migration-v1",
+      "title": "LegacyPlant v1 → Plant v1 dönüşüm kuralları",
+      "publisher": "AKVARYUM projesi",
+      "location": "data/migration/legacy-to-plant.mjs",
+      "accessedAt": "2026-07-20",
+      "fields": ["entityType", "category", "tags", "summary", "placement", "water", "light", "co2Need", "growthRate", "nutrientDemand", "rootFeeder", "waterColumnFeeder", "heightCm", "propagation", "attachToHardscape", "difficulty", "appearance", "migration"],
+      "sourceType": "derived",
+      "status": "reviewed",
+      "confidence": "medium",
+      "note": "26 eski bitki kaydını Plant v1 yapısına taşır; eski veride bulunmayan su, büyüme, beslenme, boy ve çoğaltma alanları uydurulmadan açık eksik olarak tutulur."
     }
   ]
 }
