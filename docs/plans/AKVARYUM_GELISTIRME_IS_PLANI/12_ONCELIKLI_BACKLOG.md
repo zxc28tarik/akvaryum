@@ -37,8 +37,12 @@
 - `AKV-DATA-014` tamamlandı: ilk 100 kaydın `tank.minLengthCm` alanı hacim ve vücut/yüzme alt sınırlarının büyüğüyle türetildi.
 - Tank uzunluğu dağılımında 49 kayıt 75 cm, 12 kayıt 90 cm, 12 kayıt 100 cm; en büyük sonuç 60 cm pacu için 300 cm oldu.
 - 81 kayıtta hacim, 13 kayıtta vücut/yüzme alanı belirleyici oldu; 6 kayıtta iki sınır eşitti.
-- Sosyal bakım ve tank uzunluğu değerleri tür bazlı dış kaynak doğrulaması değildir; kayıtlar `needs_review/low` durumunda tutuluyor.
-- `npm run check:priority100` ve `npm run check:tanklength100` bağımsız komutlara, GitHub Actions hattına ve Vite production build başlangıcına bağlandı.
+- `AKV-PLANT-001` tamamlandı: 26 eski bitki kimlik kaybı olmadan `Plant v1` modeline taşındı.
+- Yeni bitki erişimi `DB.aquaticPlants`; eski `DB.plants` arayüz uyumluluğu için korunuyor.
+- 286 doğrudan alan karşılaştırması geçti. Su, büyüme, beslenme, boy ve çoğaltma alanlarında toplam 260 açık eksik işareti bulunuyor; hiçbirine tahmini değer yazılmadı.
+- Bitki dağılımı: 14 beginner, 10 intermediate, 2 advanced; 15 CO₂ gerektirmeyen ve 11 CO₂ gerekli kayıt.
+- `npm run check:plants` bağımsız komuta, GitHub Actions hattına ve Vite production build başlangıcına bağlandı.
+- Sosyal bakım, tank uzunluğu ve Plant v1 değerleri tür bazlı dış kaynak doğrulaması değildir; kayıtlar `needs_review/low` durumunda tutuluyor.
 - Tarayıcı duman testi çalışma ortamının yerel adresleri engellemesi nedeniyle dışarıdan doğrulanamadı; `AKV-ARCH-001` ve `AKV-TEST-001` hâlâ `REVIEW` durumunda.
 
 ## P1 — Veri modeli ve katalog
@@ -50,7 +54,7 @@
 | AKV-DATA-012 | DONE | Bilimsel ad/kimlik tekrar denetimi | DATA-011 | Rapor ve çözüm listesi oluşur |
 | AKV-DATA-013 | DONE | Zorluk ve sosyal yapı alanlarını doldurma partisi 1 | DATA-011 | İlk ürün öncelik setindeki 100 kayıt tamamlanır |
 | AKV-DATA-014 | DONE | Tank uzunluğu alanını doldurma partisi 1 | DATA-011 | İlk ürün öncelik setindeki 100 kayıt tamamlanır |
-| AKV-PLANT-001 | READY | Bitki şemasını oluştur | DATA-001 | 26 bitki migrate edilir |
+| AKV-PLANT-001 | DONE | Bitki şemasını oluştur | DATA-001 | 26 bitki migrate edilir |
 | AKV-SUB-001 | READY | Taban şemasını oluştur | DATA-001 | 8 taban migrate edilir |
 | AKV-UI-010 | READY | Kategori ve gelişmiş filtreler | DATA-002 | URL’de korunabilen filtreler |
 | AKV-UI-011 | READY | Bilimsel/eş ad araması | DATA-011 | Türkçe/İngilizce/bilimsel arama çalışır |
@@ -78,7 +82,7 @@
 | AKV-DATA-022 | TODO | Acı su kategorisi ilk 30 kayıt | DATA-002 | Ayrı su tipi kuralları |
 | AKV-CORAL-001 | READY | Mercanları soft/LPS/SPS ayır | DATA-010 | Işık/akıntı/agresyon alanları dolu |
 | AKV-INVERT-001 | READY | Temizlik ekibi veri partisi | DATA-010 | En az 50 omurgasız profili |
-| AKV-PLANT-010 | TODO | Bitki sayısını 40’a çıkar | PLANT-001 | 14 yeni kaynaklı kayıt |
+| AKV-PLANT-010 | READY | Bitki sayısını 40’a çıkar | PLANT-001 | 14 yeni kaynaklı kayıt |
 | AKV-SUB-010 | TODO | Taban sayısını 15’e çıkar | SUB-001 | 7 yeni kaynaklı profil |
 | AKV-HARD-001 | TODO | Hardscape şeması ve ilk 20 kayıt | DATA-001 | Kimya ve güvenlik alanları |
 
