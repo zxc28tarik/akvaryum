@@ -20,6 +20,8 @@ Tabanlarda eski `DB.substrates` alanı arayüz uyumluluğu için korunur. Yeni `
 
 Motor pH, sıcaklık ve GH ortak aralıklarını bütün seçili türler boyunca kesiştirir. Ortak güvenli aralık yoksa sonuç `null` olur; önceki türün aralığı korunmaz ve çakışan tür çiftleri kritik sorun olarak gösterilir.
 
+Vite production motorundaki sorun, uyarı, öneri, ikili uyumluluk ve ekipman çıktıları `schemas/engine-finding-v1.schema.json` sözleşmesini kullanır. Her bulgu sabit `ruleId`, önem seviyesi, neden, etki ve çözüm taşır; eski `title/desc` alanları arayüz uyumluluğu için korunur.
+
 Bilimsel ad ve kimlik denetiminin kayıtlı sonucu `data/audits/inhabitant-taxonomy-audit.json` dosyasındadır. Mevcut bulgular parmak iziyle sabitlenmiştir; yeni veya kaldırılan bir bulgu rapor bilinçli olarak güncellenmeden build'i durdurur.
 
 İlk ürün öncelik setindeki 100 kayıt için sosyal bölgesellik ve bakım zorluğu `data/curation/priority-social-care-v1.mjs`, minimum tank uzunluğu ise `data/curation/priority-tank-length-v1.mjs` kurallarıyla tamamlanır. Bu liste dış pazar popülerlik sıralaması değildir; legacy katalog sırasındaki ilk 100 kayıt olarak sabitlenmiştir.
@@ -44,6 +46,7 @@ npm run check:migration
 npm run check:plants
 npm run check:substrates
 npm run check:engine-params
+npm run check:engine-findings
 npm run check:priority100
 npm run check:tanklength100
 npm run check:taxonomy
@@ -62,6 +65,7 @@ npm run check:migration
 npm run check:plants
 npm run check:substrates
 npm run check:engine-params
+npm run check:engine-findings
 npm run check:priority100
 npm run check:tanklength100
 npm run check:taxonomy
@@ -79,11 +83,12 @@ npm run preview
 - `check:plants`: 26 legacy bitkiyle 26 `Plant v1` kaydını karşılaştırır; kimlik ve mevcut alan kaybını, kaynak kopmasını veya eksik alanlara uydurma değer yazılmasını reddeder.
 - `check:substrates`: 8 legacy tabanla 8 `Substrate v1` kaydını karşılaştırır; kimlik ve mevcut alan kaybını, kaynak kopmasını veya eksik güvenlik/kullanım alanlarına uydurma değer yazılmasını reddeder.
 - `check:engine-params`: pH, sıcaklık ve GH ortak aralıklarının doğru daraltılmasını; ortak aralık yoksa `null` ve Türkçe/İngilizce kritik sorun üretilmesini 10 sınır senaryosuyla doğrular.
+- `check:engine-findings`: 27 motor kural kimliğini, Engine Finding v1 JSON Schema alanlarını, önem seviyelerini, ikili uyumluluk ve ekipman çıktılarını doğrular.
 - `check:priority100`: ilk ürün öncelik setindeki 100 kaydın sosyal yapı ve bakım zorluğu alanlarını, kaynak izini, düşük güven durumunu ve rapor sayımlarını doğrular.
 - `check:tanklength100`: aynı 100 kaydın minimum tank uzunluğunu, hacim ve vücut/yüzme alt sınırlarını, standart ölçü yuvarlamasını ve kaynak izini doğrular.
 - `check:taxonomy`: kimlik ve bilimsel ad tekrarlarını, ortak ad çakışmalarını, `var./sp./cf.` kayıtlarını ve cins-aile tutarlılığını denetler; güncel bulguları kayıtlı raporla karşılaştırır.
 - `check:catalog`: yeni modeldeki 580 canlıyı balık, omurgasız ve mercan koleksiyonlarına ayırır; kayıt kaybı, çifte üyelik ve eksik arama indeksi durumlarını reddeder.
-- `build`: başlamadan önce veri, kaynak, canlı/bitki/taban migrasyonları, motor parametre kesişimi, öncelik 100, tank uzunluğu, taksonomi raporu ve katalog doğrulamalarını otomatik olarak yeniden çalıştırır.
+- `build`: başlamadan önce veri, kaynak, canlı/bitki/taban migrasyonları, motor parametre kesişimi, motor bulgu sözleşmesi, öncelik 100, tank uzunluğu, taksonomi raporu ve katalog doğrulamalarını otomatik olarak yeniden çalıştırır.
 - `check:native`: production paketinde eski runtime yükleyicisi, Babel standalone, gzip açıcı veya `eval` bulunmadığını doğrular.
 - Build çıktısı `dist/` klasörüne yazılır.
 - GitHub Pages taban yolu `/akvaryum/` olarak ayarlanmıştır.
@@ -127,7 +132,32 @@ Tabanlarda adlar, açıklama, su türleri, pH etkisi, bitki uyumu ve renk korunu
 - Çakışmayan tür çiftleri sonuçtaki kritik sorun açıklamasında gösterilir.
 - Tek noktada buluşan aralık geçerli kabul edilir.
 - GH bilgisi olmayan kayıt GH kesişimine katılmaz.
-- Standart `ruleId/severity/resolution` çıktısı ayrı `AKV-ENG-002` görevidir.
+
+## Engine Finding v1
+
+Production motor bulgusu örneği:
+
+```js
+const result = window.Engine.analyze(state);
+const finding = result.issues[0];
+
+finding.ruleId;
+finding.severity;
+finding.title;
+finding.desc;
+finding.reason;
+finding.impact;
+finding.resolution;
+finding.subjects;
+finding.evidence;
+```
+
+- `severity` değerleri `critical`, `warning` ve `info` ile sınırlıdır.
+- `title` ve `desc` eski sonuç ekranları için korunur.
+- `reason`, `impact` ve `resolution` yeni açıklanabilir kartların doğrudan girdisidir.
+- `subjects` ilgili kayıt kimliklerini, `evidence` ise yapılandırılmış kural kanıtını taşır.
+- İkili uyumluluk kayıtları ve ekipman önerileri de aynı zorunlu alanları taşır.
+- Tanınmayan eski motor çıktısı otomatik kimlik almak yerine doğrulama hatası oluşturur.
 
 ## Öncelik 100 türetim ilkesi
 

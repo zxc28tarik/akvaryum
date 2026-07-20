@@ -32,5 +32,6 @@
 | `25_AKV_PLANT_001_PLANT_V1_MIGRASYONU.md` | 26 eski bitkinin Plant v1 modeline kayıpsız geçişi | Yüklendi |
 | `26_AKV_SUB_001_SUBSTRATE_MIGRASYONU.md` | 8 eski tabanın Substrate v1 modeline kayıpsız geçişi | Yüklendi |
 | `27_AKV_ENG_001_PARAMETRE_KESISIM_DUZELTMESI.md` | pH, sıcaklık ve GH ortak aralık hatasının düzeltilmesi | Yüklendi |
+| `28_AKV_ENG_002_MOTOR_BULGU_SOZLESMESI.md` | Motor sorun, uyarı, öneri, uyumluluk ve ekipman çıktılarının standartlaştırılması | Yüklendi |
 
 Planın tamamı yerel ZIP paketinde korunmaktadır. GitHub’a aktarılan dosyalar aktif geliştirme sırasında öncelikli kaynak kabul edilir; kalan uzmanlık belgeleri ilgili göreve başlanmadan önce depoya eklenir.
