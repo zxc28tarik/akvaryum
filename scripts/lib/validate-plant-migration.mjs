@@ -151,6 +151,17 @@ export function validatePlantMigration(repositoryRoot) {
     increment(categoryCounts, plant.category);
   }
 
+  const report = JSON.parse(
+    readFileSync(resolve(repositoryRoot, 'data/migration/plant-migration-report.json'), 'utf8'),
+  );
+  if (report.program !== 'legacy-plant-v1-to-plant-v1'
+    || report.legacyRecords !== EXPECTED_TOTAL
+    || report.migratedRecords !== EXPECTED_TOTAL
+    || report.preservedIds !== EXPECTED_TOTAL
+    || !sameSet(report.unknownFields ?? [], EXPECTED_UNKNOWN_FIELDS)) {
+    throw new Error('Plant v1 migrasyon raporu güncel kod ve kapsamla eşleşmiyor.');
+  }
+
   return {
     legacyRecords: legacyPlants.length,
     migratedRecords: plants.length,
