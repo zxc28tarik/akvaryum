@@ -10,7 +10,7 @@
 | AKV-DATA-001 | DONE | Ortak veri şeması oluştur | ARCH-001 | Şema build sırasında çalışır |
 | AKV-DATA-002 | DONE | `entityType/category/family` alanlarını ekle | DATA-001 | 580 kayıt kategorilenir |
 | AKV-DATA-003 | DONE | Kaynak ve doğrulama modeli ekle | DATA-001 | Kayıtlar kaynak kimliği taşıyabilir |
-| AKV-ENG-001 | READY | Parametre ortak aralık hatasını düzelt | TEST-001 | Çakışma yoksa sonuç `null` ve kritik sorun |
+| AKV-ENG-001 | DONE | Parametre ortak aralık hatasını düzelt | TEST-001 | Çakışma yoksa sonuç `null` ve kritik sorun |
 | AKV-ENG-002 | READY | Kural çıktı tipini standartlaştır | DATA-001 | Her sonuç `ruleId/severity/resolution` taşır |
 | AKV-I18N-001 | TODO | TR/EN anahtar bütünlüğü testi | TEST-001 | Eksik veya fazla anahtar CI’da hata verir |
 | AKV-UI-001 | TODO | Mobil ana akış duman testi ve düzeltme | ARCH-001 | 360 px genişlikte taşma yok |
@@ -45,7 +45,9 @@
 - Yeni taban erişimi `DB.aquariumSubstrates`; eski `DB.substrates` arayüz uyumluluğu için korunuyor.
 - 72 doğrudan alan karşılaştırması geçti. Tane boyu, güvenlik, kullanım derinliği, yenileme ve besin alanlarında toplam 96 açık eksik işareti bulunuyor; hiçbirine tahmini değer yazılmadı.
 - Taban dağılımı: 5 sand, 1 gravel, 1 soil, 1 rock; pH etkisi 1 lower, 4 neutral, 3 raise.
-- `npm run check:plants` ve `npm run check:substrates` bağımsız komutlara, GitHub Actions hattına ve Vite production build başlangıcına bağlandı.
+- `AKV-ENG-001` tamamlandı: pH, sıcaklık ve GH toplu kesişiminde ortak aralık bulunamadığında önceki aralığın korunması kaldırıldı.
+- Ortak aralık yoksa ilgili parametre artık `null`; çakışan tür çiftleri Türkçe/İngilizce kritik sorun olarak gösteriliyor.
+- 10 motor sınır senaryosu `npm run check:engine-params` komutuna, GitHub Actions hattına ve Vite production build başlangıcına bağlandı.
 - Sosyal bakım, tank uzunluğu, Plant v1 ve Substrate v1 değerleri dış kaynak doğrulaması değildir; kayıtlar `needs_review/low` durumunda tutuluyor.
 - Tarayıcı duman testi çalışma ortamının yerel adresleri engellemesi nedeniyle dışarıdan doğrulanamadı; `AKV-ARCH-001` ve `AKV-TEST-001` hâlâ `REVIEW` durumunda.
 

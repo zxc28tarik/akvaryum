@@ -8,6 +8,50 @@ window.Engine = (function() {
     return hi >= lo ? [lo, hi] : null;
   }
 
+  function isValidRange(value) {
+    return Array.isArray(value)
+      && value.length === 2
+      && Number.isFinite(value[0])
+      && Number.isFinite(value[1])
+      && value[0] <= value[1];
+  }
+
+  function aggregateParameterRange(items, field) {
+    const entries = items
+      .filter(item => isValidRange(item[field]))
+      .map(item => ({
+        id: item.id,
+        nameTr: item.nameTr,
+        nameEn: item.nameEn,
+        range: item[field]
+      }));
+
+    if (entries.length === 0) {
+      return { range: null, conflicts: [], considered: 0 };
+    }
+
+    let common = [...entries[0].range];
+    for (let i = 1; i < entries.length; i++) {
+      common = rangeOverlap(common, entries[i].range);
+      if (!common) break;
+    }
+
+    if (common) {
+      return { range: common, conflicts: [], considered: entries.length };
+    }
+
+    const conflicts = [];
+    for (let i = 0; i < entries.length; i++) {
+      for (let j = i + 1; j < entries.length; j++) {
+        if (!rangeOverlap(entries[i].range, entries[j].range)) {
+          conflicts.push({ a: entries[i], b: entries[j] });
+        }
+      }
+    }
+
+    return { range: null, conflicts, considered: entries.length };
+  }
+
   function analyze(state) {
     const lang = state.lang || 'tr';
     const T = (tr, en) => lang === 'tr' ? tr : en;
@@ -152,12 +196,40 @@ window.Engine = (function() {
     }
 
     // ─── Aggregate parameters ───
-    let pH = null, temp = null, gh = null;
-    if (fishItems.length > 0) {
-      pH = fishItems.reduce((acc, f) => acc ? rangeOverlap(acc, f.pH) || acc : f.pH, null);
-      temp = fishItems.reduce((acc, f) => acc ? rangeOverlap(acc, f.temp) || acc : f.temp, null);
-      gh = fishItems.reduce((acc, f) => acc && f.gh ? rangeOverlap(acc, f.gh) || acc : (f.gh || acc), null);
-    }
+    const parameterResults = {
+      pH: aggregateParameterRange(fishItems, 'pH'),
+      temp: aggregateParameterRange(fishItems, 'temp'),
+      gh: aggregateParameterRange(fishItems, 'gh')
+    };
+    const pH = parameterResults.pH.range;
+    const temp = parameterResults.temp.range;
+    const gh = parameterResults.gh.range;
+
+    const parameterLabels = {
+      pH: { tr: 'pH', en: 'pH' },
+      temp: { tr: 'sıcaklık', en: 'temperature' },
+      gh: { tr: 'GH', en: 'GH' }
+    };
+
+    Object.entries(parameterResults).forEach(([field, result]) => {
+      if (result.considered < 2 || result.range || result.conflicts.length === 0) return;
+
+      const pairsTr = result.conflicts
+        .map(({ a, b }) => `${a.nameTr} ↔ ${b.nameTr}`)
+        .join(', ');
+      const pairsEn = result.conflicts
+        .map(({ a, b }) => `${a.nameEn} ↔ ${b.nameEn}`)
+        .join(', ');
+      const label = parameterLabels[field];
+
+      issues.push({
+        title: T(`Ortak güvenli ${label.tr} aralığı yok`, `No common safe ${label.en} range`),
+        desc: T(
+          `Seçilen canlıların tamamı aynı ${label.tr} aralığında tutulamaz. Çakışmayan türler: ${pairsTr}. Türleri değiştir veya ayrı akvaryumlar planla.`,
+          `The selected inhabitants cannot all share one safe ${label.en} range. Conflicting species: ${pairsEn}. Change the selection or plan separate tanks.`
+        )
+      });
+    });
 
     // ─── Plants (freshwater only) ───
     const plants = (state.plants || []).map(id => window.DB.plants.find(p => p.id === id)).filter(Boolean);

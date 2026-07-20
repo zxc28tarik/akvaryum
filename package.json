@@ -16,6 +16,7 @@
     "check:migration": "node scripts/check-inhabitant-migration.mjs",
     "check:plants": "node scripts/check-plant-migration.mjs",
     "check:substrates": "node scripts/check-substrate-migration.mjs",
+    "check:engine-params": "node scripts/check-engine-parameter-intersection.mjs",
     "check:taxonomy": "node scripts/check-taxonomy-audit.mjs",
     "check:priority100": "node scripts/check-priority-social-care.mjs",
     "check:tanklength100": "node scripts/check-priority-tank-length.mjs"

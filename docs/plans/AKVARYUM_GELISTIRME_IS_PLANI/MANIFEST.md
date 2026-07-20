@@ -5,12 +5,12 @@
 | Dosya | Amaç | GitHub durumu |
 |---|---|---|
 | `00_OKU_BENI.md` | Planın nasıl kullanılacağı | Yüklendi |
-| `01_MEVCUT_DURUM_VE_BOSLUK_ANALIZI.md` | Kaynak koddan çıkarılan başlangıç durumu | Sırada |
+| `01_MEVCUT_DURUM_VE_BOSLUK_ANALIZI.md` | Kaynak koddan çıkarılan başlangıç durumu | Yüklendi |
 | `02_ANA_YOL_HARITASI.md` | Aşamalı ana geliştirme sırası | Yüklendi |
 | `03_CANLI_VERITABANI_GENISLETME_PLANI.md` | Balık, omurgasız ve mercan veri büyümesi | Sırada |
 | `04_BITKI_TABAN_DEKOR_EKIPMAN_PLANI.md` | Bitki, kum, taban, hardscape ve ekipman | Sırada |
 | `05_VERI_MODELI_VE_KODLANACAK_ALANLAR.md` | Yeni veri sözleşmesi ve alanlar | Yüklendi |
-| `06_UYUMLULUK_MOTORU_V2.md` | Motorun ikinci sürüm tasarımı | Sırada |
+| `06_UYUMLULUK_MOTORU_V2.md` | Motorun ikinci sürüm tasarımı | Yüklendi |
 | `07_UI_UX_VE_URUN_OZELLIKLERI.md` | Kullanıcı deneyimi ve özellikler | Sırada |
 | `08_TEKNIK_MIMARI_VE_MIGRASYON.md` | Vite/React/TypeScript geçişi | Yüklendi |
 | `09_TEST_KALITE_PERFORMANS_GUVENLIK.md` | Test ve üretim kalite standardı | Sırada |
@@ -31,5 +31,6 @@
 | `24_AKV_DATA_014_ONCELIK_100_TANK_UZUNLUGU.md` | İlk 100 kaydın minimum tank uzunluğu türetimi | Yüklendi |
 | `25_AKV_PLANT_001_PLANT_V1_MIGRASYONU.md` | 26 eski bitkinin Plant v1 modeline kayıpsız geçişi | Yüklendi |
 | `26_AKV_SUB_001_SUBSTRATE_MIGRASYONU.md` | 8 eski tabanın Substrate v1 modeline kayıpsız geçişi | Yüklendi |
+| `27_AKV_ENG_001_PARAMETRE_KESISIM_DUZELTMESI.md` | pH, sıcaklık ve GH ortak aralık hatasının düzeltilmesi | Yüklendi |
 
 Planın tamamı yerel ZIP paketinde korunmaktadır. GitHub’a aktarılan dosyalar aktif geliştirme sırasında öncelikli kaynak kabul edilir; kalan uzmanlık belgeleri ilgili göreve başlanmadan önce depoya eklenir.
