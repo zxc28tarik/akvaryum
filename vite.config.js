@@ -9,13 +9,14 @@ import { defineConfig } from 'vite';
 import { buildRuntimeInhabitantCatalogBootstrap } from './data/catalog/index.mjs';
 import { buildLegacyFishClassification } from './scripts/lib/classify-legacy-fish.mjs';
 import { buildRuntimeSourceProvenanceBootstrap } from './scripts/lib/source-provenance.mjs';
+import { validateEngineParameterIntersection } from './scripts/lib/validate-engine-parameter-intersection.mjs';
 import { validateInhabitantCatalog } from './scripts/lib/validate-inhabitant-catalog.mjs';
 import { validateInhabitantMigration } from './scripts/lib/validate-inhabitant-migration.mjs';
 import { validatePlantMigration } from './scripts/lib/validate-plant-migration.mjs';
 import { validatePrioritySocialCare } from './scripts/lib/validate-priority-social-care.mjs';
 import { validatePriorityTankLength } from './scripts/lib/validate-priority-tank-length.mjs';
 import { validateRepositoryData } from './scripts/lib/validate-data-schema.mjs';
-import { validateSourceProvenance } from './scripts/lib/validate-source-provenance.mjs';
+import { validateSourceProvenance } from './scripts/lib/source-provenance.mjs';
 import { validateSubstrateMigration } from './scripts/lib/validate-substrate-migration.mjs';
 import { validateTaxonomyAudit } from './scripts/lib/validate-taxonomy-audit.mjs';
 
@@ -63,6 +64,7 @@ function nativeLegacyModules() {
       const migrationReport = validateInhabitantMigration(repositoryRoot);
       const plantReport = validatePlantMigration(repositoryRoot);
       const substrateReport = validateSubstrateMigration(repositoryRoot);
+      const engineParameterReport = validateEngineParameterIntersection(repositoryRoot);
       const priorityReport = validatePrioritySocialCare(repositoryRoot);
       const tankLengthReport = validatePriorityTankLength(repositoryRoot);
       const taxonomyReport = validateTaxonomyAudit(repositoryRoot, { requireSnapshot: true });
@@ -81,6 +83,9 @@ function nativeLegacyModules() {
       );
       this.info(
         `AKVARYUM Substrate migrasyonu doğrulandı: ${substrateReport.migratedRecords} kayıt, ${substrateReport.preservedIds} korunan kimlik.`,
+      );
+      this.info(
+        `AKVARYUM motor parametre kesişimi doğrulandı: ${engineParameterReport.scenarios} senaryo.`,
       );
       this.info(
         `AKVARYUM öncelik 100 doğrulandı: ${priorityReport.completedSocialStructures} sosyal yapı, ${priorityReport.completedCareDifficulties} bakım zorluğu.`,
