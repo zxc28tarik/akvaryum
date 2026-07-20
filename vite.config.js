@@ -10,6 +10,7 @@ import { buildRuntimeInhabitantCatalogBootstrap } from './data/catalog/index.mjs
 import { buildLegacyFishClassification } from './scripts/lib/classify-legacy-fish.mjs';
 import { buildRuntimeSourceProvenanceBootstrap } from './scripts/lib/source-provenance.mjs';
 import { validateEngineFindingContract } from './scripts/lib/validate-engine-finding-contract.mjs';
+import { validateEngineGoldenScenarios } from './scripts/lib/validate-engine-golden-scenarios.mjs';
 import { validateEngineParameterIntersection } from './scripts/lib/validate-engine-parameter-intersection.mjs';
 import { validateInhabitantCatalog } from './scripts/lib/validate-inhabitant-catalog.mjs';
 import { validateInhabitantMigration } from './scripts/lib/validate-inhabitant-migration.mjs';
@@ -67,6 +68,7 @@ function nativeLegacyModules() {
       const substrateReport = validateSubstrateMigration(repositoryRoot);
       const engineParameterReport = validateEngineParameterIntersection(repositoryRoot);
       const engineFindingReport = validateEngineFindingContract(repositoryRoot);
+      const engineGoldenReport = validateEngineGoldenScenarios(repositoryRoot);
       const priorityReport = validatePrioritySocialCare(repositoryRoot);
       const tankLengthReport = validatePriorityTankLength(repositoryRoot);
       const taxonomyReport = validateTaxonomyAudit(repositoryRoot, { requireSnapshot: true });
@@ -91,6 +93,9 @@ function nativeLegacyModules() {
       );
       this.info(
         `AKVARYUM motor bulgu sözleşmesi doğrulandı: ${engineFindingReport.declaredRuleIds} kural, ${engineFindingReport.validatedFindings} bulgu.`,
+      );
+      this.info(
+        `AKVARYUM ilk altın motor paketi doğrulandı: ${engineGoldenReport.scenarios} senaryo, ${engineGoldenReport.coveredRuleIds} kural.`,
       );
       this.info(
         `AKVARYUM öncelik 100 doğrulandı: ${priorityReport.completedSocialStructures} sosyal yapı, ${priorityReport.completedCareDifficulties} bakım zorluğu.`,
