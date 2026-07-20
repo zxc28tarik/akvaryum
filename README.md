@@ -14,6 +14,8 @@ Kaynak kataloğu `data/sources/source-catalog.json`, kaynak ve doğrulama sözle
 
 Canlı katalog modülleri `data/catalog/` altındadır. Yeni modeldeki 580 kayıt balık, omurgasız ve mercan koleksiyonlarına ayrılır; bütün kayıtlar aynı ortak arama indeksinde tutulur. `DB.fish` eski arayüz uyumluluğu için korunur, yeni ana model `DB.inhabitants`, katalog erişimi ise `DB.inhabitantCatalog` alanıdır.
 
+Bilimsel ad ve kimlik denetiminin kayıtlı sonucu `data/audits/inhabitant-taxonomy-audit.json` dosyasındadır. Mevcut bulgular parmak iziyle sabitlenmiştir; yeni veya kaldırılan bir bulgu rapor bilinçli olarak güncellenmeden build'i durdurur.
+
 ## Mevcut statik sürüm
 
 ```bash
@@ -31,6 +33,7 @@ npm run check:schema
 npm run check:classification
 npm run check:sources
 npm run check:migration
+npm run check:taxonomy
 npm run check:catalog
 npm run dev
 ```
@@ -43,6 +46,7 @@ npm run check:schema
 npm run check:classification
 npm run check:sources
 npm run check:migration
+npm run check:taxonomy
 npm run check:catalog
 npm run build
 npm run check:native
@@ -54,8 +58,9 @@ npm run preview
 - `check:classification`: 580 canlıda `entityType`, kategori, cins ve aile kapsamını doğrular.
 - `check:sources`: kaynak kataloğunu, kayıtların kaynak kimliklerini, alan-kaynak bağlantılarını ve doğrulama durumlarını denetler.
 - `check:migration`: 580 legacy kayıtla 580 `Inhabitant v1` kaydını birebir karşılaştırır; kimlik, doğrudan değer ve kaynak kaybını reddeder.
+- `check:taxonomy`: kimlik ve bilimsel ad tekrarlarını, ortak ad çakışmalarını, `var./sp./cf.` kayıtlarını ve cins-aile tutarlılığını denetler; güncel bulguları kayıtlı raporla karşılaştırır.
 - `check:catalog`: yeni modeldeki 580 canlıyı balık, omurgasız ve mercan koleksiyonlarına ayırır; kayıt kaybı, çifte üyelik ve eksik arama indeksi durumlarını reddeder.
-- `build`: başlamadan önce veri, kaynak, migrasyon ve katalog doğrulamalarını otomatik olarak yeniden çalıştırır.
+- `build`: başlamadan önce veri, kaynak, migrasyon, taksonomi raporu ve katalog doğrulamalarını otomatik olarak yeniden çalıştırır.
 - `check:native`: production paketinde eski runtime yükleyicisi, Babel standalone, gzip açıcı veya `eval` bulunmadığını doğrular.
 - Build çıktısı `dist/` klasörüne yazılır.
 - GitHub Pages taban yolu `/akvaryum/` olarak ayarlanmıştır.
@@ -78,6 +83,15 @@ counts;
 ```
 
 Eski veride bulunmayan etkinlik, bölgesellik, beslenme zorluğu, akıntı, oksijen ve bakım zorluğu gibi alanlar tahmin edilmez; `unknown` olarak işaretlenir ve veri tamamlama görevlerine bırakılır.
+
+## Taksonomi denetimi ilkesi
+
+- Aynı veya normalize edildiğinde çakışan kimlikler engelleyici hatadır.
+- Bilimsel addaki cins ile `taxonomy.genus` uyuşmazlığı engelleyici hatadır.
+- Aynı cinsin birden fazla aileye bağlanması engelleyici hatadır.
+- Aynı bilimsel adı taşıyan kayıtlar otomatik silinmez; kanonik kimlik, alias veya ticari varyant kararı bekler.
+- `sp.`, `cf.` ve melez gösterimleri belirsizlik olarak korunur; kaynak olmadan tür adı tahmin edilmez.
+- Bu iç denetim kabul edilmiş bilimsel ad doğrulaması değildir. 580 kaydın dış taksonomi kaynaklarıyla doğrulanması ayrı veri çalışmasıdır.
 
 ## Kaynaklandırma ilkesi
 
