@@ -34,7 +34,6 @@ function unique(values) {
 
 function mappedFieldSources(record) {
   const legacySource = record.fieldSourceIds?.core ?? ['legacy-substrate-dataset-v1'];
-  const mapped = unique([...legacySource, SUBSTRATE_MIGRATION_SOURCE_ID]);
   return {
     name: legacySource,
     entityType: [SUBSTRATE_MIGRATION_SOURCE_ID],
@@ -44,7 +43,7 @@ function mappedFieldSources(record) {
     waterTypes: legacySource,
     material: [SUBSTRATE_MIGRATION_SOURCE_ID],
     grainSizeMm: [SUBSTRATE_MIGRATION_SOURCE_ID],
-    activeBuffering: mapped,
+    activeBuffering: [SUBSTRATE_MIGRATION_SOURCE_ID],
     targetPH: [SUBSTRATE_MIGRATION_SOURCE_ID],
     phEffect: legacySource,
     khEffect: [SUBSTRATE_MIGRATION_SOURCE_ID],
