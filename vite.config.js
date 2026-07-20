@@ -9,6 +9,7 @@ import { defineConfig } from 'vite';
 import { buildRuntimeInhabitantCatalogBootstrap } from './data/catalog/index.mjs';
 import { buildLegacyFishClassification } from './scripts/lib/classify-legacy-fish.mjs';
 import { buildRuntimeSourceProvenanceBootstrap } from './scripts/lib/source-provenance.mjs';
+import { validateEngineFindingContract } from './scripts/lib/validate-engine-finding-contract.mjs';
 import { validateEngineParameterIntersection } from './scripts/lib/validate-engine-parameter-intersection.mjs';
 import { validateInhabitantCatalog } from './scripts/lib/validate-inhabitant-catalog.mjs';
 import { validateInhabitantMigration } from './scripts/lib/validate-inhabitant-migration.mjs';
@@ -65,6 +66,7 @@ function nativeLegacyModules() {
       const plantReport = validatePlantMigration(repositoryRoot);
       const substrateReport = validateSubstrateMigration(repositoryRoot);
       const engineParameterReport = validateEngineParameterIntersection(repositoryRoot);
+      const engineFindingReport = validateEngineFindingContract(repositoryRoot);
       const priorityReport = validatePrioritySocialCare(repositoryRoot);
       const tankLengthReport = validatePriorityTankLength(repositoryRoot);
       const taxonomyReport = validateTaxonomyAudit(repositoryRoot, { requireSnapshot: true });
@@ -86,6 +88,9 @@ function nativeLegacyModules() {
       );
       this.info(
         `AKVARYUM motor parametre kesişimi doğrulandı: ${engineParameterReport.scenarios} senaryo.`,
+      );
+      this.info(
+        `AKVARYUM motor bulgu sözleşmesi doğrulandı: ${engineFindingReport.declaredRuleIds} kural, ${engineFindingReport.validatedFindings} bulgu.`,
       );
       this.info(
         `AKVARYUM öncelik 100 doğrulandı: ${priorityReport.completedSocialStructures} sosyal yapı, ${priorityReport.completedCareDifficulties} bakım zorluğu.`,
@@ -159,7 +164,11 @@ function nativeLegacyModules() {
           ].join('\n');
 
         case 'engine.js':
-          return ["import 'virtual:akvaryum/data.js';", source].join('\n');
+          return [
+            "import 'virtual:akvaryum/data.js';",
+            source,
+            readPlain('engine-finding-contract.js'),
+          ].join('\n');
 
         case 'result-views.jsx':
           return [
