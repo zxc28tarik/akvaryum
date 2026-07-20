@@ -50,6 +50,9 @@ jobs:
       - name: Motor ortak parametre kesişimini doğrula
         run: npm run check:engine-params
 
+      - name: Motor bulgu sözleşmesini doğrula
+        run: npm run check:engine-findings
+
       - name: İlk 100 sosyal yapı ve bakım zorluğunu doğrula
         run: npm run check:priority100
 
