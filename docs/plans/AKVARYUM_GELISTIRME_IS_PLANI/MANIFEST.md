@@ -33,5 +33,6 @@
 | `26_AKV_SUB_001_SUBSTRATE_MIGRASYONU.md` | 8 eski tabanın Substrate v1 modeline kayıpsız geçişi | Yüklendi |
 | `27_AKV_ENG_001_PARAMETRE_KESISIM_DUZELTMESI.md` | pH, sıcaklık ve GH ortak aralık hatasının düzeltilmesi | Yüklendi |
 | `28_AKV_ENG_002_MOTOR_BULGU_SOZLESMESI.md` | Motor sorun, uyarı, öneri, uyumluluk ve ekipman çıktılarının standartlaştırılması | Yüklendi |
+| `29_AKV_TEST_010_ILK_25_ALTIN_MOTOR_SENARYOSU.md` | İlk 25 altın motor senaryosu, 27 kural kapsamı ve bilinen skor kusuru | Yüklendi |
 
 Planın tamamı yerel ZIP paketinde korunmaktadır. GitHub’a aktarılan dosyalar aktif geliştirme sırasında öncelikli kaynak kabul edilir; kalan uzmanlık belgeleri ilgili göreve başlanmadan önce depoya eklenir.
