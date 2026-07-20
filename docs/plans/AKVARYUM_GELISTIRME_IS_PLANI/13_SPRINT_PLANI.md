@@ -31,11 +31,13 @@ Bu plan tek geliştirici veya küçük ekip için **sıralı çalışma paketler
 
 ## Sprint 04 — Motor düzeltmeleri
 
-- AKV-ENG-001
-- AKV-ENG-002
-- AKV-TEST-010 için ilk 25 senaryo
+- AKV-ENG-001 — tamamlandı
+- AKV-ENG-002 — tamamlandı
+- AKV-TEST-010A — ilk 25 altın senaryo tamamlandı
 
-**Çıktı:** Açıklanabilir kural çıktısı ve doğru parametre kesişimi.
+**Çıktı:** Açıklanabilir kural çıktısı, doğru parametre kesişimi ve 27/27 kuralı kapsayan ilk altın test paketi.
+
+**Kapanış notu:** Altın testlerin ortaya çıkardığı `AKV-ENG-003` kritik sorun varken sağlıklı kompozisyon önerisi hatası, Sprint 05 başlamadan önce kapatılmalıdır.
 
 ## Sprint 05 — Katalog ve arama
 

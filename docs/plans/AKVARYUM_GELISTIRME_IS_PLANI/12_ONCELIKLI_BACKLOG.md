@@ -12,6 +12,7 @@
 | AKV-DATA-003 | DONE | Kaynak ve doğrulama modeli ekle | DATA-001 | Kayıtlar kaynak kimliği taşıyabilir |
 | AKV-ENG-001 | DONE | Parametre ortak aralık hatasını düzelt | TEST-001 | Çakışma yoksa sonuç `null` ve kritik sorun |
 | AKV-ENG-002 | DONE | Kural çıktı tipini standartlaştır | DATA-001 | Her sonuç `ruleId/severity/resolution` taşır |
+| AKV-ENG-003 | READY | Kritik sorun varken sağlıklı kompozisyon önerisini engelle | TEST-010A | Kritik bulgu bulunan sonuçta `COMPOSITION_HEALTHY` yok |
 | AKV-I18N-001 | TODO | TR/EN anahtar bütünlüğü testi | TEST-001 | Eksik veya fazla anahtar CI’da hata verir |
 | AKV-UI-001 | TODO | Mobil ana akış duman testi ve düzeltme | ARCH-001 | 360 px genişlikte taşma yok |
 
@@ -52,6 +53,10 @@
 - 27 sabit kural kimliği ve dokuz zorunlu alan bulunuyor: `ruleId`, `severity`, `title`, `desc`, `reason`, `impact`, `resolution`, `subjects`, `evidence`.
 - Eski `title/desc`, uyumluluk ve ekipman alanları korunuyor; yeni sözleşme Vite production motoruna uyumluluk katmanı olarak ekleniyor.
 - `npm run check:engine-findings` JSON Schema, Türkçe/İngilizce çıktılar ve 27/27 kural kimliği için CI ve build başlangıcında çalışıyor.
+- `AKV-TEST-010A` tamamlandı: 23 analiz ve 2 ekipman olmak üzere ilk 25 altın motor senaryosu oluşturuldu.
+- Altın paket 105 bulguyu ve Engine Finding v1 içindeki 27/27 kural kimliğini doğruluyor; skor, karar, parametreler ve tam kural sıraları sabitleniyor.
+- `npm run check:engine-golden25` bağımsız komuta, GitHub Actions hattına ve Vite production build başlangıcına bağlandı.
+- Altın testler kritik sorun varken `COMPOSITION_HEALTHY` önerisi çıkabildiğini gösterdi; düzeltme `AKV-ENG-003` olarak backloga eklendi.
 - Sosyal bakım, tank uzunluğu, Plant v1 ve Substrate v1 değerleri dış kaynak doğrulaması değildir; kayıtlar `needs_review/low` durumunda tutuluyor.
 - Tarayıcı duman testi çalışma ortamının yerel adresleri engellemesi nedeniyle dışarıdan doğrulanamadı; `AKV-ARCH-001` ve `AKV-TEST-001` hâlâ `REVIEW` durumunda.
 
@@ -81,7 +86,8 @@
 | AKV-ENG-014 | READY | Omurgasız ve mercan güvenliği ayrımı | DATA-010 | Soft/LPS/SPS ve shrimp/snail ayrı değerlendirilir |
 | AKV-ENG-015 | READY | Tür çifti istisna tablosu | DATA-003 | En az 50 doğrulanmış istisna |
 | AKV-ENG-016 | TODO | Yeni alt skor sistemi | ENG-010..015 | Dört alt puan ve açıklama |
-| AKV-TEST-010 | READY | 100 altın motor senaryosu | ENG-002 | Tüm senaryolar CI’da çalışır |
+| AKV-TEST-010A | DONE | İlk 25 altın motor senaryosu | ENG-002 | 25 senaryo ve 27 kural CI/build hattında |
+| AKV-TEST-010 | READY | Altın motor senaryolarını 100'e çıkar | TEST-010A | 25/100 tamamlandı; bütün senaryolar CI’da çalışır |
 
 ## P2 — Veri büyümesi
 
