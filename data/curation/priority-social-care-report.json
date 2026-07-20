@@ -1,0 +1,44 @@
+{
+  "version": 1,
+  "generatedAt": "2026-07-20",
+  "program": "priority-100-social-care-v1",
+  "selectionMethod": "legacy_catalog_priority_order",
+  "selectionNote": "Backlogdaki ilk 100 ürün öncelik setidir; dış pazar popülerlik sıralaması değildir.",
+  "recordCount": 100,
+  "externalReviewRequired": true,
+  "completedFields": ["social.territoriality", "care.difficulty"],
+  "difficultyCounts": {
+    "beginner": 69,
+    "intermediate": 18,
+    "advanced": 5,
+    "expert": 8
+  },
+  "territorialityCounts": {
+    "none": 72,
+    "low": 0,
+    "medium": 19,
+    "high": 9
+  },
+  "difficultyRule": {
+    "beginner": "0-1 puan",
+    "intermediate": "2-3 puan",
+    "advanced": "4-5 puan",
+    "expert": "6 veya daha fazla puan",
+    "inputs": [
+      "minimum tank hacmi",
+      "yetişkin boyu",
+      "genel mizaç",
+      "etçil beslenme işareti",
+      "sıcaklık aralığı genişliği",
+      "pH aralığı genişliği",
+      "asgari grup büyüklüğü"
+    ]
+  },
+  "territorialityRule": {
+    "high": "aggressive veya predatory",
+    "medium": "semi_aggressive",
+    "none": "peaceful ve grup gereksinimi en az 2",
+    "low": "peaceful ve grup gereksinimi olmayan kayıt"
+  },
+  "verificationNote": "Bu değerler mevcut legacy kısıtlarından türetilmiştir. Tür bazlı dış kaynak doğrulaması tamamlanana kadar confidence=low ve needs_review durumu korunur."
+}
