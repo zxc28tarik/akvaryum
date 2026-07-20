@@ -1,0 +1,51 @@
+{
+  "version": 1,
+  "generatedAt": "2026-07-20",
+  "program": "legacy-substrate-v1-to-substrate-v1",
+  "legacyRecords": 8,
+  "migratedRecords": 8,
+  "preservedIds": 8,
+  "preservedDirectValues": 72,
+  "unknownFieldMarkers": 96,
+  "externalReviewRequired": true,
+  "categoryCounts": {
+    "sand": 5,
+    "gravel": 1,
+    "soil": 1,
+    "rock": 1
+  },
+  "phEffectCounts": {
+    "lower": 1,
+    "neutral": 4,
+    "raise": 3
+  },
+  "bufferingCounts": {
+    "active": 4,
+    "inactive": 4
+  },
+  "plantFriendlyCounts": {
+    "true": 2,
+    "false": 6
+  },
+  "waterTypeCounts": {
+    "fresh": 5,
+    "salt": 4
+  },
+  "directFields": ["id", "name", "summary", "waterTypes", "phEffect", "plantFriendly", "appearance"],
+  "derivedFields": ["status", "entityType", "category", "tags", "material", "activeBuffering"],
+  "unknownFields": [
+    "grainSizeMm",
+    "targetPH",
+    "khEffect",
+    "ghEffect",
+    "nutrientRich",
+    "burrowFriendly",
+    "bottomFishSafe",
+    "sharpnessRisk",
+    "recommendedDepthCm",
+    "replacementMonths",
+    "bestFor",
+    "avoidFor"
+  ],
+  "verificationNote": "Eski veride bulunmayan tane boyu, güvenlik, kullanım derinliği, yenileme süresi ve besin alanları uydurulmadı. Bütün Substrate v1 kayıtları needs_review/low durumunda dış kaynak doğrulaması bekler."
+}

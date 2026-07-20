@@ -1,5 +1,5 @@
 {
-  "version": 5,
+  "version": 6,
   "updatedAt": "2026-07-20",
   "sources": [
     {
@@ -44,7 +44,7 @@
       "publisher": "AKVARYUM projesi",
       "location": "data.js#substrates",
       "accessedAt": "2026-07-18",
-      "fields": ["core", "name", "waterTypes", "plantFriendly", "phEffect", "description", "appearance"],
+      "fields": ["core", "name", "waterTypes", "plantFriendly", "phEffect", "description", "summary", "appearance"],
       "sourceType": "internal_legacy",
       "status": "unverified",
       "confidence": "low",
@@ -145,6 +145,18 @@
       "status": "reviewed",
       "confidence": "medium",
       "note": "26 eski bitki kaydını Plant v1 yapısına taşır; eski veride bulunmayan su, büyüme, beslenme, boy ve çoğaltma alanları uydurulmadan açık eksik olarak tutulur."
+    },
+    {
+      "id": "legacy-substrate-migration-v1",
+      "title": "LegacySubstrate v1 → Substrate v1 dönüşüm kuralları",
+      "publisher": "AKVARYUM projesi",
+      "location": "data/migration/legacy-to-substrate.mjs",
+      "accessedAt": "2026-07-20",
+      "fields": ["entityType", "category", "tags", "summary", "material", "grainSizeMm", "activeBuffering", "targetPH", "khEffect", "ghEffect", "nutrientRich", "burrowFriendly", "bottomFishSafe", "sharpnessRisk", "recommendedDepthCm", "replacementMonths", "bestFor", "avoidFor", "appearance", "migration"],
+      "sourceType": "derived",
+      "status": "reviewed",
+      "confidence": "medium",
+      "note": "8 eski taban kaydını Substrate v1 yapısına taşır; eski veride bulunmayan tane boyu, güvenlik, kullanım derinliği, yenileme ve besin alanları uydurulmadan açık eksik olarak tutulur."
     }
   ]
 }

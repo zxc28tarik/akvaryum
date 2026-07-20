@@ -25,7 +25,7 @@
 - 580 kaydın tamamında aile alanı var; aileler dış kaynak doğrulaması tamamlanana kadar `inferred` durumunda tutuluyor.
 - 579 kaydın cinsi bilimsel addan çıkarıldı. Yapay melez `flowerhorn` kaydı `needs_review` olarak işaretlendi.
 - `AKV-DATA-003` tamamlandı: kaynak kataloğu ve ayrı kaynak/doğrulama JSON Schema eklendi.
-- Eski kayıtların tamamı bilinçli olarak `needs_review/low` durumda; dış doğrulama yapılmadan hiçbir kayıt `verified` sayılmıyor.
+- Eski kayıtların tamamı bilinçli olarak `needs_review/low` durumda; dış kaynaklarla doğrulanmadan hiçbir kayıt `verified` sayılmıyor.
 - `AKV-DATA-010` tamamlandı: canlılar balık, omurgasız ve mercan koleksiyonlarına ayrıldı; 580 benzersiz kayıt ortak arama indeksinde bulunuyor.
 - `AKV-DATA-011` tamamlandı: 580 legacy kayıt `Inhabitant v1` modeline kimlik değiştirmeden taşındı.
 - Yeni ana erişim `DB.inhabitants`; `DB.fish` yalnız eski ekran uyumluluğu için korunuyor.
@@ -41,8 +41,12 @@
 - Yeni bitki erişimi `DB.aquaticPlants`; eski `DB.plants` arayüz uyumluluğu için korunuyor.
 - 286 doğrudan alan karşılaştırması geçti. Su, büyüme, beslenme, boy ve çoğaltma alanlarında toplam 260 açık eksik işareti bulunuyor; hiçbirine tahmini değer yazılmadı.
 - Bitki dağılımı: 14 beginner, 10 intermediate, 2 advanced; 15 CO₂ gerektirmeyen ve 11 CO₂ gerekli kayıt.
-- `npm run check:plants` bağımsız komuta, GitHub Actions hattına ve Vite production build başlangıcına bağlandı.
-- Sosyal bakım, tank uzunluğu ve Plant v1 değerleri tür bazlı dış kaynak doğrulaması değildir; kayıtlar `needs_review/low` durumunda tutuluyor.
+- `AKV-SUB-001` tamamlandı: 8 eski taban kaydı kimlik kaybı olmadan `Substrate v1` modeline taşındı.
+- Yeni taban erişimi `DB.aquariumSubstrates`; eski `DB.substrates` arayüz uyumluluğu için korunuyor.
+- 72 doğrudan alan karşılaştırması geçti. Tane boyu, güvenlik, kullanım derinliği, yenileme ve besin alanlarında toplam 96 açık eksik işareti bulunuyor; hiçbirine tahmini değer yazılmadı.
+- Taban dağılımı: 5 sand, 1 gravel, 1 soil, 1 rock; pH etkisi 1 lower, 4 neutral, 3 raise.
+- `npm run check:plants` ve `npm run check:substrates` bağımsız komutlara, GitHub Actions hattına ve Vite production build başlangıcına bağlandı.
+- Sosyal bakım, tank uzunluğu, Plant v1 ve Substrate v1 değerleri dış kaynak doğrulaması değildir; kayıtlar `needs_review/low` durumunda tutuluyor.
 - Tarayıcı duman testi çalışma ortamının yerel adresleri engellemesi nedeniyle dışarıdan doğrulanamadı; `AKV-ARCH-001` ve `AKV-TEST-001` hâlâ `REVIEW` durumunda.
 
 ## P1 — Veri modeli ve katalog
@@ -55,7 +59,7 @@
 | AKV-DATA-013 | DONE | Zorluk ve sosyal yapı alanlarını doldurma partisi 1 | DATA-011 | İlk ürün öncelik setindeki 100 kayıt tamamlanır |
 | AKV-DATA-014 | DONE | Tank uzunluğu alanını doldurma partisi 1 | DATA-011 | İlk ürün öncelik setindeki 100 kayıt tamamlanır |
 | AKV-PLANT-001 | DONE | Bitki şemasını oluştur | DATA-001 | 26 bitki migrate edilir |
-| AKV-SUB-001 | READY | Taban şemasını oluştur | DATA-001 | 8 taban migrate edilir |
+| AKV-SUB-001 | DONE | Taban şemasını oluştur | DATA-001 | 8 taban migrate edilir |
 | AKV-UI-010 | READY | Kategori ve gelişmiş filtreler | DATA-002 | URL’de korunabilen filtreler |
 | AKV-UI-011 | READY | Bilimsel/eş ad araması | DATA-011 | Türkçe/İngilizce/bilimsel arama çalışır |
 | AKV-UI-012 | READY | Canlı ayrıntı paneli/sayfası | DATA-011 | Kaynak ve bakım tablosu görünür |
@@ -83,7 +87,7 @@
 | AKV-CORAL-001 | READY | Mercanları soft/LPS/SPS ayır | DATA-010 | Işık/akıntı/agresyon alanları dolu |
 | AKV-INVERT-001 | READY | Temizlik ekibi veri partisi | DATA-010 | En az 50 omurgasız profili |
 | AKV-PLANT-010 | READY | Bitki sayısını 40’a çıkar | PLANT-001 | 14 yeni kaynaklı kayıt |
-| AKV-SUB-010 | TODO | Taban sayısını 15’e çıkar | SUB-001 | 7 yeni kaynaklı profil |
+| AKV-SUB-010 | READY | Taban sayısını 15’e çıkar | SUB-001 | 7 yeni kaynaklı profil |
 | AKV-HARD-001 | TODO | Hardscape şeması ve ilk 20 kayıt | DATA-001 | Kimya ve güvenlik alanları |
 
 ## P2 — Ürün özellikleri

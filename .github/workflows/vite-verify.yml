@@ -44,6 +44,9 @@ jobs:
       - name: Plant v1 migrasyonunu doğrula
         run: npm run check:plants
 
+      - name: Substrate v1 migrasyonunu doğrula
+        run: npm run check:substrates
+
       - name: İlk 100 sosyal yapı ve bakım zorluğunu doğrula
         run: npm run check:priority100
 
