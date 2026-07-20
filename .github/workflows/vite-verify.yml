@@ -54,7 +54,10 @@ jobs:
         run: npm run check:engine-findings
 
       - name: İlk 25 altın motor senaryosunu doğrula
-        run: npm run check:engine-golden25 2>&1 | tee engine-golden25.log
+        shell: bash
+        run: |
+          set -o pipefail
+          npm run check:engine-golden25 2>&1 | tee engine-golden25.log
 
       - name: Başarısız altın test günlüğünü yükle
         if: failure()
