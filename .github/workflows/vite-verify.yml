@@ -41,6 +41,9 @@ jobs:
       - name: Inhabitant v1 migrasyonunu doğrula
         run: npm run check:migration
 
+      - name: Bilimsel ad ve kimlik tekrarlarını denetle
+        run: npm run check:taxonomy
+
       - name: Balık, omurgasız ve mercan kataloglarını doğrula
         run: npm run check:catalog
 
