@@ -4,6 +4,7 @@ import vm from 'node:vm';
 import { gunzipSync } from 'node:zlib';
 
 import { applyInhabitantCatalog } from '../../data/catalog/index.mjs';
+import { applyPrioritySocialCare } from '../../data/curation/priority-social-care-v1.mjs';
 import { migrateLegacyInhabitants } from '../../data/migration/legacy-to-inhabitant.mjs';
 import { enrichLegacyFish } from './classify-legacy-fish.mjs';
 import { applySourceProvenance } from './source-provenance.mjs';
@@ -19,7 +20,12 @@ function readArchive(repositoryRoot, relativePath) {
 
 export function loadLegacyData(
   repositoryRoot,
-  { withProvenance = false, withMigration = false, withCatalog = false } = {},
+  {
+    withProvenance = false,
+    withMigration = false,
+    withPriorityCuration = false,
+    withCatalog = false,
+  } = {},
 ) {
   const context = vm.createContext({ window: {} });
   const run = (source, filename) =>
@@ -36,9 +42,14 @@ export function loadLegacyData(
   context.window.DB_SALT = enrichLegacyFish(context.window.DB_SALT ?? [], saltSource);
 
   run(readText(repositoryRoot, 'data.js'), 'data.js');
-  if (withProvenance || withMigration) applySourceProvenance(context.window.DB);
-  if (withMigration) {
+  if (withProvenance || withMigration || withPriorityCuration) {
+    applySourceProvenance(context.window.DB);
+  }
+  if (withMigration || withPriorityCuration) {
     context.window.DB.inhabitants = migrateLegacyInhabitants(context.window.DB.fish ?? []);
+  }
+  if (withPriorityCuration) {
+    context.window.DB.inhabitants = applyPrioritySocialCare(context.window.DB.inhabitants);
   }
   if (withCatalog) applyInhabitantCatalog(context.window.DB);
   run(readText(repositoryRoot, 'engine.js'), 'engine.js');
