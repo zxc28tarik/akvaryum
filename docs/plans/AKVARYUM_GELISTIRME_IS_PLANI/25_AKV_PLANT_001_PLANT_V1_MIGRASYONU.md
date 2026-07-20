@@ -1,11 +1,54 @@
 # AKV-PLANT-001 — Plant v1 Migrasyonu
 
 **Tarih:** 20 Temmuz 2026  
-**Durum:** Doğrulama aşamasında
+**Durum:** Tamamlandı
 
 ## Amaç
 
 Mevcut 26 tatlı su bitkisi kaydını kimlik kaybı olmadan yeni `Plant v1` modeline taşımak; eski arayüzü çalışır tutarken yeni bitki verisini production build içinde erişilebilir yapmak.
+
+## Sonuç
+
+```text
+Eski bitki: 26
+Plant v1: 26
+Korunan kimlik: 26
+Korunan alan karşılaştırması: 286
+Açık eksik alan işareti: 260
+```
+
+Işık dağılımı:
+
+```text
+low: 10
+medium: 6
+high: 10
+```
+
+CO₂ dağılımı:
+
+```text
+none: 15
+required: 11
+```
+
+Zorluk dağılımı:
+
+```text
+beginner: 14
+intermediate: 10
+advanced: 2
+```
+
+Kategori dağılımı:
+
+```text
+stem: 8
+rosette: 8
+grass: 5
+floating: 3
+moss: 2
+```
 
 ## Erişim yapısı
 
@@ -33,7 +76,7 @@ window.DB.aquaticPlants; // Yeni Plant v1 modeli
 
 ## Açık eksik alanlar
 
-Eski veride bulunmayan bilgiler uydurulmaz:
+Eski veride bulunmayan bilgiler uydurulmadı:
 
 - Sıcaklık
 - pH
@@ -70,4 +113,4 @@ Kontrol:
 - kaynak ve alan-kaynak bağlantılarını,
 - kayıtların yanlışlıkla doğrulanmış sayılmadığını denetler.
 
-Kontrol GitHub Actions ve Vite production build başlangıcına bağlanmıştır.
+GitHub Actions koşusunda Plant v1 migrasyonu, production build ve native paket kontrolü başarıyla geçti.
