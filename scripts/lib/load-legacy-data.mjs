@@ -8,6 +8,7 @@ import { applyPrioritySocialCare } from '../../data/curation/priority-social-car
 import { applyPriorityTankLength } from '../../data/curation/priority-tank-length-v1.mjs';
 import { migrateLegacyInhabitants } from '../../data/migration/legacy-to-inhabitant.mjs';
 import { migrateLegacyPlants } from '../../data/migration/legacy-to-plant.mjs';
+import { migrateLegacySubstrates } from '../../data/migration/legacy-to-substrate.mjs';
 import { enrichLegacyFish } from './classify-legacy-fish.mjs';
 import { applySourceProvenance } from './source-provenance.mjs';
 
@@ -27,6 +28,7 @@ export function loadLegacyData(
     withMigration = false,
     withPriorityCuration = false,
     withPlantMigration = false,
+    withSubstrateMigration = false,
     withCatalog = false,
   } = {},
 ) {
@@ -45,7 +47,8 @@ export function loadLegacyData(
   context.window.DB_SALT = enrichLegacyFish(context.window.DB_SALT ?? [], saltSource);
 
   run(readText(repositoryRoot, 'data.js'), 'data.js');
-  if (withProvenance || withMigration || withPriorityCuration || withPlantMigration) {
+  if (withProvenance || withMigration || withPriorityCuration
+    || withPlantMigration || withSubstrateMigration) {
     applySourceProvenance(context.window.DB);
   }
   if (withMigration || withPriorityCuration) {
@@ -58,6 +61,9 @@ export function loadLegacyData(
   if (withPlantMigration) {
     context.window.DB.aquaticPlants = migrateLegacyPlants(context.window.DB.plants ?? []);
   }
+  if (withSubstrateMigration) {
+    context.window.DB.aquariumSubstrates = migrateLegacySubstrates(context.window.DB.substrates ?? []);
+  }
   if (withCatalog) applyInhabitantCatalog(context.window.DB);
   run(readText(repositoryRoot, 'engine.js'), 'engine.js');
 
@@ -69,6 +75,7 @@ export function loadLegacyData(
     plants: context.window.DB?.plants ?? [],
     aquaticPlants: context.window.DB?.aquaticPlants ?? [],
     substrates: context.window.DB?.substrates ?? [],
+    aquariumSubstrates: context.window.DB?.aquariumSubstrates ?? [],
     tankPresets: context.window.DB?.tankPresets ?? [],
     sources: context.window.DB?.sources ?? [],
     sourceCatalogVersion: context.window.DB?.sourceCatalogVersion ?? null,
