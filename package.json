@@ -14,6 +14,7 @@
     "check:sources": "node scripts/check-source-provenance.mjs",
     "check:catalog": "node scripts/check-inhabitant-catalog.mjs",
     "check:migration": "node scripts/check-inhabitant-migration.mjs",
+    "check:plants": "node scripts/check-plant-migration.mjs",
     "check:taxonomy": "node scripts/check-taxonomy-audit.mjs",
     "check:priority100": "node scripts/check-priority-social-care.mjs",
     "check:tanklength100": "node scripts/check-priority-tank-length.mjs"

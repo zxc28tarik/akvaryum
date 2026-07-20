@@ -41,6 +41,9 @@ jobs:
       - name: Inhabitant v1 migrasyonunu doğrula
         run: npm run check:migration
 
+      - name: Plant v1 migrasyonunu doğrula
+        run: npm run check:plants
+
       - name: İlk 100 sosyal yapı ve bakım zorluğunu doğrula
         run: npm run check:priority100
 
