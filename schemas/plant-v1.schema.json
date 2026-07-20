@@ -1,0 +1,177 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://zxc28tarik.github.io/akvaryum/schemas/plant-v1.schema.json",
+  "title": "AKVARYUM Plant v1",
+  "type": "array",
+  "items": { "$ref": "#/$defs/plant" },
+  "$defs": {
+    "slugId": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 120,
+      "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$"
+    },
+    "nonEmptyText": { "type": "string", "minLength": 1 },
+    "localizedText": {
+      "type": "object",
+      "required": ["tr", "en"],
+      "additionalProperties": false,
+      "properties": {
+        "tr": { "$ref": "#/$defs/nonEmptyText" },
+        "en": { "$ref": "#/$defs/nonEmptyText" }
+      }
+    },
+    "numberRange": {
+      "type": "array",
+      "minItems": 2,
+      "maxItems": 2,
+      "prefixItems": [{ "type": "number" }, { "type": "number" }],
+      "items": false
+    },
+    "positiveRange": {
+      "type": "array",
+      "minItems": 2,
+      "maxItems": 2,
+      "prefixItems": [
+        { "type": "number", "exclusiveMinimum": 0 },
+        { "type": "number", "exclusiveMinimum": 0 }
+      ],
+      "items": false
+    },
+    "sourceIds": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": { "$ref": "#/$defs/slugId" }
+    },
+    "fieldSourceIds": {
+      "type": "object",
+      "minProperties": 1,
+      "additionalProperties": { "$ref": "#/$defs/sourceIds" }
+    },
+    "plant": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id", "status", "name", "scientificName", "aliases", "entityType",
+        "category", "tags", "summary", "placement", "water", "light",
+        "co2Need", "growthRate", "nutrientDemand", "rootFeeder",
+        "waterColumnFeeder", "heightCm", "propagation", "attachToHardscape",
+        "difficulty", "appearance", "sourceIds", "fieldSourceIds",
+        "verification", "dataVersion", "migration"
+      ],
+      "properties": {
+        "id": { "$ref": "#/$defs/slugId" },
+        "status": { "enum": ["draft", "reviewed", "verified", "needs_update", "deprecated"] },
+        "name": { "$ref": "#/$defs/localizedText" },
+        "scientificName": { "$ref": "#/$defs/nonEmptyText" },
+        "aliases": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": { "$ref": "#/$defs/nonEmptyText" }
+        },
+        "entityType": { "const": "aquatic_plant" },
+        "category": { "enum": ["stem", "grass", "rosette", "moss", "floating"] },
+        "tags": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": { "$ref": "#/$defs/nonEmptyText" }
+        },
+        "summary": { "$ref": "#/$defs/localizedText" },
+        "placement": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": { "enum": ["foreground", "midground", "background", "floating", "hardscape"] }
+        },
+        "water": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["temperatureC", "pH", "gh"],
+          "properties": {
+            "temperatureC": { "oneOf": [{ "$ref": "#/$defs/numberRange" }, { "type": "null" }] },
+            "pH": { "oneOf": [{ "$ref": "#/$defs/numberRange" }, { "type": "null" }] },
+            "gh": { "oneOf": [{ "$ref": "#/$defs/numberRange" }, { "type": "null" }] }
+          }
+        },
+        "light": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["min", "max"],
+          "properties": {
+            "min": { "enum": ["low", "medium", "high"] },
+            "max": { "enum": ["low", "medium", "high"] }
+          }
+        },
+        "co2Need": { "enum": ["none", "beneficial", "required", "unknown"] },
+        "growthRate": { "enum": ["slow", "medium", "fast", "unknown"] },
+        "nutrientDemand": { "enum": ["low", "medium", "high", "unknown"] },
+        "rootFeeder": { "type": ["boolean", "null"] },
+        "waterColumnFeeder": { "type": ["boolean", "null"] },
+        "heightCm": { "oneOf": [{ "$ref": "#/$defs/positiveRange" }, { "type": "null" }] },
+        "propagation": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": { "$ref": "#/$defs/nonEmptyText" }
+        },
+        "attachToHardscape": { "type": ["boolean", "null"] },
+        "difficulty": { "enum": ["beginner", "intermediate", "advanced", "unknown"] },
+        "appearance": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["kind", "color"],
+          "properties": {
+            "kind": { "enum": ["stem", "grass", "rosette", "moss", "floating"] },
+            "color": { "type": "string", "pattern": "^#[0-9a-fA-F]{6}$" }
+          }
+        },
+        "sourceIds": { "$ref": "#/$defs/sourceIds" },
+        "fieldSourceIds": { "$ref": "#/$defs/fieldSourceIds" },
+        "verification": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["status", "confidence", "notes"],
+          "properties": {
+            "status": { "enum": ["needs_review", "reviewed", "verified", "rejected"] },
+            "confidence": { "enum": ["low", "medium", "high"] },
+            "notes": {
+              "type": "array",
+              "minItems": 1,
+              "items": { "$ref": "#/$defs/nonEmptyText" }
+            }
+          }
+        },
+        "dataVersion": { "const": 1 },
+        "migration": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["sourceModel", "targetModel", "schemaVersion", "directFields", "derivedFields", "unknownFields"],
+          "properties": {
+            "sourceModel": { "const": "legacyPlantV1" },
+            "targetModel": { "const": "plantV1" },
+            "schemaVersion": { "const": 1 },
+            "directFields": {
+              "type": "array",
+              "minItems": 1,
+              "uniqueItems": true,
+              "items": { "$ref": "#/$defs/nonEmptyText" }
+            },
+            "derivedFields": {
+              "type": "array",
+              "minItems": 1,
+              "uniqueItems": true,
+              "items": { "$ref": "#/$defs/nonEmptyText" }
+            },
+            "unknownFields": {
+              "type": "array",
+              "minItems": 1,
+              "uniqueItems": true,
+              "items": { "$ref": "#/$defs/nonEmptyText" }
+            }
+          }
+        }
+      }
+    }
+  }
+}
