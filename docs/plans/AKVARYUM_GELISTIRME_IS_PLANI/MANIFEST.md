@@ -28,5 +28,6 @@
 | `21_AKV_DATA_011_INHABITANT_MIGRASYONU.md` | 580 legacy canlı kaydının Inhabitant v1 modeline kayıpsız geçişi | Yüklendi |
 | `22_AKV_DATA_012_BILIMSEL_AD_VE_KIMLIK_DENETIMI.md` | Bilimsel ad, kimlik, varyant ve açık nomenklatür bulguları ile çözüm listesi | Yüklendi |
 | `23_AKV_DATA_013_ONCELIK_100_SOSYAL_BAKIM.md` | İlk 100 kaydın sosyal yapı ve bakım zorluğu türetimi | Yüklendi |
+| `24_AKV_DATA_014_ONCELIK_100_TANK_UZUNLUGU.md` | İlk 100 kaydın minimum tank uzunluğu türetimi | Yüklendi |
 
 Planın tamamı yerel ZIP paketinde korunmaktadır. GitHub’a aktarılan dosyalar aktif geliştirme sırasında öncelikli kaynak kabul edilir; kalan uzmanlık belgeleri ilgili göreve başlanmadan önce depoya eklenir.
