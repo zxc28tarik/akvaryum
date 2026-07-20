@@ -11,6 +11,7 @@ import { buildLegacyFishClassification } from './scripts/lib/classify-legacy-fis
 import { buildRuntimeSourceProvenanceBootstrap } from './scripts/lib/source-provenance.mjs';
 import { validateInhabitantCatalog } from './scripts/lib/validate-inhabitant-catalog.mjs';
 import { validateInhabitantMigration } from './scripts/lib/validate-inhabitant-migration.mjs';
+import { validatePrioritySocialCare } from './scripts/lib/validate-priority-social-care.mjs';
 import { validateRepositoryData } from './scripts/lib/validate-data-schema.mjs';
 import { validateSourceProvenance } from './scripts/lib/validate-source-provenance.mjs';
 import { validateTaxonomyAudit } from './scripts/lib/validate-taxonomy-audit.mjs';
@@ -33,6 +34,7 @@ const plainSources = {
   'engine.js': 'engine.js',
   'app.jsx': 'app.jsx',
   'legacy-to-inhabitant.mjs': 'data/migration/legacy-to-inhabitant.mjs',
+  'priority-social-care-v1.mjs': 'data/curation/priority-social-care-v1.mjs',
 };
 
 function readPlain(relativePath) {
@@ -53,6 +55,7 @@ function nativeLegacyModules() {
       const report = validateRepositoryData(repositoryRoot);
       const sourceReport = validateSourceProvenance(repositoryRoot);
       const migrationReport = validateInhabitantMigration(repositoryRoot);
+      const priorityReport = validatePrioritySocialCare(repositoryRoot);
       const taxonomyReport = validateTaxonomyAudit(repositoryRoot, { requireSnapshot: true });
       const catalogReport = validateInhabitantCatalog(repositoryRoot);
       this.info(
@@ -63,6 +66,9 @@ function nativeLegacyModules() {
       );
       this.info(
         `AKVARYUM Inhabitant migrasyonu doğrulandı: ${migrationReport.migratedRecords} kayıt, ${migrationReport.preservedIds} korunan kimlik.`,
+      );
+      this.info(
+        `AKVARYUM öncelik 100 doğrulandı: ${priorityReport.completedSocialStructures} sosyal yapı, ${priorityReport.completedCareDifficulties} bakım zorluğu.`,
       );
       this.info(
         `AKVARYUM taksonomi raporu doğrulandı: ${taxonomyReport.audit.findings.length} kayıtlı inceleme bulgusu, engelleyici çakışma yok.`,
@@ -76,7 +82,6 @@ function nativeLegacyModules() {
       if (id.startsWith(publicPrefix)) {
         return `${internalPrefix}${id.slice(publicPrefix.length)}`;
       }
-
       return null;
     },
 
@@ -91,9 +96,7 @@ function nativeLegacyModules() {
         throw new Error(`Bilinmeyen AKVARYUM sanal modülü: ${sourceName}`);
       }
 
-      const source = archivedPath
-        ? readArchive(archivedPath)
-        : readPlain(plainPath);
+      const source = archivedPath ? readArchive(archivedPath) : readPlain(plainPath);
 
       if (sourceName === 'fish-fresh.js' || sourceName === 'fish-salt.js') {
         const collectionName = sourceName === 'fish-fresh.js' ? 'DB_FRESH' : 'DB_SALT';
@@ -101,7 +104,6 @@ function nativeLegacyModules() {
         const collector = new Function('window', `${source}\nreturn window.${collectionName};`);
         const records = collector(bootstrap) ?? [];
         const classification = buildLegacyFishClassification(source, records);
-
         return [
           source,
           `const __classification = ${JSON.stringify(classification)};`,
@@ -115,9 +117,10 @@ function nativeLegacyModules() {
             "import 'virtual:akvaryum/fish-fresh.js';",
             "import 'virtual:akvaryum/fish-salt.js';",
             "import { migrateLegacyInhabitants } from 'virtual:akvaryum/legacy-to-inhabitant.mjs';",
+            "import { applyPrioritySocialCare } from 'virtual:akvaryum/priority-social-care-v1.mjs';",
             source,
             buildRuntimeSourceProvenanceBootstrap(),
-            'window.DB.inhabitants = migrateLegacyInhabitants(window.DB.fish || []);',
+            'window.DB.inhabitants = applyPrioritySocialCare(migrateLegacyInhabitants(window.DB.fish || []));',
             buildRuntimeInhabitantCatalogBootstrap(),
           ].join('\n');
 

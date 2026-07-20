@@ -16,6 +16,8 @@ Canlı katalog modülleri `data/catalog/` altındadır. Yeni modeldeki 580 kayı
 
 Bilimsel ad ve kimlik denetiminin kayıtlı sonucu `data/audits/inhabitant-taxonomy-audit.json` dosyasındadır. Mevcut bulgular parmak iziyle sabitlenmiştir; yeni veya kaldırılan bir bulgu rapor bilinçli olarak güncellenmeden build'i durdurur.
 
+İlk ürün öncelik setindeki 100 kayıt için sosyal bölgesellik ve bakım zorluğu `data/curation/priority-social-care-v1.mjs` kurallarıyla tamamlanır. Bu liste dış pazar popülerlik sıralaması değildir; legacy katalog sırasındaki ilk 100 kayıt olarak sabitlenmiştir. Sonuç özeti `data/curation/priority-social-care-report.json` dosyasındadır.
+
 ## Mevcut statik sürüm
 
 ```bash
@@ -33,6 +35,7 @@ npm run check:schema
 npm run check:classification
 npm run check:sources
 npm run check:migration
+npm run check:priority100
 npm run check:taxonomy
 npm run check:catalog
 npm run dev
@@ -46,6 +49,7 @@ npm run check:schema
 npm run check:classification
 npm run check:sources
 npm run check:migration
+npm run check:priority100
 npm run check:taxonomy
 npm run check:catalog
 npm run build
@@ -58,9 +62,10 @@ npm run preview
 - `check:classification`: 580 canlıda `entityType`, kategori, cins ve aile kapsamını doğrular.
 - `check:sources`: kaynak kataloğunu, kayıtların kaynak kimliklerini, alan-kaynak bağlantılarını ve doğrulama durumlarını denetler.
 - `check:migration`: 580 legacy kayıtla 580 `Inhabitant v1` kaydını birebir karşılaştırır; kimlik, doğrudan değer ve kaynak kaybını reddeder.
+- `check:priority100`: ilk ürün öncelik setindeki 100 kaydın sosyal yapı ve bakım zorluğu alanlarını, kaynak izini, düşük güven durumunu ve rapor sayımlarını doğrular.
 - `check:taxonomy`: kimlik ve bilimsel ad tekrarlarını, ortak ad çakışmalarını, `var./sp./cf.` kayıtlarını ve cins-aile tutarlılığını denetler; güncel bulguları kayıtlı raporla karşılaştırır.
 - `check:catalog`: yeni modeldeki 580 canlıyı balık, omurgasız ve mercan koleksiyonlarına ayırır; kayıt kaybı, çifte üyelik ve eksik arama indeksi durumlarını reddeder.
-- `build`: başlamadan önce veri, kaynak, migrasyon, taksonomi raporu ve katalog doğrulamalarını otomatik olarak yeniden çalıştırır.
+- `build`: başlamadan önce veri, kaynak, migrasyon, öncelik 100, taksonomi raporu ve katalog doğrulamalarını otomatik olarak yeniden çalıştırır.
 - `check:native`: production paketinde eski runtime yükleyicisi, Babel standalone, gzip açıcı veya `eval` bulunmadığını doğrular.
 - Build çıktısı `dist/` klasörüne yazılır.
 - GitHub Pages taban yolu `/akvaryum/` olarak ayarlanmıştır.
@@ -73,6 +78,8 @@ const { collections, searchIndex, counts } = window.DB.inhabitantCatalog;
 
 inhabitants[0].name.tr;
 inhabitants[0].water.temperatureC;
+inhabitants[0].social.territoriality;
+inhabitants[0].care.difficulty;
 inhabitants[0].migration.unknownFields;
 
 collections.fish;
@@ -82,7 +89,16 @@ searchIndex;
 counts;
 ```
 
-Eski veride bulunmayan etkinlik, bölgesellik, beslenme zorluğu, akıntı, oksijen ve bakım zorluğu gibi alanlar tahmin edilmez; `unknown` olarak işaretlenir ve veri tamamlama görevlerine bırakılır.
+İlk 100 kayıt dışında eski veride bulunmayan etkinlik, bölgesellik, beslenme zorluğu, akıntı, oksijen ve bakım zorluğu gibi alanlar tahmin edilmez; `unknown` olarak işaretlenir ve veri tamamlama görevlerine bırakılır.
+
+## Öncelik 100 türetim ilkesi
+
+- Tamamlanan alanlar `social.territoriality` ve `care.difficulty` alanlarıdır.
+- Zorluk puanı minimum tank hacmi, yetişkin boyu, mizaç, etçil beslenme işareti, su aralığı genişliği ve grup büyüklüğünden türetilir.
+- Bölgesellik; agresif kayıtta `high`, yarı agresifte `medium`, barışçıl grup türünde `none`, barışçıl tekil kayıtta `low` olur.
+- Sonuç dağılımı: 69 beginner, 18 intermediate, 5 advanced ve 8 expert.
+- Bütün değerler `priority-social-care-rules-v1` kaynak kimliğini taşır.
+- Bu türetim tür bazlı dış kaynak doğrulaması değildir. Kayıtlar `needs_review/low` durumunda kalır.
 
 ## Taksonomi denetimi ilkesi
 

@@ -14,7 +14,8 @@
     "check:sources": "node scripts/check-source-provenance.mjs",
     "check:catalog": "node scripts/check-inhabitant-catalog.mjs",
     "check:migration": "node scripts/check-inhabitant-migration.mjs",
-    "check:taxonomy": "node scripts/check-taxonomy-audit.mjs"
+    "check:taxonomy": "node scripts/check-taxonomy-audit.mjs",
+    "check:priority100": "node scripts/check-priority-social-care.mjs"
   },
   "dependencies": {
     "react": "18.3.1",

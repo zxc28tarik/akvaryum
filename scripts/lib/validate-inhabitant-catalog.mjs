@@ -12,6 +12,7 @@ export function validateInhabitantCatalog(repositoryRoot) {
   const database = loadLegacyData(repositoryRoot, {
     withProvenance: true,
     withMigration: true,
+    withPriorityCuration: true,
     withCatalog: false,
   });
   const catalog = buildInhabitantCatalog(database.inhabitants);
