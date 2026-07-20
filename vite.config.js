@@ -13,6 +13,7 @@ import { validateInhabitantCatalog } from './scripts/lib/validate-inhabitant-cat
 import { validateInhabitantMigration } from './scripts/lib/validate-inhabitant-migration.mjs';
 import { validateRepositoryData } from './scripts/lib/validate-data-schema.mjs';
 import { validateSourceProvenance } from './scripts/lib/validate-source-provenance.mjs';
+import { validateTaxonomyAudit } from './scripts/lib/validate-taxonomy-audit.mjs';
 
 const repositoryRoot = dirname(fileURLToPath(import.meta.url));
 const publicPrefix = 'virtual:akvaryum/';
@@ -52,6 +53,7 @@ function nativeLegacyModules() {
       const report = validateRepositoryData(repositoryRoot);
       const sourceReport = validateSourceProvenance(repositoryRoot);
       const migrationReport = validateInhabitantMigration(repositoryRoot);
+      const taxonomyReport = validateTaxonomyAudit(repositoryRoot, { requireSnapshot: true });
       const catalogReport = validateInhabitantCatalog(repositoryRoot);
       this.info(
         `AKVARYUM veri şeması doğrulandı: ${report.totalEntities} kayıt, ${report.fish} canlı.`,
@@ -61,6 +63,9 @@ function nativeLegacyModules() {
       );
       this.info(
         `AKVARYUM Inhabitant migrasyonu doğrulandı: ${migrationReport.migratedRecords} kayıt, ${migrationReport.preservedIds} korunan kimlik.`,
+      );
+      this.info(
+        `AKVARYUM taksonomi raporu doğrulandı: ${taxonomyReport.audit.findings.length} kayıtlı inceleme bulgusu, engelleyici çakışma yok.`,
       );
       this.info(
         `AKVARYUM canlı kataloğu doğrulandı: ${catalogReport.fish} balık, ${catalogReport.invertebrates} omurgasız, ${catalogReport.corals} mercan.`,

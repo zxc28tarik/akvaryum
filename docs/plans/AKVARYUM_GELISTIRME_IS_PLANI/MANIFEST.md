@@ -1,6 +1,6 @@
 # Plan Paketi İçeriği ve GitHub Durumu
 
-**Son güncelleme:** 19 Temmuz 2026
+**Son güncelleme:** 20 Temmuz 2026
 
 | Dosya | Amaç | GitHub durumu |
 |---|---|---|
@@ -26,5 +26,6 @@
 | `19_AKV_DATA_003_KAYNAK_VE_DOGRULAMA_UYGULAMASI.md` | Kaynak ve doğrulama modeli uygulama sonucu | Yüklendi |
 | `20_AKV_DATA_010_KATALOG_AYRIMI.md` | Balık, omurgasız, mercan koleksiyonları ve ortak arama indeksi | Yüklendi |
 | `21_AKV_DATA_011_INHABITANT_MIGRASYONU.md` | 580 legacy canlı kaydının Inhabitant v1 modeline kayıpsız geçişi | Yüklendi |
+| `22_AKV_DATA_012_BILIMSEL_AD_VE_KIMLIK_DENETIMI.md` | Bilimsel ad, kimlik, varyant ve açık nomenklatür bulguları ile çözüm listesi | Yüklendi |
 
 Planın tamamı yerel ZIP paketinde korunmaktadır. GitHub’a aktarılan dosyalar aktif geliştirme sırasında öncelikli kaynak kabul edilir; kalan uzmanlık belgeleri ilgili göreve başlanmadan önce depoya eklenir.

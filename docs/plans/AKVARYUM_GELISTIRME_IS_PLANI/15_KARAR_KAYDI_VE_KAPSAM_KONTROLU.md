@@ -128,6 +128,17 @@ Projenin veri ekledikçe veya özellik büyüttükçe dağılmasını engellemek
 - **Sonuçlar:** 580 eski ve 580 yeni kayıt CI’da birebir karşılaştırılır. Doğrudan değer veya kaynak kimliği kaybı build’i durdurur. Eski veride bulunmayan alanlar uydurulmaz; `unknown` ve migrasyon raporuyla açıkça işaretlenir. Eski ekranların yeni modele geçirilmesi tamamlanınca `DB.fish` ayrı bir temizlik göreviyle kaldırılabilir.
 - **Etkilenen görevler:** AKV-DATA-011, AKV-DATA-012, AKV-DATA-013, AKV-DATA-014, AKV-UI-011, AKV-UI-012, AKV-ENG-010, AKV-ENG-013
 
+### ADR-014 — Taksonomi bulguları otomatik silme nedeni değildir
+
+- **Tarih:** 20 Temmuz 2026
+- **Durum:** Kabul
+- **Bağlam:** Aynı bilimsel ad bazen gerçek yinelenen kayıt, bazen ortak ad/eş ad, bazen ticari renk veya üretim varyantı olabilir. Yalnız ad eşitliğine göre otomatik kayıt silmek veri ve kimlik kaybına yol açabilir.
+- **Karar:** Yinelenen bilimsel adlar otomatik birleştirilmeyecek veya silinmeyecek. Her grup kanonik tür, alias/eş ad, ticari varyant veya açık nomenklatür olarak incelenecek. Mevcut bulgular `data/audits/inhabitant-taxonomy-audit.json` içinde parmak iziyle sabitlenecek; yeni veya kaldırılan bulgu rapor güncellenmeden CI’dan geçemeyecek.
+- **Neden:** Kalıcı kimlikleri korumak, yanlış pozitif birleştirmeleri önlemek ve taksonomi temizliğini izlenebilir kararlarla yapmak.
+- **Alternatifler:** Aynı bilimsel adı taşıyan bütün kayıtları otomatik silmek, hiçbir denetim yapmamak veya raporu yalnız belge olarak tutup CI’a bağlamamak.
+- **Sonuçlar:** Kimlik çakışması, cins uyuşmazlığı ve cins-aile çelişkisi engelleyici hata olur. `var.`, `sp.`, `cf.`, melez ve aynı bilimsel ad bulguları çözüm kuyruğunda açıkça tutulur. Kabul edilmiş bilimsel ad doğrulaması dış kaynaklarla ayrı veri partileri halinde yapılır.
+- **Etkilenen görevler:** AKV-DATA-012, AKV-DATA-013, AKV-DATA-020, AKV-DATA-021, AKV-UI-011, AKV-SEO-001
+
 ## Şimdilik kapsam dışı
 
 Temel aşamalar bitene kadar:

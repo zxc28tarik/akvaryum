@@ -15,7 +15,7 @@
 | AKV-I18N-001 | TODO | TR/EN anahtar bütünlüğü testi | TEST-001 | Eksik veya fazla anahtar CI’da hata verir |
 | AKV-UI-001 | TODO | Mobil ana akış duman testi ve düzeltme | ARCH-001 | 360 px genişlikte taşma yok |
 
-### Aktif çalışma notu — 19 Temmuz 2026
+### Aktif çalışma notu — 20 Temmuz 2026
 
 - `vite-app/` altında Vite + React geçiş yapısı kuruldu; kökteki mevcut statik sürüm korunuyor.
 - `AKV-ARCH-002` tamamlandı: production paketinden tarayıcı içi Babel, `eval`, `DecompressionStream` ve runtime `.gz.b64` yükleme kaldırıldı.
@@ -31,9 +31,12 @@
 - Yeni ana erişim `DB.inhabitants`; `DB.fish` yalnız eski ekran uyumluluğu için korunuyor.
 - Adlar, bilimsel adlar, su aralıkları, boy, tank hacmi ve bütün eski kaynak kimlikleri birebir kayıp testinden geçti.
 - Eski veride bulunmayan bölgesellik, etkinlik, beslenme zorluğu, akıntı, oksijen ve bakım zorluğu `unknown` olarak işaretleniyor; tahmin edilmiyor.
-- Kaynak kataloğu sürüm 2 ve 9 kaynak kaydı taşıyor; migrasyon kuralları `legacy-inhabitant-migration-v1` kaynağıyla izleniyor.
-- GitHub Actions koşusunda envanter, eski şema, sınıflandırma, kaynak modeli, migrasyon, yeni katalog, production build ve native paket kontrollerinin tamamı geçti.
-- CI sırasında GitHub’daki eksik tatlı ve tuzlu su runtime arşivleri yereldeki tam kaynaklarla yenilendi; blob özetleri tam kaynaklarla eşleşiyor.
+- `AKV-DATA-012` tamamlandı: 580 kayıtta kimlik, bilimsel ad, ortak ad, açık nomenklatür ve cins-aile iç tutarlılığı tarandı.
+- Yinelenen kimlik, normalize kimlik çakışması, cins uyuşmazlığı veya cins-aile çelişkisi bulunmadı.
+- 23 aynı bilimsel ad grubu, 47 `var.` kaydı, 42 `sp./cf.` kaydı, 2 genetik varyant, 1 melez placeholder ve 1 İngilizce ortak ad çakışması raporlandı.
+- 28 inceleme bulgusu `data/audits/inhabitant-taxonomy-audit.json` içinde parmak iziyle sabitlendi; bulgu listesi habersiz değişirse CI duracak.
+- `npm run check:taxonomy` bağımsız komut, GitHub Actions ve Vite production build başlangıcına bağlandı.
+- Kabul edilmiş bilimsel adların dış taksonomi kaynaklarıyla doğrulanması bu görevde yapılmadı; 580 kayıt hâlâ dış inceleme bekliyor.
 - Tarayıcı duman testi çalışma ortamının yerel adresleri engellemesi nedeniyle dışarıdan doğrulanamadı; `AKV-ARCH-001` ve `AKV-TEST-001` hâlâ `REVIEW` durumunda.
 
 ## P1 — Veri modeli ve katalog
@@ -42,9 +45,9 @@
 |---|---|---|---|---|
 | AKV-DATA-010 | DONE | Balık/omurgasız/mercan dosyalarını ayır | DATA-002 | Ayrı koleksiyonlar, ortak arama indeksi |
 | AKV-DATA-011 | DONE | Mevcut 580 kaydı yeni modele migrate et | DATA-010 | Kimlikler korunur, kayıp kayıt yok |
-| AKV-DATA-012 | READY | Bilimsel ad/kimlik tekrar denetimi | DATA-011 | Rapor ve çözüm listesi oluşur |
-| AKV-DATA-013 | TODO | Zorluk ve sosyal yapı alanlarını doldurma partisi 1 | DATA-011 | En popüler 100 kayıt tamamlanır |
-| AKV-DATA-014 | TODO | Tank uzunluğu alanını doldurma partisi 1 | DATA-011 | En popüler 100 kayıt tamamlanır |
+| AKV-DATA-012 | DONE | Bilimsel ad/kimlik tekrar denetimi | DATA-011 | Rapor ve çözüm listesi oluşur |
+| AKV-DATA-013 | READY | Zorluk ve sosyal yapı alanlarını doldurma partisi 1 | DATA-011 | En popüler 100 kayıt tamamlanır |
+| AKV-DATA-014 | READY | Tank uzunluğu alanını doldurma partisi 1 | DATA-011 | En popüler 100 kayıt tamamlanır |
 | AKV-PLANT-001 | TODO | Bitki şemasını oluştur | DATA-001 | 26 bitki migrate edilir |
 | AKV-SUB-001 | TODO | Taban şemasını oluştur | DATA-001 | 8 taban migrate edilir |
 | AKV-UI-010 | READY | Kategori ve gelişmiş filtreler | DATA-002 | URL’de korunabilen filtreler |
