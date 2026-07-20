@@ -60,7 +60,7 @@ function analysisSnapshot(result) {
     warnings: result.warnings.map((finding) => finding.ruleId),
     tips: result.tips.map((finding) => finding.ruleId),
     compat: result.compat.map((finding) => finding.ruleId),
-    params: plain(result.params),
+    params: result.params,
     score: result.score,
     verdict: result.verdict,
     neededVol: result.neededVol,
@@ -132,7 +132,7 @@ export function validateEngineGoldenScenarios(repositoryRoot) {
       for (const finding of result.tips) checkFinding(finding, 'info', scenario.id);
       for (const finding of result.compat) checkFinding(finding, null, scenario.id);
 
-      const snapshot = analysisSnapshot(result);
+      const snapshot = plain(analysisSnapshot(result));
       assert.deepEqual(snapshot, plain(scenario.expected), `${scenario.id}: altın analiz sonucu değişti.`);
 
       if (result.issues.length > 0) criticalScenarios += 1;
@@ -145,10 +145,10 @@ export function validateEngineGoldenScenarios(repositoryRoot) {
     const recommendations = Engine.equipment(state, scenario.analysis, state.lang);
     for (const finding of recommendations) checkFinding(finding, 'info', scenario.id);
 
-    const snapshot = {
+    const snapshot = plain({
       ruleIds: recommendations.map((finding) => finding.ruleId),
       titles: recommendations.map((finding) => finding.title),
-    };
+    });
     assert.deepEqual(snapshot, plain(scenario.expected), `${scenario.id}: altın ekipman sonucu değişti.`);
     infoScenarios += 1;
   }
