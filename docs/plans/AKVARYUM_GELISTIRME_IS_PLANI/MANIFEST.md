@@ -30,5 +30,6 @@
 | `23_AKV_DATA_013_ONCELIK_100_SOSYAL_BAKIM.md` | İlk 100 kaydın sosyal yapı ve bakım zorluğu türetimi | Yüklendi |
 | `24_AKV_DATA_014_ONCELIK_100_TANK_UZUNLUGU.md` | İlk 100 kaydın minimum tank uzunluğu türetimi | Yüklendi |
 | `25_AKV_PLANT_001_PLANT_V1_MIGRASYONU.md` | 26 eski bitkinin Plant v1 modeline kayıpsız geçişi | Yüklendi |
+| `26_AKV_SUB_001_SUBSTRATE_MIGRASYONU.md` | 8 eski tabanın Substrate v1 modeline kayıpsız geçişi | Yüklendi |
 
 Planın tamamı yerel ZIP paketinde korunmaktadır. GitHub’a aktarılan dosyalar aktif geliştirme sırasında öncelikli kaynak kabul edilir; kalan uzmanlık belgeleri ilgili göreve başlanmadan önce depoya eklenir.
