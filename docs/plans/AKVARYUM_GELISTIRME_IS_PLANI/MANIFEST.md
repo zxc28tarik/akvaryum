@@ -39,5 +39,6 @@
 | `32_AKV_TEST_010B_TEMEL_MOTOR_SENARYOLARI.md` | 32 temel senaryo, beta çoğulluk düzeltmesi ve ihtiyaç bazlı test politikası | Yüklendi |
 | `33_AKV_UI_011_BILIMSEL_VE_ES_AD_ARAMASI.md` | Ortak ad, bilimsel ad, eş ad, cins ve aile araması | Yüklendi |
 | `34_AKV_UI_012_CANLI_AYRINTI_PANELI.md` | Kaynak, bakım, su, tank ve davranış bilgilerini gösteren canlı ayrıntı paneli | Yüklendi |
+| `35_AKV_UI_001_MOBIL_ANA_AKIS.md` | 360 px ana akış koruması ve hafif yatay taşma denetimi | Yüklendi |
 
 Planın tamamı yerel ZIP paketinde korunmaktadır. GitHub’a aktarılan dosyalar aktif geliştirme sırasında öncelikli kaynak kabul edilir; kalan uzmanlık belgeleri ilgili göreve başlanmadan önce depoya eklenir.
