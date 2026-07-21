@@ -59,6 +59,9 @@ jobs:
       - name: Aynı ve yakın tür agresyonunu doğrula
         run: npm run check:engine-conspecific
 
+      - name: Hacim, biyolojik yük ve davranış alanlarını doğrula
+        run: npm run check:engine-domains
+
       - name: Temel 32 altın motor senaryosunu doğrula
         shell: bash
         run: |
