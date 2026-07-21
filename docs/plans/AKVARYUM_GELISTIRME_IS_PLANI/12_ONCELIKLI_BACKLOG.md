@@ -64,7 +64,9 @@
 - `AKV-UI-010` tamamlandı: canlı seçim adımına tümü/balık/omurgasız/mercan kategorileri ve sekiz gelişmiş filtre eklendi.
 - Filtreler URL sorgusunda korunuyor; seçili canlılar filtre dışında kalsa bile ayrı bölümde görünür ve adetleri yönetilebilir.
 - Liste 36 kayıtlık dilimlerle açılır; Türkçe/İngilizce arayüz, kök statik sürüm ve Vite production yolu aynı filtre modelini kullanır.
-- `npm run check:catalog-filters` 21 senaryoyla URL, birleşik filtreleme, kategori sayaçları ve iki yükleme yolunu CI/build başlangıcında doğruluyor.
+- `AKV-UI-011` tamamlandı: arama Türkçe/İngilizce ortak ad, bilimsel ad, eş ad, cins, aile ve kimlik alanlarında çalışıyor.
+- Arama modeli sürüm 2 oldu; mevcut `q` URL alanı ve diğer filtrelerle birleşik çalışma korunuyor.
+- `npm run check:catalog-filters` URL, filtreler, sıralama ve altı odaklı bilimsel/eş ad senaryosunu CI/build başlangıcında doğruluyor.
 - Sosyal bakım, tank uzunluğu, Plant v1 ve Substrate v1 değerleri dış kaynak doğrulaması değildir; kayıtlar `needs_review/low` durumunda tutuluyor.
 - Tarayıcı duman testi çalışma ortamının yerel adresleri engellemesi nedeniyle dışarıdan doğrulanamadı; `AKV-ARCH-001` ve `AKV-TEST-001` hâlâ `REVIEW` durumunda.
 
@@ -80,7 +82,7 @@
 | AKV-PLANT-001 | DONE | Bitki şemasını oluştur | DATA-001 | 26 bitki migrate edilir |
 | AKV-SUB-001 | DONE | Taban şemasını oluştur | DATA-001 | 8 taban migrate edilir |
 | AKV-UI-010 | DONE | Kategori ve gelişmiş filtreler | DATA-002 | URL’de korunabilen filtreler |
-| AKV-UI-011 | READY | Bilimsel/eş ad araması | DATA-011 | Türkçe/İngilizce/bilimsel arama çalışır |
+| AKV-UI-011 | DONE | Bilimsel/eş ad araması | DATA-011 | Ortak/bilimsel/eş ad, cins ve aile araması çalışır |
 | AKV-UI-012 | READY | Canlı ayrıntı paneli/sayfası | DATA-011 | Kaynak ve bakım tablosu görünür |
 
 ## P1 — Motor 2.0 çekirdeği
