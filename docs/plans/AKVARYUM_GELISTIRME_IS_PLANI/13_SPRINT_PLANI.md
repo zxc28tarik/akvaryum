@@ -45,10 +45,10 @@ Bu plan tek geliştirici veya küçük ekip için **sıralı çalışma paketler
 
 - AKV-UI-010 — kategori ve URL’de kalıcı gelişmiş filtreler tamamlandı
 - AKV-UI-011 — bilimsel ad, eş ad, cins ve aile araması tamamlandı
-- AKV-UI-012
+- AKV-UI-012 — kaynak ve bakım tablosu içeren canlı ayrıntı paneli tamamlandı
 - AKV-UI-001
 
-**Mevcut çıktı:** Tümü/balık/omurgasız/mercan kategorileri, sekiz gelişmiş filtre, seçili canlı adet yönetimi ve ortak/bilimsel/eş ad araması. Katalog doğrulaması 27 odaklı senaryoyla çalışıyor.
+**Mevcut çıktı:** Tümü/balık/omurgasız/mercan kategorileri, sekiz gelişmiş filtre, seçili canlı adet yönetimi, ortak/bilimsel/eş ad araması ve beş bölümlü canlı ayrıntı paneli. Katalog araması 27, ayrıntı paneli 10 odaklı senaryoyla doğrulanıyor.
 
 **Sprint çıktısı:** Kategorili, filtrelenebilir, mobil katalog ve ayrıntı görünümü.
 

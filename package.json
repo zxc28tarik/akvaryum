@@ -14,6 +14,7 @@
     "check:sources": "node scripts/check-source-provenance.mjs",
     "check:catalog": "node scripts/check-inhabitant-catalog.mjs",
     "check:catalog-filters": "node scripts/check-catalog-filters.mjs",
+    "check:inhabitant-detail": "node scripts/check-inhabitant-detail.mjs",
     "check:migration": "node scripts/check-inhabitant-migration.mjs",
     "check:plants": "node scripts/check-plant-migration.mjs",
     "check:substrates": "node scripts/check-substrate-migration.mjs",

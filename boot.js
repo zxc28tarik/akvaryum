@@ -82,6 +82,8 @@
         components,
         catalogFilterModel,
         catalogFilters,
+        inhabitantDetailModel,
+        inhabitantDetail,
         app,
       ] = await Promise.all([
         inflateBase64('.runtime/styles.css.gz.b64'),
@@ -95,6 +97,8 @@
         inflateBase64('.runtime/components.jsx.gz.b64'),
         fetchText('catalog-filter-model.js'),
         fetchText('catalog-filters.jsx'),
+        fetchText('inhabitant-detail-model.js'),
+        fetchText('inhabitant-detail.jsx'),
         fetchText('app.jsx'),
       ]);
 
@@ -110,9 +114,11 @@
       runJavaScript(engine, 'engine.js');
       runJavaScript(engineHealthGuard, 'engine-health-guard.js');
       runJavaScript(catalogFilterModel, 'catalog-filter-model.js');
+      runJavaScript(inhabitantDetailModel, 'inhabitant-detail-model.js');
       runJsx(resultViews, 'result-views.jsx');
       runJsx(components, 'components.jsx');
       runJsx(catalogFilters, 'catalog-filters.jsx');
+      runJsx(inhabitantDetail, 'inhabitant-detail.jsx');
       runJsx(app, 'app.jsx');
     } catch (error) {
       showError(error);

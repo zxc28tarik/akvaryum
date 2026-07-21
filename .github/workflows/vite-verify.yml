@@ -71,6 +71,9 @@ jobs:
       - name: Kategori ve gelişmiş katalog filtrelerini doğrula
         run: npm run check:catalog-filters
 
+      - name: Canlı ayrıntı panelini doğrula
+        run: npm run check:inhabitant-detail
+
       - name: İlk 100 sosyal yapı ve bakım zorluğunu doğrula
         run: npm run check:priority100
 
