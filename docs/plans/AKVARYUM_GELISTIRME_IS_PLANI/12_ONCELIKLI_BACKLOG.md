@@ -54,8 +54,11 @@
 - Eski `title/desc`, uyumluluk ve ekipman alanları korunuyor; yeni sözleşme Vite production motoruna uyumluluk katmanı olarak ekleniyor.
 - `npm run check:engine-findings` JSON Schema, Türkçe/İngilizce çıktılar ve 27/27 kural kimliği için CI ve build başlangıcında çalışıyor.
 - `AKV-TEST-010A` tamamlandı: 23 analiz ve 2 ekipman olmak üzere ilk 25 altın motor senaryosu oluşturuldu.
-- Altın paket düzeltme sonrasında 100 bulguyu ve Engine Finding v1 içindeki 27/27 kural kimliğini doğruluyor; skor, karar, parametreler ve tam kural sıraları sabitleniyor.
-- `npm run check:engine-golden25` bağımsız komuta, GitHub Actions hattına ve Vite production build başlangıcına bağlandı.
+- `AKV-TEST-010B` tamamlandı: yalnız yüksek riskli 7 ek senaryoyla temel paket 32 senaryoya çıkarıldı.
+- Yeni senaryolar hacim eşikleri, ters su tipi, beta çoğulluğu, palyaço/tang davranışı ve yanlış resif uyarısı üretmeme durumlarını kapsıyor.
+- Testler `qty: 2` beta seçiminin eski kavga kuralını atladığını buldu; motor sağlık koruması v2 bu durumu kritik uyumsuzluk olarak düzeltiyor.
+- Sabit 100 altın test hedefi iptal edildi. Bundan sonra yalnız yeni özellik veya gerçek hata için gerekli kadar senaryo eklenecek.
+- `npm run check:engine-golden` 32 temel senaryoyu, 27/27 kural kimliğini ve kritik sonuç sağlık korumasını CI/build başlangıcında doğruluyor.
 - `AKV-ENG-003` tamamlandı: kritik sorun bulunan sonuçlardan `COMPOSITION_HEALTHY` / “Güzel kompozisyon” önerisi kaldırılıyor.
 - Beş yanlış sağlıklı öneri v1.1 altın beklentisinde kaldırıldı; ham İngilizce motor, kök statik sürüm ve Vite production yolu aynı korumayla doğrulanıyor.
 - `AKV-UI-010` tamamlandı: canlı seçim adımına tümü/balık/omurgasız/mercan kategorileri ve sekiz gelişmiş filtre eklendi.
@@ -92,7 +95,8 @@
 | AKV-ENG-015 | READY | Tür çifti istisna tablosu | DATA-003 | En az 50 doğrulanmış istisna |
 | AKV-ENG-016 | TODO | Yeni alt skor sistemi | ENG-010..015 | Dört alt puan ve açıklama |
 | AKV-TEST-010A | DONE | İlk 25 altın motor senaryosu | ENG-002 | 25 senaryo ve 27 kural CI/build hattında |
-| AKV-TEST-010 | READY | Altın motor senaryolarını 100'e çıkar | TEST-010A | 25/100 tamamlandı; bütün senaryolar CI’da çalışır |
+| AKV-TEST-010B | DONE | Yüksek riskli 7 temel motor senaryosu | TEST-010A | Temel güvenlik paketi 32 senaryodur |
+| AKV-TEST-010 | CANCELLED | Altın motor senaryolarını 100'e çıkar | TEST-010B | Sabit sayı hedefi kaldırıldı; testler ihtiyaç oldukça eklenir |
 
 ## P2 — Veri büyümesi
 
