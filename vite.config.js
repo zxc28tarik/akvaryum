@@ -16,6 +16,7 @@ import { validateEngineParameterIntersection } from './scripts/lib/validate-engi
 import { validateInhabitantCatalog } from './scripts/lib/validate-inhabitant-catalog.mjs';
 import { validateInhabitantDetail } from './scripts/lib/validate-inhabitant-detail.mjs';
 import { validateInhabitantMigration } from './scripts/lib/validate-inhabitant-migration.mjs';
+import { validateMobileFlow } from './scripts/lib/validate-mobile-flow.mjs';
 import { validatePlantMigration } from './scripts/lib/validate-plant-migration.mjs';
 import { validatePrioritySocialCare } from './scripts/lib/validate-priority-social-care.mjs';
 import { validatePriorityTankLength } from './scripts/lib/validate-priority-tank-length.mjs';
@@ -73,6 +74,7 @@ function nativeLegacyModules() {
       const engineGoldenReport = validateEngineGoldenScenarios(repositoryRoot);
       const catalogFilterReport = validateCatalogFilters(repositoryRoot);
       const inhabitantDetailReport = validateInhabitantDetail(repositoryRoot);
+      const mobileFlowReport = validateMobileFlow(repositoryRoot);
       const priorityReport = validatePrioritySocialCare(repositoryRoot);
       const tankLengthReport = validatePriorityTankLength(repositoryRoot);
       const taxonomyReport = validateTaxonomyAudit(repositoryRoot, { requireSnapshot: true });
@@ -106,6 +108,9 @@ function nativeLegacyModules() {
       );
       this.info(
         `AKVARYUM canlı ayrıntı paneli doğrulandı: ${inhabitantDetailReport.scenarios} senaryo, ${inhabitantDetailReport.sections} bölüm.`,
+      );
+      this.info(
+        `AKVARYUM mobil ana akışı doğrulandı: ${mobileFlowReport.scenarios} senaryo, ${mobileFlowReport.smokeWidthPx}px hedef.`,
       );
       this.info(
         `AKVARYUM öncelik 100 doğrulandı: ${priorityReport.completedSocialStructures} sosyal yapı, ${priorityReport.completedCareDifficulties} bakım zorluğu.`,
@@ -204,6 +209,7 @@ function nativeLegacyModules() {
             source,
             readPlain('catalog-filters.jsx'),
             readPlain('inhabitant-detail.jsx'),
+            readPlain('mobile-flow-guard.js'),
           ].join('\n');
 
         case 'app.jsx':
