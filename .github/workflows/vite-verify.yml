@@ -56,6 +56,9 @@ jobs:
       - name: Sosyal yapı motor kurallarını doğrula
         run: npm run check:engine-social
 
+      - name: Aynı ve yakın tür agresyonunu doğrula
+        run: npm run check:engine-conspecific
+
       - name: Temel 32 altın motor senaryosunu doğrula
         shell: bash
         run: |

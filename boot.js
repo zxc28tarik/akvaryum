@@ -79,6 +79,7 @@
         engine,
         engineHealthGuard,
         engineSocialRules,
+        engineConspecificRules,
         resultViews,
         components,
         catalogFilterModel,
@@ -96,6 +97,7 @@
         fetchText('engine.js'),
         fetchText('engine-health-guard.js'),
         fetchText('engine-social-rules.js'),
+        fetchText('engine-conspecific-rules.js'),
         inflateBase64('.runtime/result-views.jsx.gz.b64'),
         inflateBase64('.runtime/components.jsx.gz.b64'),
         fetchText('catalog-filter-model.js'),
@@ -118,6 +120,7 @@
       runJavaScript(engine, 'engine.js');
       runJavaScript(engineHealthGuard, 'engine-health-guard.js');
       runJavaScript(engineSocialRules, 'engine-social-rules.js');
+      runJavaScript(engineConspecificRules, 'engine-conspecific-rules.js');
       runJavaScript(catalogFilterModel, 'catalog-filter-model.js');
       runJavaScript(inhabitantDetailModel, 'inhabitant-detail-model.js');
       runJsx(resultViews, 'result-views.jsx');

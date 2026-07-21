@@ -41,5 +41,6 @@
 | `34_AKV_UI_012_CANLI_AYRINTI_PANELI.md` | Kaynak, bakım, su, tank ve davranış bilgilerini gösteren canlı ayrıntı paneli | Yüklendi |
 | `35_AKV_UI_001_MOBIL_ANA_AKIS.md` | 360 px ana akış koruması ve hafif yatay taşma denetimi | Yüklendi |
 | `36_AKV_ENG_011_SOSYAL_YAPI_KURALLARI.md` | Sürü, grup, çift, harem ve kaynaklı cinsiyet oranı motor kuralları | Yüklendi |
+| `37_AKV_ENG_012_AYNI_VE_YAKIN_TUR_AGRESYONU.md` | Aynı tür ve aynı cins içindeki yakın tür agresyon uyarıları | Yüklendi |
 
 Planın tamamı yerel ZIP paketinde korunmaktadır. GitHub’a aktarılan dosyalar aktif geliştirme sırasında öncelikli kaynak kabul edilir; kalan uzmanlık belgeleri ilgili göreve başlanmadan önce depoya eklenir.
