@@ -173,6 +173,7 @@ function nativeLegacyModules() {
             "import 'virtual:akvaryum/data.js';",
             source,
             readPlain('engine-finding-contract.js'),
+            readPlain('engine-health-guard.js'),
           ].join('\n');
 
         case 'result-views.jsx':

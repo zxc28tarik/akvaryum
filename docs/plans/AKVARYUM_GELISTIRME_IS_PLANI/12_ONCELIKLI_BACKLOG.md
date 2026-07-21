@@ -12,11 +12,11 @@
 | AKV-DATA-003 | DONE | Kaynak ve doğrulama modeli ekle | DATA-001 | Kayıtlar kaynak kimliği taşıyabilir |
 | AKV-ENG-001 | DONE | Parametre ortak aralık hatasını düzelt | TEST-001 | Çakışma yoksa sonuç `null` ve kritik sorun |
 | AKV-ENG-002 | DONE | Kural çıktı tipini standartlaştır | DATA-001 | Her sonuç `ruleId/severity/resolution` taşır |
-| AKV-ENG-003 | READY | Kritik sorun varken sağlıklı kompozisyon önerisini engelle | TEST-010A | Kritik bulgu bulunan sonuçta `COMPOSITION_HEALTHY` yok |
+| AKV-ENG-003 | DONE | Kritik sorun varken sağlıklı kompozisyon önerisini engelle | TEST-010A | Kritik bulgu bulunan sonuçta `COMPOSITION_HEALTHY` yok |
 | AKV-I18N-001 | TODO | TR/EN anahtar bütünlüğü testi | TEST-001 | Eksik veya fazla anahtar CI’da hata verir |
 | AKV-UI-001 | TODO | Mobil ana akış duman testi ve düzeltme | ARCH-001 | 360 px genişlikte taşma yok |
 
-### Aktif çalışma notu — 20 Temmuz 2026
+### Aktif çalışma notu — 21 Temmuz 2026
 
 - `vite-app/` altında Vite + React geçiş yapısı kuruldu; kökteki mevcut statik sürüm korunuyor.
 - `AKV-ARCH-002` tamamlandı: production paketinden tarayıcı içi Babel, `eval`, `DecompressionStream` ve runtime `.gz.b64` yükleme kaldırıldı.
@@ -54,9 +54,10 @@
 - Eski `title/desc`, uyumluluk ve ekipman alanları korunuyor; yeni sözleşme Vite production motoruna uyumluluk katmanı olarak ekleniyor.
 - `npm run check:engine-findings` JSON Schema, Türkçe/İngilizce çıktılar ve 27/27 kural kimliği için CI ve build başlangıcında çalışıyor.
 - `AKV-TEST-010A` tamamlandı: 23 analiz ve 2 ekipman olmak üzere ilk 25 altın motor senaryosu oluşturuldu.
-- Altın paket 105 bulguyu ve Engine Finding v1 içindeki 27/27 kural kimliğini doğruluyor; skor, karar, parametreler ve tam kural sıraları sabitleniyor.
+- Altın paket düzeltme sonrasında 100 bulguyu ve Engine Finding v1 içindeki 27/27 kural kimliğini doğruluyor; skor, karar, parametreler ve tam kural sıraları sabitleniyor.
 - `npm run check:engine-golden25` bağımsız komuta, GitHub Actions hattına ve Vite production build başlangıcına bağlandı.
-- Altın testler kritik sorun varken `COMPOSITION_HEALTHY` önerisi çıkabildiğini gösterdi; düzeltme `AKV-ENG-003` olarak backloga eklendi.
+- `AKV-ENG-003` tamamlandı: kritik sorun bulunan sonuçlardan `COMPOSITION_HEALTHY` / “Güzel kompozisyon” önerisi kaldırılıyor.
+- Beş yanlış sağlıklı öneri v1.1 altın beklentisinde kaldırıldı; ham İngilizce motor, kök statik sürüm ve Vite production yolu aynı korumayla doğrulanıyor.
 - Sosyal bakım, tank uzunluğu, Plant v1 ve Substrate v1 değerleri dış kaynak doğrulaması değildir; kayıtlar `needs_review/low` durumunda tutuluyor.
 - Tarayıcı duman testi çalışma ortamının yerel adresleri engellemesi nedeniyle dışarıdan doğrulanamadı; `AKV-ARCH-001` ve `AKV-TEST-001` hâlâ `REVIEW` durumunda.
 
