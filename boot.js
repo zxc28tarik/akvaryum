@@ -77,6 +77,7 @@
         saltFish,
         data,
         engine,
+        engineHealthGuard,
         resultViews,
         components,
         app,
@@ -87,6 +88,7 @@
         inflateBase64('.runtime/fish-salt.js.gz.b64'),
         fetchText('data.js'),
         fetchText('engine.js'),
+        fetchText('engine-health-guard.js'),
         inflateBase64('.runtime/result-views.jsx.gz.b64'),
         inflateBase64('.runtime/components.jsx.gz.b64'),
         fetchText('app.jsx'),
@@ -102,6 +104,7 @@
       runJavaScript(saltFish, 'fish-salt.js');
       runJavaScript(data, 'data.js');
       runJavaScript(engine, 'engine.js');
+      runJavaScript(engineHealthGuard, 'engine-health-guard.js');
       runJsx(resultViews, 'result-views.jsx');
       runJsx(components, 'components.jsx');
       runJsx(app, 'app.jsx');
