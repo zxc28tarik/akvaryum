@@ -24,7 +24,7 @@ Motor pH, sıcaklık ve GH ortak aralıklarını bütün seçili türler boyunca
 
 Vite production motorundaki sorun, uyarı, öneri, ikili uyumluluk ve ekipman çıktıları `schemas/engine-finding-v1.schema.json` sözleşmesini kullanır. Her bulgu sabit `ruleId`, önem seviyesi, neden, etki ve çözüm taşır; eski `title/desc` alanları arayüz uyumluluğu için korunur.
 
-Kritik sorun bulunan sonuçlarda `COMPOSITION_HEALTHY` / “Güzel kompozisyon” önerisi gösterilmez. İlk altın motor paketi 23 analiz ve 2 ekipman senaryosuyla 100 bulguyu ve Engine Finding v1 içindeki 27 kural kimliğinin tamamını doğrular. Genel hedef 100 senaryodur; mevcut ilerleme 25/100'dür.
+Kritik sorun bulunan sonuçlarda `COMPOSITION_HEALTHY` / “Güzel kompozisyon” önerisi gösterilmez. Kalıcı temel motor paketi 30 analiz ve 2 ekipman olmak üzere 32 senaryodan oluşur ve Engine Finding v1 içindeki 27 kural kimliğinin tamamını doğrular. Sabit 100 test hedefi yoktur; yeni testler yalnız yeni özellik veya gerçek hata için eklenir.
 
 Bilimsel ad ve kimlik denetiminin kayıtlı sonucu `data/audits/inhabitant-taxonomy-audit.json` dosyasındadır. Mevcut bulgular parmak iziyle sabitlenmiştir; yeni veya kaldırılan bir bulgu rapor bilinçli olarak güncellenmeden build'i durdurur.
 
@@ -51,7 +51,7 @@ npm run check:plants
 npm run check:substrates
 npm run check:engine-params
 npm run check:engine-findings
-npm run check:engine-golden25
+npm run check:engine-golden
 npm run check:catalog-filters
 npm run check:priority100
 npm run check:tanklength100
@@ -72,7 +72,7 @@ npm run check:plants
 npm run check:substrates
 npm run check:engine-params
 npm run check:engine-findings
-npm run check:engine-golden25
+npm run check:engine-golden
 npm run check:catalog-filters
 npm run check:priority100
 npm run check:tanklength100
@@ -92,13 +92,14 @@ npm run preview
 - `check:substrates`: 8 legacy tabanla 8 `Substrate v1` kaydını karşılaştırır; kimlik ve mevcut alan kaybını, kaynak kopmasını veya eksik güvenlik/kullanım alanlarına uydurma değer yazılmasını reddeder.
 - `check:engine-params`: pH, sıcaklık ve GH ortak aralıklarının doğru daraltılmasını; ortak aralık yoksa `null` ve Türkçe/İngilizce kritik sorun üretilmesini 10 sınır senaryosuyla doğrular.
 - `check:engine-findings`: 27 motor kural kimliğini, Engine Finding v1 JSON Schema alanlarını, önem seviyelerini, ikili uyumluluk ve ekipman çıktılarını doğrular.
-- `check:engine-golden25`: ilk 25 altın senaryoda tam kural sırasını, ortak parametreleri, skor/karar sonucunu, gerekli hacmi, biyolojik yükü ve ekipman başlıklarını doğrular; kritik sonuçta sağlıklı kompozisyon önerisini reddeder ve 27/27 motor kuralını kapsar.
+- `check:engine-golden`: 32 temel senaryoda kural sırasını, parametreleri, skor/karar sonucunu, gerekli hacmi, biyolojik yükü ve kritik sınırları doğrular; kritik sonuçta sağlıklı öneriyi reddeder ve 27/27 motor kuralını kapsar.
+- `check:engine-golden25`: geriye dönük uyumluluk için `check:engine-golden` komutuna yönlenir.
 - `check:catalog-filters`: dört kategori, sekiz gelişmiş filtre, on URL alanı, birleşik filtreleme, sıralama ve statik/Vite yükleme bağlantılarını 21 senaryoyla doğrular.
 - `check:priority100`: ilk ürün öncelik setindeki 100 kaydın sosyal yapı ve bakım zorluğu alanlarını, kaynak izini, düşük güven durumunu ve rapor sayımlarını doğrular.
 - `check:tanklength100`: aynı 100 kaydın minimum tank uzunluğunu, hacim ve vücut/yüzme alt sınırlarını, standart ölçü yuvarlamasını ve kaynak izini doğrular.
 - `check:taxonomy`: kimlik ve bilimsel ad tekrarlarını, ortak ad çakışmalarını, `var./sp./cf.` kayıtlarını ve cins-aile tutarlılığını denetler; güncel bulguları kayıtlı raporla karşılaştırır.
 - `check:catalog`: yeni modeldeki 580 canlıyı balık, omurgasız ve mercan koleksiyonlarına ayırır; kayıt kaybı, çifte üyelik ve eksik arama indeksi durumlarını reddeder.
-- `build`: başlamadan önce veri, kaynak, canlı/bitki/taban migrasyonları, motor kontrolleri, ilk 25 altın senaryo, katalog filtreleri, öncelik 100, tank uzunluğu, taksonomi raporu ve katalog doğrulamalarını otomatik olarak yeniden çalıştırır.
+- `build`: başlamadan önce veri, kaynak, canlı/bitki/taban migrasyonları, motor kontrolleri, 32 temel altın senaryo, katalog filtreleri, öncelik 100, tank uzunluğu, taksonomi raporu ve katalog doğrulamalarını otomatik olarak yeniden çalıştırır.
 - `check:native`: production paketinde eski runtime yükleyicisi, Babel standalone, gzip açıcı veya `eval` bulunmadığını doğrular.
 - Build çıktısı `dist/` klasörüne yazılır.
 - GitHub Pages taban yolu `/akvaryum/` olarak ayarlanmıştır.
@@ -180,17 +181,18 @@ finding.evidence;
 - İkili uyumluluk kayıtları ve ekipman önerileri de aynı zorunlu alanları taşır.
 - Tanınmayan eski motor çıktısı otomatik kimlik almak yerine doğrulama hatası oluşturur.
 
-## İlk 25 altın motor senaryosu
+## Temel 32 altın motor senaryosu
 
-- Tarihsel v1 senaryoları `scripts/lib/engine-golden-scenarios-v1.mjs`, aktif düzeltilmiş beklenti `scripts/lib/engine-golden-scenarios-v1-1.mjs` dosyasındadır.
-- Paket 23 analiz ve 2 ekipman senaryosundan oluşur.
-- Toplam 100 Engine Finding v1 bulgusu doğrulanır.
+- Tarihsel ilk 25 senaryo `scripts/lib/engine-golden-scenarios-v1.mjs` ve düzeltilmiş v1.1 katmanında korunur.
+- Yüksek riskli 7 ek senaryo `scripts/lib/engine-golden-scenarios-v1-2.mjs` dosyasındadır.
+- Paket 30 analiz ve 2 ekipman senaryosundan oluşur.
 - Engine Finding v1 içindeki 27 kural kimliğinin tamamı en az bir kez üretilir.
 - Analizlerde sorun, uyarı, öneri ve ikili uyumluluk sırası; pH/sıcaklık/GH, skor, karar, gerekli hacim ve biyolojik yük sabitlenir.
-- Ekipman senaryolarında kural sırası ile Türkçe/İngilizce başlıklar sabitlenir.
+- Kapasite eşikleri, ters su tipi, beta çoğulluğu, palyaço/tang davranışı ve resif uyarısının negatif durumu ayrıca korunur.
 - Kritik sorun bulunan hiçbir sonuçta `COMPOSITION_HEALTHY` önerisi bulunamaz.
-- Başarısız CI koşusunda ayrıntı günlüğü yedi gün saklanan `engine-golden25-failure` artefaktı olarak yüklenir.
-- Genel altın senaryo hedefi 100'dür; mevcut durum 25/100'dür.
+- `qty: 2` beta seçimi kritik uyumsuzluk üretir ve skor yeniden hesaplanır.
+- Başarısız CI koşusunda ayrıntı günlüğü yedi gün saklanan `engine-golden-failure` artefaktı olarak yüklenir.
+- Sabit test sayısı büyütme hedefi yoktur; yeni senaryolar yalnız özellik veya hata ihtiyacına göre eklenir.
 
 ## Öncelik 100 türetim ilkesi
 

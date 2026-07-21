@@ -6,9 +6,9 @@ import vm from 'node:vm';
 import Ajv2020 from 'ajv/dist/2020.js';
 
 import {
-  ENGINE_GOLDEN_DEFAULT_FISH_V1_1,
-  ENGINE_GOLDEN_SCENARIOS_V1_1,
-} from './engine-golden-scenarios-v1-1.mjs';
+  ENGINE_GOLDEN_DEFAULT_FISH_V1_2,
+  ENGINE_GOLDEN_SCENARIOS_V1_2,
+} from './engine-golden-scenarios-v1-2.mjs';
 
 function plain(value) {
   return JSON.parse(JSON.stringify(value));
@@ -16,7 +16,7 @@ function plain(value) {
 
 function createFish(definition) {
   return {
-    ...ENGINE_GOLDEN_DEFAULT_FISH_V1_1,
+    ...ENGINE_GOLDEN_DEFAULT_FISH_V1_2,
     id: definition.id,
     nameTr: definition.nameTr ?? definition.id.toUpperCase(),
     nameEn: definition.nameEn ?? definition.id,
@@ -100,19 +100,19 @@ export function validateEngineGoldenScenarios(repositoryRoot) {
   const ajv = new Ajv2020({ allErrors: true, strict: true });
   const validateFinding = ajv.compile(findingSchema);
 
-  assert.equal(ENGINE_GOLDEN_SCENARIOS_V1_1.length, 25, 'İlk altın motor paketi tam 25 senaryo olmalıdır.');
+  assert.equal(ENGINE_GOLDEN_SCENARIOS_V1_2.length, 32, 'Temel altın motor paketi tam 32 senaryo olmalıdır.');
 
-  const scenarioIds = ENGINE_GOLDEN_SCENARIOS_V1_1.map((scenario) => scenario.id);
+  const scenarioIds = ENGINE_GOLDEN_SCENARIOS_V1_2.map((scenario) => scenario.id);
   assert.equal(new Set(scenarioIds).size, scenarioIds.length, 'Altın senaryo kimlikleri benzersiz olmalıdır.');
 
-  const rawCriticalScenario = ENGINE_GOLDEN_SCENARIOS_V1_1.find((scenario) => scenario.id === 'water-type-mismatch');
+  const rawCriticalScenario = ENGINE_GOLDEN_SCENARIOS_V1_2.find((scenario) => scenario.id === 'water-type-mismatch');
   assert(rawCriticalScenario, 'Ham motor sağlık koruması senaryosu bulunamadı.');
   const RawEngine = createRuntime(engineSource, null, healthGuardSource, rawCriticalScenario);
   const rawCriticalResult = RawEngine.analyze({
     ...normalizedState(rawCriticalScenario),
     lang: 'en',
   });
-  assert.equal(RawEngine.healthGuardVersion, 1);
+  assert.equal(RawEngine.healthGuardVersion, 2);
   assertNoHealthyCompositionWithCriticalIssues(rawCriticalResult, 'raw-water-type-mismatch-en');
 
   const coveredRuleIds = new Set();
@@ -138,7 +138,7 @@ export function validateEngineGoldenScenarios(repositoryRoot) {
     validatedFindings += 1;
   }
 
-  for (const scenario of ENGINE_GOLDEN_SCENARIOS_V1_1) {
+  for (const scenario of ENGINE_GOLDEN_SCENARIOS_V1_2) {
     assert(scenario.id.length > 0, 'Senaryo kimliği boş olamaz.');
     assert(scenario.purpose.length > 0, `${scenario.id}: amaç açıklaması boş olamaz.`);
     assert(['analysis', 'equipment'].includes(scenario.mode), `${scenario.id}: bilinmeyen senaryo modu.`);
@@ -147,7 +147,7 @@ export function validateEngineGoldenScenarios(repositoryRoot) {
     assert.equal(new Set(fishIds).size, fishIds.length, `${scenario.id}: balık kimliği tekrarı.`);
 
     const Engine = createRuntime(engineSource, contractSource, healthGuardSource, scenario);
-    assert.equal(Engine.healthGuardVersion, 1, `${scenario.id}: motor sağlık koruması yüklenmedi.`);
+    assert.equal(Engine.healthGuardVersion, 2, `${scenario.id}: motor sağlık koruması yüklenmedi.`);
     const currentDeclaredRuleIds = [...Engine.findingRuleIds];
     if (declaredRuleIds === null) declaredRuleIds = currentDeclaredRuleIds;
     else assert.deepEqual(currentDeclaredRuleIds, declaredRuleIds, `${scenario.id}: kural kataloğu değişti.`);
@@ -190,12 +190,12 @@ export function validateEngineGoldenScenarios(repositoryRoot) {
   assert.deepEqual(
     [...coveredRuleIds].sort(),
     [...declaredRuleIds].sort(),
-    'İlk 25 altın senaryo bütün Engine Finding v1 kurallarını kapsamalıdır.',
+    'Temel altın senaryolar bütün Engine Finding v1 kurallarını kapsamalıdır.',
   );
 
   return {
-    suiteId: 'engine-v1.1-first-25',
-    scenarios: ENGINE_GOLDEN_SCENARIOS_V1_1.length,
+    suiteId: 'engine-v1.2-essential-32',
+    scenarios: ENGINE_GOLDEN_SCENARIOS_V1_2.length,
     analysisScenarios,
     equipmentScenarios,
     declaredRuleIds: declaredRuleIds.length,
@@ -204,6 +204,6 @@ export function validateEngineGoldenScenarios(repositoryRoot) {
     criticalScenarios,
     warningScenarios,
     infoScenarios,
-    healthGuardVersion: 1,
+    healthGuardVersion: 2,
   };
 }
