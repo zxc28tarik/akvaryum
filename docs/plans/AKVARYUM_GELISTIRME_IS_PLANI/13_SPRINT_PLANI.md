@@ -54,10 +54,12 @@ Bu plan tek geliştirici veya küçük ekip için **sıralı çalışma paketler
 
 - AKV-DATA-013 — tamamlandı
 - AKV-DATA-014 — tamamlandı
-- AKV-ENG-011
-- AKV-ENG-012
+- AKV-ENG-011 — sürü, grup, çift, harem ve kaynaklı cinsiyet oranı kuralları tamamlandı
+- AKV-ENG-012 — sıradaki iş
 
-**Çıktı:** İlk 100 canlı için mevcut sosyal/tank boyu verisini kullanan sürü, çift, harem, aynı tür ve yakın tür davranış kuralları.
+**Mevcut çıktı:** Motor sosyal yapı minimumlarını değerlendiriyor; cinsiyet oranı yalnız kayıtlı veri ve kullanıcı adetleri varsa çalışıyor. Dört sosyal kural 15 odaklı senaryoyla doğrulanıyor.
+
+**Sprint çıktısı:** İlk 100 canlı için mevcut sosyal/tank boyu verisini kullanan sürü, çift, harem, aynı tür ve yakın tür davranış kuralları.
 
 ## Sprint 07 — Tank ve biyolojik yük
 

@@ -78,6 +78,7 @@
         data,
         engine,
         engineHealthGuard,
+        engineSocialRules,
         resultViews,
         components,
         catalogFilterModel,
@@ -94,6 +95,7 @@
         fetchText('data.js'),
         fetchText('engine.js'),
         fetchText('engine-health-guard.js'),
+        fetchText('engine-social-rules.js'),
         inflateBase64('.runtime/result-views.jsx.gz.b64'),
         inflateBase64('.runtime/components.jsx.gz.b64'),
         fetchText('catalog-filter-model.js'),
@@ -115,6 +117,7 @@
       runJavaScript(data, 'data.js');
       runJavaScript(engine, 'engine.js');
       runJavaScript(engineHealthGuard, 'engine-health-guard.js');
+      runJavaScript(engineSocialRules, 'engine-social-rules.js');
       runJavaScript(catalogFilterModel, 'catalog-filter-model.js');
       runJavaScript(inhabitantDetailModel, 'inhabitant-detail-model.js');
       runJsx(resultViews, 'result-views.jsx');
