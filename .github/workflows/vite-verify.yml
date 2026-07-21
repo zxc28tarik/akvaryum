@@ -74,6 +74,9 @@ jobs:
       - name: Canlı ayrıntı panelini doğrula
         run: npm run check:inhabitant-detail
 
+      - name: Mobil ana akış korumasını doğrula
+        run: npm run check:mobile-flow
+
       - name: İlk 100 sosyal yapı ve bakım zorluğunu doğrula
         run: npm run check:priority100
 
