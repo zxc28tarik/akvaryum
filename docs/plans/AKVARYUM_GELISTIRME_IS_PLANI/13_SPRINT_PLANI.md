@@ -34,9 +34,12 @@ Bu plan tek geliştirici veya küçük ekip için **sıralı çalışma paketler
 - AKV-ENG-001 — tamamlandı
 - AKV-ENG-002 — tamamlandı
 - AKV-TEST-010A — ilk 25 altın senaryo tamamlandı
-- AKV-ENG-003 — altın testlerin bulduğu kritik/sağlıklı mesaj çelişkisi kapatıldı
+- AKV-ENG-003 — kritik/sağlıklı mesaj çelişkisi kapatıldı
+- AKV-TEST-010B — yüksek riskli 7 ek senaryo ve beta çoğulluk düzeltmesi tamamlandı
 
-**Çıktı:** Açıklanabilir kural çıktısı, doğru parametre kesişimi, kritik sonuç mesaj koruması ve 27/27 kuralı kapsayan ilk altın test paketi.
+**Çıktı:** Açıklanabilir kural çıktısı, doğru parametre kesişimi, kritik sonuç koruması ve 27/27 kuralı kapsayan 32 temel motor senaryosu.
+
+**Test politikası:** Sabit 50 veya 100 senaryo hedefi yoktur. Yeni özellik ya da gerçek hata geldiğinde yalnız onu koruyacak gerekli testler eklenir.
 
 ## Sprint 05 — Katalog ve arama
 
@@ -62,7 +65,7 @@ Bu plan tek geliştirici veya küçük ekip için **sıralı çalışma paketler
 
 - AKV-ENG-010
 - AKV-ENG-013
-- Altın senaryoları 50’ye çıkar
+- Yeni hesapların kritik davranışlarını koruyan gerekli senaryolar
 
 **Çıktı:** Hacim, biyolojik yük ve davranış alanı ayrı hesaplanır.
 
@@ -79,7 +82,7 @@ Bu plan tek geliştirici veya küçük ekip için **sıralı çalışma paketler
 - AKV-ENG-016
 - AKV-UI-021
 - AKV-UI-022
-- Altın senaryoları 100’e çıkar
+- Yeni skor sisteminin kritik davranışlarını koruyan gerekli senaryolar
 
 **Çıktı:** Dört alt skorlu açıklanabilir sonuç ekranı.
 
