@@ -38,6 +38,21 @@
       ],
       "items": false
     },
+    "sexRatio": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["minMales", "minFemales"],
+      "properties": {
+        "minMales": { "type": "integer", "minimum": 0 },
+        "minFemales": { "type": "integer", "minimum": 0 },
+        "maxMales": { "type": "integer", "minimum": 0 },
+        "maxFemales": { "type": "integer", "minimum": 0 }
+      },
+      "anyOf": [
+        { "properties": { "minMales": { "minimum": 1 } } },
+        { "properties": { "minFemales": { "minimum": 1 } } }
+      ]
+    },
     "sourceIds": {
       "type": "array",
       "minItems": 1,
@@ -138,6 +153,7 @@
             "mode": { "enum": ["solitary", "pair", "harem", "group", "school", "colony", "unknown"] },
             "minGroup": { "type": "integer", "minimum": 1 },
             "recommendedGroup": { "type": "integer", "minimum": 1 },
+            "sexRatio": { "$ref": "#/$defs/sexRatio" },
             "conspecificAggression": { "enum": ["none", "low", "medium", "high", "extreme", "unknown"] },
             "territoriality": { "enum": ["none", "low", "medium", "high", "unknown"] }
           }
