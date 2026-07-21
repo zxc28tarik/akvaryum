@@ -53,6 +53,9 @@ jobs:
       - name: Motor bulgu sözleşmesini doğrula
         run: npm run check:engine-findings
 
+      - name: Sosyal yapı motor kurallarını doğrula
+        run: npm run check:engine-social
+
       - name: Temel 32 altın motor senaryosunu doğrula
         shell: bash
         run: |
