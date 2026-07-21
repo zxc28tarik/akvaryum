@@ -49,8 +49,8 @@
         "maxFemales": { "type": "integer", "minimum": 0 }
       },
       "anyOf": [
-        { "properties": { "minMales": { "minimum": 1 } } },
-        { "properties": { "minFemales": { "minimum": 1 } } }
+        { "properties": { "minMales": { "type": "integer", "minimum": 1 } } },
+        { "properties": { "minFemales": { "type": "integer", "minimum": 1 } } }
       ]
     },
     "sourceIds": {
