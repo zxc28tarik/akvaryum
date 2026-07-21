@@ -84,6 +84,7 @@
         catalogFilters,
         inhabitantDetailModel,
         inhabitantDetail,
+        mobileFlowGuard,
         app,
       ] = await Promise.all([
         inflateBase64('.runtime/styles.css.gz.b64'),
@@ -99,6 +100,7 @@
         fetchText('catalog-filters.jsx'),
         fetchText('inhabitant-detail-model.js'),
         fetchText('inhabitant-detail.jsx'),
+        fetchText('mobile-flow-guard.js'),
         fetchText('app.jsx'),
       ]);
 
@@ -119,6 +121,7 @@
       runJsx(components, 'components.jsx');
       runJsx(catalogFilters, 'catalog-filters.jsx');
       runJsx(inhabitantDetail, 'inhabitant-detail.jsx');
+      runJavaScript(mobileFlowGuard, 'mobile-flow-guard.js');
       runJsx(app, 'app.jsx');
     } catch (error) {
       showError(error);
