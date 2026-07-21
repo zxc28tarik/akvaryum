@@ -14,6 +14,7 @@ import { validateEngineFindingContract } from './scripts/lib/validate-engine-fin
 import { validateEngineGoldenScenarios } from './scripts/lib/validate-engine-golden-scenarios.mjs';
 import { validateEngineParameterIntersection } from './scripts/lib/validate-engine-parameter-intersection.mjs';
 import { validateInhabitantCatalog } from './scripts/lib/validate-inhabitant-catalog.mjs';
+import { validateInhabitantDetail } from './scripts/lib/validate-inhabitant-detail.mjs';
 import { validateInhabitantMigration } from './scripts/lib/validate-inhabitant-migration.mjs';
 import { validatePlantMigration } from './scripts/lib/validate-plant-migration.mjs';
 import { validatePrioritySocialCare } from './scripts/lib/validate-priority-social-care.mjs';
@@ -71,6 +72,7 @@ function nativeLegacyModules() {
       const engineFindingReport = validateEngineFindingContract(repositoryRoot);
       const engineGoldenReport = validateEngineGoldenScenarios(repositoryRoot);
       const catalogFilterReport = validateCatalogFilters(repositoryRoot);
+      const inhabitantDetailReport = validateInhabitantDetail(repositoryRoot);
       const priorityReport = validatePrioritySocialCare(repositoryRoot);
       const tankLengthReport = validatePriorityTankLength(repositoryRoot);
       const taxonomyReport = validateTaxonomyAudit(repositoryRoot, { requireSnapshot: true });
@@ -101,6 +103,9 @@ function nativeLegacyModules() {
       );
       this.info(
         `AKVARYUM katalog filtreleri doğrulandı: ${catalogFilterReport.scenarios} senaryo, ${catalogFilterReport.advancedFilters} gelişmiş filtre.`,
+      );
+      this.info(
+        `AKVARYUM canlı ayrıntı paneli doğrulandı: ${inhabitantDetailReport.scenarios} senaryo, ${inhabitantDetailReport.sections} bölüm.`,
       );
       this.info(
         `AKVARYUM öncelik 100 doğrulandı: ${priorityReport.completedSocialStructures} sosyal yapı, ${priorityReport.completedCareDifficulties} bakım zorluğu.`,
@@ -195,8 +200,10 @@ function nativeLegacyModules() {
             "import 'virtual:akvaryum/result-views.jsx';",
             "import 'virtual:akvaryum/engine.js';",
             readPlain('catalog-filter-model.js'),
+            readPlain('inhabitant-detail-model.js'),
             source,
             readPlain('catalog-filters.jsx'),
+            readPlain('inhabitant-detail.jsx'),
           ].join('\n');
 
         case 'app.jsx':
