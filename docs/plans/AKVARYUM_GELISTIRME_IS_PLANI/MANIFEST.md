@@ -1,6 +1,6 @@
 # Plan Paketi İçeriği ve GitHub Durumu
 
-**Son güncelleme:** 20 Temmuz 2026
+**Son güncelleme:** 21 Temmuz 2026
 
 | Dosya | Amaç | GitHub durumu |
 |---|---|---|
@@ -34,5 +34,7 @@
 | `27_AKV_ENG_001_PARAMETRE_KESISIM_DUZELTMESI.md` | pH, sıcaklık ve GH ortak aralık hatasının düzeltilmesi | Yüklendi |
 | `28_AKV_ENG_002_MOTOR_BULGU_SOZLESMESI.md` | Motor sorun, uyarı, öneri, uyumluluk ve ekipman çıktılarının standartlaştırılması | Yüklendi |
 | `29_AKV_TEST_010_ILK_25_ALTIN_MOTOR_SENARYOSU.md` | İlk 25 altın motor senaryosu, 27 kural kapsamı ve bilinen skor kusuru | Yüklendi |
+| `30_AKV_ENG_003_KRITIK_SAGLIKLI_KOMPOZISYON_KORUMASI.md` | Kritik sonuçta yanlış sağlıklı kompozisyon önerisinin engellenmesi | Yüklendi |
+| `31_AKV_UI_010_KATEGORI_VE_GELISMIS_FILTRELER.md` | URL’de kalıcı kategori ve gelişmiş canlı filtreleri | Yüklendi |
 
 Planın tamamı yerel ZIP paketinde korunmaktadır. GitHub’a aktarılan dosyalar aktif geliştirme sırasında öncelikli kaynak kabul edilir; kalan uzmanlık belgeleri ilgili göreve başlanmadan önce depoya eklenir.
