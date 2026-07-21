@@ -14,6 +14,8 @@ Kaynak kataloğu `data/sources/source-catalog.json`, kaynak ve doğrulama sözle
 
 Canlı katalog modülleri `data/catalog/` altındadır. Yeni modeldeki 580 kayıt balık, omurgasız ve mercan koleksiyonlarına ayrılır; bütün kayıtlar aynı ortak arama indeksinde tutulur. `DB.fish` eski arayüz uyumluluğu için korunur, yeni ana model `DB.inhabitants`, katalog erişimi ise `DB.inhabitantCatalog` alanıdır.
 
+Canlı seçim adımı tümü, balık, omurgasız ve mercan kategorilerini; bakım zorluğu, mizaç, sosyal yapı, yüzme bölgesi, azami tank hacmi, bitki/resif güvenliği ve sıralama filtrelerini destekler. Filtreler URL sorgusunda korunur ve kök statik sürüm ile Vite production sürümünde aynı modeli kullanır.
+
 Bitkilerde eski `DB.plants` alanı arayüz uyumluluğu için korunur. Yeni `Plant v1` kayıtları `DB.aquaticPlants` alanında bulunur. Su aralıkları, büyüme hızı, besin talebi, boy ve çoğaltma gibi eski veride olmayan alanlar uydurulmadan açık eksik tutulur.
 
 Tabanlarda eski `DB.substrates` alanı arayüz uyumluluğu için korunur. Yeni `Substrate v1` kayıtları `DB.aquariumSubstrates` alanında bulunur. Tane boyu, güvenlik, önerilen derinlik, yenileme süresi ve besin alanları kaynak olmadan doldurulmaz.
@@ -22,7 +24,7 @@ Motor pH, sıcaklık ve GH ortak aralıklarını bütün seçili türler boyunca
 
 Vite production motorundaki sorun, uyarı, öneri, ikili uyumluluk ve ekipman çıktıları `schemas/engine-finding-v1.schema.json` sözleşmesini kullanır. Her bulgu sabit `ruleId`, önem seviyesi, neden, etki ve çözüm taşır; eski `title/desc` alanları arayüz uyumluluğu için korunur.
 
-İlk altın motor paketi 23 analiz ve 2 ekipman senaryosuyla mevcut davranışı sabitler. Paket 105 bulguyu ve Engine Finding v1 içindeki 27 kural kimliğinin tamamını doğrular. Genel hedef 100 senaryodur; mevcut ilerleme 25/100'dür.
+Kritik sorun bulunan sonuçlarda `COMPOSITION_HEALTHY` / “Güzel kompozisyon” önerisi gösterilmez. İlk altın motor paketi 23 analiz ve 2 ekipman senaryosuyla 100 bulguyu ve Engine Finding v1 içindeki 27 kural kimliğinin tamamını doğrular. Genel hedef 100 senaryodur; mevcut ilerleme 25/100'dür.
 
 Bilimsel ad ve kimlik denetiminin kayıtlı sonucu `data/audits/inhabitant-taxonomy-audit.json` dosyasındadır. Mevcut bulgular parmak iziyle sabitlenmiştir; yeni veya kaldırılan bir bulgu rapor bilinçli olarak güncellenmeden build'i durdurur.
 
@@ -50,6 +52,7 @@ npm run check:substrates
 npm run check:engine-params
 npm run check:engine-findings
 npm run check:engine-golden25
+npm run check:catalog-filters
 npm run check:priority100
 npm run check:tanklength100
 npm run check:taxonomy
@@ -70,6 +73,7 @@ npm run check:substrates
 npm run check:engine-params
 npm run check:engine-findings
 npm run check:engine-golden25
+npm run check:catalog-filters
 npm run check:priority100
 npm run check:tanklength100
 npm run check:taxonomy
@@ -88,12 +92,13 @@ npm run preview
 - `check:substrates`: 8 legacy tabanla 8 `Substrate v1` kaydını karşılaştırır; kimlik ve mevcut alan kaybını, kaynak kopmasını veya eksik güvenlik/kullanım alanlarına uydurma değer yazılmasını reddeder.
 - `check:engine-params`: pH, sıcaklık ve GH ortak aralıklarının doğru daraltılmasını; ortak aralık yoksa `null` ve Türkçe/İngilizce kritik sorun üretilmesini 10 sınır senaryosuyla doğrular.
 - `check:engine-findings`: 27 motor kural kimliğini, Engine Finding v1 JSON Schema alanlarını, önem seviyelerini, ikili uyumluluk ve ekipman çıktılarını doğrular.
-- `check:engine-golden25`: ilk 25 altın senaryoda tam kural sırasını, ortak parametreleri, skor/karar sonucunu, gerekli hacmi, biyolojik yükü ve ekipman başlıklarını doğrular; 27/27 motor kuralını kapsar.
+- `check:engine-golden25`: ilk 25 altın senaryoda tam kural sırasını, ortak parametreleri, skor/karar sonucunu, gerekli hacmi, biyolojik yükü ve ekipman başlıklarını doğrular; kritik sonuçta sağlıklı kompozisyon önerisini reddeder ve 27/27 motor kuralını kapsar.
+- `check:catalog-filters`: dört kategori, sekiz gelişmiş filtre, on URL alanı, birleşik filtreleme, sıralama ve statik/Vite yükleme bağlantılarını 21 senaryoyla doğrular.
 - `check:priority100`: ilk ürün öncelik setindeki 100 kaydın sosyal yapı ve bakım zorluğu alanlarını, kaynak izini, düşük güven durumunu ve rapor sayımlarını doğrular.
 - `check:tanklength100`: aynı 100 kaydın minimum tank uzunluğunu, hacim ve vücut/yüzme alt sınırlarını, standart ölçü yuvarlamasını ve kaynak izini doğrular.
 - `check:taxonomy`: kimlik ve bilimsel ad tekrarlarını, ortak ad çakışmalarını, `var./sp./cf.` kayıtlarını ve cins-aile tutarlılığını denetler; güncel bulguları kayıtlı raporla karşılaştırır.
 - `check:catalog`: yeni modeldeki 580 canlıyı balık, omurgasız ve mercan koleksiyonlarına ayırır; kayıt kaybı, çifte üyelik ve eksik arama indeksi durumlarını reddeder.
-- `build`: başlamadan önce veri, kaynak, canlı/bitki/taban migrasyonları, motor parametre kesişimi, motor bulgu sözleşmesi, ilk 25 altın motor senaryosu, öncelik 100, tank uzunluğu, taksonomi raporu ve katalog doğrulamalarını otomatik olarak yeniden çalıştırır.
+- `build`: başlamadan önce veri, kaynak, canlı/bitki/taban migrasyonları, motor kontrolleri, ilk 25 altın senaryo, katalog filtreleri, öncelik 100, tank uzunluğu, taksonomi raporu ve katalog doğrulamalarını otomatik olarak yeniden çalıştırır.
 - `check:native`: production paketinde eski runtime yükleyicisi, Babel standalone, gzip açıcı veya `eval` bulunmadığını doğrular.
 - Build çıktısı `dist/` klasörüne yazılır.
 - GitHub Pages taban yolu `/akvaryum/` olarak ayarlanmıştır.
@@ -128,6 +133,17 @@ counts;
 Bitkilerde doğrudan korunan alanlar adlar, bilimsel ad, ışık ve görünüm bilgileridir. Yerleşim, CO₂ gereksinimi ve zorluk kontrollü biçimde dönüştürülür. Sıcaklık, pH, GH, büyüme hızı, besin talebi, beslenme biçimi, boy, çoğaltma ve sert zemine bağlanma dış kaynak doğrulamasına bırakılır.
 
 Tabanlarda adlar, açıklama, su türleri, pH etkisi, bitki uyumu ve renk korunur. Kategori, malzeme etiketi ve tamponlama durumu kontrollü biçimde türetilir. Tane boyu, KH/GH etkisi, besin zenginliği, dip canlısı güvenliği, keskinlik, önerilen derinlik ve yenileme süresi dış kaynak doğrulamasına bırakılır.
+
+## Katalog filtreleri
+
+- Üst kategoriler `all`, `fish`, `invertebrates` ve `corals` değerlerini kullanır.
+- Bakım, mizaç, sosyal yapı, yaşam bölgesi, tank hacmi, bitki güvenliği ve resif güvenliği aynı anda uygulanabilir.
+- Sıralama ad, tank hacmi, yetişkin boyu veya bakım zorluğuna göre yapılabilir.
+- Filtreler `q`, `cat`, `care`, `temperament`, `social`, `zone`, `tankMax`, `plantSafe`, `reefSafe` ve `sort` URL alanlarında saklanır.
+- Varsayılan filtreler URL’ye yazılmaz; uygulamanın yönetmediği sorgu alanları korunur.
+- Seçilen canlılar filtre sonucu dışında kalsa bile ayrı seçim bölümünde görünür.
+- Liste ilk etapta 36 kart gösterir ve kontrollü biçimde genişletilir.
+- Bu aşamadaki metin araması Türkçe/İngilizce ortak ad ve kimlik üzerindedir. Bilimsel ad, cins, aile ve eş ad araması `AKV-UI-011` kapsamındadır.
 
 ## Ortak parametre kesişimi
 
@@ -166,16 +182,15 @@ finding.evidence;
 
 ## İlk 25 altın motor senaryosu
 
-- Senaryo tanımları `scripts/lib/engine-golden-scenarios-v1.mjs` dosyasındadır.
+- Tarihsel v1 senaryoları `scripts/lib/engine-golden-scenarios-v1.mjs`, aktif düzeltilmiş beklenti `scripts/lib/engine-golden-scenarios-v1-1.mjs` dosyasındadır.
 - Paket 23 analiz ve 2 ekipman senaryosundan oluşur.
-- Toplam 105 Engine Finding v1 bulgusu doğrulanır.
+- Toplam 100 Engine Finding v1 bulgusu doğrulanır.
 - Engine Finding v1 içindeki 27 kural kimliğinin tamamı en az bir kez üretilir.
 - Analizlerde sorun, uyarı, öneri ve ikili uyumluluk sırası; pH/sıcaklık/GH, skor, karar, gerekli hacim ve biyolojik yük sabitlenir.
 - Ekipman senaryolarında kural sırası ile Türkçe/İngilizce başlıklar sabitlenir.
+- Kritik sorun bulunan hiçbir sonuçta `COMPOSITION_HEALTHY` önerisi bulunamaz.
 - Başarısız CI koşusunda ayrıntı günlüğü yedi gün saklanan `engine-golden25-failure` artefaktı olarak yüklenir.
 - Genel altın senaryo hedefi 100'dür; mevcut durum 25/100'dür.
-
-Altın testler, kritik sorun bulunan bazı eski motor sonuçlarında `COMPOSITION_HEALTHY` önerisinin yine üretilebildiğini görünür hale getirmiştir. Bu mevcut davranış ayrı `AKV-ENG-003` P0 göreviyle düzeltilecek ve ilgili altın beklentiler bilinçli olarak güncellenecektir.
 
 ## Öncelik 100 türetim ilkesi
 

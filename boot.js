@@ -80,6 +80,8 @@
         engineHealthGuard,
         resultViews,
         components,
+        catalogFilterModel,
+        catalogFilters,
         app,
       ] = await Promise.all([
         inflateBase64('.runtime/styles.css.gz.b64'),
@@ -91,6 +93,8 @@
         fetchText('engine-health-guard.js'),
         inflateBase64('.runtime/result-views.jsx.gz.b64'),
         inflateBase64('.runtime/components.jsx.gz.b64'),
+        fetchText('catalog-filter-model.js'),
+        fetchText('catalog-filters.jsx'),
         fetchText('app.jsx'),
       ]);
 
@@ -105,8 +109,10 @@
       runJavaScript(data, 'data.js');
       runJavaScript(engine, 'engine.js');
       runJavaScript(engineHealthGuard, 'engine-health-guard.js');
+      runJavaScript(catalogFilterModel, 'catalog-filter-model.js');
       runJsx(resultViews, 'result-views.jsx');
       runJsx(components, 'components.jsx');
+      runJsx(catalogFilters, 'catalog-filters.jsx');
       runJsx(app, 'app.jsx');
     } catch (error) {
       showError(error);

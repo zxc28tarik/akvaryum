@@ -9,6 +9,7 @@ import { defineConfig } from 'vite';
 import { buildRuntimeInhabitantCatalogBootstrap } from './data/catalog/index.mjs';
 import { buildLegacyFishClassification } from './scripts/lib/classify-legacy-fish.mjs';
 import { buildRuntimeSourceProvenanceBootstrap } from './scripts/lib/source-provenance.mjs';
+import { validateCatalogFilters } from './scripts/lib/validate-catalog-filters.mjs';
 import { validateEngineFindingContract } from './scripts/lib/validate-engine-finding-contract.mjs';
 import { validateEngineGoldenScenarios } from './scripts/lib/validate-engine-golden-scenarios.mjs';
 import { validateEngineParameterIntersection } from './scripts/lib/validate-engine-parameter-intersection.mjs';
@@ -69,6 +70,7 @@ function nativeLegacyModules() {
       const engineParameterReport = validateEngineParameterIntersection(repositoryRoot);
       const engineFindingReport = validateEngineFindingContract(repositoryRoot);
       const engineGoldenReport = validateEngineGoldenScenarios(repositoryRoot);
+      const catalogFilterReport = validateCatalogFilters(repositoryRoot);
       const priorityReport = validatePrioritySocialCare(repositoryRoot);
       const tankLengthReport = validatePriorityTankLength(repositoryRoot);
       const taxonomyReport = validateTaxonomyAudit(repositoryRoot, { requireSnapshot: true });
@@ -96,6 +98,9 @@ function nativeLegacyModules() {
       );
       this.info(
         `AKVARYUM ilk altın motor paketi doğrulandı: ${engineGoldenReport.scenarios} senaryo, ${engineGoldenReport.coveredRuleIds} kural.`,
+      );
+      this.info(
+        `AKVARYUM katalog filtreleri doğrulandı: ${catalogFilterReport.scenarios} senaryo, ${catalogFilterReport.advancedFilters} gelişmiş filtre.`,
       );
       this.info(
         `AKVARYUM öncelik 100 doğrulandı: ${priorityReport.completedSocialStructures} sosyal yapı, ${priorityReport.completedCareDifficulties} bakım zorluğu.`,
@@ -186,9 +191,12 @@ function nativeLegacyModules() {
         case 'components.jsx':
           return [
             "import React from 'react';",
+            "window.React = React;",
             "import 'virtual:akvaryum/result-views.jsx';",
             "import 'virtual:akvaryum/engine.js';",
+            readPlain('catalog-filter-model.js'),
             source,
+            readPlain('catalog-filters.jsx'),
           ].join('\n');
 
         case 'app.jsx':

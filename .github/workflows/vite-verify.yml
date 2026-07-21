@@ -68,6 +68,9 @@ jobs:
           if-no-files-found: error
           retention-days: 7
 
+      - name: Kategori ve gelişmiş katalog filtrelerini doğrula
+        run: npm run check:catalog-filters
+
       - name: İlk 100 sosyal yapı ve bakım zorluğunu doğrula
         run: npm run check:priority100
 
