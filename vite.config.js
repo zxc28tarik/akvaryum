@@ -191,6 +191,7 @@ function nativeLegacyModules() {
         case 'components.jsx':
           return [
             "import React from 'react';",
+            "window.React = React;",
             "import 'virtual:akvaryum/result-views.jsx';",
             "import 'virtual:akvaryum/engine.js';",
             readPlain('catalog-filter-model.js'),
