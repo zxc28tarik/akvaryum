@@ -9,8 +9,7 @@
 
   const VERSION = 1;
   const originalAnalyze = global.Engine.analyze.bind(global.Engine);
-  const BEHAVIOR_CRITICAL_RULES = new Set(['PAIRWISE_INCOMPATIBLE']);
-  const BEHAVIOR_WARNING_RULES = new Set(['PAIRWISE_CAUTION', 'SCHOOLING_MINIMUM']);
+  const BEHAVIOR_TEXT = /avlayabilir|may prey|savaşır|fight|agresif|aggression|çatış|conflict|yüzgeç çekiştirme|fin nipping/i;
 
   function numberOrZero(value) {
     const number = Number(value);
@@ -117,16 +116,20 @@
       marginLiters: tankVolumeL > 0 ? Math.round(tankVolumeL - demandLiters) : null,
       method: 'legacy_additive_stocking_proxy_v1',
       confidence: 'low',
-      note: 'This is a transparent stocking proxy, not measured waste production.',
+      noteKey: 'legacy_stocking_proxy_not_measured_waste',
     };
   }
 
-  function isBehaviorRule(ruleId, severity) {
-    if (severity === 'critical' && BEHAVIOR_CRITICAL_RULES.has(ruleId)) return true;
-    if (severity === 'warning' && BEHAVIOR_WARNING_RULES.has(ruleId)) return true;
-    return String(ruleId || '').startsWith('SOCIAL_')
-      || String(ruleId || '').startsWith('CONSPECIFIC_')
-      || String(ruleId || '').startsWith('CONGENERIC_');
+  function isBehaviorFinding(finding) {
+    const ruleId = String(finding?.ruleId || '');
+    if (ruleId.startsWith('SOCIAL_') || ruleId.startsWith('CONSPECIFIC_') || ruleId.startsWith('CONGENERIC_')) {
+      return true;
+    }
+    if (ruleId === 'SCHOOLING_MINIMUM') return true;
+    if (ruleId === 'PAIRWISE_INCOMPATIBLE' || ruleId === 'PAIRWISE_CAUTION') {
+      return BEHAVIOR_TEXT.test(`${finding?.reason || ''} ${finding?.desc || ''}`);
+    }
+    return false;
   }
 
   function behaviorDomain(result, selections) {
@@ -143,12 +146,8 @@
       };
     }
 
-    const criticalFindings = (result?.issues || []).filter((finding) => (
-      isBehaviorRule(finding.ruleId, 'critical')
-    ));
-    const warningFindings = (result?.warnings || []).filter((finding) => (
-      isBehaviorRule(finding.ruleId, 'warning')
-    ));
+    const criticalFindings = (result?.issues || []).filter(isBehaviorFinding);
+    const warningFindings = (result?.warnings || []).filter(isBehaviorFinding);
     const pairEntries = (result?.compat || []).filter((entry) => entry.a !== entry.b);
     const ruleIds = [...new Set([
       ...criticalFindings.map((finding) => finding.ruleId),
