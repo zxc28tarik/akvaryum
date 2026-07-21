@@ -6,9 +6,9 @@ import vm from 'node:vm';
 import Ajv2020 from 'ajv/dist/2020.js';
 
 import {
-  ENGINE_GOLDEN_DEFAULT_FISH_V1,
-  ENGINE_GOLDEN_SCENARIOS_V1,
-} from './engine-golden-scenarios-v1.mjs';
+  ENGINE_GOLDEN_DEFAULT_FISH_V1_1,
+  ENGINE_GOLDEN_SCENARIOS_V1_1,
+} from './engine-golden-scenarios-v1-1.mjs';
 
 function plain(value) {
   return JSON.parse(JSON.stringify(value));
@@ -16,7 +16,7 @@ function plain(value) {
 
 function createFish(definition) {
   return {
-    ...ENGINE_GOLDEN_DEFAULT_FISH_V1,
+    ...ENGINE_GOLDEN_DEFAULT_FISH_V1_1,
     id: definition.id,
     nameTr: definition.nameTr ?? definition.id.toUpperCase(),
     nameEn: definition.nameEn ?? definition.id,
@@ -24,7 +24,7 @@ function createFish(definition) {
   };
 }
 
-function createRuntime(engineSource, contractSource, scenario) {
+function createRuntime(engineSource, contractSource, healthGuardSource, scenario) {
   const fish = scenario.fish.map(createFish);
   const context = vm.createContext({
     window: {
@@ -37,7 +37,10 @@ function createRuntime(engineSource, contractSource, scenario) {
   });
 
   new vm.Script(engineSource, { filename: 'engine.js' }).runInContext(context);
-  new vm.Script(contractSource, { filename: 'engine-finding-contract.js' }).runInContext(context);
+  if (contractSource) {
+    new vm.Script(contractSource, { filename: 'engine-finding-contract.js' }).runInContext(context);
+  }
+  new vm.Script(healthGuardSource, { filename: 'engine-health-guard.js' }).runInContext(context);
   return context.window.Engine;
 }
 
@@ -70,9 +73,26 @@ function analysisSnapshot(result) {
   };
 }
 
+function assertNoHealthyCompositionWithCriticalIssues(result, scenarioId) {
+  if (result.issues.length === 0) return;
+
+  const healthyTip = result.tips.find((finding) => (
+    finding.ruleId === 'COMPOSITION_HEALTHY'
+    || finding.title === 'Güzel kompozisyon'
+    || finding.title === 'Nice composition'
+  ));
+
+  assert.equal(
+    healthyTip,
+    undefined,
+    `${scenarioId}: kritik sorun varken sağlıklı kompozisyon önerisi üretildi.`,
+  );
+}
+
 export function validateEngineGoldenScenarios(repositoryRoot) {
   const engineSource = readFileSync(resolve(repositoryRoot, 'engine.js'), 'utf8');
   const contractSource = readFileSync(resolve(repositoryRoot, 'engine-finding-contract.js'), 'utf8');
+  const healthGuardSource = readFileSync(resolve(repositoryRoot, 'engine-health-guard.js'), 'utf8');
   const findingSchema = JSON.parse(
     readFileSync(resolve(repositoryRoot, 'schemas/engine-finding-v1.schema.json'), 'utf8'),
   );
@@ -80,10 +100,20 @@ export function validateEngineGoldenScenarios(repositoryRoot) {
   const ajv = new Ajv2020({ allErrors: true, strict: true });
   const validateFinding = ajv.compile(findingSchema);
 
-  assert.equal(ENGINE_GOLDEN_SCENARIOS_V1.length, 25, 'İlk altın motor paketi tam 25 senaryo olmalıdır.');
+  assert.equal(ENGINE_GOLDEN_SCENARIOS_V1_1.length, 25, 'İlk altın motor paketi tam 25 senaryo olmalıdır.');
 
-  const scenarioIds = ENGINE_GOLDEN_SCENARIOS_V1.map((scenario) => scenario.id);
+  const scenarioIds = ENGINE_GOLDEN_SCENARIOS_V1_1.map((scenario) => scenario.id);
   assert.equal(new Set(scenarioIds).size, scenarioIds.length, 'Altın senaryo kimlikleri benzersiz olmalıdır.');
+
+  const rawCriticalScenario = ENGINE_GOLDEN_SCENARIOS_V1_1.find((scenario) => scenario.id === 'water-type-mismatch');
+  assert(rawCriticalScenario, 'Ham motor sağlık koruması senaryosu bulunamadı.');
+  const RawEngine = createRuntime(engineSource, null, healthGuardSource, rawCriticalScenario);
+  const rawCriticalResult = RawEngine.analyze({
+    ...normalizedState(rawCriticalScenario),
+    lang: 'en',
+  });
+  assert.equal(RawEngine.healthGuardVersion, 1);
+  assertNoHealthyCompositionWithCriticalIssues(rawCriticalResult, 'raw-water-type-mismatch-en');
 
   const coveredRuleIds = new Set();
   let validatedFindings = 0;
@@ -108,7 +138,7 @@ export function validateEngineGoldenScenarios(repositoryRoot) {
     validatedFindings += 1;
   }
 
-  for (const scenario of ENGINE_GOLDEN_SCENARIOS_V1) {
+  for (const scenario of ENGINE_GOLDEN_SCENARIOS_V1_1) {
     assert(scenario.id.length > 0, 'Senaryo kimliği boş olamaz.');
     assert(scenario.purpose.length > 0, `${scenario.id}: amaç açıklaması boş olamaz.`);
     assert(['analysis', 'equipment'].includes(scenario.mode), `${scenario.id}: bilinmeyen senaryo modu.`);
@@ -116,7 +146,8 @@ export function validateEngineGoldenScenarios(repositoryRoot) {
     const fishIds = scenario.fish.map((definition) => definition.id);
     assert.equal(new Set(fishIds).size, fishIds.length, `${scenario.id}: balık kimliği tekrarı.`);
 
-    const Engine = createRuntime(engineSource, contractSource, scenario);
+    const Engine = createRuntime(engineSource, contractSource, healthGuardSource, scenario);
+    assert.equal(Engine.healthGuardVersion, 1, `${scenario.id}: motor sağlık koruması yüklenmedi.`);
     const currentDeclaredRuleIds = [...Engine.findingRuleIds];
     if (declaredRuleIds === null) declaredRuleIds = currentDeclaredRuleIds;
     else assert.deepEqual(currentDeclaredRuleIds, declaredRuleIds, `${scenario.id}: kural kataloğu değişti.`);
@@ -127,6 +158,7 @@ export function validateEngineGoldenScenarios(repositoryRoot) {
       analysisScenarios += 1;
       const result = Engine.analyze(state);
 
+      assertNoHealthyCompositionWithCriticalIssues(result, scenario.id);
       for (const finding of result.issues) checkFinding(finding, 'critical', scenario.id);
       for (const finding of result.warnings) checkFinding(finding, 'warning', scenario.id);
       for (const finding of result.tips) checkFinding(finding, 'info', scenario.id);
@@ -162,8 +194,8 @@ export function validateEngineGoldenScenarios(repositoryRoot) {
   );
 
   return {
-    suiteId: 'engine-v1-first-25',
-    scenarios: ENGINE_GOLDEN_SCENARIOS_V1.length,
+    suiteId: 'engine-v1.1-first-25',
+    scenarios: ENGINE_GOLDEN_SCENARIOS_V1_1.length,
     analysisScenarios,
     equipmentScenarios,
     declaredRuleIds: declaredRuleIds.length,
@@ -172,5 +204,6 @@ export function validateEngineGoldenScenarios(repositoryRoot) {
     criticalScenarios,
     warningScenarios,
     infoScenarios,
+    healthGuardVersion: 1,
   };
 }
