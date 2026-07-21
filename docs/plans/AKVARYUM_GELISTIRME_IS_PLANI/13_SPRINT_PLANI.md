@@ -50,20 +50,18 @@ Bu plan tek geliştirici veya küçük ekip için **sıralı çalışma paketler
 
 **Çıktı:** Tümü/balık/omurgasız/mercan kategorileri, sekiz gelişmiş filtre, seçili canlı adet yönetimi, ortak/bilimsel/eş ad araması, beş bölümlü canlı ayrıntı paneli ve 360 px mobil ana akış koruması. Katalog araması 27, ayrıntı paneli 10 ve mobil akış 7 odaklı senaryoyla doğrulanıyor.
 
-## Sprint 06 — Sosyal ve davranış kuralları
+## Sprint 06 — Sosyal ve davranış kuralları — tamamlandı
 
 - AKV-DATA-013 — tamamlandı
 - AKV-DATA-014 — tamamlandı
 - AKV-ENG-011 — sürü, grup, çift, harem ve kaynaklı cinsiyet oranı kuralları tamamlandı
-- AKV-ENG-012 — sıradaki iş
+- AKV-ENG-012 — aynı tür ve aynı cins içindeki yakın tür agresyon kuralları tamamlandı
 
-**Mevcut çıktı:** Motor sosyal yapı minimumlarını değerlendiriyor; cinsiyet oranı yalnız kayıtlı veri ve kullanıcı adetleri varsa çalışıyor. Dört sosyal kural 15 odaklı senaryoyla doğrulanıyor.
-
-**Sprint çıktısı:** İlk 100 canlı için mevcut sosyal/tank boyu verisini kullanan sürü, çift, harem, aynı tür ve yakın tür davranış kuralları.
+**Çıktı:** Motor sosyal yapı minimumlarını, çift/harem yapılarını, kaynaklı cinsiyet oranını, aynı tür çoklu birey riskini ve aynı cins yakın tür çatışmasını değerlendiriyor. Sosyal kurallar 15, agresyon kuralları 14 odaklı senaryoyla doğrulanıyor.
 
 ## Sprint 07 — Tank ve biyolojik yük
 
-- AKV-ENG-010
+- AKV-ENG-010 — sıradaki iş
 - AKV-ENG-013
 - Yeni hesapların kritik davranışlarını koruyan gerekli senaryolar
 
