@@ -41,25 +41,23 @@ Bu plan tek geliştirici veya küçük ekip için **sıralı çalışma paketler
 
 **Test politikası:** Sabit 50 veya 100 senaryo hedefi yoktur. Yeni özellik ya da gerçek hata geldiğinde yalnız onu koruyacak gerekli testler eklenir.
 
-## Sprint 05 — Katalog ve arama
+## Sprint 05 — Katalog ve arama — tamamlandı
 
 - AKV-UI-010 — kategori ve URL’de kalıcı gelişmiş filtreler tamamlandı
 - AKV-UI-011 — bilimsel ad, eş ad, cins ve aile araması tamamlandı
 - AKV-UI-012 — kaynak ve bakım tablosu içeren canlı ayrıntı paneli tamamlandı
-- AKV-UI-001
+- AKV-UI-001 — 360 px mobil ana akış koruması tamamlandı
 
-**Mevcut çıktı:** Tümü/balık/omurgasız/mercan kategorileri, sekiz gelişmiş filtre, seçili canlı adet yönetimi, ortak/bilimsel/eş ad araması ve beş bölümlü canlı ayrıntı paneli. Katalog araması 27, ayrıntı paneli 10 odaklı senaryoyla doğrulanıyor.
-
-**Sprint çıktısı:** Kategorili, filtrelenebilir, mobil katalog ve ayrıntı görünümü.
+**Çıktı:** Tümü/balık/omurgasız/mercan kategorileri, sekiz gelişmiş filtre, seçili canlı adet yönetimi, ortak/bilimsel/eş ad araması, beş bölümlü canlı ayrıntı paneli ve 360 px mobil ana akış koruması. Katalog araması 27, ayrıntı paneli 10 ve mobil akış 7 odaklı senaryoyla doğrulanıyor.
 
 ## Sprint 06 — Sosyal ve davranış kuralları
 
-- AKV-DATA-013
-- AKV-DATA-014
+- AKV-DATA-013 — tamamlandı
+- AKV-DATA-014 — tamamlandı
 - AKV-ENG-011
 - AKV-ENG-012
 
-**Çıktı:** En popüler 100 canlı için sosyal/tank boyu verisi ve yeni kurallar.
+**Çıktı:** İlk 100 canlı için mevcut sosyal/tank boyu verisini kullanan sürü, çift, harem, aynı tür ve yakın tür davranış kuralları.
 
 ## Sprint 07 — Tank ve biyolojik yük
 
