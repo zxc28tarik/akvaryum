@@ -22,6 +22,7 @@
     "check:engine-params": "node scripts/check-engine-parameter-intersection.mjs",
     "check:engine-findings": "node scripts/check-engine-finding-contract.mjs",
     "check:engine-social": "node scripts/check-engine-social-rules.mjs",
+    "check:engine-conspecific": "node scripts/check-engine-conspecific-rules.mjs",
     "check:engine-golden": "node scripts/check-engine-golden-scenarios.mjs",
     "check:engine-golden25": "npm run check:engine-golden",
     "check:taxonomy": "node scripts/check-taxonomy-audit.mjs",
