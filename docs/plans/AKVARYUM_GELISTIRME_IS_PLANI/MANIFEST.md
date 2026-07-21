@@ -38,5 +38,6 @@
 | `31_AKV_UI_010_KATEGORI_VE_GELISMIS_FILTRELER.md` | URL’de kalıcı kategori ve gelişmiş canlı filtreleri | Yüklendi |
 | `32_AKV_TEST_010B_TEMEL_MOTOR_SENARYOLARI.md` | 32 temel senaryo, beta çoğulluk düzeltmesi ve ihtiyaç bazlı test politikası | Yüklendi |
 | `33_AKV_UI_011_BILIMSEL_VE_ES_AD_ARAMASI.md` | Ortak ad, bilimsel ad, eş ad, cins ve aile araması | Yüklendi |
+| `34_AKV_UI_012_CANLI_AYRINTI_PANELI.md` | Kaynak, bakım, su, tank ve davranış bilgilerini gösteren canlı ayrıntı paneli | Yüklendi |
 
 Planın tamamı yerel ZIP paketinde korunmaktadır. GitHub’a aktarılan dosyalar aktif geliştirme sırasında öncelikli kaynak kabul edilir; kalan uzmanlık belgeleri ilgili göreve başlanmadan önce depoya eklenir.
