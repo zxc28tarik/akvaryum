@@ -10,6 +10,7 @@ import { buildRuntimeInhabitantCatalogBootstrap } from './data/catalog/index.mjs
 import { buildLegacyFishClassification } from './scripts/lib/classify-legacy-fish.mjs';
 import { buildRuntimeSourceProvenanceBootstrap } from './scripts/lib/source-provenance.mjs';
 import { validateCatalogFilters } from './scripts/lib/validate-catalog-filters.mjs';
+import { validateEngineConspecificRules } from './scripts/lib/validate-engine-conspecific-rules.mjs';
 import { validateEngineFindingContract } from './scripts/lib/validate-engine-finding-contract.mjs';
 import { validateEngineGoldenScenarios } from './scripts/lib/validate-engine-golden-scenarios.mjs';
 import { validateEngineParameterIntersection } from './scripts/lib/validate-engine-parameter-intersection.mjs';
@@ -73,6 +74,7 @@ function nativeLegacyModules() {
       const engineParameterReport = validateEngineParameterIntersection(repositoryRoot);
       const engineFindingReport = validateEngineFindingContract(repositoryRoot);
       const engineSocialReport = validateEngineSocialRules(repositoryRoot);
+      const engineConspecificReport = validateEngineConspecificRules(repositoryRoot);
       const engineGoldenReport = validateEngineGoldenScenarios(repositoryRoot);
       const catalogFilterReport = validateCatalogFilters(repositoryRoot);
       const inhabitantDetailReport = validateInhabitantDetail(repositoryRoot);
@@ -104,6 +106,9 @@ function nativeLegacyModules() {
       );
       this.info(
         `AKVARYUM sosyal yapı kuralları doğrulandı: ${engineSocialReport.scenarios} senaryo, ${engineSocialReport.ruleIds} kural.`,
+      );
+      this.info(
+        `AKVARYUM aynı/yakın tür agresyonu doğrulandı: ${engineConspecificReport.scenarios} senaryo, ${engineConspecificReport.ruleIds} kural.`,
       );
       this.info(
         `AKVARYUM ilk altın motor paketi doğrulandı: ${engineGoldenReport.scenarios} senaryo, ${engineGoldenReport.coveredRuleIds} kural.`,
@@ -195,6 +200,7 @@ function nativeLegacyModules() {
             readPlain('engine-finding-contract.js'),
             readPlain('engine-health-guard.js'),
             readPlain('engine-social-rules.js'),
+            readPlain('engine-conspecific-rules.js'),
           ].join('\n');
 
         case 'result-views.jsx':
