@@ -19,7 +19,7 @@ import { validatePlantMigration } from './scripts/lib/validate-plant-migration.m
 import { validatePrioritySocialCare } from './scripts/lib/validate-priority-social-care.mjs';
 import { validatePriorityTankLength } from './scripts/lib/validate-priority-tank-length.mjs';
 import { validateRepositoryData } from './scripts/lib/validate-data-schema.mjs';
-import { validateSourceProvenance } from './scripts/lib/source-provenance.mjs';
+import { validateSourceProvenance } from './scripts/lib/validate-source-provenance.mjs';
 import { validateSubstrateMigration } from './scripts/lib/validate-substrate-migration.mjs';
 import { validateTaxonomyAudit } from './scripts/lib/validate-taxonomy-audit.mjs';
 
