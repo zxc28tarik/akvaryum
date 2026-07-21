@@ -11,6 +11,9 @@ function canonicalRecord(id, overrides = {}) {
   return {
     id,
     name: { tr: id, en: id },
+    scientificName: id,
+    aliases: [],
+    taxonomy: { genus: null, family: null },
     entityType: 'freshwater_fish',
     water: { types: ['fresh'] },
     tank: { minVolumeL: 40 },
@@ -26,11 +29,17 @@ function canonicalRecord(id, overrides = {}) {
 const RECORDS = [
   canonicalRecord('neon', {
     name: { tr: 'Neon Tetra', en: 'Neon Tetra' },
+    scientificName: 'Paracheirodon innesi',
+    aliases: ['Mavi Neon', 'Neon Fish'],
+    taxonomy: { genus: 'Paracheirodon', family: 'Characidae' },
     tank: { minVolumeL: 60 },
     size: { adultCm: [3, 4] },
   }),
   canonicalRecord('oscar', {
     name: { tr: 'Oscar', en: 'Oscar' },
+    scientificName: 'Astronotus ocellatus',
+    aliases: ['Tiger Oscar'],
+    taxonomy: { genus: 'Astronotus', family: 'Cichlidae' },
     tank: { minVolumeL: 300 },
     size: { adultCm: [25, 35] },
     care: { difficulty: 'advanced' },
@@ -40,6 +49,9 @@ const RECORDS = [
   }),
   canonicalRecord('amano', {
     name: { tr: 'Amano Karidesi', en: 'Amano Shrimp' },
+    scientificName: 'Caridina multidentata',
+    aliases: ['Yamato Karidesi', 'Yamato Shrimp'],
+    taxonomy: { genus: 'Caridina', family: 'Atyidae' },
     entityType: 'freshwater_shrimp',
     tank: { minVolumeL: 30 },
     size: { adultCm: [4, 6] },
@@ -49,6 +61,9 @@ const RECORDS = [
   }),
   canonicalRecord('marine-predator', {
     name: { tr: 'Deniz Avcısı', en: 'Marine Predator' },
+    scientificName: 'Gymnothorax sp.',
+    aliases: ['Moray'],
+    taxonomy: { genus: 'Gymnothorax', family: 'Muraenidae' },
     entityType: 'marine_fish',
     water: { types: ['salt'] },
     tank: { minVolumeL: 250 },
@@ -60,6 +75,9 @@ const RECORDS = [
   }),
   canonicalRecord('cleaner-shrimp', {
     name: { tr: 'Temizlik Karidesi', en: 'Cleaner Shrimp' },
+    scientificName: 'Lysmata amboinensis',
+    aliases: ['Skunk Cleaner Shrimp'],
+    taxonomy: { genus: 'Lysmata', family: 'Lysmatidae' },
     entityType: 'marine_shrimp',
     water: { types: ['salt'] },
     tank: { minVolumeL: 80 },
@@ -71,6 +89,9 @@ const RECORDS = [
   }),
   canonicalRecord('soft-coral', {
     name: { tr: 'Yumuşak Mercan', en: 'Soft Coral' },
+    scientificName: 'Sarcophyton sp.',
+    aliases: ['Leather Coral'],
+    taxonomy: { genus: 'Sarcophyton', family: 'Alcyoniidae' },
     entityType: 'soft_coral',
     water: { types: ['salt'] },
     tank: { minVolumeL: 100 },
@@ -81,6 +102,22 @@ const RECORDS = [
     compatibility: { plantSafe: true, coralSafe: 'yes' },
   }),
 ];
+
+const LEGACY_SEARCH_RECORD = {
+  id: 'legacy-guppy',
+  nameTr: 'Lepistes',
+  nameEn: 'Guppy',
+  sci: 'Poecilia reticulata',
+  aliases: ['Millionfish'],
+  water: 'fresh',
+  minVolume: 40,
+  adultSize: 5,
+  aggression: 'peaceful',
+  schooling: 0,
+  layer: 'mid',
+  plantSafe: true,
+  reefSafe: false,
+};
 
 function ids(records) {
   return plain(records.map((record) => record.id));
@@ -100,7 +137,7 @@ export function validateCatalogFilters(repositoryRoot) {
   new vm.Script(modelSource, { filename: 'catalog-filter-model.js' }).runInContext(context);
   const model = context.window.CatalogFilterModel;
 
-  assert.equal(model.version, 1, 'Katalog filtre modeli sürümü değişti.');
+  assert.equal(model.version, 2, 'Katalog filtre modeli sürümü değişti.');
   let scenarios = 0;
 
   const parsed = plain(model.parseSearch('?q=Neon&cat=fish&care=beginner&temperament=peaceful&social=school&zone=mid&tankMax=80&plantSafe=1&reefSafe=1&sort=tank'));
@@ -165,6 +202,24 @@ export function validateCatalogFilters(repositoryRoot) {
   assert.deepEqual(ids(model.filterRecords(RECORDS, { ...model.createDefaults(), q: 'karidesi' }, { water: 'fresh', lang: 'tr' })), ['amano']);
   scenarios += 1;
 
+  assert.deepEqual(ids(model.filterRecords(RECORDS, { ...model.createDefaults(), q: 'Paracheirodon innesi' }, { water: 'fresh', lang: 'tr' })), ['neon']);
+  scenarios += 1;
+
+  assert.deepEqual(ids(model.filterRecords(RECORDS, { ...model.createDefaults(), q: 'paracheirodon' }, { water: 'fresh', lang: 'en' })), ['neon']);
+  scenarios += 1;
+
+  assert.deepEqual(ids(model.filterRecords(RECORDS, { ...model.createDefaults(), q: 'characidae' }, { water: 'fresh', lang: 'tr' })), ['neon']);
+  scenarios += 1;
+
+  assert.deepEqual(ids(model.filterRecords(RECORDS, { ...model.createDefaults(), q: 'Yamato Shrimp' }, { water: 'fresh', lang: 'en' })), ['amano']);
+  scenarios += 1;
+
+  assert.deepEqual(ids(model.filterRecords(RECORDS, { ...model.createDefaults(), q: 'mavi neon' }, { water: 'fresh', lang: 'tr' })), ['neon']);
+  scenarios += 1;
+
+  assert.deepEqual(ids(model.filterRecords([LEGACY_SEARCH_RECORD], { ...model.createDefaults(), q: 'Poecilia reticulata' }, { water: 'fresh', lang: 'tr' })), ['legacy-guppy']);
+  scenarios += 1;
+
   assert.deepEqual(ids(model.filterRecords(RECORDS, { ...model.createDefaults(), sort: 'tank' }, { water: 'fresh', lang: 'tr' })), ['amano', 'neon', 'oscar']);
   scenarios += 1;
 
@@ -212,5 +267,6 @@ export function validateCatalogFilters(repositoryRoot) {
     managedQueryKeys: 10,
     categories: 4,
     advancedFilters: 8,
+    searchFields: ['commonNameTr', 'commonNameEn', 'scientificName', 'aliases', 'genus', 'family', 'id'],
   };
 }
