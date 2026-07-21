@@ -73,6 +73,9 @@
 - `AKV-UI-001` tamamlandı: 360 px için yatay taşma koruması, tek sütun mobil düzen, güvenli alan destekli alt gezinme ve çalışma anı taşma raporu eklendi.
 - Bilinçli yatay kaydırılan tablo ve tarif şeritleri hata sayılmıyor; yalnız gerçek ekran dışı taşmalar raporlanıyor.
 - `npm run check:mobile-flow` 7 odaklı senaryoyla taşma algılama, mobil kırılımlar ve iki production yükleme yolunu doğruluyor.
+- `AKV-ENG-011` tamamlandı: motor sürü/grup/koloni minimumunu, tam çift sayısını, harem minimumunu ve yalnız kayıtlı veri varsa erkek–dişi oranını değerlendiriyor.
+- Mevcut 580 kayda cinsiyet oranı uydurulmadı; oran veya kullanıcı cinsiyet adedi yoksa motor tahmin yapmadan geçiyor.
+- `npm run check:engine-social` 15 odaklı senaryoyla dört sosyal kuralı, skor etkisini, Türkçe/İngilizce çıktıyı ve eski sürü uyarısının çoğaltılmamasını doğruluyor.
 - Sosyal bakım, tank uzunluğu, Plant v1 ve Substrate v1 değerleri dış kaynak doğrulaması değildir; kayıtlar `needs_review/low` durumunda tutuluyor.
 - Gerçek cihaz görsel ince ayarı gerekirse somut taşma raporu üzerinden küçük düzeltme yapılacak; ağır bir tarayıcı test altyapısı kurulmadı.
 
@@ -96,7 +99,7 @@
 | Kimlik | Durum | Görev | Bağımlılık | Kabul özeti |
 |---|---|---|---|---|
 | AKV-ENG-010 | READY | Hacim, biyolojik yük ve davranış alanını ayır | DATA-011 | Üç bağımsız sonuç hesaplanır |
-| AKV-ENG-011 | READY | Sürü/çift/harem/cinsiyet kuralları | DATA-013 | Sosyal yapı testleri geçer |
+| AKV-ENG-011 | DONE | Sürü/çift/harem/cinsiyet kuralları | DATA-013 | Dört sosyal kural production motorunda çalışır |
 | AKV-ENG-012 | READY | Aynı tür ve yakın tür agresyonu | DATA-013 | Conspecific kuralları veri tabanlıdır |
 | AKV-ENG-013 | READY | Avcı-av modeli | DATA-011 | Ağız boyu + canlı boyu + istisna kullanır |
 | AKV-ENG-014 | READY | Omurgasız ve mercan güvenliği ayrımı | DATA-010 | Soft/LPS/SPS ve shrimp/snail ayrı değerlendirilir |
