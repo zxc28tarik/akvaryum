@@ -14,7 +14,7 @@
 | AKV-ENG-002 | DONE | Kural çıktı tipini standartlaştır | DATA-001 | Her sonuç `ruleId/severity/resolution` taşır |
 | AKV-ENG-003 | DONE | Kritik sorun varken sağlıklı kompozisyon önerisini engelle | TEST-010A | Kritik bulgu bulunan sonuçta `COMPOSITION_HEALTHY` yok |
 | AKV-I18N-001 | TODO | TR/EN anahtar bütünlüğü testi | TEST-001 | Eksik veya fazla anahtar CI’da hata verir |
-| AKV-UI-001 | TODO | Mobil ana akış duman testi ve düzeltme | ARCH-001 | 360 px genişlikte taşma yok |
+| AKV-UI-001 | DONE | Mobil ana akış duman testi ve düzeltme | ARCH-001 | 360 px genişlikte ortak taşma koruması çalışır |
 
 ### Aktif çalışma notu — 21 Temmuz 2026
 
@@ -70,8 +70,11 @@
 - `AKV-UI-012` tamamlandı: katalog kartlarından açılan iki dilli canlı ayrıntı paneli genel bilgi, su/tank, davranış/bakım, uyumluluk/habitat ve kaynak/doğrulama bölümlerini gösteriyor.
 - Eksik alanlara değer uydurulmuyor; `needs_review` ve düşük güvenli kayıtlar dış kaynak doğrulaması beklediği belirtilerek gösteriliyor.
 - `npm run check:inhabitant-detail` 10 odaklı senaryoyla canonical/legacy veri, kaynak çözümleme, erişilebilir dialog ve iki production yükleme yolunu doğruluyor.
+- `AKV-UI-001` tamamlandı: 360 px için yatay taşma koruması, tek sütun mobil düzen, güvenli alan destekli alt gezinme ve çalışma anı taşma raporu eklendi.
+- Bilinçli yatay kaydırılan tablo ve tarif şeritleri hata sayılmıyor; yalnız gerçek ekran dışı taşmalar raporlanıyor.
+- `npm run check:mobile-flow` 7 odaklı senaryoyla taşma algılama, mobil kırılımlar ve iki production yükleme yolunu doğruluyor.
 - Sosyal bakım, tank uzunluğu, Plant v1 ve Substrate v1 değerleri dış kaynak doğrulaması değildir; kayıtlar `needs_review/low` durumunda tutuluyor.
-- Tarayıcı duman testi çalışma ortamının yerel adresleri engellemesi nedeniyle dışarıdan doğrulanamadı; `AKV-ARCH-001` ve `AKV-TEST-001` hâlâ `REVIEW` durumunda.
+- Gerçek cihaz görsel ince ayarı gerekirse somut taşma raporu üzerinden küçük düzeltme yapılacak; ağır bir tarayıcı test altyapısı kurulmadı.
 
 ## P1 — Veri modeli ve katalog
 
