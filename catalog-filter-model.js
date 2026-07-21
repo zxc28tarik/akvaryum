@@ -131,12 +131,19 @@
   }
 
   function recordSearchText(record) {
+    const aliases = Array.isArray(record?.aliases) ? record.aliases : [];
     return normalizeText([
       record?.id,
       record?.name?.tr,
       record?.name?.en,
       record?.nameTr,
       record?.nameEn,
+      record?.scientificName,
+      record?.sci,
+      record?.taxonomy?.acceptedName,
+      record?.taxonomy?.genus,
+      record?.taxonomy?.family,
+      ...aliases,
     ].filter(Boolean).join(' '));
   }
 
@@ -253,7 +260,7 @@
   }
 
   global.CatalogFilterModel = Object.freeze({
-    version: 1,
+    version: 2,
     DEFAULT_FILTERS,
     createDefaults,
     normalizeText,
@@ -261,6 +268,7 @@
     serializeSearch,
     recordCollection,
     recordName,
+    recordSearchText,
     recordWaterTypes,
     recordTankVolume,
     recordAdultSize,

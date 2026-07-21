@@ -14,7 +14,7 @@ Kaynak kataloğu `data/sources/source-catalog.json`, kaynak ve doğrulama sözle
 
 Canlı katalog modülleri `data/catalog/` altındadır. Yeni modeldeki 580 kayıt balık, omurgasız ve mercan koleksiyonlarına ayrılır; bütün kayıtlar aynı ortak arama indeksinde tutulur. `DB.fish` eski arayüz uyumluluğu için korunur, yeni ana model `DB.inhabitants`, katalog erişimi ise `DB.inhabitantCatalog` alanıdır.
 
-Canlı seçim adımı tümü, balık, omurgasız ve mercan kategorilerini; bakım zorluğu, mizaç, sosyal yapı, yüzme bölgesi, azami tank hacmi, bitki/resif güvenliği ve sıralama filtrelerini destekler. Filtreler URL sorgusunda korunur ve kök statik sürüm ile Vite production sürümünde aynı modeli kullanır.
+Canlı seçim adımı tümü, balık, omurgasız ve mercan kategorilerini; bakım zorluğu, mizaç, sosyal yapı, yüzme bölgesi, azami tank hacmi, bitki/resif güvenliği ve sıralama filtrelerini destekler. Arama Türkçe/İngilizce ortak ad, bilimsel ad, eş ad, cins, aile ve kimlik alanlarında çalışır. Filtreler ve arama `q` dahil URL sorgusunda korunur; kök statik sürüm ile Vite production sürümü aynı modeli kullanır.
 
 Bitkilerde eski `DB.plants` alanı arayüz uyumluluğu için korunur. Yeni `Plant v1` kayıtları `DB.aquaticPlants` alanında bulunur. Su aralıkları, büyüme hızı, besin talebi, boy ve çoğaltma gibi eski veride olmayan alanlar uydurulmadan açık eksik tutulur.
 
@@ -94,12 +94,12 @@ npm run preview
 - `check:engine-findings`: 27 motor kural kimliğini, Engine Finding v1 JSON Schema alanlarını, önem seviyelerini, ikili uyumluluk ve ekipman çıktılarını doğrular.
 - `check:engine-golden`: 32 temel senaryoda kural sırasını, parametreleri, skor/karar sonucunu, gerekli hacmi, biyolojik yükü ve kritik sınırları doğrular; kritik sonuçta sağlıklı öneriyi reddeder ve 27/27 motor kuralını kapsar.
 - `check:engine-golden25`: geriye dönük uyumluluk için `check:engine-golden` komutuna yönlenir.
-- `check:catalog-filters`: dört kategori, sekiz gelişmiş filtre, on URL alanı, birleşik filtreleme, sıralama ve statik/Vite yükleme bağlantılarını 21 senaryoyla doğrular.
+- `check:catalog-filters`: dört kategori, sekiz gelişmiş filtre, on URL alanı, ortak/bilimsel/eş ad araması, birleşik filtreleme, sıralama ve statik/Vite yükleme bağlantılarını 27 senaryoyla doğrular.
 - `check:priority100`: ilk ürün öncelik setindeki 100 kaydın sosyal yapı ve bakım zorluğu alanlarını, kaynak izini, düşük güven durumunu ve rapor sayımlarını doğrular.
 - `check:tanklength100`: aynı 100 kaydın minimum tank uzunluğunu, hacim ve vücut/yüzme alt sınırlarını, standart ölçü yuvarlamasını ve kaynak izini doğrular.
 - `check:taxonomy`: kimlik ve bilimsel ad tekrarlarını, ortak ad çakışmalarını, `var./sp./cf.` kayıtlarını ve cins-aile tutarlılığını denetler; güncel bulguları kayıtlı raporla karşılaştırır.
 - `check:catalog`: yeni modeldeki 580 canlıyı balık, omurgasız ve mercan koleksiyonlarına ayırır; kayıt kaybı, çifte üyelik ve eksik arama indeksi durumlarını reddeder.
-- `build`: başlamadan önce veri, kaynak, canlı/bitki/taban migrasyonları, motor kontrolleri, 32 temel altın senaryo, katalog filtreleri, öncelik 100, tank uzunluğu, taksonomi raporu ve katalog doğrulamalarını otomatik olarak yeniden çalıştırır.
+- `build`: başlamadan önce veri, kaynak, canlı/bitki/taban migrasyonları, motor kontrolleri, 32 temel altın senaryo, katalog arama/filtreleri, öncelik 100, tank uzunluğu, taksonomi raporu ve katalog doğrulamalarını otomatik olarak yeniden çalıştırır.
 - `check:native`: production paketinde eski runtime yükleyicisi, Babel standalone, gzip açıcı veya `eval` bulunmadığını doğrular.
 - Build çıktısı `dist/` klasörüne yazılır.
 - GitHub Pages taban yolu `/akvaryum/` olarak ayarlanmıştır.
@@ -135,7 +135,7 @@ Bitkilerde doğrudan korunan alanlar adlar, bilimsel ad, ışık ve görünüm b
 
 Tabanlarda adlar, açıklama, su türleri, pH etkisi, bitki uyumu ve renk korunur. Kategori, malzeme etiketi ve tamponlama durumu kontrollü biçimde türetilir. Tane boyu, KH/GH etkisi, besin zenginliği, dip canlısı güvenliği, keskinlik, önerilen derinlik ve yenileme süresi dış kaynak doğrulamasına bırakılır.
 
-## Katalog filtreleri
+## Katalog filtreleri ve arama
 
 - Üst kategoriler `all`, `fish`, `invertebrates` ve `corals` değerlerini kullanır.
 - Bakım, mizaç, sosyal yapı, yaşam bölgesi, tank hacmi, bitki güvenliği ve resif güvenliği aynı anda uygulanabilir.
@@ -144,7 +144,9 @@ Tabanlarda adlar, açıklama, su türleri, pH etkisi, bitki uyumu ve renk korunu
 - Varsayılan filtreler URL’ye yazılmaz; uygulamanın yönetmediği sorgu alanları korunur.
 - Seçilen canlılar filtre sonucu dışında kalsa bile ayrı seçim bölümünde görünür.
 - Liste ilk etapta 36 kart gösterir ve kontrollü biçimde genişletilir.
-- Bu aşamadaki metin araması Türkçe/İngilizce ortak ad ve kimlik üzerindedir. Bilimsel ad, cins, aile ve eş ad araması `AKV-UI-011` kapsamındadır.
+- Metin araması Türkçe/İngilizce ortak ad, bilimsel ad, eş adlar, cins, aile ve kayıt kimliğini kapsar.
+- Yeni modelin `scientificName`, `aliases` ve `taxonomy` alanlarının yanında eski `sci` alanı da desteklenir.
+- Büyük/küçük harf, aksan ve Türkçe `ı/i` farkları aramayı bozmaz.
 
 ## Ortak parametre kesişimi
 

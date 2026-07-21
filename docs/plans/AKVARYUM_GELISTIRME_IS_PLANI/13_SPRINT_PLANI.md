@@ -44,11 +44,11 @@ Bu plan tek geliştirici veya küçük ekip için **sıralı çalışma paketler
 ## Sprint 05 — Katalog ve arama
 
 - AKV-UI-010 — kategori ve URL’de kalıcı gelişmiş filtreler tamamlandı
-- AKV-UI-011
+- AKV-UI-011 — bilimsel ad, eş ad, cins ve aile araması tamamlandı
 - AKV-UI-012
 - AKV-UI-001
 
-**Mevcut çıktı:** Tümü/balık/omurgasız/mercan kategorileri, sekiz gelişmiş filtre, seçili canlı adet yönetimi ve 21 otomatik filtre senaryosu.
+**Mevcut çıktı:** Tümü/balık/omurgasız/mercan kategorileri, sekiz gelişmiş filtre, seçili canlı adet yönetimi ve ortak/bilimsel/eş ad araması. Katalog doğrulaması 27 odaklı senaryoyla çalışıyor.
 
 **Sprint çıktısı:** Kategorili, filtrelenebilir, mobil katalog ve ayrıntı görünümü.
 
