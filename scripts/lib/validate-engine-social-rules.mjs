@@ -78,6 +78,14 @@ function socialWarnings(result) {
   return result.warnings.filter((finding) => String(finding.ruleId).startsWith('SOCIAL_'));
 }
 
+function socialWarningIds(result) {
+  return plain(socialWarnings(result).map((finding) => finding.ruleId));
+}
+
+function plainSocialWarnings(result) {
+  return plain(socialWarnings(result));
+}
+
 export function validateEngineSocialRules(repositoryRoot) {
   const findingSchema = JSON.parse(readFileSync(resolve(repositoryRoot, 'schemas/engine-finding-v1.schema.json'), 'utf8'));
   const inhabitantSchema = JSON.parse(readFileSync(resolve(repositoryRoot, 'schemas/inhabitant-v1.schema.json'), 'utf8'));
@@ -117,49 +125,49 @@ export function validateEngineSocialRules(repositoryRoot) {
   scenarios += 1;
 
   const groupLow = analyze(Engine, [{ id: 'group-fish', qty: 2 }]);
-  assert.deepEqual(socialWarnings(groupLow).map((finding) => finding.ruleId), ['SOCIAL_GROUP_MINIMUM']);
+  assert.deepEqual(socialWarningIds(groupLow), ['SOCIAL_GROUP_MINIMUM']);
   assert.equal(groupLow.score, 92);
   scenarios += 1;
 
   const groupMinimum = analyze(Engine, [{ id: 'group-fish', qty: 4 }]);
-  assert.deepEqual(socialWarnings(groupMinimum), []);
+  assert.deepEqual(plainSocialWarnings(groupMinimum), []);
   scenarios += 1;
 
   const legacySchool = analyze(Engine, [{ id: 'legacy-school', qty: 2 }]);
   assert.equal(legacySchool.warnings.filter((finding) => finding.ruleId === 'SCHOOLING_MINIMUM').length, 1);
-  assert.deepEqual(socialWarnings(legacySchool), []);
+  assert.deepEqual(plainSocialWarnings(legacySchool), []);
   scenarios += 1;
 
   const pairLow = analyze(Engine, [{ id: 'pair-fish', qty: 1 }]);
-  assert.deepEqual(socialWarnings(pairLow).map((finding) => finding.ruleId), ['SOCIAL_PAIR_COUNT']);
+  assert.deepEqual(socialWarningIds(pairLow), ['SOCIAL_PAIR_COUNT']);
   scenarios += 1;
 
   const pairExact = analyze(Engine, [{ id: 'pair-fish', qty: 2 }]);
-  assert.deepEqual(socialWarnings(pairExact), []);
+  assert.deepEqual(plainSocialWarnings(pairExact), []);
   scenarios += 1;
 
   const pairHigh = analyze(Engine, [{ id: 'pair-fish', qty: 3 }]);
-  assert.deepEqual(socialWarnings(pairHigh).map((finding) => finding.ruleId), ['SOCIAL_PAIR_COUNT']);
+  assert.deepEqual(socialWarningIds(pairHigh), ['SOCIAL_PAIR_COUNT']);
   scenarios += 1;
 
   const haremLow = analyze(Engine, [{ id: 'harem-fish', qty: 2 }]);
-  assert.deepEqual(socialWarnings(haremLow).map((finding) => finding.ruleId), ['SOCIAL_HAREM_MINIMUM']);
+  assert.deepEqual(socialWarningIds(haremLow), ['SOCIAL_HAREM_MINIMUM']);
   scenarios += 1;
 
   const haremMinimum = analyze(Engine, [{ id: 'harem-fish', qty: 3 }]);
-  assert.deepEqual(socialWarnings(haremMinimum), []);
+  assert.deepEqual(plainSocialWarnings(haremMinimum), []);
   scenarios += 1;
 
   const ratioWrong = analyze(Engine, [{ id: 'ratio-fish', qty: 3, maleQty: 2, femaleQty: 1 }]);
-  assert.deepEqual(socialWarnings(ratioWrong).map((finding) => finding.ruleId), ['SOCIAL_SEX_RATIO']);
+  assert.deepEqual(socialWarningIds(ratioWrong), ['SOCIAL_SEX_RATIO']);
   scenarios += 1;
 
   const ratioCorrect = analyze(Engine, [{ id: 'ratio-fish', qty: 3, maleQty: 1, femaleQty: 2 }]);
-  assert.deepEqual(socialWarnings(ratioCorrect), []);
+  assert.deepEqual(plainSocialWarnings(ratioCorrect), []);
   scenarios += 1;
 
   const ratioUnknown = analyze(Engine, [{ id: 'ratio-fish', qty: 3 }]);
-  assert.deepEqual(socialWarnings(ratioUnknown), [], 'Cinsiyet adedi yoksa motor oran tahmini yapmamalıdır.');
+  assert.deepEqual(plainSocialWarnings(ratioUnknown), [], 'Cinsiyet adedi yoksa motor oran tahmini yapmamalıdır.');
   scenarios += 1;
 
   const english = analyze(Engine, [{ id: 'pair-fish', qty: 1 }], 'en');
