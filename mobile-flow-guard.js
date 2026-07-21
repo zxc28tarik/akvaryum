@@ -69,6 +69,12 @@
     return `${tag}${id}${classes}`;
   }
 
+  function allowsHorizontalScroll(element) {
+    if (typeof global.getComputedStyle !== 'function') return false;
+    const overflowX = global.getComputedStyle(element)?.overflowX;
+    return overflowX === 'auto' || overflowX === 'scroll';
+  }
+
   function audit(root = global.document?.documentElement, viewportWidth = null) {
     if (!root) return { viewportWidth: 0, hasOverflow: false, overflowPx: 0, offenders: [] };
     const width = Number(viewportWidth || root.clientWidth || global.innerWidth || 0);
@@ -81,7 +87,9 @@
       const rect = element.getBoundingClientRect();
       const rightOverflow = Math.max(0, Number(rect.right || 0) - width);
       const leftOverflow = Math.max(0, -Number(rect.left || 0));
-      const scrollOverflow = Math.max(0, Number(element.scrollWidth || 0) - Number(element.clientWidth || 0));
+      const scrollOverflow = allowsHorizontalScroll(element)
+        ? 0
+        : Math.max(0, Number(element.scrollWidth || 0) - Number(element.clientWidth || 0));
       const overflowPx = Math.max(rightOverflow, leftOverflow, scrollOverflow);
       if (overflowPx > 1) offenders.push({ element: elementLabel(element), overflowPx: Math.round(overflowPx) });
       if (offenders.length >= 20) break;
