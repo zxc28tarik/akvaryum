@@ -34,19 +34,20 @@ Bu plan tek geliştirici veya küçük ekip için **sıralı çalışma paketler
 - AKV-ENG-001 — tamamlandı
 - AKV-ENG-002 — tamamlandı
 - AKV-TEST-010A — ilk 25 altın senaryo tamamlandı
+- AKV-ENG-003 — altın testlerin bulduğu kritik/sağlıklı mesaj çelişkisi kapatıldı
 
-**Çıktı:** Açıklanabilir kural çıktısı, doğru parametre kesişimi ve 27/27 kuralı kapsayan ilk altın test paketi.
-
-**Kapanış notu:** Altın testlerin ortaya çıkardığı `AKV-ENG-003` kritik sorun varken sağlıklı kompozisyon önerisi hatası, Sprint 05 başlamadan önce kapatılmalıdır.
+**Çıktı:** Açıklanabilir kural çıktısı, doğru parametre kesişimi, kritik sonuç mesaj koruması ve 27/27 kuralı kapsayan ilk altın test paketi.
 
 ## Sprint 05 — Katalog ve arama
 
-- AKV-UI-010
+- AKV-UI-010 — kategori ve URL’de kalıcı gelişmiş filtreler tamamlandı
 - AKV-UI-011
 - AKV-UI-012
 - AKV-UI-001
 
-**Çıktı:** Kategorili, filtrelenebilir, mobil katalog ve ayrıntı görünümü.
+**Mevcut çıktı:** Tümü/balık/omurgasız/mercan kategorileri, sekiz gelişmiş filtre, seçili canlı adet yönetimi ve 21 otomatik filtre senaryosu.
+
+**Sprint çıktısı:** Kategorili, filtrelenebilir, mobil katalog ve ayrıntı görünümü.
 
 ## Sprint 06 — Sosyal ve davranış kuralları
 
