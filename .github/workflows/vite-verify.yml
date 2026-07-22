@@ -47,6 +47,9 @@ jobs:
       - name: Substrate v1 migrasyonunu doğrula
         run: npm run check:substrates
 
+      - name: Soft/LPS/SPS mercan bakım alanlarını doğrula
+        run: npm run check:corals
+
       - name: Motor ortak parametre kesişimini doğrula
         run: npm run check:engine-params
 

@@ -10,6 +10,7 @@ import { buildRuntimeInhabitantCatalogBootstrap } from './data/catalog/index.mjs
 import { buildLegacyFishClassification } from './scripts/lib/classify-legacy-fish.mjs';
 import { buildRuntimeSourceProvenanceBootstrap } from './scripts/lib/source-provenance.mjs';
 import { validateCatalogFilters } from './scripts/lib/validate-catalog-filters.mjs';
+import { validateCoralCare } from './scripts/lib/validate-coral-care.mjs';
 import { validateEngineConspecificRules } from './scripts/lib/validate-engine-conspecific-rules.mjs';
 import { validateEngineDomainResults } from './scripts/lib/validate-engine-domain-results.mjs';
 import { validateEngineFindingContract } from './scripts/lib/validate-engine-finding-contract.mjs';
@@ -51,6 +52,7 @@ const plainSources = {
   'legacy-to-substrate.mjs': 'data/migration/legacy-to-substrate.mjs',
   'priority-social-care-v1.mjs': 'data/curation/priority-social-care-v1.mjs',
   'priority-tank-length-v1.mjs': 'data/curation/priority-tank-length-v1.mjs',
+  'coral-care-v1.mjs': 'data/curation/coral-care-v1.mjs',
 };
 
 function readPlain(relativePath) {
@@ -73,6 +75,7 @@ function nativeLegacyModules() {
       const migrationReport = validateInhabitantMigration(repositoryRoot);
       const plantReport = validatePlantMigration(repositoryRoot);
       const substrateReport = validateSubstrateMigration(repositoryRoot);
+      const coralReport = validateCoralCare(repositoryRoot);
       const engineParameterReport = validateEngineParameterIntersection(repositoryRoot);
       const engineFindingReport = validateEngineFindingContract(repositoryRoot);
       const engineSocialReport = validateEngineSocialRules(repositoryRoot);
@@ -87,89 +90,44 @@ function nativeLegacyModules() {
       const tankLengthReport = validatePriorityTankLength(repositoryRoot);
       const taxonomyReport = validateTaxonomyAudit(repositoryRoot, { requireSnapshot: true });
       const catalogReport = validateInhabitantCatalog(repositoryRoot);
-      this.info(
-        `AKVARYUM veri şeması doğrulandı: ${report.totalEntities} kayıt, ${report.fish} canlı.`,
-      );
-      this.info(
-        `AKVARYUM kaynak modeli doğrulandı: ${sourceReport.sources} kaynak, ${sourceReport.fieldLinks} alan bağlantısı.`,
-      );
-      this.info(
-        `AKVARYUM Inhabitant migrasyonu doğrulandı: ${migrationReport.migratedRecords} kayıt, ${migrationReport.preservedIds} korunan kimlik.`,
-      );
-      this.info(
-        `AKVARYUM Plant migrasyonu doğrulandı: ${plantReport.migratedRecords} kayıt, ${plantReport.preservedIds} korunan kimlik.`,
-      );
-      this.info(
-        `AKVARYUM Substrate migrasyonu doğrulandı: ${substrateReport.migratedRecords} kayıt, ${substrateReport.preservedIds} korunan kimlik.`,
-      );
-      this.info(
-        `AKVARYUM motor parametre kesişimi doğrulandı: ${engineParameterReport.scenarios} senaryo.`,
-      );
-      this.info(
-        `AKVARYUM motor bulgu sözleşmesi doğrulandı: ${engineFindingReport.declaredRuleIds} kural, ${engineFindingReport.validatedFindings} bulgu.`,
-      );
-      this.info(
-        `AKVARYUM sosyal yapı kuralları doğrulandı: ${engineSocialReport.scenarios} senaryo, ${engineSocialReport.ruleIds} kural.`,
-      );
-      this.info(
-        `AKVARYUM aynı/yakın tür agresyonu doğrulandı: ${engineConspecificReport.scenarios} senaryo, ${engineConspecificReport.ruleIds} kural.`,
-      );
-      this.info(
-        `AKVARYUM bağımsız motor alanları doğrulandı: ${engineDomainReport.scenarios} senaryo.`,
-      );
-      this.info(
-        `AKVARYUM avcı-av kuralları doğrulandı: ${enginePredationReport.scenarios} senaryo, ${enginePredationReport.findingsValidated} bulgu.`,
-      );
-      this.info(
-        `AKVARYUM ilk altın motor paketi doğrulandı: ${engineGoldenReport.scenarios} senaryo, ${engineGoldenReport.coveredRuleIds} kural.`,
-      );
-      this.info(
-        `AKVARYUM katalog filtreleri doğrulandı: ${catalogFilterReport.scenarios} senaryo, ${catalogFilterReport.advancedFilters} gelişmiş filtre.`,
-      );
-      this.info(
-        `AKVARYUM canlı ayrıntı paneli doğrulandı: ${inhabitantDetailReport.scenarios} senaryo, ${inhabitantDetailReport.sections} bölüm.`,
-      );
-      this.info(
-        `AKVARYUM mobil ana akışı doğrulandı: ${mobileFlowReport.scenarios} senaryo, ${mobileFlowReport.smokeWidthPx}px hedef.`,
-      );
-      this.info(
-        `AKVARYUM öncelik 100 doğrulandı: ${priorityReport.completedSocialStructures} sosyal yapı, ${priorityReport.completedCareDifficulties} bakım zorluğu.`,
-      );
-      this.info(
-        `AKVARYUM tank uzunluğu doğrulandı: ${tankLengthReport.completedTankLengths} kayıt.`,
-      );
-      this.info(
-        `AKVARYUM taksonomi raporu doğrulandı: ${taxonomyReport.audit.findings.length} kayıtlı inceleme bulgusu, engelleyici çakışma yok.`,
-      );
-      this.info(
-        `AKVARYUM canlı kataloğu doğrulandı: ${catalogReport.fish} balık, ${catalogReport.invertebrates} omurgasız, ${catalogReport.corals} mercan.`,
-      );
+
+      this.info(`AKVARYUM veri şeması doğrulandı: ${report.totalEntities} kayıt, ${report.fish} canlı.`);
+      this.info(`AKVARYUM kaynak modeli doğrulandı: ${sourceReport.sources} kaynak, ${sourceReport.fieldLinks} alan bağlantısı.`);
+      this.info(`AKVARYUM Inhabitant migrasyonu doğrulandı: ${migrationReport.migratedRecords} kayıt, ${migrationReport.preservedIds} korunan kimlik.`);
+      this.info(`AKVARYUM Plant migrasyonu doğrulandı: ${plantReport.migratedRecords} kayıt, ${plantReport.preservedIds} korunan kimlik.`);
+      this.info(`AKVARYUM Substrate migrasyonu doğrulandı: ${substrateReport.migratedRecords} kayıt, ${substrateReport.preservedIds} korunan kimlik.`);
+      this.info(`AKVARYUM mercan bakımı doğrulandı: ${coralReport.corals} mercan, ${coralReport.genusOverrides} cins profili.`);
+      this.info(`AKVARYUM motor parametre kesişimi doğrulandı: ${engineParameterReport.scenarios} senaryo.`);
+      this.info(`AKVARYUM motor bulgu sözleşmesi doğrulandı: ${engineFindingReport.declaredRuleIds} kural, ${engineFindingReport.validatedFindings} bulgu.`);
+      this.info(`AKVARYUM sosyal yapı kuralları doğrulandı: ${engineSocialReport.scenarios} senaryo, ${engineSocialReport.ruleIds} kural.`);
+      this.info(`AKVARYUM aynı/yakın tür agresyonu doğrulandı: ${engineConspecificReport.scenarios} senaryo, ${engineConspecificReport.ruleIds} kural.`);
+      this.info(`AKVARYUM bağımsız motor alanları doğrulandı: ${engineDomainReport.scenarios} senaryo.`);
+      this.info(`AKVARYUM avcı-av kuralları doğrulandı: ${enginePredationReport.scenarios} senaryo, ${enginePredationReport.findingsValidated} bulgu.`);
+      this.info(`AKVARYUM ilk altın motor paketi doğrulandı: ${engineGoldenReport.scenarios} senaryo, ${engineGoldenReport.coveredRuleIds} kural.`);
+      this.info(`AKVARYUM katalog filtreleri doğrulandı: ${catalogFilterReport.scenarios} senaryo, ${catalogFilterReport.advancedFilters} gelişmiş filtre.`);
+      this.info(`AKVARYUM canlı ayrıntı paneli doğrulandı: ${inhabitantDetailReport.scenarios} senaryo, ${inhabitantDetailReport.sections} bölüm.`);
+      this.info(`AKVARYUM mobil ana akışı doğrulandı: ${mobileFlowReport.scenarios} senaryo, ${mobileFlowReport.smokeWidthPx}px hedef.`);
+      this.info(`AKVARYUM öncelik 100 doğrulandı: ${priorityReport.completedSocialStructures} sosyal yapı, ${priorityReport.completedCareDifficulties} bakım zorluğu.`);
+      this.info(`AKVARYUM tank uzunluğu doğrulandı: ${tankLengthReport.completedTankLengths} kayıt.`);
+      this.info(`AKVARYUM taksonomi raporu doğrulandı: ${taxonomyReport.audit.findings.length} kayıtlı inceleme bulgusu, engelleyici çakışma yok.`);
+      this.info(`AKVARYUM canlı kataloğu doğrulandı: ${catalogReport.fish} balık, ${catalogReport.invertebrates} omurgasız, ${catalogReport.corals} mercan.`);
     },
 
     resolveId(id, importer) {
-      if (id.startsWith(publicPrefix)) {
-        return `${internalPrefix}${id.slice(publicPrefix.length)}`;
-      }
+      if (id.startsWith(publicPrefix)) return `${internalPrefix}${id.slice(publicPrefix.length)}`;
       if (importer?.startsWith(internalPrefix) && id.startsWith('./')) {
         const relativeName = id.slice(2);
-        if (plainSources[relativeName] || archivedSources[relativeName]) {
-          return `${internalPrefix}${relativeName}`;
-        }
+        if (plainSources[relativeName] || archivedSources[relativeName]) return `${internalPrefix}${relativeName}`;
       }
       return null;
     },
 
     load(id) {
       if (!id.startsWith(internalPrefix)) return null;
-
       const sourceName = id.slice(internalPrefix.length);
       const archivedPath = archivedSources[sourceName];
       const plainPath = plainSources[sourceName];
-
-      if (!archivedPath && !plainPath) {
-        throw new Error(`Bilinmeyen AKVARYUM sanal modülü: ${sourceName}`);
-      }
-
+      if (!archivedPath && !plainPath) throw new Error(`Bilinmeyen AKVARYUM sanal modülü: ${sourceName}`);
       const source = archivedPath ? readArchive(archivedPath) : readPlain(plainPath);
 
       if (sourceName === 'fish-fresh.js' || sourceName === 'fish-salt.js') {
@@ -195,9 +153,10 @@ function nativeLegacyModules() {
             "import { migrateLegacySubstrates } from 'virtual:akvaryum/legacy-to-substrate.mjs';",
             "import { applyPrioritySocialCare } from 'virtual:akvaryum/priority-social-care-v1.mjs';",
             "import { applyPriorityTankLength } from 'virtual:akvaryum/priority-tank-length-v1.mjs';",
+            "import { applyCoralCareProfiles } from 'virtual:akvaryum/coral-care-v1.mjs';",
             source,
             buildRuntimeSourceProvenanceBootstrap(),
-            'window.DB.inhabitants = applyPriorityTankLength(applyPrioritySocialCare(migrateLegacyInhabitants(window.DB.fish || [])));',
+            'window.DB.inhabitants = applyCoralCareProfiles(applyPriorityTankLength(applyPrioritySocialCare(migrateLegacyInhabitants(window.DB.fish || []))));',
             'window.DB.aquaticPlants = migrateLegacyPlants(window.DB.plants || []);',
             'window.DB.aquariumSubstrates = migrateLegacySubstrates(window.DB.substrates || []);',
             'window.DB.predatorPreyProfiles = window.DB.predatorPreyProfiles || [];',
@@ -217,16 +176,12 @@ function nativeLegacyModules() {
           ].join('\n');
 
         case 'result-views.jsx':
-          return [
-            "import React from 'react';",
-            "import 'virtual:akvaryum/data.js';",
-            source,
-          ].join('\n');
+          return ["import React from 'react';", "import 'virtual:akvaryum/data.js';", source].join('\n');
 
         case 'components.jsx':
           return [
             "import React from 'react';",
-            "window.React = React;",
+            'window.React = React;',
             "import 'virtual:akvaryum/result-views.jsx';",
             "import 'virtual:akvaryum/engine.js';",
             readPlain('catalog-filter-model.js'),

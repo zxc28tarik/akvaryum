@@ -67,13 +67,15 @@ Bu plan tek geliştirici veya küçük ekip için **sıralı çalışma paketler
 
 **Çıktı:** Hacim, biyolojik yük ve davranış ayrı hesaplanıyor. Avcı–av motoru kaynaklı profil bulunduğunda güvenli/riskli istisna ve av boyu eşiği kullanıyor; profil bulunmayan türlerde eski davranış korunuyor. Production katalog için henüz ağız ölçüsü uydurulmadı.
 
-## Sprint 08 — Resif ve omurgasız
+## Sprint 08 — Resif ve omurgasız — devam ediyor
 
-- AKV-CORAL-001
-- AKV-ENG-014
-- AKV-ENG-015 için ilk 25 istisna
+- AKV-CORAL-001 — tamamlandı: 18 soft, 20 LPS ve 12 SPS olmak üzere 50 mercanın ışık, akıntı ve agresyon alanları dolduruldu
+- AKV-ENG-014 — sıradaki iş: omurgasız ve mercan güvenliği ayrımı
+- AKV-ENG-015 — ilk 25 doğrulanmış tür çifti istisnası
 
-**Çıktı:** Mercan/omurgasız güvenliği ayrılmış resif değerlendirmesi.
+**Mevcut çıktı:** Soft/LPS/SPS mercan ayrımı production verisinde ışık, akıntı ve agresyon profilleriyle çalışıyor. Elli mercanın tamamı düşük güvenli ve tür bazlı dış kaynak incelemesi gerektiren curation değerleri taşıyor. `check:corals` 11 odaklı senaryoyla veri ve production bağlantısını doğruluyor.
+
+**Sprint hedefi:** Mercan/omurgasız güvenliği ayrılmış resif değerlendirmesi.
 
 ## Sprint 09 — Skor ve sonuç deneyimi
 

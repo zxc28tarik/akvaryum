@@ -1,6 +1,6 @@
 {
-  "version": 6,
-  "updatedAt": "2026-07-20",
+  "version": 7,
+  "updatedAt": "2026-07-22",
   "sources": [
     {
       "id": "legacy-fresh-dataset-v1",
@@ -157,6 +157,20 @@
       "status": "reviewed",
       "confidence": "medium",
       "note": "8 eski taban kaydını Substrate v1 yapısına taşır; eski veride bulunmayan tane boyu, güvenlik, kullanım derinliği, yenileme ve besin alanları uydurulmadan açık eksik olarak tutulur."
+    },
+    {
+      "id": "coral-care-curation-rules-v1",
+      "title": "Soft/LPS/SPS mercan bakım profili kuralları",
+      "publisher": "AKVARYUM projesi",
+      "url": "https://tidalgardens.com/articles/coral-care-articles.html",
+      "location": "data/curation/coral-care-v1.mjs",
+      "accessedAt": "2026-07-22",
+      "lastCheckedAt": "2026-07-22",
+      "fields": ["habitat", "compatibility"],
+      "sourceType": "derived",
+      "status": "reviewed",
+      "confidence": "low",
+      "note": "Tidal Gardens bakım kütüphanesi, LPS/SPS genel bakım sayfaları ve cins rehberleri gözden geçirilerek soft/LPS/SPS taban değerleri ile cins istisnaları oluşturuldu. Bu kayıtlar tür bazlı doğrulanmış ölçüm değildir; dış kaynak incelemesi sürmektedir."
     }
   ]
 }
