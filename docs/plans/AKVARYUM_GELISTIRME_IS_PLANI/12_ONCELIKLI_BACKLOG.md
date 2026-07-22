@@ -84,7 +84,10 @@
 - `AKV-ENG-013` tamamlandı: kaynaklı ağız genişliği, yutulabilir av boyu eşiği ve güvenli/riskli tür istisnalarını kullanan avcı–av profil sözleşmesi eklendi.
 - Production katalogda henüz kaynaklı avcı profili yoktur; hiçbir canlıya ölçü uydurulmadı ve profilsiz türlerde eski davranış korunuyor.
 - `npm run check:engine-predation` 15 odaklı senaryoyla profil şemasını, fallback’i, istisnaları, güven düzeyini, TR/EN çıktıyı ve production yükleme sırasını doğruluyor.
-- Sosyal bakım, tank uzunluğu, Plant v1 ve Substrate v1 değerleri dış kaynak doğrulaması değildir; kayıtlar `needs_review/low` durumunda tutuluyor.
+- `AKV-CORAL-001` tamamlandı: 18 soft, 20 LPS ve 12 SPS olmak üzere 50 mercanın `habitat.light`, `habitat.flow` ve `compatibility.coralAggression` alanları dolduruldu.
+- Mercan profilleri kategori/cins bakım kurallarından düşük güvenle türetildi; bütün kayıtlar `needs_review/low` kalıyor ve tür bazlı dış kaynak doğrulaması bekliyor.
+- `npm run check:corals` gerçek 580 kayıt üzerinde 11 odaklı kontrolle 50/50 ışık, 50/50 akıntı, 50/50 agresyon, kaynak bağlantısı ve production entegrasyonunu doğruluyor.
+- Sosyal bakım, tank uzunluğu, mercan bakım profilleri, Plant v1 ve Substrate v1 değerleri tür bazlı doğrulanmış veri değildir; kayıtlar `needs_review/low` durumunda tutuluyor.
 - Gerçek cihaz görsel ince ayarı gerekirse somut taşma raporu üzerinden küçük düzeltme yapılacak; ağır bir tarayıcı test altyapısı kurulmadı.
 
 ## P1 — Veri modeli ve katalog
@@ -124,7 +127,7 @@
 | AKV-DATA-020 | TODO | Tatlı su veri partileriyle 350 kayda çık | DATA-011 | Partiler kaynaklı ve doğrulanmış |
 | AKV-DATA-021 | TODO | Tuzlu su veri partileriyle 400 kayda çık | DATA-011 | Partiler kaynaklı ve doğrulanmış |
 | AKV-DATA-022 | TODO | Acı su kategorisi ilk 30 kayıt | DATA-002 | Ayrı su tipi kuralları |
-| AKV-CORAL-001 | READY | Mercanları soft/LPS/SPS ayır | DATA-010 | Işık/akıntı/agresyon alanları dolu |
+| AKV-CORAL-001 | DONE | Mercanları soft/LPS/SPS ayır | DATA-010 | 50 mercanın ışık/akıntı/agresyon alanları dolu |
 | AKV-INVERT-001 | READY | Temizlik ekibi veri partisi | DATA-010 | En az 50 omurgasız profili |
 | AKV-PLANT-010 | READY | Bitki sayısını 40’a çıkar | PLANT-001 | 14 yeni kaynaklı kayıt |
 | AKV-SUB-010 | READY | Taban sayısını 15’e çıkar | SUB-001 | 7 yeni kaynaklı profil |
