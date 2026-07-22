@@ -1,0 +1,29 @@
+name: Avcı-av hata ayıklama
+
+on:
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  predation:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Depoyu al
+        uses: actions/checkout@v6
+        with:
+          show-progress: false
+
+      - name: Node.js kur
+        uses: actions/setup-node@v6
+        with:
+          node-version: 22.18.0
+          package-manager-cache: false
+
+      - name: Bağımlılıkları kur
+        run: npm install --no-audit --no-fund
+
+      - name: Avcı-av kontrolü
+        run: npm run check:engine-predation
