@@ -16,7 +16,7 @@
 | AKV-I18N-001 | TODO | TR/EN anahtar bütünlüğü testi | TEST-001 | Eksik veya fazla anahtar CI’da hata verir |
 | AKV-UI-001 | DONE | Mobil ana akış duman testi ve düzeltme | ARCH-001 | 360 px genişlikte ortak taşma koruması çalışır |
 
-### Aktif çalışma notu — 21 Temmuz 2026
+### Aktif çalışma notu — 22 Temmuz 2026
 
 - `vite-app/` altında Vite + React geçiş yapısı kuruldu; kökteki mevcut statik sürüm korunuyor.
 - `AKV-ARCH-002` tamamlandı: production paketinden tarayıcı içi Babel, `eval`, `DecompressionStream` ve runtime `.gz.b64` yükleme kaldırıldı.
@@ -79,6 +79,11 @@
 - `AKV-ENG-012` tamamlandı: aynı türden çoklu bireyler ve aynı cinse ait farklı türler, canonical agresyon/bölgesellik verileriyle değerlendiriliyor.
 - Düşük güvenli türetilmiş veriler yalnız uyarı üretir; beta ve mevcut ikili dikkat/uyumsuzluk sonuçları ikinci kez üretilmez.
 - `npm run check:engine-conspecific` 14 odaklı senaryoyla aynı tür, aynı cins, tekrar engeli, skor etkisi ve Türkçe/İngilizce çıktıyı doğruluyor.
+- `AKV-ENG-010` tamamlandı: fiziksel tank hacmi, düşük güvenli toplamsal stok yükü ve sosyal/davranış uyumu `result.domains` altında ayrı sonuçlara dönüştürüldü.
+- `npm run check:engine-domains` 13 odaklı senaryoyla hacim/uzunluk ayrımını, stok yükünü, davranış bulgularını ve eski sonuç alanlarının korunmasını doğruluyor.
+- `AKV-ENG-013` tamamlandı: kaynaklı ağız genişliği, yutulabilir av boyu eşiği ve güvenli/riskli tür istisnalarını kullanan avcı–av profil sözleşmesi eklendi.
+- Production katalogda henüz kaynaklı avcı profili yoktur; hiçbir canlıya ölçü uydurulmadı ve profilsiz türlerde eski davranış korunuyor.
+- `npm run check:engine-predation` 15 odaklı senaryoyla profil şemasını, fallback’i, istisnaları, güven düzeyini, TR/EN çıktıyı ve production yükleme sırasını doğruluyor.
 - Sosyal bakım, tank uzunluğu, Plant v1 ve Substrate v1 değerleri dış kaynak doğrulaması değildir; kayıtlar `needs_review/low` durumunda tutuluyor.
 - Gerçek cihaz görsel ince ayarı gerekirse somut taşma raporu üzerinden küçük düzeltme yapılacak; ağır bir tarayıcı test altyapısı kurulmadı.
 
@@ -101,10 +106,10 @@
 
 | Kimlik | Durum | Görev | Bağımlılık | Kabul özeti |
 |---|---|---|---|---|
-| AKV-ENG-010 | READY | Hacim, biyolojik yük ve davranış alanını ayır | DATA-011 | Üç bağımsız sonuç hesaplanır |
+| AKV-ENG-010 | DONE | Hacim, biyolojik yük ve davranış alanını ayır | DATA-011 | Üç bağımsız sonuç production motorunda hesaplanır |
 | AKV-ENG-011 | DONE | Sürü/çift/harem/cinsiyet kuralları | DATA-013 | Dört sosyal kural production motorunda çalışır |
 | AKV-ENG-012 | DONE | Aynı tür ve yakın tür agresyonu | DATA-013 | Aynı tür ve aynı cins riskleri veri tabanlıdır |
-| AKV-ENG-013 | READY | Avcı-av modeli | DATA-011 | Ağız boyu + canlı boyu + istisna kullanır |
+| AKV-ENG-013 | DONE | Avcı-av modeli | DATA-011 | Kaynaklı ağız boyu, av boyu ve istisna sözleşmesi çalışır |
 | AKV-ENG-014 | READY | Omurgasız ve mercan güvenliği ayrımı | DATA-010 | Soft/LPS/SPS ve shrimp/snail ayrı değerlendirilir |
 | AKV-ENG-015 | READY | Tür çifti istisna tablosu | DATA-003 | En az 50 doğrulanmış istisna |
 | AKV-ENG-016 | TODO | Yeni alt skor sistemi | ENG-010..015 | Dört alt puan ve açıklama |
