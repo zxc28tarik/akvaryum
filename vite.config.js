@@ -11,9 +11,11 @@ import { buildLegacyFishClassification } from './scripts/lib/classify-legacy-fis
 import { buildRuntimeSourceProvenanceBootstrap } from './scripts/lib/source-provenance.mjs';
 import { validateCatalogFilters } from './scripts/lib/validate-catalog-filters.mjs';
 import { validateEngineConspecificRules } from './scripts/lib/validate-engine-conspecific-rules.mjs';
+import { validateEngineDomainResults } from './scripts/lib/validate-engine-domain-results.mjs';
 import { validateEngineFindingContract } from './scripts/lib/validate-engine-finding-contract.mjs';
 import { validateEngineGoldenScenarios } from './scripts/lib/validate-engine-golden-scenarios.mjs';
 import { validateEngineParameterIntersection } from './scripts/lib/validate-engine-parameter-intersection.mjs';
+import { validateEnginePredatorPreyRules } from './scripts/lib/validate-engine-predator-prey-rules.mjs';
 import { validateEngineSocialRules } from './scripts/lib/validate-engine-social-rules.mjs';
 import { validateInhabitantCatalog } from './scripts/lib/validate-inhabitant-catalog.mjs';
 import { validateInhabitantDetail } from './scripts/lib/validate-inhabitant-detail.mjs';
@@ -23,7 +25,7 @@ import { validatePlantMigration } from './scripts/lib/validate-plant-migration.m
 import { validatePrioritySocialCare } from './scripts/lib/validate-priority-social-care.mjs';
 import { validatePriorityTankLength } from './scripts/lib/validate-priority-tank-length.mjs';
 import { validateRepositoryData } from './scripts/lib/validate-data-schema.mjs';
-import { validateSourceProvenance } from './scripts/lib/validate-source-provenance.mjs';
+import { validateSourceProvenance } from './scripts/lib/source-provenance.mjs';
 import { validateSubstrateMigration } from './scripts/lib/validate-substrate-migration.mjs';
 import { validateTaxonomyAudit } from './scripts/lib/validate-taxonomy-audit.mjs';
 
@@ -75,6 +77,8 @@ function nativeLegacyModules() {
       const engineFindingReport = validateEngineFindingContract(repositoryRoot);
       const engineSocialReport = validateEngineSocialRules(repositoryRoot);
       const engineConspecificReport = validateEngineConspecificRules(repositoryRoot);
+      const engineDomainReport = validateEngineDomainResults(repositoryRoot);
+      const enginePredationReport = validateEnginePredatorPreyRules(repositoryRoot);
       const engineGoldenReport = validateEngineGoldenScenarios(repositoryRoot);
       const catalogFilterReport = validateCatalogFilters(repositoryRoot);
       const inhabitantDetailReport = validateInhabitantDetail(repositoryRoot);
@@ -109,6 +113,12 @@ function nativeLegacyModules() {
       );
       this.info(
         `AKVARYUM aynı/yakın tür agresyonu doğrulandı: ${engineConspecificReport.scenarios} senaryo, ${engineConspecificReport.ruleIds} kural.`,
+      );
+      this.info(
+        `AKVARYUM bağımsız motor alanları doğrulandı: ${engineDomainReport.scenarios} senaryo.`,
+      );
+      this.info(
+        `AKVARYUM avcı-av kuralları doğrulandı: ${enginePredationReport.scenarios} senaryo, ${enginePredationReport.findingsValidated} bulgu.`,
       );
       this.info(
         `AKVARYUM ilk altın motor paketi doğrulandı: ${engineGoldenReport.scenarios} senaryo, ${engineGoldenReport.coveredRuleIds} kural.`,
@@ -190,6 +200,7 @@ function nativeLegacyModules() {
             'window.DB.inhabitants = applyPriorityTankLength(applyPrioritySocialCare(migrateLegacyInhabitants(window.DB.fish || [])));',
             'window.DB.aquaticPlants = migrateLegacyPlants(window.DB.plants || []);',
             'window.DB.aquariumSubstrates = migrateLegacySubstrates(window.DB.substrates || []);',
+            'window.DB.predatorPreyProfiles = window.DB.predatorPreyProfiles || [];',
             buildRuntimeInhabitantCatalogBootstrap(),
           ].join('\n');
 
@@ -201,6 +212,8 @@ function nativeLegacyModules() {
             readPlain('engine-health-guard.js'),
             readPlain('engine-social-rules.js'),
             readPlain('engine-conspecific-rules.js'),
+            readPlain('engine-predator-prey-rules.js'),
+            readPlain('engine-domain-results.js'),
           ].join('\n');
 
         case 'result-views.jsx':
