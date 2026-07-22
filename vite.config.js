@@ -17,6 +17,7 @@ import { validateEngineFindingContract } from './scripts/lib/validate-engine-fin
 import { validateEngineGoldenScenarios } from './scripts/lib/validate-engine-golden-scenarios.mjs';
 import { validateEngineParameterIntersection } from './scripts/lib/validate-engine-parameter-intersection.mjs';
 import { validateEnginePredatorPreyRules } from './scripts/lib/validate-engine-predator-prey-rules.mjs';
+import { validateEngineReefInvertebrateRules } from './scripts/lib/validate-engine-reef-invertebrate-rules.mjs';
 import { validateEngineSocialRules } from './scripts/lib/validate-engine-social-rules.mjs';
 import { validateInhabitantCatalog } from './scripts/lib/validate-inhabitant-catalog.mjs';
 import { validateInhabitantDetail } from './scripts/lib/validate-inhabitant-detail.mjs';
@@ -82,6 +83,7 @@ function nativeLegacyModules() {
       const engineConspecificReport = validateEngineConspecificRules(repositoryRoot);
       const engineDomainReport = validateEngineDomainResults(repositoryRoot);
       const enginePredationReport = validateEnginePredatorPreyRules(repositoryRoot);
+      const engineReefReport = validateEngineReefInvertebrateRules(repositoryRoot);
       const engineGoldenReport = validateEngineGoldenScenarios(repositoryRoot);
       const catalogFilterReport = validateCatalogFilters(repositoryRoot);
       const inhabitantDetailReport = validateInhabitantDetail(repositoryRoot);
@@ -103,6 +105,7 @@ function nativeLegacyModules() {
       this.info(`AKVARYUM aynı/yakın tür agresyonu doğrulandı: ${engineConspecificReport.scenarios} senaryo, ${engineConspecificReport.ruleIds} kural.`);
       this.info(`AKVARYUM bağımsız motor alanları doğrulandı: ${engineDomainReport.scenarios} senaryo.`);
       this.info(`AKVARYUM avcı-av kuralları doğrulandı: ${enginePredationReport.scenarios} senaryo, ${enginePredationReport.findingsValidated} bulgu.`);
+      this.info(`AKVARYUM ayrık resif güvenliği doğrulandı: ${engineReefReport.scenarios} senaryo, ${engineReefReport.ruleIds} kural.`);
       this.info(`AKVARYUM ilk altın motor paketi doğrulandı: ${engineGoldenReport.scenarios} senaryo, ${engineGoldenReport.coveredRuleIds} kural.`);
       this.info(`AKVARYUM katalog filtreleri doğrulandı: ${catalogFilterReport.scenarios} senaryo, ${catalogFilterReport.advancedFilters} gelişmiş filtre.`);
       this.info(`AKVARYUM canlı ayrıntı paneli doğrulandı: ${inhabitantDetailReport.scenarios} senaryo, ${inhabitantDetailReport.sections} bölüm.`);
@@ -173,6 +176,7 @@ function nativeLegacyModules() {
             readPlain('engine-conspecific-rules.js'),
             readPlain('engine-predator-prey-rules.js'),
             readPlain('engine-domain-results.js'),
+            readPlain('engine-reef-invertebrate-rules.js'),
           ].join('\n');
 
         case 'result-views.jsx':
