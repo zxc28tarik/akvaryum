@@ -196,6 +196,13 @@
           "properties": {
             "plantSafe": { "type": "boolean" },
             "coralSafe": { "enum": ["yes", "with_caution", "no", "not_applicable", "unknown"] },
+            "softCoralSafe": { "enum": [true, false, "yes", "with_caution", "no", "not_applicable", "unknown"] },
+            "lpsSafe": { "enum": [true, false, "yes", "with_caution", "no", "not_applicable", "unknown"] },
+            "spsSafe": { "enum": [true, false, "yes", "with_caution", "no", "not_applicable", "unknown"] },
+            "shrimpSafe": { "enum": [true, false, "yes", "with_caution", "no", "not_applicable", "unknown"] },
+            "snailSafe": { "enum": [true, false, "yes", "with_caution", "no", "not_applicable", "unknown"] },
+            "crabSafe": { "enum": [true, false, "yes", "with_caution", "no", "not_applicable", "unknown"] },
+            "clamSafe": { "enum": [true, false, "yes", "with_caution", "no", "not_applicable", "unknown"] },
             "coralAggression": { "enum": ["none", "low", "medium", "high", "unknown"] }
           }
         },
