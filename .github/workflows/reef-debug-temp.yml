@@ -1,4 +1,4 @@
-name: Resif şema tanısı geçici
+name: Resif motor tanısı geçici
 
 on:
   pull_request:
@@ -17,18 +17,18 @@ jobs:
           node-version: 22.18.0
           package-manager-cache: false
       - run: npm install --no-audit --no-fund
-      - name: Migrasyon hatasını kaydet
+      - name: Resif motor hatasını kaydet
         shell: bash
         run: |
           set +e
-          npm run check:migration > migration-error.log 2>&1
-          echo $? > migration-exit-code.txt
+          npm run check:engine-reef > reef-engine-error.log 2>&1
+          echo $? > reef-engine-exit-code.txt
           exit 0
       - uses: actions/upload-artifact@v4
         with:
-          name: reef-migration-diagnostic
+          name: reef-engine-diagnostic
           path: |
-            migration-error.log
-            migration-exit-code.txt
+            reef-engine-error.log
+            reef-engine-exit-code.txt
           if-no-files-found: error
           retention-days: 1
