@@ -44,5 +44,6 @@
 | `37_AKV_ENG_012_AYNI_VE_YAKIN_TUR_AGRESYONU.md` | Aynı tür ve aynı cins içindeki yakın tür agresyon uyarıları | Yüklendi |
 | `38_AKV_ENG_010_HACIM_BIYOLOJIK_YUK_DAVRANIS_ALANLARI.md` | Fiziksel hacim, toplamsal stok yükü ve davranış sonuçlarının ayrılması | Yüklendi |
 | `39_AKV_ENG_013_KAYNAKLI_AVCI_AV_MODELI.md` | Kaynaklı ağız genişliği, av boyu eşiği ve tür istisnalarıyla avcı–av modeli | Yüklendi |
+| `40_AKV_CORAL_001_MERCAN_BAKIM_PROFILLERI.md` | 50 soft/LPS/SPS mercanın ışık, akıntı ve agresyon alanlarının tamamlanması | Yüklendi |
 
 Planın tamamı yerel ZIP paketinde korunmaktadır. GitHub’a aktarılan dosyalar aktif geliştirme sırasında öncelikli kaynak kabul edilir; kalan uzmanlık belgeleri ilgili göreve başlanmadan önce depoya eklenir.
