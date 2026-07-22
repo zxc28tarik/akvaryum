@@ -122,7 +122,12 @@
 
   function isBehaviorFinding(finding) {
     const ruleId = String(finding?.ruleId || '');
-    if (ruleId.startsWith('SOCIAL_') || ruleId.startsWith('CONSPECIFIC_') || ruleId.startsWith('CONGENERIC_')) {
+    if (
+      ruleId.startsWith('SOCIAL_')
+      || ruleId.startsWith('CONSPECIFIC_')
+      || ruleId.startsWith('CONGENERIC_')
+      || ruleId.startsWith('PREDATION_')
+    ) {
       return true;
     }
     if (ruleId === 'SCHOOLING_MINIMUM') return true;

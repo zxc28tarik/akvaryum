@@ -59,13 +59,13 @@ Bu plan tek geliştirici veya küçük ekip için **sıralı çalışma paketler
 
 **Çıktı:** Motor sosyal yapı minimumlarını, çift/harem yapılarını, kaynaklı cinsiyet oranını, aynı tür çoklu birey riskini ve aynı cins yakın tür çatışmasını değerlendiriyor. Sosyal kurallar 15, agresyon kuralları 14 odaklı senaryoyla doğrulanıyor.
 
-## Sprint 07 — Tank ve biyolojik yük
+## Sprint 07 — Tank, biyolojik yük ve avcılık — tamamlandı
 
-- AKV-ENG-010 — sıradaki iş
-- AKV-ENG-013
-- Yeni hesapların kritik davranışlarını koruyan gerekli senaryolar
+- AKV-ENG-010 — fiziksel hacim, toplamsal stok yükü ve davranış alanları ayrıldı
+- AKV-ENG-013 — kaynaklı ağız genişliği, av boyu eşiği ve istisna sözleşmesi tamamlandı
+- Yeni hesapların kritik davranışlarını koruyan 13 domain ve 15 avcı–av senaryosu eklendi
 
-**Çıktı:** Hacim, biyolojik yük ve davranış alanı ayrı hesaplanır.
+**Çıktı:** Hacim, biyolojik yük ve davranış ayrı hesaplanıyor. Avcı–av motoru kaynaklı profil bulunduğunda güvenli/riskli istisna ve av boyu eşiği kullanıyor; profil bulunmayan türlerde eski davranış korunuyor. Production katalog için henüz ağız ölçüsü uydurulmadı.
 
 ## Sprint 08 — Resif ve omurgasız
 

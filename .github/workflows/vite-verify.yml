@@ -62,6 +62,9 @@ jobs:
       - name: Hacim, biyolojik yük ve davranış alanlarını doğrula
         run: npm run check:engine-domains
 
+      - name: Kaynaklı avcı-av kurallarını doğrula
+        run: npm run check:engine-predation
+
       - name: Temel 32 altın motor senaryosunu doğrula
         shell: bash
         run: |

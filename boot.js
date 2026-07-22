@@ -80,6 +80,7 @@
         engineHealthGuard,
         engineSocialRules,
         engineConspecificRules,
+        enginePredatorPreyRules,
         engineDomainResults,
         resultViews,
         components,
@@ -99,6 +100,7 @@
         fetchText('engine-health-guard.js'),
         fetchText('engine-social-rules.js'),
         fetchText('engine-conspecific-rules.js'),
+        fetchText('engine-predator-prey-rules.js'),
         fetchText('engine-domain-results.js'),
         inflateBase64('.runtime/result-views.jsx.gz.b64'),
         inflateBase64('.runtime/components.jsx.gz.b64'),
@@ -123,6 +125,7 @@
       runJavaScript(engineHealthGuard, 'engine-health-guard.js');
       runJavaScript(engineSocialRules, 'engine-social-rules.js');
       runJavaScript(engineConspecificRules, 'engine-conspecific-rules.js');
+      runJavaScript(enginePredatorPreyRules, 'engine-predator-prey-rules.js');
       runJavaScript(engineDomainResults, 'engine-domain-results.js');
       runJavaScript(catalogFilterModel, 'catalog-filter-model.js');
       runJavaScript(inhabitantDetailModel, 'inhabitant-detail-model.js');
