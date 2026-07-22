@@ -68,6 +68,9 @@ jobs:
       - name: Kaynaklı avcı-av kurallarını doğrula
         run: npm run check:engine-predation
 
+      - name: Soft/LPS/SPS ve omurgasız güvenliğini doğrula
+        run: npm run check:engine-reef
+
       - name: Temel 32 altın motor senaryosunu doğrula
         shell: bash
         run: |
