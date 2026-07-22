@@ -49,7 +49,6 @@ function canonical(id, adultCm, overrides = {}) {
       confidence: 'low',
       notes: [],
     },
-    ...overrides,
   };
 }
 
@@ -84,13 +83,13 @@ function validateProfileIntegrity(profiles) {
 
 function createEngine(repositoryRoot, inhabitants, legacyRecords, profiles) {
   const sources = [
-    ['engine.js', 'engine.js'],
-    ['engine-finding-contract.js', 'engine-finding-contract.js'],
-    ['engine-health-guard.js', 'engine-health-guard.js'],
-    ['engine-social-rules.js', 'engine-social-rules.js'],
-    ['engine-conspecific-rules.js', 'engine-conspecific-rules.js'],
-    ['engine-predator-prey-rules.js', 'engine-predator-prey-rules.js'],
-    ['engine-domain-results.js', 'engine-domain-results.js'],
+    'engine.js',
+    'engine-finding-contract.js',
+    'engine-health-guard.js',
+    'engine-social-rules.js',
+    'engine-conspecific-rules.js',
+    'engine-predator-prey-rules.js',
+    'engine-domain-results.js',
   ];
   const context = vm.createContext({
     window: {
@@ -103,8 +102,11 @@ function createEngine(repositoryRoot, inhabitants, legacyRecords, profiles) {
       },
     },
   });
-  for (const [path, filename] of sources) {
-    new vm.Script(readFileSync(resolve(repositoryRoot, path), 'utf8'), { filename }).runInContext(context);
+  for (const filename of sources) {
+    new vm.Script(
+      readFileSync(resolve(repositoryRoot, filename), 'utf8'),
+      { filename },
+    ).runInContext(context);
   }
   return context.window.Engine;
 }
@@ -129,12 +131,17 @@ function pairFor(result, firstId, secondId) {
 }
 
 function predationFindings(result) {
-  return [...result.issues, ...result.warnings].filter((finding) => finding.ruleId === 'PREDATION_SIZE_RISK');
+  return [...result.issues, ...result.warnings]
+    .filter((finding) => finding.ruleId === 'PREDATION_SIZE_RISK');
 }
 
 export function validateEnginePredatorPreyRules(repositoryRoot) {
-  const profileSchema = JSON.parse(readFileSync(resolve(repositoryRoot, 'schemas/predator-prey-profile-v1.schema.json'), 'utf8'));
-  const findingSchema = JSON.parse(readFileSync(resolve(repositoryRoot, 'schemas/engine-finding-v1.schema.json'), 'utf8'));
+  const profileSchema = JSON.parse(
+    readFileSync(resolve(repositoryRoot, 'schemas/predator-prey-profile-v1.schema.json'), 'utf8'),
+  );
+  const findingSchema = JSON.parse(
+    readFileSync(resolve(repositoryRoot, 'schemas/engine-finding-v1.schema.json'), 'utf8'),
+  );
   const ajv = new Ajv2020({ allErrors: true, strict: true });
   const validateProfiles = ajv.compile(profileSchema);
   const validateFinding = ajv.compile(findingSchema);
@@ -153,6 +160,7 @@ export function validateEnginePredatorPreyRules(repositoryRoot) {
     }),
     profile('safe-ph-predator', { safeSpeciesIds: ['ph-prey'] }),
   ];
+
   assert(validateProfiles(profiles), ajv.errorsText(validateProfiles.errors));
   validateProfileIntegrity(profiles);
   assert(validateProfiles([]), 'Boş profil listesi geçerli olmalıdır.');
@@ -283,9 +291,10 @@ export function validateEnginePredatorPreyRules(repositoryRoot) {
   }
   scenarios += 1;
 
-  const runtimeLoader = readFileSync(resolve(repositoryRoot, 'runtime-loader.js'), 'utf8');
+  const bootSource = readFileSync(resolve(repositoryRoot, 'boot.js'), 'utf8');
   const viteConfig = readFileSync(resolve(repositoryRoot, 'vite.config.js'), 'utf8');
-  assert(runtimeLoader.includes("fetchText('engine-predator-prey-rules.js')"));
+  assert(bootSource.includes("fetchText('engine-predator-prey-rules.js')"));
+  assert(bootSource.indexOf("runJavaScript(enginePredatorPreyRules") < bootSource.indexOf("runJavaScript(engineDomainResults"));
   assert(viteConfig.includes("readPlain('engine-predator-prey-rules.js')"));
   assert(viteConfig.indexOf("readPlain('engine-predator-prey-rules.js')") < viteConfig.indexOf("readPlain('engine-domain-results.js')"));
   scenarios += 1;
