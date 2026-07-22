@@ -195,7 +195,8 @@
           "required": ["plantSafe", "coralSafe"],
           "properties": {
             "plantSafe": { "type": "boolean" },
-            "coralSafe": { "enum": ["yes", "with_caution", "no", "not_applicable", "unknown"] }
+            "coralSafe": { "enum": ["yes", "with_caution", "no", "not_applicable", "unknown"] },
+            "coralAggression": { "enum": ["none", "low", "medium", "high", "unknown"] }
           }
         },
         "habitat": {
@@ -204,6 +205,7 @@
           "required": ["flow", "oxygen", "substrate", "shelter"],
           "properties": {
             "flow": { "enum": ["low", "medium", "high", "variable", "unknown"] },
+            "light": { "enum": ["low", "medium", "high", "unknown"] },
             "oxygen": { "enum": ["normal", "high", "unknown"] },
             "substrate": { "type": "array", "items": { "$ref": "#/$defs/nonEmptyText" } },
             "shelter": { "type": "array", "items": { "$ref": "#/$defs/nonEmptyText" } }
