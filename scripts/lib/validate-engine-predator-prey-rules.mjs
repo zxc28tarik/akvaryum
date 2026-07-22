@@ -192,7 +192,7 @@ export function validateEnginePredatorPreyRules(repositoryRoot) {
     legacyFish('size-safe-predator', { nameTr: 'Dar Eşikli Avcı', nameEn: 'Narrow Threshold Predator', aggression: 'aggressive', size: 20 }),
     legacyFish('medium-predator', { nameTr: 'Orta Güvenli Avcı', nameEn: 'Medium Confidence Predator', aggression: 'peaceful', size: 20 }),
     legacyFish('safe-ph-predator', { nameTr: 'pH Profilli Avcı', nameEn: 'pH Profile Predator', aggression: 'aggressive', size: 20, pH: [6, 7] }),
-    legacyFish('small-prey', { nameTr: 'Küçük Av', nameEn: 'Small Prey', size: 5 }),
+    legacyFish('small-prey', { nameTr: 'Küçük Av', nameEn: 'Small Prey', aggression: 'semi', size: 5 }),
     legacyFish('large-prey', { nameTr: 'Büyük Av', nameEn: 'Large Prey', size: 15 }),
     legacyFish('ph-prey', { nameTr: 'pH Avı', nameEn: 'pH Prey', size: 5, pH: [8, 9] }),
   ];
@@ -294,7 +294,7 @@ export function validateEnginePredatorPreyRules(repositoryRoot) {
   const bootSource = readFileSync(resolve(repositoryRoot, 'boot.js'), 'utf8');
   const viteConfig = readFileSync(resolve(repositoryRoot, 'vite.config.js'), 'utf8');
   assert(bootSource.includes("fetchText('engine-predator-prey-rules.js')"));
-  assert(bootSource.indexOf("runJavaScript(enginePredatorPreyRules") < bootSource.indexOf("runJavaScript(engineDomainResults"));
+  assert(bootSource.indexOf('runJavaScript(enginePredatorPreyRules') < bootSource.indexOf('runJavaScript(engineDomainResults'));
   assert(viteConfig.includes("readPlain('engine-predator-prey-rules.js')"));
   assert(viteConfig.indexOf("readPlain('engine-predator-prey-rules.js')") < viteConfig.indexOf("readPlain('engine-domain-results.js')"));
   scenarios += 1;
