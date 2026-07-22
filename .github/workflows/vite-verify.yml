@@ -47,6 +47,9 @@ jobs:
       - name: Substrate v1 migrasyonunu doğrula
         run: npm run check:substrates
 
+      - name: Soft LPS SPS mercan bakım alanlarını doğrula
+        run: npm run check:corals
+
       - name: Motor ortak parametre kesişimini doğrula
         run: npm run check:engine-params
 
@@ -59,7 +62,7 @@ jobs:
       - name: Aynı ve yakın tür agresyonunu doğrula
         run: npm run check:engine-conspecific
 
-      - name: Hacim, biyolojik yük ve davranış alanlarını doğrula
+      - name: Hacim biyolojik yük ve davranış alanlarını doğrula
         run: npm run check:engine-domains
 
       - name: Kaynaklı avcı-av kurallarını doğrula
@@ -98,7 +101,7 @@ jobs:
       - name: Bilimsel ad ve kimlik tekrarlarını denetle
         run: npm run check:taxonomy
 
-      - name: Balık, omurgasız ve mercan kataloglarını doğrula
+      - name: Balık omurgasız ve mercan kataloglarını doğrula
         run: npm run check:catalog
 
       - name: Production build al
