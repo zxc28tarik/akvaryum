@@ -1,0 +1,29 @@
+name: Mercan raporu geçici
+
+on:
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  report:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          show-progress: false
+      - uses: actions/setup-node@v6
+        with:
+          node-version: 22.18.0
+          package-manager-cache: false
+      - run: npm install --no-audit --no-fund
+      - name: Mercan raporunu üret
+        run: npm run check:corals > coral-report.txt 2>&1
+      - uses: actions/upload-artifact@v4
+        with:
+          name: coral-care-report
+          path: coral-report.txt
+          if-no-files-found: error
+          retention-days: 1
