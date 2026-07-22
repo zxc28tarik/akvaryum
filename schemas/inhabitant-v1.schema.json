@@ -196,6 +196,13 @@
           "properties": {
             "plantSafe": { "type": "boolean" },
             "coralSafe": { "enum": ["yes", "with_caution", "no", "not_applicable", "unknown"] },
+            "softCoralSafe": { "type": ["boolean", "string"], "enum": [true, false, "yes", "with_caution", "no", "not_applicable", "unknown"] },
+            "lpsSafe": { "type": ["boolean", "string"], "enum": [true, false, "yes", "with_caution", "no", "not_applicable", "unknown"] },
+            "spsSafe": { "type": ["boolean", "string"], "enum": [true, false, "yes", "with_caution", "no", "not_applicable", "unknown"] },
+            "shrimpSafe": { "type": ["boolean", "string"], "enum": [true, false, "yes", "with_caution", "no", "not_applicable", "unknown"] },
+            "snailSafe": { "type": ["boolean", "string"], "enum": [true, false, "yes", "with_caution", "no", "not_applicable", "unknown"] },
+            "crabSafe": { "type": ["boolean", "string"], "enum": [true, false, "yes", "with_caution", "no", "not_applicable", "unknown"] },
+            "clamSafe": { "type": ["boolean", "string"], "enum": [true, false, "yes", "with_caution", "no", "not_applicable", "unknown"] },
             "coralAggression": { "enum": ["none", "low", "medium", "high", "unknown"] }
           }
         },
