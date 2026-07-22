@@ -27,7 +27,6 @@ jobs:
 
       - name: Avcı-av kontrol çıktısını kaydet
         id: predation
-        continue-on-error: true
         shell: bash
         run: |
           set +e
@@ -36,15 +35,27 @@ jobs:
           echo "status=$status" >> "$GITHUB_OUTPUT"
           exit 0
 
-      - name: Hata çıktısını yükle
+      - name: Production build çıktısını kaydet
+        id: build
+        shell: bash
+        run: |
+          set +e
+          npm run build > build-debug.log 2>&1
+          status=$?
+          echo "status=$status" >> "$GITHUB_OUTPUT"
+          exit 0
+
+      - name: Hata çıktılarını yükle
         if: always()
         uses: actions/upload-artifact@v4
         with:
           name: predation-debug-log
-          path: predation-debug.log
+          path: |
+            predation-debug.log
+            build-debug.log
           if-no-files-found: error
           retention-days: 1
 
       - name: Kontrol sonucunu uygula
-        if: steps.predation.outputs.status != '0'
+        if: steps.predation.outputs.status != '0' || steps.build.outputs.status != '0'
         run: exit 1
