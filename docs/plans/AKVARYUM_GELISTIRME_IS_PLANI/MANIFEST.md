@@ -1,6 +1,6 @@
 # Plan Paketi İçeriği ve GitHub Durumu
 
-**Son güncelleme:** 21 Temmuz 2026
+**Son güncelleme:** 22 Temmuz 2026
 
 | Dosya | Amaç | GitHub durumu |
 |---|---|---|
@@ -17,7 +17,7 @@
 | `10_ICERIK_DOGRULAMA_VE_KAYNAKLANDIRMA.md` | Editörlük ve kaynak süreci | Yüklendi |
 | `11_SEO_YAYINLAMA_VE_ANALITIK.md` | Yayın, SEO ve ölçüm | Sırada |
 | `12_ONCELIKLI_BACKLOG.md` | Kimlikli ve öncelikli görev listesi | Yüklendi ve güncel |
-| `13_SPRINT_PLANI.md` | İşlerin uygulanma sırası | Yüklendi |
+| `13_SPRINT_PLANI.md` | İşlerin uygulanma sırası | Yüklendi ve güncel |
 | `14_GOREV_SABLONLARI_VE_KABUL_KRITERLERI.md` | Görev yazma standardı | Sırada |
 | `15_KARAR_KAYDI_VE_KAPSAM_KONTROLU.md` | Karar ve kapsam yönetimi | Yüklendi ve güncel |
 | `16_VERI_EKLEME_ORNEKLERI.md` | JSON veri kayıt örnekleri | Sırada |
@@ -42,5 +42,7 @@
 | `35_AKV_UI_001_MOBIL_ANA_AKIS.md` | 360 px ana akış koruması ve hafif yatay taşma denetimi | Yüklendi |
 | `36_AKV_ENG_011_SOSYAL_YAPI_KURALLARI.md` | Sürü, grup, çift, harem ve kaynaklı cinsiyet oranı motor kuralları | Yüklendi |
 | `37_AKV_ENG_012_AYNI_VE_YAKIN_TUR_AGRESYONU.md` | Aynı tür ve aynı cins içindeki yakın tür agresyon uyarıları | Yüklendi |
+| `38_AKV_ENG_010_HACIM_BIYOLOJIK_YUK_DAVRANIS_ALANLARI.md` | Fiziksel hacim, toplamsal stok yükü ve davranış sonuçlarının ayrılması | Yüklendi |
+| `39_AKV_ENG_013_KAYNAKLI_AVCI_AV_MODELI.md` | Kaynaklı ağız genişliği, av boyu eşiği ve tür istisnalarıyla avcı–av modeli | Yüklendi |
 
 Planın tamamı yerel ZIP paketinde korunmaktadır. GitHub’a aktarılan dosyalar aktif geliştirme sırasında öncelikli kaynak kabul edilir; kalan uzmanlık belgeleri ilgili göreve başlanmadan önce depoya eklenir.
