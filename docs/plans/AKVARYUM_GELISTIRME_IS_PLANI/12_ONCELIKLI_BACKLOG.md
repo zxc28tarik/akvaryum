@@ -87,6 +87,9 @@
 - `AKV-CORAL-001` tamamlandı: 18 soft, 20 LPS ve 12 SPS olmak üzere 50 mercanın `habitat.light`, `habitat.flow` ve `compatibility.coralAggression` alanları dolduruldu.
 - Mercan profilleri kategori/cins bakım kurallarından düşük güvenle türetildi; bütün kayıtlar `needs_review/low` kalıyor ve tür bazlı dış kaynak doğrulaması bekliyor.
 - `npm run check:corals` gerçek 580 kayıt üzerinde 11 odaklı kontrolle 50/50 ışık, 50/50 akıntı, 50/50 agresyon, kaynak bağlantısı ve production entegrasyonunu doğruluyor.
+- `AKV-ENG-014` tamamlandı: birleşik resif uyarısı soft/LPS/SPS mercan ile karides, salyangoz, yengeç ve çift kabuklu hedefleri için ayrı değerlendirmelere bölündü.
+- Hedefe özel alan yoksa omurgasız riski uydurulmuyor; soft/LPS/SPS için yalnız gerektiğinde genel mercan alanına veya eski `reefSafe` alanına kontrollü fallback uygulanıyor.
+- `npm run check:engine-reef` 15 odaklı senaryoyla yedi kural kimliğini, TR/EN çıktıyı, fallback sırasını, eski birleşik uyarının kaldırılmasını ve production bağlantılarını doğruluyor.
 - Sosyal bakım, tank uzunluğu, mercan bakım profilleri, Plant v1 ve Substrate v1 değerleri tür bazlı doğrulanmış veri değildir; kayıtlar `needs_review/low` durumunda tutuluyor.
 - Gerçek cihaz görsel ince ayarı gerekirse somut taşma raporu üzerinden küçük düzeltme yapılacak; ağır bir tarayıcı test altyapısı kurulmadı.
 
@@ -113,7 +116,7 @@
 | AKV-ENG-011 | DONE | Sürü/çift/harem/cinsiyet kuralları | DATA-013 | Dört sosyal kural production motorunda çalışır |
 | AKV-ENG-012 | DONE | Aynı tür ve yakın tür agresyonu | DATA-013 | Aynı tür ve aynı cins riskleri veri tabanlıdır |
 | AKV-ENG-013 | DONE | Avcı-av modeli | DATA-011 | Kaynaklı ağız boyu, av boyu ve istisna sözleşmesi çalışır |
-| AKV-ENG-014 | READY | Omurgasız ve mercan güvenliği ayrımı | DATA-010 | Soft/LPS/SPS ve shrimp/snail ayrı değerlendirilir |
+| AKV-ENG-014 | DONE | Omurgasız ve mercan güvenliği ayrımı | DATA-010 | Soft/LPS/SPS ve shrimp/snail/crab/clam ayrı değerlendirilir |
 | AKV-ENG-015 | READY | Tür çifti istisna tablosu | DATA-003 | En az 50 doğrulanmış istisna |
 | AKV-ENG-016 | TODO | Yeni alt skor sistemi | ENG-010..015 | Dört alt puan ve açıklama |
 | AKV-TEST-010A | DONE | İlk 25 altın motor senaryosu | ENG-002 | 25 senaryo ve 27 kural CI/build hattında |
