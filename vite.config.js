@@ -12,12 +12,14 @@ import { buildRuntimeSourceProvenanceBootstrap } from './scripts/lib/source-prov
 import { validateCatalogFilters } from './scripts/lib/validate-catalog-filters.mjs';
 import { validateCoralCare } from './scripts/lib/validate-coral-care.mjs';
 import { validateEngineConspecificRules } from './scripts/lib/validate-engine-conspecific-rules.mjs';
+import { validateEngineCompatibilityOverrides } from './scripts/lib/validate-engine-compatibility-overrides.mjs';
 import { validateEngineDomainResults } from './scripts/lib/validate-engine-domain-results.mjs';
 import { validateEngineFindingContract } from './scripts/lib/validate-engine-finding-contract.mjs';
 import { validateEngineGoldenScenarios } from './scripts/lib/validate-engine-golden-scenarios.mjs';
 import { validateEngineParameterIntersection } from './scripts/lib/validate-engine-parameter-intersection.mjs';
 import { validateEnginePredatorPreyRules } from './scripts/lib/validate-engine-predator-prey-rules.mjs';
 import { validateEngineReefInvertebrateRules } from './scripts/lib/validate-engine-reef-invertebrate-rules.mjs';
+import { validateEngineScoreBreakdown } from './scripts/lib/validate-engine-score-breakdown.mjs';
 import { validateEngineSocialRules } from './scripts/lib/validate-engine-social-rules.mjs';
 import { validateInhabitantCatalog } from './scripts/lib/validate-inhabitant-catalog.mjs';
 import { validateInhabitantDetail } from './scripts/lib/validate-inhabitant-detail.mjs';
@@ -42,6 +44,9 @@ const archivedSources = {
   'result-views.jsx': '.runtime/result-views.jsx.gz.b64',
   'components.jsx': '.runtime/components.jsx.gz.b64',
 };
+const compatibilityOverrides = JSON.parse(
+  readFileSync(resolve(repositoryRoot, 'data/curation/compatibility-overrides-v1.json'), 'utf8'),
+);
 
 const plainSources = {
   'i18n.js': 'i18n.js',
@@ -84,6 +89,8 @@ function nativeLegacyModules() {
       const engineDomainReport = validateEngineDomainResults(repositoryRoot);
       const enginePredationReport = validateEnginePredatorPreyRules(repositoryRoot);
       const engineReefReport = validateEngineReefInvertebrateRules(repositoryRoot);
+      const enginePairReport = validateEngineCompatibilityOverrides(repositoryRoot);
+      const engineScoreReport = validateEngineScoreBreakdown(repositoryRoot);
       const engineGoldenReport = validateEngineGoldenScenarios(repositoryRoot);
       const catalogFilterReport = validateCatalogFilters(repositoryRoot);
       const inhabitantDetailReport = validateInhabitantDetail(repositoryRoot);
@@ -106,6 +113,8 @@ function nativeLegacyModules() {
       this.info(`AKVARYUM bağımsız motor alanları doğrulandı: ${engineDomainReport.scenarios} senaryo.`);
       this.info(`AKVARYUM avcı-av kuralları doğrulandı: ${enginePredationReport.scenarios} senaryo, ${enginePredationReport.findingsValidated} bulgu.`);
       this.info(`AKVARYUM ayrık resif güvenliği doğrulandı: ${engineReefReport.scenarios} senaryo, ${engineReefReport.ruleIds} kural.`);
+      this.info(`AKVARYUM tür çifti istisnaları doğrulandı: ${enginePairReport.overrides} istisna, ${enginePairReport.scenarios} senaryo.`);
+      this.info(`AKVARYUM dört alt puanı doğrulandı: ${engineScoreReport.scenarios} senaryo, ${engineScoreReport.sections} bölüm.`);
       this.info(`AKVARYUM ilk altın motor paketi doğrulandı: ${engineGoldenReport.scenarios} senaryo, ${engineGoldenReport.coveredRuleIds} kural.`);
       this.info(`AKVARYUM katalog filtreleri doğrulandı: ${catalogFilterReport.scenarios} senaryo, ${catalogFilterReport.advancedFilters} gelişmiş filtre.`);
       this.info(`AKVARYUM canlı ayrıntı paneli doğrulandı: ${inhabitantDetailReport.scenarios} senaryo, ${inhabitantDetailReport.sections} bölüm.`);
@@ -163,6 +172,7 @@ function nativeLegacyModules() {
             'window.DB.aquaticPlants = migrateLegacyPlants(window.DB.plants || []);',
             'window.DB.aquariumSubstrates = migrateLegacySubstrates(window.DB.substrates || []);',
             'window.DB.predatorPreyProfiles = window.DB.predatorPreyProfiles || [];',
+            `window.DB.compatibilityOverrides = ${JSON.stringify(compatibilityOverrides)};`,
             buildRuntimeInhabitantCatalogBootstrap(),
           ].join('\n');
 
@@ -175,8 +185,10 @@ function nativeLegacyModules() {
             readPlain('engine-social-rules.js'),
             readPlain('engine-conspecific-rules.js'),
             readPlain('engine-predator-prey-rules.js'),
-            readPlain('engine-domain-results.js'),
             readPlain('engine-reef-invertebrate-rules.js'),
+            readPlain('engine-compatibility-overrides.js'),
+            readPlain('engine-domain-results.js'),
+            readPlain('engine-score-breakdown.js'),
           ].join('\n');
 
         case 'result-views.jsx':

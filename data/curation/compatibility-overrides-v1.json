@@ -1,0 +1,1440 @@
+[
+  {
+    "id": "betta-kuhli-loach",
+    "a": "betta",
+    "b": "kuhli-loach",
+    "direction": "both",
+    "status": "conditional",
+    "reasons": [
+      {
+        "tr": "Kuhli loach gündüz saklanıp çoğunlukla gece hareket ettiği için beta ile alan ve etkinlik zamanı çatışması azalır.",
+        "en": "Kuhli loaches hide by day and are mostly active at night, reducing space and activity-time conflict with a betta."
+      }
+    ],
+    "conditions": [
+      {
+        "tr": "En az 38–76 L tank, bol saklanma alanı ve kuhli loach için uygun grup düzeni sağlanmalıdır.",
+        "en": "Provide at least a 10–20 gallon tank, abundant cover, and a suitable group for the kuhli loaches."
+      }
+    ],
+    "impact": {
+      "tr": "Koşullar sağlanırsa iki canlı farklı zaman ve bölgeleri kullanarak birlikte yaşayabilir.",
+      "en": "When the conditions are met, the inhabitants can coexist by using different times and areas."
+    },
+    "resolution": {
+      "tr": "Saklanma alanlarını artır; kovalamaca veya yem baskısı görülürse canlıları ayır.",
+      "en": "Increase cover; separate the inhabitants if chasing or feeding pressure appears."
+    },
+    "sourceIds": ["aquarium-coop-betta-tank-mates-2026"],
+    "verifiedAt": "2026-07-23",
+    "verification": { "status": "verified", "confidence": "medium" }
+  },
+  {
+    "id": "betta-ember-tetra",
+    "a": "betta",
+    "b": "ember-tetra",
+    "direction": "both",
+    "status": "conditional",
+    "reasons": [
+      {
+        "tr": "Köz tetralar barışçıl, küçük sürü balıklarıdır ve beta ile aynı yemleri tüketebilir.",
+        "en": "Ember tetras are peaceful small schooling fish and can eat the same foods as a betta."
+      }
+    ],
+    "conditions": [
+      {
+        "tr": "En az 38 L tankta 5–6 veya daha büyük tetra sürüsü ve yoğun bitki örtüsü gerekir.",
+        "en": "Use a tank of at least 10 gallons with a school of 5–6 or more tetras and dense plant cover."
+      }
+    ],
+    "impact": {
+      "tr": "Yeterli sürü ve alan, betanın tek bir tetrayı hedef alma riskini azaltır.",
+      "en": "Adequate schooling and space reduce the chance of the betta singling out one tetra."
+    },
+    "resolution": {
+      "tr": "Beta sürekli kovalarsa sürüyü büyüt, görüşü bitkilerle böl veya ikiliyi ayır.",
+      "en": "If the betta persistently chases them, enlarge the school, break sight lines with plants, or separate the pair."
+    },
+    "sourceIds": ["aquarium-coop-betta-tank-mates-2026"],
+    "verifiedAt": "2026-07-23",
+    "verification": { "status": "verified", "confidence": "medium" }
+  },
+  {
+    "id": "betta-malaysian-trumpet",
+    "a": "betta",
+    "b": "malaysian-trumpet",
+    "direction": "both",
+    "status": "conditional",
+    "reasons": [
+      {
+        "tr": "Malezya trompet salyangozu gündüz tabana gömülür ve çoğunlukla gece etkin olduğu için beta ile teması sınırlıdır.",
+        "en": "Malaysian trumpet snails burrow by day and are mostly active at night, limiting contact with the betta."
+      }
+    ],
+    "conditions": [
+      {
+        "tr": "Beta salyangozu gagalarsa davranış yakından izlenmeli; aşırı yemleme ile salyangoz nüfusu artırılmamalıdır.",
+        "en": "Monitor any pecking by the betta and avoid overfeeding that can cause the snail population to boom."
+      }
+    ],
+    "impact": {
+      "tr": "Çoğu kurulumda doğrudan çatışma düşük olur; salyangoz dipte organik artık tüketir.",
+      "en": "Direct conflict is usually low, while the snail consumes organic debris in the substrate."
+    },
+    "resolution": {
+      "tr": "Sürekli saldırı veya kabuk hasarı görülürse salyangozu ayrı tanka taşı.",
+      "en": "Move the snail to another tank if persistent attacks or shell damage occur."
+    },
+    "sourceIds": ["aquarium-coop-betta-tank-mates-2026"],
+    "verifiedAt": "2026-07-23",
+    "verification": { "status": "verified", "confidence": "medium" }
+  },
+  {
+    "id": "betta-rasbora-harlequin",
+    "a": "betta",
+    "b": "rasbora-harlequin",
+    "direction": "both",
+    "status": "conditional",
+    "reasons": [
+      {
+        "tr": "Harlekin rasboralar barışçıl ve hızlı sürü balıklarıdır; genellikle betanın alanından uzak kalırlar.",
+        "en": "Harlequin rasboras are peaceful, quick schooling fish that generally stay out of a betta's territory."
+      }
+    ],
+    "conditions": [
+      {
+        "tr": "En az altı rasbora, yeterli yüzme alanı ve saklanma bölgeleri sağlanmalıdır.",
+        "en": "Provide at least six rasboras, sufficient swimming space, and sheltered areas."
+      }
+    ],
+    "impact": {
+      "tr": "Sürü davranışı tek balığın hedef alınmasını azaltır; yine de beta bireysel olarak saldırgan olabilir.",
+      "en": "Schooling reduces the chance of one fish being targeted, although an individual betta may still be aggressive."
+    },
+    "resolution": {
+      "tr": "Uzun süreli kovalamaca varsa tank düzenini değiştir veya canlıları ayır.",
+      "en": "Change the layout or separate the inhabitants if prolonged chasing occurs."
+    },
+    "sourceIds": ["aquarium-coop-betta-tank-mates-2026"],
+    "verifiedAt": "2026-07-23",
+    "verification": { "status": "verified", "confidence": "medium" }
+  },
+  {
+    "id": "betta-corydoras",
+    "a": "betta",
+    "b": "corydoras",
+    "direction": "both",
+    "status": "conditional",
+    "reasons": [
+      {
+        "tr": "Koridoraslar tabanda yaşayan barışçıl sürü balıklarıdır ve betanın kullandığı üst alanla doğrudan rekabetleri düşüktür.",
+        "en": "Corydoras are peaceful bottom-dwelling schooling fish with little direct competition for the betta's upper area."
+      }
+    ],
+    "conditions": [
+      {
+        "tr": "Aynı koridoras türünden 3–6 veya daha fazla birey ve dip yemi sağlanmalıdır.",
+        "en": "Keep 3–6 or more of the same cory species and provide dedicated sinking food."
+      }
+    ],
+    "impact": {
+      "tr": "Farklı yüzme bölgeleri kullanmaları çatışma riskini azaltır.",
+      "en": "Using different swimming zones reduces conflict risk."
+    },
+    "resolution": {
+      "tr": "Koridorasların yeterli yem aldığını kontrol et ve beta saldırırsa ayır.",
+      "en": "Ensure the corydoras receive enough food and separate them if the betta attacks."
+    },
+    "sourceIds": ["aquarium-coop-betta-tank-mates-2026"],
+    "verifiedAt": "2026-07-23",
+    "verification": { "status": "verified", "confidence": "medium" }
+  },
+  {
+    "id": "cherry-shrimp-nerite-snail",
+    "a": "cherry-shrimp",
+    "b": "nerite-snail",
+    "direction": "both",
+    "status": "compatible",
+    "reasons": [
+      {
+        "tr": "Nerite salyangozu canlı kiraz karidesleri avlamayan bir otlayıcı ve artıkçıdır.",
+        "en": "Nerite snails are grazers and scavengers that do not prey on living cherry shrimp."
+      }
+    ],
+    "conditions": [],
+    "impact": {
+      "tr": "İki omurgasız genellikle doğrudan güvenlik riski oluşturmadan birlikte yaşar.",
+      "en": "The two invertebrates generally coexist without creating a direct safety risk."
+    },
+    "resolution": {
+      "tr": "Yem rekabetini ve su sertliğinin her iki canlıya uygunluğunu düzenli kontrol et.",
+      "en": "Regularly check food competition and that water hardness suits both inhabitants."
+    },
+    "sourceIds": ["aquarium-coop-cherry-shrimp-tank-mates-2026"],
+    "verifiedAt": "2026-07-23",
+    "verification": { "status": "verified", "confidence": "medium" }
+  },
+  {
+    "id": "cherry-shrimp-mystery-snail",
+    "a": "cherry-shrimp",
+    "b": "mystery-snail",
+    "direction": "both",
+    "status": "compatible",
+    "reasons": [
+      {
+        "tr": "Mystery salyangozu barışçıl bir artıkçıdır ve canlı kiraz karidesleri avlamaz.",
+        "en": "Mystery snails are peaceful scavengers that do not prey on living cherry shrimp."
+      }
+    ],
+    "conditions": [],
+    "impact": {
+      "tr": "Doğrudan saldırı riski düşüktür; iki tür aynı yem kaynaklarını paylaşabilir.",
+      "en": "Direct attack risk is low, although both species may share the same food sources."
+    },
+    "resolution": {
+      "tr": "Her iki türün yeterli yem aldığını ve kabuk için uygun mineral bulunduğunu kontrol et.",
+      "en": "Ensure both species receive enough food and that minerals are available for shell health."
+    },
+    "sourceIds": [
+      "aquarium-coop-cherry-shrimp-tank-mates-2026",
+      "aquarium-coop-mystery-snail-care-2026"
+    ],
+    "verifiedAt": "2026-07-23",
+    "verification": { "status": "verified", "confidence": "medium" }
+  },
+  {
+    "id": "cherry-shrimp-malaysian-trumpet",
+    "a": "cherry-shrimp",
+    "b": "malaysian-trumpet",
+    "direction": "both",
+    "status": "compatible",
+    "reasons": [
+      {
+        "tr": "Malezya trompet salyangozu canlı kiraz karidesleri avlamayan bir artıkçıdır.",
+        "en": "Malaysian trumpet snails are scavengers that do not prey on living cherry shrimp."
+      }
+    ],
+    "conditions": [],
+    "impact": {
+      "tr": "İki tür tabandaki yem ve biyofilm için rekabet edebilir ama doğrudan av riski düşüktür.",
+      "en": "The species may compete for food and biofilm, but direct predation risk is low."
+    },
+    "resolution": {
+      "tr": "Aşırı yemleme yapmadan iki popülasyonun beslenmesini izle.",
+      "en": "Monitor feeding for both populations without overfeeding."
+    },
+    "sourceIds": ["aquarium-coop-cherry-shrimp-tank-mates-2026"],
+    "verifiedAt": "2026-07-23",
+    "verification": { "status": "verified", "confidence": "medium" }
+  },
+  {
+    "id": "cherry-shrimp-bamboo-shrimp",
+    "a": "cherry-shrimp",
+    "b": "bamboo-shrimp",
+    "direction": "both",
+    "status": "compatible",
+    "reasons": [
+      {
+        "tr": "Bambu karidesi sudaki küçük parçacıkları süzer ve kiraz karidesi avlamaz.",
+        "en": "Bamboo shrimp filter small suspended particles and do not prey on cherry shrimp."
+      }
+    ],
+    "conditions": [],
+    "impact": {
+      "tr": "Farklı beslenme davranışları doğrudan çatışmayı azaltır.",
+      "en": "Different feeding behavior reduces direct conflict."
+    },
+    "resolution": {
+      "tr": "Bambu karidesi için uygun akıntı ve süzülebilir yem sağla.",
+      "en": "Provide suitable flow and suspended food for the bamboo shrimp."
+    },
+    "sourceIds": ["aquarium-coop-cherry-shrimp-tank-mates-2026"],
+    "verifiedAt": "2026-07-23",
+    "verification": { "status": "verified", "confidence": "medium" }
+  },
+  {
+    "id": "cherry-shrimp-vampire-shrimp",
+    "a": "cherry-shrimp",
+    "b": "vampire-shrimp",
+    "direction": "both",
+    "status": "compatible",
+    "reasons": [
+      {
+        "tr": "Vampir karidesi bir filtre besleyicidir ve kiraz karidesi avlamaz.",
+        "en": "Vampire shrimp are filter feeders and do not prey on cherry shrimp."
+      }
+    ],
+    "conditions": [],
+    "impact": {
+      "tr": "Uygun besleme sağlandığında doğrudan avcılık riski beklenmez.",
+      "en": "Direct predation is not expected when suitable feeding is provided."
+    },
+    "resolution": {
+      "tr": "Vampir karidesi için akıntılı bir beslenme noktası oluştur.",
+      "en": "Create a flowing feeding station for the vampire shrimp."
+    },
+    "sourceIds": ["aquarium-coop-cherry-shrimp-tank-mates-2026"],
+    "verifiedAt": "2026-07-23",
+    "verification": { "status": "verified", "confidence": "medium" }
+  },
+  {
+    "id": "cherry-shrimp-amano-shrimp",
+    "a": "cherry-shrimp",
+    "b": "amano-shrimp",
+    "direction": "both",
+    "status": "compatible",
+    "reasons": [
+      {
+        "tr": "Amano ve kiraz karidesleri benzer boylarda barışçıl cüce karideslerdir ve bakım gereksinimleri örtüşür.",
+        "en": "Amano and cherry shrimp are peaceful dwarf shrimp of similar size with overlapping care needs."
+      }
+    ],
+    "conditions": [],
+    "impact": {
+      "tr": "Doğrudan av riski düşüktür; yem sırasında iri Amanolar daha baskın olabilir.",
+      "en": "Direct predation risk is low, although larger Amano shrimp may dominate at feeding time."
+    },
+    "resolution": {
+      "tr": "Yemi birden fazla noktaya dağıt ve kiraz karideslerin beslenmesini izle.",
+      "en": "Distribute food across multiple spots and monitor that cherry shrimp are feeding."
+    },
+    "sourceIds": ["aquarium-coop-cherry-shrimp-tank-mates-2026"],
+    "verifiedAt": "2026-07-23",
+    "verification": { "status": "verified", "confidence": "medium" }
+  },
+  {
+    "id": "cherry-shrimp-ghost-shrimp",
+    "a": "cherry-shrimp",
+    "b": "ghost-shrimp",
+    "direction": "both",
+    "status": "compatible",
+    "reasons": [
+      {
+        "tr": "Hayalet ve kiraz karidesleri benzer boy ve bakım gereksinimleri nedeniyle birlikte tutulabilir.",
+        "en": "Ghost and cherry shrimp can be kept together because of their similar size and care requirements."
+      }
+    ],
+    "conditions": [],
+    "impact": {
+      "tr": "Doğrudan çatışma riski düşüktür; yem rekabeti izlenmelidir.",
+      "en": "Direct conflict risk is low, while food competition should be monitored."
+    },
+    "resolution": {
+      "tr": "Karideslerin tamamına ulaşan çeşitli yem noktaları oluştur.",
+      "en": "Create multiple feeding spots accessible to all shrimp."
+    },
+    "sourceIds": ["aquarium-coop-cherry-shrimp-tank-mates-2026"],
+    "verifiedAt": "2026-07-23",
+    "verification": { "status": "verified", "confidence": "medium" }
+  },
+  {
+    "id": "cherry-shrimp-oto",
+    "a": "cherry-shrimp",
+    "b": "oto",
+    "direction": "both",
+    "status": "compatible",
+    "reasons": [
+      {
+        "tr": "Otocinclus barışçıl, küçük bir biyofilm otlayıcısıdır ve yetişkin kiraz karideslere düşük tehdit oluşturur.",
+        "en": "Otocinclus are peaceful small biofilm grazers and pose little threat to adult cherry shrimp."
+      }
+    ],
+    "conditions": [],
+    "impact": {
+      "tr": "Doğrudan av riski düşüktür; iki tür biyofilm için rekabet edebilir.",
+      "en": "Direct predation risk is low, although both species may compete for biofilm."
+    },
+    "resolution": {
+      "tr": "Olgun tank, yeterli biyofilm ve tamamlayıcı yem sağla.",
+      "en": "Provide a mature tank, sufficient biofilm, and supplemental food."
+    },
+    "sourceIds": ["aquarium-coop-cherry-shrimp-tank-mates-2026"],
+    "verifiedAt": "2026-07-23",
+    "verification": { "status": "verified", "confidence": "medium" }
+  },
+  {
+    "id": "cherry-shrimp-pleco-clown",
+    "a": "cherry-shrimp",
+    "b": "pleco-clown",
+    "direction": "both",
+    "status": "caution",
+    "reasons": [
+      {
+        "tr": "Palyaço pleco genellikle yetişkin kiraz karidesleri bırakır ancak yavruları fırsatçı biçimde yiyebilir.",
+        "en": "Clown plecos generally leave adult cherry shrimp alone but may opportunistically eat babies."
+      }
+    ],
+    "conditions": [
+      {
+        "tr": "Yavru yaşatma hedefinde yoğun yosun, odun ve karides saklanma alanları gerekir.",
+        "en": "If raising babies is a goal, provide dense plants, wood, and shrimp refuges."
+      }
+    ],
+    "impact": {
+      "tr": "Yetişkin koloni yaşayabilir fakat yavru kaybı görülebilir.",
+      "en": "The adult colony may coexist, but baby losses can occur."
+    },
+    "resolution": {
+      "tr": "Üreme öncelikliyse palyaço plecoyu ayrı tut.",
+      "en": "Keep the clown pleco separately if shrimp breeding is the priority."
+    },
+    "sourceIds": ["aquarium-coop-cherry-shrimp-tank-mates-2026"],
+    "verifiedAt": "2026-07-23",
+    "verification": { "status": "verified", "confidence": "medium" }
+  },
+  {
+    "id": "cherry-shrimp-ember-tetra",
+    "a": "cherry-shrimp",
+    "b": "ember-tetra",
+    "direction": "both",
+    "status": "conditional",
+    "reasons": [
+      {
+        "tr": "Köz tetranın küçük ağzı yetişkin kiraz karideslere düşük tehdit oluşturur; yavrular yine yenebilir.",
+        "en": "The ember tetra's tiny mouth poses little threat to adult cherry shrimp, but babies may still be eaten."
+      }
+    ],
+    "conditions": [
+      {
+        "tr": "Olgun karides kolonisi ve yoğun saklanma alanı bulunmalıdır.",
+        "en": "Use an established shrimp colony with dense hiding cover."
+      }
+    ],
+    "impact": {
+      "tr": "Yetişkinler çoğunlukla birlikte yaşayabilir; yavru verimi azalabilir.",
+      "en": "Adults can usually coexist, while baby survival may decrease."
+    },
+    "resolution": {
+      "tr": "Yavru üretimi öncelikliyse balıksız karides tankı kullan.",
+      "en": "Use a fishless shrimp tank if maximizing baby survival is the priority."
+    },
+    "sourceIds": ["aquarium-coop-cherry-shrimp-tank-mates-2026"],
+    "verifiedAt": "2026-07-23",
+    "verification": { "status": "verified", "confidence": "medium" }
+  },
+  {
+    "id": "cherry-shrimp-green-neon",
+    "a": "cherry-shrimp",
+    "b": "green-neon",
+    "direction": "both",
+    "status": "conditional",
+    "reasons": [
+      {
+        "tr": "Yeşil neon tetra küçük ve barışçıldır; yetişkin kiraz karideslere düşük tehdit oluşturur.",
+        "en": "Green neon tetras are small and peaceful, posing little threat to adult cherry shrimp."
+      }
+    ],
+    "conditions": [
+      {
+        "tr": "Yoğun bitki örtüsü ve yerleşmiş bir yetişkin karides kolonisi gerekir.",
+        "en": "Dense plant cover and an established adult shrimp colony are required."
+      }
+    ],
+    "impact": {
+      "tr": "Yetişkinler çoğunlukla güvende kalır, yavrular fırsatçı olarak yenebilir.",
+      "en": "Adults are generally safe, while babies may be eaten opportunistically."
+    },
+    "resolution": {
+      "tr": "Yavru kaybı kabul edilemiyorsa balıkları ayrı tut.",
+      "en": "Keep the fish separately if baby losses are unacceptable."
+    },
+    "sourceIds": ["aquarium-coop-cherry-shrimp-tank-mates-2026"],
+    "verifiedAt": "2026-07-23",
+    "verification": { "status": "verified", "confidence": "medium" }
+  },
+  {
+    "id": "cherry-shrimp-chili-rasbora",
+    "a": "cherry-shrimp",
+    "b": "chili-rasbora",
+    "direction": "both",
+    "status": "conditional",
+    "reasons": [
+      {
+        "tr": "Acı biber rasboranın küçük ağzı yetişkin kiraz karideslere düşük tehdit oluşturur.",
+        "en": "The chili rasbora's tiny mouth poses little threat to adult cherry shrimp."
+      }
+    ],
+    "conditions": [
+      {
+        "tr": "Yerleşmiş koloni, uygun rasbora sürüsü ve yoğun saklanma alanı gerekir.",
+        "en": "Use an established colony, a suitable rasbora school, and dense cover."
+      }
+    ],
+    "impact": {
+      "tr": "Yetişkin karidesler yaşayabilir; yeni çıkmış yavrular risk altındadır.",
+      "en": "Adult shrimp can coexist, while newly hatched babies remain at risk."
+    },
+    "resolution": {
+      "tr": "Üreme verimi düşerse balıkları ayrı tanka taşı.",
+      "en": "Move the fish to another tank if breeding yield declines."
+    },
+    "sourceIds": ["aquarium-coop-cherry-shrimp-tank-mates-2026"],
+    "verifiedAt": "2026-07-23",
+    "verification": { "status": "verified", "confidence": "medium" }
+  },
+  {
+    "id": "cherry-shrimp-cory-pygmy",
+    "a": "cherry-shrimp",
+    "b": "cory-pygmy",
+    "direction": "both",
+    "status": "conditional",
+    "reasons": [
+      {
+        "tr": "Cüce koridoras barışçıldır ve yetişkin kiraz karidesleri genellikle rahat bırakır.",
+        "en": "Pygmy corydoras are peaceful and generally leave adult cherry shrimp alone."
+      }
+    ],
+    "conditions": [
+      {
+        "tr": "Karides yavruları için yoğun bitki ve dar saklanma alanları sağlanmalıdır.",
+        "en": "Provide dense plants and narrow refuges for shrimp babies."
+      }
+    ],
+    "impact": {
+      "tr": "Yetişkinler çoğunlukla güvende kalır; dipteki yavrular fırsatçı olarak yenebilir.",
+      "en": "Adults are generally safe, while bottom-dwelling babies may be eaten opportunistically."
+    },
+    "resolution": {
+      "tr": "Yavru karides üretimi öncelikliyse cüce koridorası ayrı tut.",
+      "en": "Keep pygmy corydoras separately if shrimp breeding is the priority."
+    },
+    "sourceIds": ["aquarium-coop-cherry-shrimp-tank-mates-2026"],
+    "verifiedAt": "2026-07-23",
+    "verification": { "status": "verified", "confidence": "medium" }
+  },
+  {
+    "id": "cherry-shrimp-guppy",
+    "a": "cherry-shrimp",
+    "b": "guppy",
+    "direction": "both",
+    "status": "conditional",
+    "reasons": [
+      {
+        "tr": "Lepistesler yetişkin kiraz karideslerle tutulabilir fakat karides yavrularını yer.",
+        "en": "Guppies can be kept with adult cherry shrimp but will eat shrimp babies."
+      }
+    ],
+    "conditions": [
+      {
+        "tr": "Büyük java moss kütlesi veya eşdeğer yoğun bitki örtüsü gerekir.",
+        "en": "A large mass of java moss or equivalent dense plant cover is required."
+      }
+    ],
+    "impact": {
+      "tr": "Yetişkin koloni kalabilir fakat yavru yaşama oranı düşer.",
+      "en": "The adult colony may persist, but baby survival decreases."
+    },
+    "resolution": {
+      "tr": "Yüksek üreme verimi hedefleniyorsa lepistesleri ayrı tut.",
+      "en": "Keep guppies separately if high shrimp reproduction is the goal."
+    },
+    "sourceIds": ["aquarium-coop-cherry-shrimp-tank-mates-2026"],
+    "verifiedAt": "2026-07-23",
+    "verification": { "status": "verified", "confidence": "medium" }
+  },
+  {
+    "id": "cherry-shrimp-guppy-endler",
+    "a": "cherry-shrimp",
+    "b": "guppy-endler",
+    "direction": "both",
+    "status": "conditional",
+    "reasons": [
+      {
+        "tr": "Endler canlı doğuranları yetişkin kiraz karideslerle tutulabilir fakat yavruları avlar.",
+        "en": "Endler's livebearers can be kept with adult cherry shrimp but prey on babies."
+      }
+    ],
+    "conditions": [
+      {
+        "tr": "Yoğun yosun veya bitki örtüsüyle yavrular için saklanma alanı oluşturulmalıdır.",
+        "en": "Dense moss or plant cover must provide refuge for babies."
+      }
+    ],
+    "impact": {
+      "tr": "Yetişkin karidesler kalabilir; yavru kaybı beklenmelidir.",
+      "en": "Adult shrimp may persist, while baby losses should be expected."
+    },
+    "resolution": {
+      "tr": "Üreme tankında Endler bulundurma.",
+      "en": "Do not keep Endlers in a dedicated breeding tank."
+    },
+    "sourceIds": ["aquarium-coop-cherry-shrimp-tank-mates-2026"],
+    "verifiedAt": "2026-07-23",
+    "verification": { "status": "verified", "confidence": "medium" }
+  },
+  {
+    "id": "cherry-shrimp-betta",
+    "a": "cherry-shrimp",
+    "b": "betta",
+    "direction": "b_to_a",
+    "status": "caution",
+    "reasons": [
+      {
+        "tr": "Beta etçil davranışı ve bireysel mizacı nedeniyle yetişkin kiraz karidesleri bile kovalayabilir veya yiyebilir.",
+        "en": "A betta may chase or eat even adult cherry shrimp because of its carnivorous behavior and individual temperament."
+      }
+    ],
+    "conditions": [
+      {
+        "tr": "Bol saklanma alanı riski azaltabilir ancak güvenliği garanti etmez.",
+        "en": "Abundant cover may reduce risk but does not guarantee safety."
+      }
+    ],
+    "impact": {
+      "tr": "Karideslerde saklanma stresi, yaralanma ve kayıp görülebilir.",
+      "en": "Shrimp may suffer hiding stress, injury, and losses."
+    },
+    "resolution": {
+      "tr": "Karides güvenliği veya üretimi öncelikliyse betayı ayrı tut.",
+      "en": "Keep the betta separately when shrimp safety or breeding is the priority."
+    },
+    "sourceIds": ["aquarium-coop-cherry-shrimp-tank-mates-2026"],
+    "verifiedAt": "2026-07-23",
+    "verification": { "status": "verified", "confidence": "medium" }
+  },
+  {
+    "id": "cherry-shrimp-puffer-pea",
+    "a": "cherry-shrimp",
+    "b": "puffer-pea",
+    "direction": "b_to_a",
+    "status": "incompatible",
+    "reasons": [
+      {
+        "tr": "Bezelye puffer küçük etçil avları hedefler ve kiraz karidesler güvenli tank arkadaşı değildir.",
+        "en": "Pea puffers target small animal prey, so cherry shrimp are not safe tank mates."
+      }
+    ],
+    "conditions": [],
+    "impact": {
+      "tr": "Karideslerin yenmesi veya ağır yaralanması beklenebilir.",
+      "en": "Shrimp can be expected to be eaten or seriously injured."
+    },
+    "resolution": {
+      "tr": "Bu ikiliyi aynı tankta tutma.",
+      "en": "Do not keep this pair in the same tank."
+    },
+    "sourceIds": ["aquarium-coop-cherry-shrimp-tank-mates-2026"],
+    "verifiedAt": "2026-07-23",
+    "verification": { "status": "verified", "confidence": "medium" }
+  },
+  {
+    "id": "cherry-shrimp-goldfish",
+    "a": "cherry-shrimp",
+    "b": "goldfish",
+    "direction": "b_to_a",
+    "status": "incompatible",
+    "reasons": [
+      {
+        "tr": "Japon balığı kiraz karidesten çok daha büyüktür ve ağzına sığan küçük canlıları yer.",
+        "en": "Goldfish are much larger than cherry shrimp and eat small animals that fit in their mouths."
+      }
+    ],
+    "conditions": [],
+    "impact": {
+      "tr": "Karideslerin avlanması ve koloninin kaybedilmesi riski yüksektir.",
+      "en": "There is a high risk of shrimp predation and loss of the colony."
+    },
+    "resolution": {
+      "tr": "Kiraz karidesleri Japon balığından ayrı tut.",
+      "en": "Keep cherry shrimp separate from goldfish."
+    },
+    "sourceIds": ["aquarium-coop-cherry-shrimp-tank-mates-2026"],
+    "verifiedAt": "2026-07-23",
+    "verification": { "status": "verified", "confidence": "medium" }
+  },
+  {
+    "id": "cherry-shrimp-danio-zebra",
+    "a": "cherry-shrimp",
+    "b": "danio-zebra",
+    "direction": "both",
+    "status": "caution",
+    "reasons": [
+      {
+        "tr": "Zebra danyolar hızlı ve iştahlıdır; karidesleri kovalamasa bile yem rekabeti ve stres oluşturabilir.",
+        "en": "Zebra danios are fast and hungry, and can create feeding competition and stress even without eating adult shrimp."
+      }
+    ],
+    "conditions": [
+      {
+        "tr": "Yoğun bitki örtüsü, çoklu yem noktası ve karides davranışının yakın takibi gerekir.",
+        "en": "Dense cover, multiple feeding spots, and close observation of shrimp behavior are required."
+      }
+    ],
+    "impact": {
+      "tr": "Karidesler sürekli saklanabilir ve yeterli yem alamayabilir.",
+      "en": "Shrimp may hide persistently and fail to receive enough food."
+    },
+    "resolution": {
+      "tr": "Stres veya beslenme kaybı görülürse danyoları ayır.",
+      "en": "Separate the danios if stress or feeding loss is observed."
+    },
+    "sourceIds": ["aquarium-coop-cherry-shrimp-tank-mates-2026"],
+    "verifiedAt": "2026-07-23",
+    "verification": { "status": "verified", "confidence": "medium" }
+  },
+  {
+    "id": "goby-yellow-watchman-pistol-shrimp",
+    "a": "goby-yellow-watchman",
+    "b": "pistol-shrimp",
+    "direction": "both",
+    "status": "compatible",
+    "reasons": [
+      {
+        "tr": "Sarı bekçi goby ile pistol karides doğal bir karşılıklı ilişki kurabilir; karides kovuk açarken goby nöbet tutar.",
+        "en": "Yellow watchman gobies and pistol shrimp can form a natural mutualism: the shrimp builds a burrow while the goby keeps watch."
+      }
+    ],
+    "conditions": [
+      {
+        "tr": "Birkaç santimetre uygun kum tabanı gerekir; önceden eşleşmiş çift almak birliktelik olasılığını artırır.",
+        "en": "Several centimeters of suitable sand are required; obtaining an established pair improves the chance that they share a burrow."
+      }
+    ],
+    "impact": {
+      "tr": "Eşleşirlerse iki canlı aynı kovuğu paylaşarak birbirine barınak ve erken uyarı avantajı sağlar.",
+      "en": "If they pair, the inhabitants share a burrow and provide shelter and early-warning benefits to each other."
+    },
+    "resolution": {
+      "tr": "Kazmaya uygun taban ve sakin bir bölge sağla; eşleşme zorlanmamalıdır.",
+      "en": "Provide a diggable substrate and a calm area; do not force the pairing."
+    },
+    "sourceIds": ["brs-watchman-goby-pistol-shrimp-2026"],
+    "verifiedAt": "2026-07-23",
+    "verification": { "status": "verified", "confidence": "medium" }
+  },
+  {
+    "id": "goldfish-loach-hillstream",
+    "a": "goldfish",
+    "b": "loach-hillstream",
+    "direction": "both",
+    "status": "compatible",
+    "reasons": [
+      {
+        "tr": "Hillstream loach serin suyu sever, yüzeylere güçlü biçimde tutunur ve Japon balığının kolayca ağzına alamayacağı yassı bir gövdeye sahiptir.",
+        "en": "Hillstream loaches prefer cool water, grip surfaces strongly, and have a flat body that is difficult for a goldfish to swallow."
+      }
+    ],
+    "conditions": [
+      {
+        "tr": "Yeterli oksijen, akıntı, otlama yüzeyi ve toplam biyolojik yüke uygun hacim sağlanmalıdır.",
+        "en": "Provide sufficient oxygen, flow, grazing surfaces, and volume for the combined bioload."
+      }
+    ],
+    "impact": {
+      "tr": "Benzer sıcaklık gereksinimleri ve farklı beslenme alanları doğrudan çatışmayı azaltır.",
+      "en": "Similar temperature needs and different feeding zones reduce direct conflict."
+    },
+    "resolution": {
+      "tr": "Loach için akıntılı, oksijenli ve biyofilmli bölgeler oluştur; yem alımını izle.",
+      "en": "Create oxygenated, flowing, biofilm-rich areas for the loach and monitor feeding."
+    },
+    "sourceIds": ["aquarium-coop-goldfish-tank-mates-2026"],
+    "verifiedAt": "2026-07-23",
+    "verification": { "status": "verified", "confidence": "medium" }
+  },
+  {
+    "id": "goldfish-weather-loach",
+    "a": "goldfish",
+    "b": "weather-loach",
+    "direction": "both",
+    "status": "compatible",
+    "reasons": [
+      {
+        "tr": "Hava loachu iri, barışçıl ve serin suya uyumlu olduğu için Japon balığıyla denenmiş bir tank arkadaşıdır.",
+        "en": "Weather loaches are large, peaceful, and suited to cool water, making them a proven goldfish tank mate."
+      }
+    ],
+    "conditions": [
+      {
+        "tr": "Her iki türün erişkin boyuna ve yüksek atık yüküne uygun büyük tank ile kaçışı önleyen kapak gerekir.",
+        "en": "A large tank sized for both species' adult size and waste load, plus an escape-proof lid, is required."
+      }
+    ],
+    "impact": {
+      "tr": "Benzer sıcaklık aralığı çevresel çatışmayı azaltır; büyük gövde av olma riskini düşürür.",
+      "en": "A similar temperature range reduces environmental conflict, while the large body lowers predation risk."
+    },
+    "resolution": {
+      "tr": "Taban alanını, filtrasyonu ve her iki türe ulaşan yem miktarını yeterli tut.",
+      "en": "Provide ample floor space, filtration, and food access for both species."
+    },
+    "sourceIds": ["aquarium-coop-goldfish-tank-mates-2026"],
+    "verifiedAt": "2026-07-23",
+    "verification": { "status": "verified", "confidence": "medium" }
+  },
+  {
+    "id": "goldfish-pleco-bristlenose",
+    "a": "goldfish",
+    "b": "pleco-bristlenose",
+    "direction": "both",
+    "status": "conditional",
+    "reasons": [
+      {
+        "tr": "Bıyıklı pleco, büyük plecolara göre daha kolay beslenir ve uygun bakımda Japon balığının mukus tabakasına yönelme riski daha düşüktür.",
+        "en": "Bristlenose plecos are easier to keep well fed than larger plecos and are less likely to graze on a goldfish's slime coat when properly cared for."
+      }
+    ],
+    "conditions": [
+      {
+        "tr": "Işıklar kapandıktan sonra plecoya ayrı batan yem verilmeli ve mukus emme davranışı izlenmelidir.",
+        "en": "Target-feed the pleco sinking food after lights-out and monitor for slime-coat grazing."
+      }
+    ],
+    "impact": {
+      "tr": "Yetersiz beslenen pleco Japon balığını rahatsız edebilir; yeterli beslenmede doğrudan çatışma azalır.",
+      "en": "An underfed pleco may harass the goldfish; adequate feeding reduces direct conflict."
+    },
+    "resolution": {
+      "tr": "Plecoyu gece ayrı besle; Japon balığının yüzeyinde emme izi görülürse canlıları ayır.",
+      "en": "Feed the pleco separately at night and separate the fish if suction marks appear on the goldfish."
+    },
+    "sourceIds": ["aquarium-coop-goldfish-tank-mates-2026"],
+    "verifiedAt": "2026-07-23",
+    "verification": { "status": "verified", "confidence": "medium" }
+  },
+  {
+    "id": "goldfish-pleco-rubber",
+    "a": "goldfish",
+    "b": "pleco-rubber",
+    "direction": "both",
+    "status": "compatible",
+    "reasons": [
+      {
+        "tr": "Lastik dudak pleco barışçıl, orta boy bir alg yiyicidir ve Japon balığı için önerilen tank arkadaşları arasındadır.",
+        "en": "Rubber lip plecos are peaceful, medium-sized algae eaters recommended as goldfish tank mates."
+      }
+    ],
+    "conditions": [
+      {
+        "tr": "Plecoya uygun sıcaklık aralığı, saklanma alanı ve ayrı batan yem sağlanmalıdır.",
+        "en": "Provide a suitable temperature range, hiding places, and dedicated sinking food for the pleco."
+      }
+    ],
+    "impact": {
+      "tr": "Farklı etkinlik zamanı ve beslenme alanı doğrudan rekabeti azaltır.",
+      "en": "Different activity times and feeding zones reduce direct competition."
+    },
+    "resolution": {
+      "tr": "Gece yemlemesini ve Japon balığının mukus tabakasını düzenli kontrol et.",
+      "en": "Regularly check nighttime feeding and the goldfish's slime coat."
+    },
+    "sourceIds": ["aquarium-coop-goldfish-tank-mates-2026"],
+    "verifiedAt": "2026-07-23",
+    "verification": { "status": "verified", "confidence": "medium" }
+  },
+  {
+    "id": "goldfish-white-cloud",
+    "a": "goldfish",
+    "b": "white-cloud",
+    "direction": "both",
+    "status": "conditional",
+    "reasons": [
+      {
+        "tr": "Beyaz bulut balıkları serin suya uygundur ve hızlı yüzerek yavaş fancy Japon balıklarından kaçabilir.",
+        "en": "White cloud minnows suit cool water and can use their speed to evade slower fancy goldfish."
+      }
+    ],
+    "conditions": [
+      {
+        "tr": "Yalnız yavaş fancy Japon balıklarıyla, erişkin boydaki kısa yüzgeçli bireylerden oluşan yeterli sürü kullanılmalıdır.",
+        "en": "Use a proper school of full-grown, short-finned minnows only with slower fancy goldfish."
+      }
+    ],
+    "impact": {
+      "tr": "Küçük veya uzun yüzgeçli bireyler yakalanıp yenebilir; hızlı common Japon balıkları riski artırır.",
+      "en": "Small or long-finned individuals may be caught and eaten, and fast common goldfish increase the risk."
+    },
+    "resolution": {
+      "tr": "Minnowları önce erişkin boya getir; kovalamaca veya kayıp görülürse sürüyü ayır.",
+      "en": "Grow the minnows to adult size first and separate the school if chasing or losses occur."
+    },
+    "sourceIds": ["aquarium-coop-goldfish-tank-mates-2026"],
+    "verifiedAt": "2026-07-23",
+    "verification": { "status": "verified", "confidence": "medium" }
+  },
+  {
+    "id": "goldfish-killi-medaka",
+    "a": "goldfish",
+    "b": "killi-medaka",
+    "direction": "both",
+    "status": "conditional",
+    "reasons": [
+      {
+        "tr": "Medaka serin suya dayanabilen, hızlı ve kolay üreyen bir ricefish türüdür.",
+        "en": "Medaka are cool-water-tolerant, quick, and readily breeding ricefish."
+      }
+    ],
+    "conditions": [
+      {
+        "tr": "Yeterli sürü, kaçış alanı ve iki türün toplam biyolojik yükünü taşıyan tank hacmi gerekir.",
+        "en": "A proper school, escape space, and tank volume that supports the combined bioload are required."
+      }
+    ],
+    "impact": {
+      "tr": "Ortak sıcaklık aralığı birlikteliği mümkün kılar; küçük bireylerde yenme riski tamamen kalkmaz.",
+      "en": "A shared temperature range allows coexistence, but predation risk remains for small individuals."
+    },
+    "resolution": {
+      "tr": "Medakaları erişkin halde ekle ve Japon balığının kovalamaca davranışını izle.",
+      "en": "Add adult medaka and monitor the goldfish for persistent chasing."
+    },
+    "sourceIds": ["aquarium-coop-goldfish-tank-mates-2026"],
+    "verifiedAt": "2026-07-23",
+    "verification": { "status": "verified", "confidence": "medium" }
+  },
+  {
+    "id": "goldfish-barb-rosy",
+    "a": "goldfish",
+    "b": "barb-rosy",
+    "direction": "both",
+    "status": "conditional",
+    "reasons": [
+      {
+        "tr": "Pembe barb serin suya dayanabilir ve uygun sürü düzeninde Japon balığıyla birlikte tutulabilir.",
+        "en": "Rosy barbs tolerate cool water and can coexist with goldfish in a suitable school."
+      }
+    ],
+    "conditions": [
+      {
+        "tr": "En az 10 bireylik, dişi ağırlıklı ve mümkünse uzun yüzgeçli barb sürüsü yalnız tek kuyruklu common Japon balıklarıyla tutulmalıdır.",
+        "en": "Keep a female-heavy school of at least 10, preferably long-finned rosy barbs, only with single-tailed common goldfish."
+      }
+    ],
+    "impact": {
+      "tr": "Küçük sürü zorbalığı, hızlı barb sürüsü ise fancy Japon balıklarında yem rekabeti yaratabilir.",
+        "en": "A small school can cause bullying, while fast barbs may outcompete fancy goldfish for food."
+    },
+    "resolution": {
+      "tr": "Sürü sayısını ve yem noktalarını artır; yüzgeç ısırma veya yem kaybında türleri ayır.",
+      "en": "Increase school size and feeding points; separate the species if fin nipping or food loss occurs."
+    },
+    "sourceIds": ["aquarium-coop-goldfish-tank-mates-2026"],
+    "verifiedAt": "2026-07-23",
+    "verification": { "status": "verified", "confidence": "medium" }
+  },
+  {
+    "id": "goldfish-corydoras",
+    "a": "goldfish",
+    "b": "corydoras",
+    "direction": "a_to_b",
+    "status": "caution",
+    "reasons": [
+      {
+        "tr": "Standart koridoraslar Japon balığının ağzına sığabilir ve yüzgeç dikenleri yutulma sırasında iki balığı da yaralayabilir.",
+        "en": "Standard corydoras can fit in a goldfish's mouth, and their fin spines may injure both fish during an attempted swallow."
+      }
+    ],
+    "conditions": [
+      {
+        "tr": "Bu genel koridoras kaydı yerine erişkin Japon balığının ağzına sığmayacak, kaynakla doğrulanmış iri bir tür seçilmelidir.",
+        "en": "Use a sourced, verified large cory species that cannot fit in the adult goldfish's mouth instead of this generic cory record."
+      }
+    ],
+    "impact": {
+      "tr": "Yutma girişimi koridorasın ölmesine ve Japon balığının ağız veya solungaç yaralanmasına neden olabilir.",
+      "en": "An attempted swallow can kill the cory and injure the goldfish's mouth or gills."
+    },
+    "resolution": {
+      "tr": "Standart koridorası Japon balığından ayrı tut; iri tür seçimini ayrıca doğrula.",
+      "en": "Keep standard corydoras separate from goldfish and verify any larger species separately."
+    },
+    "sourceIds": ["aquarium-coop-goldfish-tank-mates-2026"],
+    "verifiedAt": "2026-07-23",
+    "verification": { "status": "verified", "confidence": "medium" }
+  },
+  {
+    "id": "goldfish-oto",
+    "a": "goldfish",
+    "b": "oto",
+    "direction": "a_to_b",
+    "status": "caution",
+    "reasons": [
+      {
+        "tr": "Otocinclus küçük ve dikenli olduğu için Japon balığı tarafından yutulmaya çalışılırsa iki balık da yaralanabilir.",
+        "en": "Otocinclus are small and spiny, so an attempted swallow by a goldfish can injure both fish."
+      }
+    ],
+    "conditions": [
+      {
+        "tr": "Japon balığıyla aynı tanka eklenmemeli; daha iri ve serin suya uygun bir alg yiyici seçilmelidir.",
+        "en": "Do not add them to a goldfish tank; choose a larger algae eater suited to cool water."
+      }
+    ],
+    "impact": {
+      "tr": "Yutma girişimi otocinclus kaybı ile Japon balığında ağız veya solungaç hasarı oluşturabilir.",
+      "en": "An attempted swallow may kill the otocinclus and damage the goldfish's mouth or gills."
+    },
+    "resolution": {
+      "tr": "Otocinclusu ayrı tut; hillstream loach gibi kaynaklı bir alternatifi değerlendir.",
+      "en": "Keep otocinclus separately and consider a sourced alternative such as a hillstream loach."
+    },
+    "sourceIds": ["aquarium-coop-goldfish-tank-mates-2026"],
+    "verifiedAt": "2026-07-23",
+    "verification": { "status": "verified", "confidence": "medium" }
+  },
+  {
+    "id": "cory-habrosus-chili-rasbora",
+    "a": "cory-habrosus",
+    "b": "chili-rasbora",
+    "direction": "both",
+    "status": "compatible",
+    "reasons": [
+      {
+        "tr": "Habrosus koridoras ile acı biber rasbora küçük, barışçıl topluluk balıklarıdır ve farklı yüzme bölgelerini kullanır.",
+        "en": "Habrosus corydoras and chili rasboras are small, peaceful community fish that use different swimming zones."
+      }
+    ],
+    "conditions": [
+      {
+        "tr": "Her iki tür kendi uygun sürü sayısında tutulmalı ve koridorasa batan yem ulaştırılmalıdır.",
+        "en": "Keep both species in proper schools and ensure sinking food reaches the corydoras."
+      }
+    ],
+    "impact": {
+      "tr": "Benzer sakin mizaç ve farklı tank bölgeleri doğrudan çatışmayı azaltır.",
+      "en": "Similar peaceful temperaments and different tank zones reduce direct conflict."
+    },
+    "resolution": {
+      "tr": "Sürü sayılarını koru ve dipte yeterli yem kaldığını kontrol et.",
+      "en": "Maintain proper school sizes and confirm enough food reaches the bottom."
+    },
+    "sourceIds": ["aquarium-coop-habrosus-corydoras-2026"],
+    "verifiedAt": "2026-07-23",
+    "verification": { "status": "verified", "confidence": "medium" }
+  },
+  {
+    "id": "cory-habrosus-celestial-pearl",
+    "a": "cory-habrosus",
+    "b": "celestial-pearl",
+    "direction": "both",
+    "status": "compatible",
+    "reasons": [
+      {
+        "tr": "Habrosus koridoras ile galaksi inci danyosu küçük ve barışçıl türlerdir.",
+        "en": "Habrosus corydoras and celestial pearl danios are small, peaceful species."
+      }
+    ],
+    "conditions": [
+      {
+        "tr": "Yoğun bitki, sakin tank arkadaşları ve her iki tür için uygun sürü sayısı sağlanmalıdır.",
+        "en": "Provide dense planting, calm tank mates, and proper school sizes for both species."
+      }
+    ],
+    "impact": {
+      "tr": "Farklı yüzme bölgeleri rekabeti azaltır.",
+      "en": "Different swimming zones reduce competition."
+    },
+    "resolution": {
+      "tr": "Dip yeminin koridoraslara ulaştığını ve iki sürünün saklanmadığını izle.",
+      "en": "Monitor that sinking food reaches the corydoras and neither school hides persistently."
+    },
+    "sourceIds": ["aquarium-coop-habrosus-corydoras-2026"],
+    "verifiedAt": "2026-07-23",
+    "verification": { "status": "verified", "confidence": "medium" }
+  },
+  {
+    "id": "cory-habrosus-killi-clown",
+    "a": "cory-habrosus",
+    "b": "killi-clown",
+    "direction": "both",
+    "status": "compatible",
+    "reasons": [
+      {
+        "tr": "Habrosus koridoras dipte, palyaço killi ise üst bölgede yaşayan küçük ve barışçıl türlerdir.",
+        "en": "Habrosus corydoras are bottom dwellers, while clown killifish are small peaceful surface dwellers."
+      }
+    ],
+    "conditions": [
+      {
+        "tr": "Palyaço killi için kapak ve yüzey örtüsü, koridoras için yumuşak taban ve dip yemi gerekir.",
+        "en": "Clown killifish need a lid and surface cover, while corydoras need soft substrate and sinking food."
+      }
+    ],
+    "impact": {
+      "tr": "Ayrı yüzme bölgeleri alan ve yem çatışmasını azaltır.",
+      "en": "Separate swimming zones reduce space and feeding conflict."
+    },
+    "resolution": {
+      "tr": "Üst ve dip yemlemesini ayrı düzenle; kaçış boşluğu bırakma.",
+      "en": "Feed the surface and bottom zones separately and leave no escape gaps."
+    },
+    "sourceIds": ["aquarium-coop-habrosus-corydoras-2026"],
+    "verifiedAt": "2026-07-23",
+    "verification": { "status": "verified", "confidence": "medium" }
+  },
+  {
+    "id": "cory-habrosus-green-neon",
+    "a": "cory-habrosus",
+    "b": "green-neon",
+    "direction": "both",
+    "status": "compatible",
+    "reasons": [
+      {
+        "tr": "Habrosus koridoras ile yeşil neon tetra küçük, barışçıl ve topluluk akvaryumuna uygun türlerdir.",
+        "en": "Habrosus corydoras and green neon tetras are small, peaceful species suited to community aquariums."
+      }
+    ],
+    "conditions": [
+      {
+        "tr": "İki tür de kendi sürü minimumunda tutulmalı; hızlı orta su balıkları dip yemini tüketmemelidir.",
+        "en": "Keep both species at their minimum school sizes and prevent faster midwater fish from consuming all sinking food."
+      }
+    ],
+    "impact": {
+      "tr": "Sakin mizaç ve farklı yüzme bölgeleri doğrudan uyumu destekler.",
+      "en": "Peaceful temperaments and different swimming zones support direct compatibility."
+    },
+    "resolution": {
+      "tr": "Birden fazla yem noktası kullan ve koridorasların vücut kondisyonunu izle.",
+      "en": "Use multiple feeding points and monitor the corydoras' body condition."
+    },
+    "sourceIds": ["aquarium-coop-habrosus-corydoras-2026"],
+    "verifiedAt": "2026-07-23",
+    "verification": { "status": "verified", "confidence": "medium" }
+  },
+  {
+    "id": "cory-habrosus-cherry-shrimp",
+    "a": "cory-habrosus",
+    "b": "cherry-shrimp",
+    "direction": "a_to_b",
+    "status": "conditional",
+    "reasons": [
+      {
+        "tr": "Habrosus koridoras yetişkin cüce karideslerle yaşayabilir ancak dipte bulduğu yavru karidesleri fırsatçı biçimde yiyebilir.",
+        "en": "Habrosus corydoras can live with adult dwarf shrimp but may opportunistically eat baby shrimp found while foraging."
+      }
+    ],
+    "conditions": [
+      {
+        "tr": "Yerleşmiş yetişkin karides kolonisi, yoğun yosun/bitki örtüsü ve yavrular için dar saklanma alanları gerekir.",
+        "en": "Use an established adult shrimp colony with dense moss or plant cover and tight refuges for shrimplets."
+      }
+    ],
+    "impact": {
+      "tr": "Yetişkinler genellikle güvende kalırken yavru yaşama oranı düşebilir.",
+      "en": "Adults are generally safe, but shrimplet survival may decline."
+    },
+    "resolution": {
+      "tr": "Üreme öncelikliyse karidesleri ayrı büyüt; yavru kaybı artarsa koridorasları ayır.",
+      "en": "Raise shrimp separately if breeding is the priority and remove the corydoras if juvenile losses rise."
+    },
+    "sourceIds": ["aquarium-coop-habrosus-corydoras-2026"],
+    "verifiedAt": "2026-07-23",
+    "verification": { "status": "verified", "confidence": "medium" }
+  },
+  {
+    "id": "cory-pygmy-neon-tetra",
+    "a": "cory-pygmy",
+    "b": "neon-tetra",
+    "direction": "both",
+    "status": "compatible",
+    "reasons": [
+      {
+        "tr": "Cüce koridoras ile neon tetra küçük ve barışçıl nano topluluk balıklarıdır.",
+        "en": "Pygmy corydoras and neon tetras are small, peaceful nano community fish."
+      }
+    ],
+    "conditions": [
+      {
+        "tr": "İki tür de uygun sürü sayısında tutulmalı ve cüce koridorasın yemden geri kalması engellenmelidir.",
+        "en": "Keep both species in proper schools and prevent pygmy corydoras from being outcompeted for food."
+      }
+    ],
+    "impact": {
+      "tr": "Benzer boy ve sakin mizaç avcılık veya zorbalık riskini azaltır.",
+      "en": "Similar size and peaceful temperaments reduce predation and bullying risk."
+    },
+    "resolution": {
+      "tr": "Yemi farklı bölgelere dağıt ve iki sürünün etkinliğini izle.",
+      "en": "Distribute food across different zones and monitor both schools' activity."
+    },
+    "sourceIds": ["aquarium-coop-pygmy-corydoras-2026"],
+    "verifiedAt": "2026-07-23",
+    "verification": { "status": "verified", "confidence": "medium" }
+  },
+  {
+    "id": "cory-pygmy-chili-rasbora",
+    "a": "cory-pygmy",
+    "b": "chili-rasbora",
+    "direction": "both",
+    "status": "compatible",
+    "reasons": [
+      {
+        "tr": "Cüce koridoras ile acı biber rasbora küçük, barışçıl ve birbirini avlayamayacak boydaki nano türlerdir.",
+        "en": "Pygmy corydoras and chili rasboras are small, peaceful nano species that cannot prey on each other."
+      }
+    ],
+    "conditions": [
+      {
+        "tr": "Yeterli sürü sayıları, bitki örtüsü ve cüce koridorasa ulaşan yavaş batan yem gerekir.",
+        "en": "Provide proper school sizes, plant cover, and slow-sinking food that reaches the pygmy corydoras."
+      }
+    ],
+    "impact": {
+      "tr": "Farklı tank bölgelerini kullanmaları rekabeti sınırlar.",
+      "en": "Using different tank zones limits competition."
+    },
+    "resolution": {
+      "tr": "Yem rekabetini azaltmak için birden fazla küçük yemleme yap.",
+      "en": "Use several small feedings to reduce food competition."
+    },
+    "sourceIds": ["aquarium-coop-pygmy-corydoras-2026"],
+    "verifiedAt": "2026-07-23",
+    "verification": { "status": "verified", "confidence": "medium" }
+  },
+  {
+    "id": "cory-pygmy-celestial-pearl",
+    "a": "cory-pygmy",
+    "b": "celestial-pearl",
+    "direction": "both",
+    "status": "compatible",
+    "reasons": [
+      {
+        "tr": "Cüce koridoras ile galaksi inci danyosu sakin nano topluluk düzeninde birlikte yaşayabilir.",
+        "en": "Pygmy corydoras and celestial pearl danios can coexist in a calm nano community."
+      }
+    ],
+    "conditions": [
+      {
+        "tr": "Yoğun bitki, uygun sürü sayıları ve dip balığının yemden geri kalmadığı bir düzen gerekir.",
+        "en": "Dense planting, proper school sizes, and a feeding plan that does not leave the bottom fish behind are required."
+      }
+    ],
+    "impact": {
+      "tr": "Benzer boy ve barışçıl davranış doğrudan riskleri azaltır.",
+      "en": "Similar size and peaceful behavior reduce direct risks."
+    },
+    "resolution": {
+      "tr": "Saklanma artarsa akıntıyı, tank arkadaşlarını ve yem erişimini kontrol et.",
+      "en": "If hiding increases, check flow, tank mates, and food access."
+    },
+    "sourceIds": ["aquarium-coop-pygmy-corydoras-2026"],
+    "verifiedAt": "2026-07-23",
+    "verification": { "status": "verified", "confidence": "medium" }
+  },
+  {
+    "id": "cory-pygmy-oto",
+    "a": "cory-pygmy",
+    "b": "oto",
+    "direction": "both",
+    "status": "compatible",
+    "reasons": [
+      {
+        "tr": "Cüce koridoras ile otocinclus küçük ve barışçıl dip/otlayıcı balıklarıdır.",
+        "en": "Pygmy corydoras and otocinclus are small, peaceful bottom-dwelling and grazing fish."
+      }
+    ],
+    "conditions": [
+      {
+        "tr": "Olgun tank, yeterli biyofilm, iki tür için özel yem ve uygun grup sayıları sağlanmalıdır.",
+        "en": "Provide a mature tank, sufficient biofilm, dedicated foods for both species, and proper group sizes."
+      }
+    ],
+    "impact": {
+      "tr": "Doğrudan saldırı riski düşüktür; yetersiz doğal yem varsa besin rekabeti oluşabilir.",
+      "en": "Direct aggression risk is low, but food competition can occur if natural grazing is insufficient."
+    },
+    "resolution": {
+      "tr": "Biyofilm ve batan yem miktarını izle; zayıflama görülürse beslemeyi ayır.",
+      "en": "Monitor biofilm and sinking food; separate feeding if weight loss appears."
+    },
+    "sourceIds": ["aquarium-coop-pygmy-corydoras-2026"],
+    "verifiedAt": "2026-07-23",
+    "verification": { "status": "verified", "confidence": "medium" }
+  },
+  {
+    "id": "cory-pygmy-betta",
+    "a": "cory-pygmy",
+    "b": "betta",
+    "direction": "both",
+    "status": "conditional",
+    "reasons": [
+      {
+        "tr": "Sakin mizaçlı bir beta cüce koridoraslarla yaşayabilir; ancak betanın bireysel saldırganlığı önceden garanti edilemez.",
+        "en": "A calm betta can live with pygmy corydoras, but an individual betta's aggression cannot be guaranteed in advance."
+      }
+    ],
+    "conditions": [
+      {
+        "tr": "Bol saklanma alanı, uygun cüce koridoras sürüsü ve ayırmaya hazır yedek düzen gerekir.",
+        "en": "Provide abundant cover, a proper pygmy cory school, and a backup plan for separation."
+      }
+    ],
+    "impact": {
+      "tr": "Sakin betada çatışma düşük olabilir; kovalamaca cüce koridoraslarda stres ve yem kaybı yaratır.",
+      "en": "Conflict may be low with a calm betta, while chasing can stress pygmy corydoras and reduce feeding."
+    },
+    "resolution": {
+      "tr": "İlk günlerde yakından izle; sürekli kovalamaca varsa betayı veya koridorasları ayır.",
+      "en": "Observe closely during the first days and separate the betta or corydoras if chasing persists."
+    },
+    "sourceIds": ["aquarium-coop-pygmy-corydoras-2026"],
+    "verifiedAt": "2026-07-23",
+    "verification": { "status": "verified", "confidence": "medium" }
+  },
+  {
+    "id": "guppy-corydoras",
+    "a": "guppy",
+    "b": "corydoras",
+    "direction": "both",
+    "status": "compatible",
+    "reasons": [
+      {
+        "tr": "Lepistes ile koridoras barışçıl topluluk balıklarıdır ve farklı yüzme bölgelerini kullanır.",
+        "en": "Guppies and corydoras are peaceful community fish that use different swimming zones."
+      }
+    ],
+    "conditions": [
+      {
+        "tr": "Ortak su sertliği ve sıcaklık aralığı sağlanmalı; koridoras uygun sürüde tutulmalıdır.",
+        "en": "Provide a shared hardness and temperature range and keep corydoras in a proper school."
+      }
+    ],
+    "impact": {
+      "tr": "Farklı tank bölgeleri doğrudan alan rekabetini azaltır.",
+      "en": "Different tank zones reduce direct space competition."
+    },
+    "resolution": {
+      "tr": "Dip yeminin koridoraslara ulaştığını ve su değerlerinin iki türe de uyduğunu kontrol et.",
+      "en": "Confirm sinking food reaches the corydoras and water parameters suit both species."
+    },
+    "sourceIds": ["aquarium-coop-guppy-care-2026"],
+    "verifiedAt": "2026-07-23",
+    "verification": { "status": "verified", "confidence": "medium" }
+  },
+  {
+    "id": "guppy-neon-tetra",
+    "a": "guppy",
+    "b": "neon-tetra",
+    "direction": "both",
+    "status": "compatible",
+    "reasons": [
+      {
+        "tr": "Lepistes ile neon tetra barışçıl topluluk balıklarıdır ve birlikte tutulabilir.",
+        "en": "Guppies and neon tetras are peaceful community fish that can be kept together."
+      }
+    ],
+    "conditions": [
+      {
+        "tr": "İki türe de uygun ortak sıcaklık, pH ve sertlik aralığı ile yeterli neon sürüsü sağlanmalıdır.",
+        "en": "Provide a shared temperature, pH, and hardness range and a proper neon tetra school."
+      }
+    ],
+    "impact": {
+      "tr": "Sakin mizaç doğrudan saldırı riskini düşürür.",
+      "en": "Peaceful temperaments lower direct aggression risk."
+    },
+    "resolution": {
+      "tr": "Su parametrelerinin kesişimini ve yem rekabetini düzenli kontrol et.",
+      "en": "Regularly check the water-parameter overlap and feeding competition."
+    },
+    "sourceIds": ["aquarium-coop-guppy-care-2026"],
+    "verifiedAt": "2026-07-23",
+    "verification": { "status": "verified", "confidence": "medium" }
+  },
+  {
+    "id": "guppy-barb-tiger",
+    "a": "guppy",
+    "b": "barb-tiger",
+    "direction": "b_to_a",
+    "status": "incompatible",
+    "reasons": [
+      {
+        "tr": "Kaplan barbı lepistesin uzun ve gösterişli yüzgeçlerini ısırabilen saldırgan bir tank arkadaşıdır.",
+        "en": "Tiger barbs are aggressive tank mates that may nip a guppy's long, showy fins."
+      }
+    ],
+    "conditions": [],
+    "impact": {
+      "tr": "Sürekli yüzgeç ısırma stres, yüzgeç kaybı ve ikincil enfeksiyon riskine yol açabilir.",
+      "en": "Persistent fin nipping can cause stress, fin loss, and secondary infection risk."
+    },
+    "resolution": {
+      "tr": "Lepistes ile kaplan barbını aynı tankta tutma.",
+      "en": "Do not keep guppies and tiger barbs in the same tank."
+    },
+    "sourceIds": ["aquarium-coop-guppy-care-2026"],
+    "verifiedAt": "2026-07-23",
+    "verification": { "status": "verified", "confidence": "medium" }
+  },
+  {
+    "id": "guppy-bala-shark",
+    "a": "guppy",
+    "b": "bala-shark",
+    "direction": "b_to_a",
+    "status": "incompatible",
+    "reasons": [
+      {
+        "tr": "Bala köpekbalığı erişkin boyda lepistesten çok daha büyüktür ve küçük balıkları yiyebilir.",
+        "en": "Adult bala sharks grow far larger than guppies and can eat small fish."
+      }
+    ],
+    "conditions": [],
+    "impact": {
+      "tr": "Lepistesler avlanabilir; boy, alan ve hareket farkı sürekli stres yaratabilir.",
+      "en": "Guppies may be eaten, while the size, space, and activity mismatch can cause chronic stress."
+    },
+    "resolution": {
+      "tr": "Lepistesleri bala köpekbalığından ayrı tut.",
+      "en": "Keep guppies separate from bala sharks."
+    },
+    "sourceIds": ["aquarium-coop-guppy-care-2026"],
+    "verifiedAt": "2026-07-23",
+    "verification": { "status": "verified", "confidence": "medium" }
+  },
+  {
+    "id": "angelfish-black-skirt",
+    "a": "angelfish",
+    "b": "black-skirt",
+    "direction": "both",
+    "status": "compatible",
+    "reasons": [
+      {
+        "tr": "Erişkin siyah etekli tetralar, melek balığıyla başarıyla tutulmuş yeterince iri topluluk balıklarıdır.",
+        "en": "Adult black skirt tetras are sufficiently large community fish that have been kept successfully with angelfish."
+      }
+    ],
+    "conditions": [
+      {
+        "tr": "Tetra sürüsü yeterli sayıda olmalı; yüzgeç ısırma ve melek balığının üreme dönemi saldırganlığı izlenmelidir.",
+        "en": "Keep a proper tetra school and monitor fin nipping and breeding-period angelfish aggression."
+      }
+    ],
+    "impact": {
+      "tr": "Uygun sürü ve alan sağlandığında av olma ve hedef seçilme riski azalır.",
+      "en": "A proper school and adequate space reduce predation and singling-out risk."
+    },
+    "resolution": {
+      "tr": "Görüş hatlarını bitkilerle böl; yüzgeç hasarı veya sürekli kovalamacada türleri ayır.",
+      "en": "Break sight lines with plants and separate the species if fin damage or persistent chasing appears."
+    },
+    "sourceIds": ["aquarium-coop-angelfish-care-2026"],
+    "verifiedAt": "2026-07-23",
+    "verification": { "status": "verified", "confidence": "medium" }
+  },
+  {
+    "id": "angelfish-cherry-shrimp",
+    "a": "angelfish",
+    "b": "cherry-shrimp",
+    "direction": "a_to_b",
+    "status": "incompatible",
+    "reasons": [
+      {
+        "tr": "Erişkin melek balığı küçük cüce karidesleri ağzına sığan av olarak görebilir.",
+        "en": "Adult angelfish may treat small dwarf shrimp as prey that fits in their mouths."
+      }
+    ],
+    "conditions": [],
+    "impact": {
+      "tr": "Yetişkin ve yavru kiraz karideslerde yüksek avlanma ve koloni kaybı riski vardır.",
+      "en": "Adult and juvenile cherry shrimp face a high risk of predation and colony loss."
+    },
+    "resolution": {
+      "tr": "Kiraz karidesleri melek balığından ayrı bir tankta tut.",
+      "en": "Keep cherry shrimp in a tank separate from angelfish."
+    },
+    "sourceIds": ["aquarium-coop-angelfish-care-2026"],
+    "verifiedAt": "2026-07-23",
+    "verification": { "status": "verified", "confidence": "medium" }
+  }
+]

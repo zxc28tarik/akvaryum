@@ -1,6 +1,6 @@
 {
-  "version": 7,
-  "updatedAt": "2026-07-22",
+  "version": 9,
+  "updatedAt": "2026-07-23",
   "sources": [
     {
       "id": "legacy-fresh-dataset-v1",
@@ -171,6 +171,123 @@
       "status": "reviewed",
       "confidence": "low",
       "note": "Tidal Gardens bakım kütüphanesi, LPS/SPS genel bakım sayfaları ve cins rehberleri gözden geçirilerek soft/LPS/SPS taban değerleri ile cins istisnaları oluşturuldu. Bu kayıtlar tür bazlı doğrulanmış ölçüm değildir; dış kaynak incelemesi sürmektedir."
+    },
+    {
+      "id": "aquarium-coop-betta-tank-mates-2026",
+      "title": "5 Best Tank Mates for Betta Fish",
+      "publisher": "Aquarium Co-Op",
+      "url": "https://www.aquariumcoop.com/blogs/aquarium/betta-tank-mates",
+      "accessedAt": "2026-07-23",
+      "lastCheckedAt": "2026-07-23",
+      "fields": ["compatibilityOverrides"],
+      "sourceType": "expert",
+      "status": "verified",
+      "confidence": "medium",
+      "note": "Beta ile kuhli loach, ember tetra, Malezya trompet salyangozu, harlekin rasbora ve Corydoras birlikteliklerini; tank, saklanma ve grup koşullarıyla birlikte açıklayan bakım rehberi."
+    },
+    {
+      "id": "aquarium-coop-cherry-shrimp-tank-mates-2026",
+      "title": "Top 12 Tank Mates to Keep With Cherry Shrimp",
+      "publisher": "Aquarium Co-Op",
+      "url": "https://www.aquariumcoop.com/blogs/aquarium/cherry-shrimp-tankmates",
+      "accessedAt": "2026-07-23",
+      "lastCheckedAt": "2026-07-23",
+      "fields": ["compatibilityOverrides"],
+      "sourceType": "expert",
+      "status": "verified",
+      "confidence": "medium",
+      "note": "Yetişkin kiraz karideslerin güvenli, koşullu ve kaçınılması gereken tank arkadaşlarını; yavru kaybı ve saklanma koşullarıyla birlikte açıklayan bakım rehberi."
+    },
+    {
+      "id": "aquarium-coop-mystery-snail-care-2026",
+      "title": "Care Guide for Mystery Snails",
+      "publisher": "Aquarium Co-Op",
+      "url": "https://www.aquariumcoop.com/blogs/aquarium/mystery-snail",
+      "accessedAt": "2026-07-23",
+      "lastCheckedAt": "2026-07-23",
+      "fields": ["compatibilityOverrides"],
+      "sourceType": "expert",
+      "status": "verified",
+      "confidence": "medium",
+      "note": "Mystery salyangozlarının barışçıl topluluk canlılarıyla tutulabileceğini; puffer ve salyangoz yiyen loach türlerinden kaçınılması gerektiğini açıklayan bakım rehberi."
+    },
+    {
+      "id": "brs-watchman-goby-pistol-shrimp-2026",
+      "title": "Top 5 Picks For Stocking A Pico Aquarium",
+      "publisher": "Bulk Reef Supply",
+      "url": "https://www.bulkreefsupply.com/content/post/stocking-a-pico-aquarium",
+      "accessedAt": "2026-07-23",
+      "lastCheckedAt": "2026-07-23",
+      "fields": ["compatibilityOverrides"],
+      "sourceType": "retailer",
+      "status": "verified",
+      "confidence": "medium",
+      "note": "Sarı bekçi goby ile pistol karidesin ortak kovuk kullanan karşılıklı ilişkisini ve kum tabanı gereksinimini açıklayan deniz akvaryumu rehberi."
+    },
+    {
+      "id": "aquarium-coop-goldfish-tank-mates-2026",
+      "title": "10 Best Tank Mates for Your Goldfish",
+      "publisher": "Aquarium Co-Op",
+      "url": "https://www.aquariumcoop.com/blogs/aquarium/goldfish-tank-mates",
+      "accessedAt": "2026-07-23",
+      "lastCheckedAt": "2026-07-23",
+      "fields": ["compatibilityOverrides"],
+      "sourceType": "expert",
+      "status": "verified",
+      "confidence": "medium",
+      "note": "Japon balığı için denenmiş tank arkadaşlarını; su sıcaklığı, av boyu, yüzgeç dikeni, yem rekabeti ve fancy/common gövde tipi koşullarıyla birlikte açıklayan bakım rehberi."
+    },
+    {
+      "id": "aquarium-coop-habrosus-corydoras-2026",
+      "title": "Care Guide for Habrosus Corydoras",
+      "publisher": "Aquarium Co-Op",
+      "url": "https://www.aquariumcoop.com/blogs/aquarium/habrosus-corydoras",
+      "accessedAt": "2026-07-23",
+      "lastCheckedAt": "2026-07-23",
+      "fields": ["compatibilityOverrides"],
+      "sourceType": "expert",
+      "status": "verified",
+      "confidence": "medium",
+      "note": "Habrosus koridoras için küçük barışçıl tank arkadaşlarını; yetişkin karideslerle koşullu birlikteliği ve yavru avı riskini açıklayan bakım rehberi."
+    },
+    {
+      "id": "aquarium-coop-pygmy-corydoras-2026",
+      "title": "Care Guide for Pygmy Corydoras",
+      "publisher": "Aquarium Co-Op",
+      "url": "https://www.aquariumcoop.com/blogs/aquarium/pygmy-corydoras",
+      "accessedAt": "2026-07-23",
+      "lastCheckedAt": "2026-07-23",
+      "fields": ["compatibilityOverrides"],
+      "sourceType": "expert",
+      "status": "verified",
+      "confidence": "medium",
+      "note": "Cüce koridoras için nano türleri ve sakin beta birlikteliğini; yenme ve yem rekabeti riskleriyle birlikte açıklayan bakım rehberi."
+    },
+    {
+      "id": "aquarium-coop-guppy-care-2026",
+      "title": "Care Guide for Guppies",
+      "publisher": "Aquarium Co-Op",
+      "url": "https://www.aquariumcoop.com/blogs/aquarium/guppy-care-guide",
+      "accessedAt": "2026-07-23",
+      "lastCheckedAt": "2026-07-23",
+      "fields": ["compatibilityOverrides"],
+      "sourceType": "expert",
+      "status": "verified",
+      "confidence": "medium",
+      "note": "Lepistes için barışçıl koridoras ve neon tetra birlikteliklerini; kaplan barbı ile bala köpekbalığının yüzgeç ısırma veya av riskini açıklayan bakım rehberi."
+    },
+    {
+      "id": "aquarium-coop-angelfish-care-2026",
+      "title": "Care Guide for Freshwater Angelfish",
+      "publisher": "Aquarium Co-Op",
+      "url": "https://www.aquariumcoop.com/blogs/aquarium/angelfish-care-guide",
+      "accessedAt": "2026-07-23",
+      "lastCheckedAt": "2026-07-23",
+      "fields": ["compatibilityOverrides"],
+      "sourceType": "expert",
+      "status": "verified",
+      "confidence": "medium",
+      "note": "Melek balığı için siyah etekli tetra gibi denenmiş tank arkadaşlarını ve yenebilecek cüce karideslerden kaçınma gereğini açıklayan bakım rehberi."
     }
   ]
 }
