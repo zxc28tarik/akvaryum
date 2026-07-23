@@ -71,6 +71,12 @@ jobs:
       - name: Soft/LPS/SPS ve omurgasız güvenliğini doğrula
         run: npm run check:engine-reef
 
+      - name: Kaynaklı tür çifti istisnalarını doğrula
+        run: npm run check:engine-pairs
+
+      - name: Dört alt puan sistemini doğrula
+        run: npm run check:engine-scores
+
       - name: Temel 32 altın motor senaryosunu doğrula
         shell: bash
         run: |

@@ -1,6 +1,6 @@
 # Plan Paketi İçeriği ve GitHub Durumu
 
-**Son güncelleme:** 22 Temmuz 2026
+**Son güncelleme:** 23 Temmuz 2026
 
 | Dosya | Amaç | GitHub durumu |
 |---|---|---|
@@ -45,5 +45,9 @@
 | `38_AKV_ENG_010_HACIM_BIYOLOJIK_YUK_DAVRANIS_ALANLARI.md` | Fiziksel hacim, toplamsal stok yükü ve davranış sonuçlarının ayrılması | Yüklendi |
 | `39_AKV_ENG_013_KAYNAKLI_AVCI_AV_MODELI.md` | Kaynaklı ağız genişliği, av boyu eşiği ve tür istisnalarıyla avcı–av modeli | Yüklendi |
 | `40_AKV_CORAL_001_MERCAN_BAKIM_PROFILLERI.md` | 50 soft/LPS/SPS mercanın ışık, akıntı ve agresyon alanlarının tamamlanması | Yüklendi |
+| `41_AKV_ENG_014_OMURGASIZ_VE_MERCAN_GUVENLIGI_AYRIMI.md` | Soft/LPS/SPS ve dört omurgasız hedefinin ayrı güvenlik kuralları | Yüklendi |
+| `42_AKV_ENG_015A_ILK_25_TUR_CIFTI_ISTISNASI.md` | İlk 25 kaynaklı tür çifti istisnası, motor önceliği ve doğrulama sonucu | Yüklendi |
+| `43_AKV_ENG_015B_IKINCI_25_TUR_CIFTI_ISTISNASI.md` | İkinci 25 kaynaklı tür çifti istisnası ve AKV-ENG-015 ana görevinin 50/50 kapanışı | Yüklendi |
+| `44_AKV_ENG_016_DORT_ALT_PUAN_SISTEMI.md` | 30/30/25/15 açıklanabilir puan sözleşmesi, kritik üst sınırlar ve doğrulama sonucu | Yüklendi |
 
 Planın tamamı yerel ZIP paketinde korunmaktadır. GitHub’a aktarılan dosyalar aktif geliştirme sırasında öncelikli kaynak kabul edilir; kalan uzmanlık belgeleri ilgili göreve başlanmadan önce depoya eklenir.

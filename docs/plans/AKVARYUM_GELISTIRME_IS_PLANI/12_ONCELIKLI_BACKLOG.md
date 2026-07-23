@@ -16,7 +16,7 @@
 | AKV-I18N-001 | TODO | TR/EN anahtar bütünlüğü testi | TEST-001 | Eksik veya fazla anahtar CI’da hata verir |
 | AKV-UI-001 | DONE | Mobil ana akış duman testi ve düzeltme | ARCH-001 | 360 px genişlikte ortak taşma koruması çalışır |
 
-### Aktif çalışma notu — 22 Temmuz 2026
+### Aktif çalışma notu — 23 Temmuz 2026
 
 - `vite-app/` altında Vite + React geçiş yapısı kuruldu; kökteki mevcut statik sürüm korunuyor.
 - `AKV-ARCH-002` tamamlandı: production paketinden tarayıcı içi Babel, `eval`, `DecompressionStream` ve runtime `.gz.b64` yükleme kaldırıldı.
@@ -90,6 +90,19 @@
 - `AKV-ENG-014` tamamlandı: birleşik resif uyarısı soft/LPS/SPS mercan ile karides, salyangoz, yengeç ve çift kabuklu hedefleri için ayrı değerlendirmelere bölündü.
 - Hedefe özel alan yoksa omurgasız riski uydurulmuyor; soft/LPS/SPS için yalnız gerektiğinde genel mercan alanına veya eski `reefSafe` alanına kontrollü fallback uygulanıyor.
 - `npm run check:engine-reef` 15 odaklı senaryoyla yedi kural kimliğini, TR/EN çıktıyı, fallback sırasını, eski birleşik uyarının kaldırılmasını ve production bağlantılarını doğruluyor.
+- `AKV-ENG-015A` tamamlandı: ilk 25 kaynaklı tür çifti istisnası production veri ve motor katmanına bağlandı.
+- İlk parti 9 uyumlu, 11 koşullu, 3 dikkat ve 2 uyumsuz kayıttan oluşuyor; dört dış bakım kaynağına bağlanan bütün kayıtlar `verified/medium` durumda.
+- `AKV-ENG-015B` tamamlandı: ikinci 25 kaynaklı tür çifti istisnası aynı şema ve motor katmanına eklendi.
+- İkinci parti 14 uyumlu, 6 koşullu, 2 dikkat ve 3 uyumsuz kayıttan oluşuyor; beş yeni dış bakım kaynağına bağlanan bütün kayıtlar `verified/medium` durumda.
+- İstisnalar genel ikili davranış/avcılık/resif bulgularının üstüne yazılıyor; pH, sıcaklık, GH, su tipi, tank ve sosyal grup kuralları bağımsız olarak korunuyor.
+- Toplam 50 kayıt 23 uyumlu, 17 koşullu, 5 dikkat ve 5 uyumsuz sonuçtan oluşuyor.
+- `npm run check:engine-pairs` 19 odaklı senaryoyla dört istisna kuralını, çift yönlü/yönlü ilişkiyi, TR/EN çıktıyı, dokuz kaynak çözümlemesini ve production bağlantılarını doğruluyor.
+- `AKV-ENG-015` ana görevi 50/50 tamamlandı.
+- `AKV-ENG-016` tamamlandı: genel puan 30 çevresel uyum, 30 davranış/sosyal uyum, 25 tank/biyolojik yük ve 15 habitat/bakım puanına ayrıldı.
+- Her alt puan durum, puan, üst sınır, ilgili kural kimlikleri ve Türkçe/İngilizce kısa açıklama taşıyor.
+- Kritik çevresel sonuç toplam puanı en fazla 39, kritik davranış sonucu 49, kesin tank yetersizliği 59 ve kritik habitat sonucu 69 yapıyor.
+- `npm run check:engine-scores` 13 odaklı senaryoyla dört bölüm toplamını, kritik üst sınırları, küçük uyarı kesintilerini, boş seçim davranışını ve iki dili doğruluyor.
+- Sıradaki iş `AKV-UI-021`: dört alt puanı sonuç ekranında görünür hâle getirmek.
 - Sosyal bakım, tank uzunluğu, mercan bakım profilleri, Plant v1 ve Substrate v1 değerleri tür bazlı doğrulanmış veri değildir; kayıtlar `needs_review/low` durumunda tutuluyor.
 - Gerçek cihaz görsel ince ayarı gerekirse somut taşma raporu üzerinden küçük düzeltme yapılacak; ağır bir tarayıcı test altyapısı kurulmadı.
 
@@ -117,8 +130,8 @@
 | AKV-ENG-012 | DONE | Aynı tür ve yakın tür agresyonu | DATA-013 | Aynı tür ve aynı cins riskleri veri tabanlıdır |
 | AKV-ENG-013 | DONE | Avcı-av modeli | DATA-011 | Kaynaklı ağız boyu, av boyu ve istisna sözleşmesi çalışır |
 | AKV-ENG-014 | DONE | Omurgasız ve mercan güvenliği ayrımı | DATA-010 | Soft/LPS/SPS ve shrimp/snail/crab/clam ayrı değerlendirilir |
-| AKV-ENG-015 | READY | Tür çifti istisna tablosu | DATA-003 | En az 50 doğrulanmış istisna |
-| AKV-ENG-016 | TODO | Yeni alt skor sistemi | ENG-010..015 | Dört alt puan ve açıklama |
+| AKV-ENG-015 | DONE | Tür çifti istisna tablosu | DATA-003 | 50/50 doğrulanmış istisna production motorunda |
+| AKV-ENG-016 | DONE | Yeni alt skor sistemi | ENG-010..015 | Dört alt puan ve açıklama |
 | AKV-TEST-010A | DONE | İlk 25 altın motor senaryosu | ENG-002 | 25 senaryo ve 27 kural CI/build hattında |
 | AKV-TEST-010B | DONE | Yüksek riskli 7 temel motor senaryosu | TEST-010A | Temel güvenlik paketi 32 senaryodur |
 | AKV-TEST-010 | CANCELLED | Altın motor senaryolarını 100'e çıkar | TEST-010B | Sabit sayı hedefi kaldırıldı; testler ihtiyaç oldukça eklenir |
