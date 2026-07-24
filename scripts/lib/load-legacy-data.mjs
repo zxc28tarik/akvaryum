@@ -18,6 +18,11 @@ const FRESHWATER_BATCH_FILES = [
   'data/curation/freshwater-batch-1-part-c.js',
   'data/curation/freshwater-batch-1-part-d.js',
   'data/curation/freshwater-batch-1.js',
+  'data/curation/freshwater-batch-2-part-a.js',
+  'data/curation/freshwater-batch-2-part-b.js',
+  'data/curation/freshwater-batch-2-part-c.js',
+  'data/curation/freshwater-batch-2-part-d.js',
+  'data/curation/freshwater-batch-2.js',
 ];
 
 function readText(repositoryRoot, relativePath) {
@@ -29,8 +34,12 @@ function readArchive(repositoryRoot, relativePath) {
   return gunzipSync(Buffer.from(encoded, 'base64')).toString('utf8');
 }
 
-function replaceBatchCanonical(records, batch) {
-  const canonicalById = new Map((batch?.canonical ?? []).map((record) => [record.id, record]));
+function replaceBatchCanonicals(records, batches) {
+  const canonicalById = new Map(
+    batches
+      .flatMap((batch) => batch?.canonical ?? [])
+      .map((record) => [record.id, record]),
+  );
   return records.map((record) => canonicalById.get(record.id) ?? record);
 }
 
@@ -69,9 +78,12 @@ export function loadLegacyData(
   }
   if (withMigration || withPriorityCuration) {
     const migrated = migrateLegacyInhabitants(context.window.DB.fish ?? []);
-    context.window.DB.inhabitants = replaceBatchCanonical(
+    context.window.DB.inhabitants = replaceBatchCanonicals(
       migrated,
-      context.window.AKV_FRESHWATER_BATCH_1,
+      [
+        context.window.AKV_FRESHWATER_BATCH_1,
+        context.window.AKV_FRESHWATER_BATCH_2,
+      ],
     );
   }
   if (withPriorityCuration) {
@@ -101,6 +113,7 @@ export function loadLegacyData(
     sourceCatalogVersion: context.window.DB?.sourceCatalogVersion ?? null,
     inhabitantCatalog: context.window.DB?.inhabitantCatalog ?? null,
     freshwaterBatch1: context.window.AKV_FRESHWATER_BATCH_1 ?? null,
+    freshwaterBatch2: context.window.AKV_FRESHWATER_BATCH_2 ?? null,
     engine: context.window.Engine,
   };
 }
