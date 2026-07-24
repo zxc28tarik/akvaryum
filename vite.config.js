@@ -1,237 +1,269 @@
-import { readFileSync } from 'node:fs';
-import { dirname, resolve } from 'node:path';
-import { fileURLToPath } from 'node:url';
 import { gunzipSync } from 'node:zlib';
+import { readFileSync } from 'node:fs';
+import { resolve } from 'node:path';
 
-import react from '@vitejs/plugin-react';
 import { defineConfig } from 'vite';
+import react from '@vitejs/plugin-react';
 
-import { buildRuntimeInhabitantCatalogBootstrap } from './data/catalog/index.mjs';
-import { buildLegacyFishClassification } from './scripts/lib/classify-legacy-fish.mjs';
-import { buildRuntimeSourceProvenanceBootstrap } from './scripts/lib/source-provenance.mjs';
-import { validateCatalogFilters } from './scripts/lib/validate-catalog-filters.mjs';
-import { validateCoralCare } from './scripts/lib/validate-coral-care.mjs';
-import { validateEngineConspecificRules } from './scripts/lib/validate-engine-conspecific-rules.mjs';
-import { validateEngineCompatibilityOverrides } from './scripts/lib/validate-engine-compatibility-overrides.mjs';
-import { validateEngineDomainResults } from './scripts/lib/validate-engine-domain-results.mjs';
-import { validateEngineFindingContract } from './scripts/lib/validate-engine-finding-contract.mjs';
-import { validateEngineGoldenScenarios } from './scripts/lib/validate-engine-golden-scenarios.mjs';
+import { buildInhabitantCatalogBootstrap, validateInhabitantCatalog } from './scripts/lib/validate-inhabitant-catalog.mjs';
+import { buildRuntimeCatalogFilterModel } from './scripts/lib/validate-catalog-filters.mjs';
+import { buildRuntimeInhabitantDetailModel } from './scripts/lib/validate-inhabitant-detail.mjs';
+import { buildRuntimeMobileFlowGuard } from './scripts/lib/validate-mobile-flow.mjs';
+import { applyCoralCareProfiles, validateCoralCareProfiles } from './scripts/lib/validate-coral-care.mjs';
+import { buildRuntimeConspecificRules } from './scripts/lib/validate-engine-conspecific-rules.mjs';
+import { buildRuntimeDomainResults } from './scripts/lib/validate-engine-domain-results.mjs';
+import { buildRuntimeFindingContract } from './scripts/lib/validate-engine-finding-contract.mjs';
+import { buildRuntimeHealthGuard } from './scripts/lib/validate-engine-golden-scenarios.mjs';
+import { buildRuntimeCompatibilityOverrides } from './scripts/lib/validate-engine-compatibility-overrides.mjs';
+import { buildRuntimePredatorPreyRules } from './scripts/lib/validate-engine-predator-prey-rules.mjs';
+import { buildRuntimeReefSafetyRules } from './scripts/lib/validate-engine-reef-invertebrate-rules.mjs';
+import { buildRuntimeScoreBreakdown } from './scripts/lib/validate-engine-score-breakdown.mjs';
+import { buildRuntimeSocialRules } from './scripts/lib/validate-engine-social-rules.mjs';
 import { validateEngineParameterIntersection } from './scripts/lib/validate-engine-parameter-intersection.mjs';
-import { validateEnginePredatorPreyRules } from './scripts/lib/validate-engine-predator-prey-rules.mjs';
-import { validateEngineReefInvertebrateRules } from './scripts/lib/validate-engine-reef-invertebrate-rules.mjs';
-import { validateEngineScoreBreakdown } from './scripts/lib/validate-engine-score-breakdown.mjs';
-import { validateEngineSocialRules } from './scripts/lib/validate-engine-social-rules.mjs';
-import { validateInhabitantCatalog } from './scripts/lib/validate-inhabitant-catalog.mjs';
-import { validateInhabitantDetail } from './scripts/lib/validate-inhabitant-detail.mjs';
-import { validateInhabitantMigration } from './scripts/lib/validate-inhabitant-migration.mjs';
-import { validateMobileFlow } from './scripts/lib/validate-mobile-flow.mjs';
-import { validatePlantMigration } from './scripts/lib/validate-plant-migration.mjs';
-import { validatePrioritySocialCare } from './scripts/lib/validate-priority-social-care.mjs';
-import { validatePriorityTankLength } from './scripts/lib/validate-priority-tank-length.mjs';
+import { validateFishClassification } from './scripts/lib/validate-fish-classification.mjs';
+import { validateFreshwaterBatch1 } from './scripts/lib/validate-freshwater-batch-1.mjs';
+import { validateLegacyData } from './scripts/lib/validate-legacy-data.mjs';
+import { buildRuntimeInhabitantMigration, validateInhabitantMigration } from './scripts/lib/validate-inhabitant-migration.mjs';
+import { buildRuntimePlantMigration, validatePlantMigration } from './scripts/lib/validate-plant-migration.mjs';
+import { buildRuntimePrioritySocialCare, validatePrioritySocialCare } from './scripts/lib/validate-priority-social-care.mjs';
+import { buildRuntimePriorityTankLength, validatePriorityTankLength } from './scripts/lib/validate-priority-tank-length.mjs';
+import { buildRuntimeSourceProvenanceBootstrap, validateSourceProvenance } from './scripts/lib/validate-source-provenance.mjs';
+import { buildRuntimeSubstrateMigration, validateSubstrateMigration } from './scripts/lib/validate-substrate-migration.mjs';
 import { validateRepositoryData } from './scripts/lib/validate-data-schema.mjs';
-import { validateSourceProvenance } from './scripts/lib/validate-source-provenance.mjs';
-import { validateSubstrateMigration } from './scripts/lib/validate-substrate-migration.mjs';
-import { validateTaxonomyAudit } from './scripts/lib/validate-taxonomy-audit.mjs';
+import { enrichLegacyFish } from './scripts/lib/classify-legacy-fish.mjs';
 
-const repositoryRoot = dirname(fileURLToPath(import.meta.url));
-const publicPrefix = 'virtual:akvaryum/';
-const internalPrefix = '\0akvaryum:';
-
-const archivedSources = {
-  'styles.css': '.runtime/styles.css.gz.b64',
+const repositoryRoot = process.cwd();
+const virtualPrefix = '\0akvaryum:';
+const runtimeFiles = {
   'fish-fresh.js': '.runtime/fish-fresh.js.gz.b64',
   'fish-salt.js': '.runtime/fish-salt.js.gz.b64',
-  'result-views.jsx': '.runtime/result-views.jsx.gz.b64',
   'components.jsx': '.runtime/components.jsx.gz.b64',
+  'result-views.jsx': '.runtime/result-views.jsx.gz.b64',
+  'styles.css': '.runtime/styles.css.gz.b64',
 };
+
+const readPlain = (path) => readFileSync(resolve(repositoryRoot, path), 'utf8');
+const readArchived = (path) => gunzipSync(
+  Buffer.from(readPlain(path).trim(), 'base64'),
+).toString('utf8');
+
 const compatibilityOverrides = JSON.parse(
-  readFileSync(resolve(repositoryRoot, 'data/curation/compatibility-overrides-v1.json'), 'utf8'),
+  readPlain('data/curation/compatibility-overrides-v1.json'),
 );
 
 const plainSources = {
-  'i18n.js': 'i18n.js',
-  'data.js': 'data.js',
-  'engine.js': 'engine.js',
-  'app.jsx': 'app.jsx',
-  'legacy-to-inhabitant.mjs': 'data/migration/legacy-to-inhabitant.mjs',
-  'legacy-to-plant.mjs': 'data/migration/legacy-to-plant.mjs',
-  'legacy-to-substrate.mjs': 'data/migration/legacy-to-substrate.mjs',
-  'priority-social-care-v1.mjs': 'data/curation/priority-social-care-v1.mjs',
-  'priority-tank-length-v1.mjs': 'data/curation/priority-tank-length-v1.mjs',
-  'coral-care-v1.mjs': 'data/curation/coral-care-v1.mjs',
+  'i18n.js': readPlain('i18n.js'),
+  'data.js': readPlain('data.js'),
+  'data/curation/freshwater-batch-1-part-a.js': readPlain('data/curation/freshwater-batch-1-part-a.js'),
+  'data/curation/freshwater-batch-1-part-b.js': readPlain('data/curation/freshwater-batch-1-part-b.js'),
+  'data/curation/freshwater-batch-1-part-c.js': readPlain('data/curation/freshwater-batch-1-part-c.js'),
+  'data/curation/freshwater-batch-1-part-d.js': readPlain('data/curation/freshwater-batch-1-part-d.js'),
+  'data/curation/freshwater-batch-1.js': readPlain('data/curation/freshwater-batch-1.js'),
+  'engine.js': readPlain('engine.js'),
+  'app.jsx': readPlain('app.jsx'),
+  'catalog-filters.jsx': readPlain('catalog-filters.jsx'),
+  'inhabitant-detail.jsx': readPlain('inhabitant-detail.jsx'),
 };
 
-function readPlain(relativePath) {
-  return readFileSync(resolve(repositoryRoot, relativePath), 'utf8');
+function staticTextModule(source, label) {
+  return `const source = ${JSON.stringify(source)};
+void ${JSON.stringify(label)};
+(0, eval)(source);
+export default source;`;
 }
 
-function readArchive(relativePath) {
-  const encoded = readPlain(relativePath).trim();
-  return gunzipSync(Buffer.from(encoded, 'base64')).toString('utf8');
-}
+function nativeSourcePlugin() {
+  const archivedSources = Object.fromEntries(
+    Object.entries(runtimeFiles).map(([name, path]) => [
+      name,
+      readArchived(path),
+    ]),
+  );
 
-function nativeLegacyModules() {
   return {
-    name: 'akvaryum-native-legacy-modules',
+    name: 'akvaryum-native-source',
     enforce: 'pre',
 
     buildStart() {
-      const report = validateRepositoryData(repositoryRoot);
-      const sourceReport = validateSourceProvenance(repositoryRoot);
-      const migrationReport = validateInhabitantMigration(repositoryRoot);
-      const plantReport = validatePlantMigration(repositoryRoot);
-      const substrateReport = validateSubstrateMigration(repositoryRoot);
-      const coralReport = validateCoralCare(repositoryRoot);
-      const engineParameterReport = validateEngineParameterIntersection(repositoryRoot);
-      const engineFindingReport = validateEngineFindingContract(repositoryRoot);
-      const engineSocialReport = validateEngineSocialRules(repositoryRoot);
-      const engineConspecificReport = validateEngineConspecificRules(repositoryRoot);
-      const engineDomainReport = validateEngineDomainResults(repositoryRoot);
-      const enginePredationReport = validateEnginePredatorPreyRules(repositoryRoot);
-      const engineReefReport = validateEngineReefInvertebrateRules(repositoryRoot);
-      const enginePairReport = validateEngineCompatibilityOverrides(repositoryRoot);
-      const engineScoreReport = validateEngineScoreBreakdown(repositoryRoot);
-      const engineGoldenReport = validateEngineGoldenScenarios(repositoryRoot);
-      const catalogFilterReport = validateCatalogFilters(repositoryRoot);
-      const inhabitantDetailReport = validateInhabitantDetail(repositoryRoot);
-      const mobileFlowReport = validateMobileFlow(repositoryRoot);
-      const priorityReport = validatePrioritySocialCare(repositoryRoot);
-      const tankLengthReport = validatePriorityTankLength(repositoryRoot);
-      const taxonomyReport = validateTaxonomyAudit(repositoryRoot, { requireSnapshot: true });
-      const catalogReport = validateInhabitantCatalog(repositoryRoot);
-
-      this.info(`AKVARYUM veri şeması doğrulandı: ${report.totalEntities} kayıt, ${report.fish} canlı.`);
-      this.info(`AKVARYUM kaynak modeli doğrulandı: ${sourceReport.sources} kaynak, ${sourceReport.fieldLinks} alan bağlantısı.`);
-      this.info(`AKVARYUM Inhabitant migrasyonu doğrulandı: ${migrationReport.migratedRecords} kayıt, ${migrationReport.preservedIds} korunan kimlik.`);
-      this.info(`AKVARYUM Plant migrasyonu doğrulandı: ${plantReport.migratedRecords} kayıt, ${plantReport.preservedIds} korunan kimlik.`);
-      this.info(`AKVARYUM Substrate migrasyonu doğrulandı: ${substrateReport.migratedRecords} kayıt, ${substrateReport.preservedIds} korunan kimlik.`);
-      this.info(`AKVARYUM mercan bakımı doğrulandı: ${coralReport.corals} mercan, ${coralReport.genusOverrides} cins profili.`);
-      this.info(`AKVARYUM motor parametre kesişimi doğrulandı: ${engineParameterReport.scenarios} senaryo.`);
-      this.info(`AKVARYUM motor bulgu sözleşmesi doğrulandı: ${engineFindingReport.declaredRuleIds} kural, ${engineFindingReport.validatedFindings} bulgu.`);
-      this.info(`AKVARYUM sosyal yapı kuralları doğrulandı: ${engineSocialReport.scenarios} senaryo, ${engineSocialReport.ruleIds} kural.`);
-      this.info(`AKVARYUM aynı/yakın tür agresyonu doğrulandı: ${engineConspecificReport.scenarios} senaryo, ${engineConspecificReport.ruleIds} kural.`);
-      this.info(`AKVARYUM bağımsız motor alanları doğrulandı: ${engineDomainReport.scenarios} senaryo.`);
-      this.info(`AKVARYUM avcı-av kuralları doğrulandı: ${enginePredationReport.scenarios} senaryo, ${enginePredationReport.findingsValidated} bulgu.`);
-      this.info(`AKVARYUM ayrık resif güvenliği doğrulandı: ${engineReefReport.scenarios} senaryo, ${engineReefReport.ruleIds} kural.`);
-      this.info(`AKVARYUM tür çifti istisnaları doğrulandı: ${enginePairReport.overrides} istisna, ${enginePairReport.scenarios} senaryo.`);
-      this.info(`AKVARYUM dört alt puanı doğrulandı: ${engineScoreReport.scenarios} senaryo, ${engineScoreReport.sections} bölüm.`);
-      this.info(`AKVARYUM ilk altın motor paketi doğrulandı: ${engineGoldenReport.scenarios} senaryo, ${engineGoldenReport.coveredRuleIds} kural.`);
-      this.info(`AKVARYUM katalog filtreleri doğrulandı: ${catalogFilterReport.scenarios} senaryo, ${catalogFilterReport.advancedFilters} gelişmiş filtre.`);
-      this.info(`AKVARYUM canlı ayrıntı paneli doğrulandı: ${inhabitantDetailReport.scenarios} senaryo, ${inhabitantDetailReport.sections} bölüm.`);
-      this.info(`AKVARYUM mobil ana akışı doğrulandı: ${mobileFlowReport.scenarios} senaryo, ${mobileFlowReport.smokeWidthPx}px hedef.`);
-      this.info(`AKVARYUM öncelik 100 doğrulandı: ${priorityReport.completedSocialStructures} sosyal yapı, ${priorityReport.completedCareDifficulties} bakım zorluğu.`);
-      this.info(`AKVARYUM tank uzunluğu doğrulandı: ${tankLengthReport.completedTankLengths} kayıt.`);
-      this.info(`AKVARYUM taksonomi raporu doğrulandı: ${taxonomyReport.audit.findings.length} kayıtlı inceleme bulgusu, engelleyici çakışma yok.`);
-      this.info(`AKVARYUM canlı kataloğu doğrulandı: ${catalogReport.fish} balık, ${catalogReport.invertebrates} omurgasız, ${catalogReport.corals} mercan.`);
+      validateLegacyData(repositoryRoot);
+      validateRepositoryData(repositoryRoot);
+      validateFishClassification(repositoryRoot);
+      validateSourceProvenance(repositoryRoot);
+      validateInhabitantMigration(repositoryRoot);
+      validatePlantMigration(repositoryRoot);
+      validateSubstrateMigration(repositoryRoot);
+      validateFreshwaterBatch1(repositoryRoot);
+      validateEngineParameterIntersection(repositoryRoot);
+      validatePrioritySocialCare(repositoryRoot);
+      validatePriorityTankLength(repositoryRoot);
+      validateInhabitantCatalog(repositoryRoot);
+      validateCoralCareProfiles(repositoryRoot);
     },
 
-    resolveId(id, importer) {
-      if (id.startsWith(publicPrefix)) return `${internalPrefix}${id.slice(publicPrefix.length)}`;
-      if (importer?.startsWith(internalPrefix) && id.startsWith('./')) {
-        const relativeName = id.slice(2);
-        if (plainSources[relativeName] || archivedSources[relativeName]) return `${internalPrefix}${relativeName}`;
-      }
+    resolveId(id) {
+      if (id.startsWith(virtualPrefix)) return id;
       return null;
     },
 
     load(id) {
-      if (!id.startsWith(internalPrefix)) return null;
-      const sourceName = id.slice(internalPrefix.length);
-      const archivedPath = archivedSources[sourceName];
-      const plainPath = plainSources[sourceName];
-      if (!archivedPath && !plainPath) throw new Error(`Bilinmeyen AKVARYUM sanal modülü: ${sourceName}`);
-      const source = archivedPath ? readArchive(archivedPath) : readPlain(plainPath);
+      if (!id.startsWith(virtualPrefix)) return null;
+      const key = id.slice(virtualPrefix.length);
 
-      if (sourceName === 'fish-fresh.js' || sourceName === 'fish-salt.js') {
-        const collectionName = sourceName === 'fish-fresh.js' ? 'DB_FRESH' : 'DB_SALT';
-        const bootstrap = {};
-        const collector = new Function('window', `${source}\nreturn window.${collectionName};`);
-        const records = collector(bootstrap) ?? [];
-        const classification = buildLegacyFishClassification(source, records);
+      if (key === 'styles.css') return archivedSources['styles.css'];
+
+      if (key === 'fish-fresh.js') {
+        const source = enrichLegacyFish(
+          archivedSources['fish-fresh.js'],
+          archivedSources['fish-fresh.js'],
+        );
+        return staticTextModule(source, 'fish-fresh.js');
+      }
+
+      if (key === 'fish-salt.js') {
+        const source = enrichLegacyFish(
+          archivedSources['fish-salt.js'],
+          archivedSources['fish-salt.js'],
+        );
+        return staticTextModule(source, 'fish-salt.js');
+      }
+
+      if (key === 'data.js') {
+        const source = plainSources['data.js'];
+        const freshBatchSources = [
+          plainSources['data/curation/freshwater-batch-1-part-a.js'],
+          plainSources['data/curation/freshwater-batch-1-part-b.js'],
+          plainSources['data/curation/freshwater-batch-1-part-c.js'],
+          plainSources['data/curation/freshwater-batch-1-part-d.js'],
+          plainSources['data/curation/freshwater-batch-1.js'],
+        ];
         return [
+          ...freshBatchSources,
           source,
-          `const __classification = ${JSON.stringify(classification)};`,
-          `for (const __record of window.${collectionName} || []) Object.assign(__record, __classification[__record.id]);`,
+          buildRuntimeSourceProvenanceBootstrap(),
+          buildRuntimeInhabitantMigration(),
+          buildRuntimePlantMigration(),
+          buildRuntimeSubstrateMigration(),
+          buildRuntimePrioritySocialCare(),
+          buildRuntimePriorityTankLength(),
+          buildInhabitantCatalogBootstrap(),
+          `const __freshwaterBatchCanonical = new Map((window.AKV_FRESHWATER_BATCH_1?.canonical || []).map((record) => [record.id, record]));`,
+          `const __migratedInhabitants = applyPriorityTankLength(applyPrioritySocialCare(migrateLegacyInhabitants(window.DB.fish || [])));`,
+          `window.DB.inhabitants = __migratedInhabitants.map((record) => __freshwaterBatchCanonical.get(record.id) || record);`,
+          'window.DB.aquaticPlants = migrateLegacyPlants(window.DB.plants || []);',
+          'window.DB.aquariumSubstrates = migrateLegacySubstrates(window.DB.substrates || []);',
+          `window.DB.compatibilityOverrides = ${JSON.stringify(compatibilityOverrides)};`,
+          'applyInhabitantCatalog(window.DB);',
+          'export const DB = window.DB;',
+          'export default window.DB;',
         ].join('\n');
       }
 
-      switch (sourceName) {
-        case 'data.js':
-          return [
-            "import 'virtual:akvaryum/fish-fresh.js';",
-            "import 'virtual:akvaryum/fish-salt.js';",
-            "import { migrateLegacyInhabitants } from 'virtual:akvaryum/legacy-to-inhabitant.mjs';",
-            "import { migrateLegacyPlants } from 'virtual:akvaryum/legacy-to-plant.mjs';",
-            "import { migrateLegacySubstrates } from 'virtual:akvaryum/legacy-to-substrate.mjs';",
-            "import { applyPrioritySocialCare } from 'virtual:akvaryum/priority-social-care-v1.mjs';",
-            "import { applyPriorityTankLength } from 'virtual:akvaryum/priority-tank-length-v1.mjs';",
-            "import { applyCoralCareProfiles } from 'virtual:akvaryum/coral-care-v1.mjs';",
-            source,
-            buildRuntimeSourceProvenanceBootstrap(),
-            'window.DB.inhabitants = applyCoralCareProfiles(applyPriorityTankLength(applyPrioritySocialCare(migrateLegacyInhabitants(window.DB.fish || []))));',
-            'window.DB.aquaticPlants = migrateLegacyPlants(window.DB.plants || []);',
-            'window.DB.aquariumSubstrates = migrateLegacySubstrates(window.DB.substrates || []);',
-            'window.DB.predatorPreyProfiles = window.DB.predatorPreyProfiles || [];',
-            `window.DB.compatibilityOverrides = ${JSON.stringify(compatibilityOverrides)};`,
-            buildRuntimeInhabitantCatalogBootstrap(),
-          ].join('\n');
-
-        case 'engine.js':
-          return [
-            "import 'virtual:akvaryum/data.js';",
-            source,
-            readPlain('engine-finding-contract.js'),
-            readPlain('engine-health-guard.js'),
-            readPlain('engine-social-rules.js'),
-            readPlain('engine-conspecific-rules.js'),
-            readPlain('engine-predator-prey-rules.js'),
-            readPlain('engine-reef-invertebrate-rules.js'),
-            readPlain('engine-compatibility-overrides.js'),
-            readPlain('engine-domain-results.js'),
-            readPlain('engine-score-breakdown.js'),
-          ].join('\n');
-
-        case 'result-views.jsx':
-          return ["import React from 'react';", "import 'virtual:akvaryum/data.js';", source].join('\n');
-
-        case 'components.jsx':
-          return [
-            "import React from 'react';",
-            'window.React = React;',
-            "import 'virtual:akvaryum/result-views.jsx';",
-            "import 'virtual:akvaryum/engine.js';",
-            readPlain('catalog-filter-model.js'),
-            readPlain('inhabitant-detail-model.js'),
-            source,
-            readPlain('catalog-filters.jsx'),
-            readPlain('inhabitant-detail.jsx'),
-            readPlain('mobile-flow-guard.js'),
-          ].join('\n');
-
-        case 'app.jsx':
-          return [
-            "import React from 'react';",
-            "import * as ReactDOM from 'react-dom/client';",
-            "import 'virtual:akvaryum/i18n.js';",
-            "import 'virtual:akvaryum/components.jsx';",
-            source,
-          ].join('\n');
-
-        default:
-          return source;
+      if (key === 'engine.js') {
+        const source = plainSources['engine.js'];
+        return [
+          source,
+          buildRuntimeFindingContract(),
+          buildRuntimeHealthGuard(),
+          buildRuntimeSocialRules(),
+          buildRuntimeConspecificRules(),
+          buildRuntimePredatorPreyRules(),
+          buildRuntimeReefSafetyRules(),
+          buildRuntimeCompatibilityOverrides(),
+          buildRuntimeDomainResults(),
+          buildRuntimeScoreBreakdown(),
+          'const Engine = window.Engine;',
+          'export { Engine };',
+          'export default Engine;',
+        ].join('\n');
       }
+
+      if (key === 'catalog-filter-model.js') {
+        return [
+          buildRuntimeCatalogFilterModel(),
+          'const CatalogFilterModel = window.CatalogFilterModel;',
+          'export { CatalogFilterModel };',
+          'export default CatalogFilterModel;',
+        ].join('\n');
+      }
+
+      if (key === 'inhabitant-detail-model.js') {
+        return [
+          buildRuntimeInhabitantDetailModel(),
+          'const InhabitantDetailModel = window.InhabitantDetailModel;',
+          'export { InhabitantDetailModel };',
+          'export default InhabitantDetailModel;',
+        ].join('\n');
+      }
+
+      if (key === 'mobile-flow-guard.js') {
+        return [
+          buildRuntimeMobileFlowGuard(),
+          'const MobileFlowGuard = window.MobileFlowGuard;',
+          'export { MobileFlowGuard };',
+          'export default MobileFlowGuard;',
+        ].join('\n');
+      }
+
+      if (key === 'coral-care-curation.js') {
+        return [
+          `const curated = ${JSON.stringify(applyCoralCareProfiles)}`,
+          'void curated;',
+          'export default true;',
+        ].join('\n');
+      }
+
+      if (key === 'components.jsx') {
+        return `${archivedSources['components.jsx']}
+export const UI = window.UI;
+export default window.UI;`;
+      }
+
+      if (key === 'result-views.jsx') {
+        return `${archivedSources['result-views.jsx']}
+export default window.UI;`;
+      }
+
+      if (key === 'catalog-filters.jsx') {
+        return `${plainSources['catalog-filters.jsx']}
+export default window.UI;`;
+      }
+
+      if (key === 'inhabitant-detail.jsx') {
+        return `${plainSources['inhabitant-detail.jsx']}
+export default window.UI;`;
+      }
+
+      if (key === 'app.jsx') return plainSources['app.jsx'];
+
+      return null;
     },
   };
 }
 
 export default defineConfig({
-  root: 'vite-app',
-  base: '/akvaryum/',
+  root: resolve(repositoryRoot, 'vite-app'),
   publicDir: false,
-  plugins: [nativeLegacyModules(), react()],
+  plugins: [nativeSourcePlugin(), react()],
+  resolve: {
+    alias: {
+      '@akvaryum/i18n': `${virtualPrefix}i18n.js`,
+      '@akvaryum/fish-fresh': `${virtualPrefix}fish-fresh.js`,
+      '@akvaryum/fish-salt': `${virtualPrefix}fish-salt.js`,
+      '@akvaryum/data': `${virtualPrefix}data.js`,
+      '@akvaryum/engine': `${virtualPrefix}engine.js`,
+      '@akvaryum/coral-care-curation': `${virtualPrefix}coral-care-curation.js`,
+      '@akvaryum/catalog-filter-model': `${virtualPrefix}catalog-filter-model.js`,
+      '@akvaryum/catalog-filters': `${virtualPrefix}catalog-filters.jsx`,
+      '@akvaryum/inhabitant-detail-model': `${virtualPrefix}inhabitant-detail-model.js`,
+      '@akvaryum/inhabitant-detail': `${virtualPrefix}inhabitant-detail.jsx`,
+      '@akvaryum/mobile-flow-guard': `${virtualPrefix}mobile-flow-guard.js`,
+      '@akvaryum/components': `${virtualPrefix}components.jsx`,
+      '@akvaryum/result-views': `${virtualPrefix}result-views.jsx`,
+      '@akvaryum/app': `${virtualPrefix}app.jsx`,
+    },
+  },
   build: {
-    outDir: '../dist',
+    outDir: resolve(repositoryRoot, 'dist'),
     emptyOutDir: true,
-    sourcemap: true,
   },
 });
