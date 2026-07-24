@@ -16,7 +16,7 @@
 | AKV-I18N-001 | TODO | TR/EN anahtar bütünlüğü testi | TEST-001 | Eksik veya fazla anahtar CI’da hata verir |
 | AKV-UI-001 | DONE | Mobil ana akış duman testi ve düzeltme | ARCH-001 | 360 px genişlikte ortak taşma koruması çalışır |
 
-### Aktif çalışma notu — 23 Temmuz 2026
+### Aktif çalışma notu — 24 Temmuz 2026
 
 - `vite-app/` altında Vite + React geçiş yapısı kuruldu; kökteki mevcut statik sürüm korunuyor.
 - `AKV-ARCH-002` tamamlandı: production paketinden tarayıcı içi Babel, `eval`, `DecompressionStream` ve runtime `.gz.b64` yükleme kaldırıldı.
@@ -102,7 +102,10 @@
 - Her alt puan durum, puan, üst sınır, ilgili kural kimlikleri ve Türkçe/İngilizce kısa açıklama taşıyor.
 - Kritik çevresel sonuç toplam puanı en fazla 39, kritik davranış sonucu 49, kesin tank yetersizliği 59 ve kritik habitat sonucu 69 yapıyor.
 - `npm run check:engine-scores` 13 odaklı senaryoyla dört bölüm toplamını, kritik üst sınırları, küçük uyarı kesintilerini, boş seçim davranışını ve iki dili doğruluyor.
-- Sıradaki iş `AKV-UI-021`: dört alt puanı sonuç ekranında görünür hâle getirmek.
+- `AKV-UI-021` tamamlandı: dört bölüm puanı sonuç ekranında puan, durum, kayıp ve açılır bulgu ayrıntılarıyla görünür hâle getirildi.
+- Kritik toplam sınırı uygulanırsa ham bölüm toplamı ve uygulanan sınır açıklanıyor; bulgular neden, etki ve çözüm alanlarıyla gösteriliyor.
+- `npm run check:score-panel` 8 odaklı sözleşmeyle iki dil, bölüm sınıflandırması, erişilebilir puan çubukları, mobil tek sütun düzeni ve CI bağlantısını doğruluyor.
+- Sıradaki iş `AKV-UI-022`: neden/etki/çözüm sunumunu ana sorun, uyarı ve öneri listelerinin tamamına yaymak.
 - Sosyal bakım, tank uzunluğu, mercan bakım profilleri, Plant v1 ve Substrate v1 değerleri tür bazlı doğrulanmış veri değildir; kayıtlar `needs_review/low` durumunda tutuluyor.
 - Gerçek cihaz görsel ince ayarı gerekirse somut taşma raporu üzerinden küçük düzeltme yapılacak; ağır bir tarayıcı test altyapısı kurulmadı.
 
@@ -156,7 +159,7 @@
 | AKV-UI-020 | TODO | 2–4 canlı karşılaştırma | UI-012 | Ortak aralık ve farklar görünür |
 | AKV-SAVE-001 | TODO | Yerel kurulum kaydı | ARCH-001 | Adlandır, aç, kopyala, sil |
 | AKV-SHARE-001 | TODO | Paylaşılabilir kurulum URL’si | SAVE-001 | Şema doğrulamalı URL |
-| AKV-UI-021 | TODO | Sonuç alt skorları | ENG-016 | 4 bölüm puanı görünür |
+| AKV-UI-021 | DONE | Sonuç alt skorları | ENG-016 | 4 bölüm puanı, durum ve ayrıntı görünür |
 | AKV-UI-022 | READY | Neden/etki/çözüm kartları | ENG-002 | Her uyarıda standart çıktı |
 | AKV-A11Y-001 | TODO | WCAG AA ana akış | UI-001 | Axe + klavye kontrolleri geçer |
 
