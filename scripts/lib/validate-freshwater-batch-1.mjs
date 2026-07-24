@@ -83,7 +83,7 @@ export function validateFreshwaterBatch1(repositoryRoot) {
     }
   }
 
-  assert(data.inhabitantCatalog?.collections?.all?.length === 600, 'Ortak katalog 600 kaydı içermiyor.');
+  assert(data.inhabitantCatalog?.all?.length === 600, 'Ortak katalog 600 kaydı içermiyor.');
   assert(data.inhabitantCatalog?.collections?.fish?.length === 487, 'Balık koleksiyonu beklenen 487 kaydı içermiyor.');
 
   const boot = readFileSync(resolve(repositoryRoot, 'boot.js'), 'utf8');
