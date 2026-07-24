@@ -33,6 +33,7 @@ export function validateFreshwaterBatch1(repositoryRoot) {
     withCatalog: true,
   });
   const batch = data.freshwaterBatch1;
+  const batch2 = data.freshwaterBatch2;
   assert(batch?.version === 1, 'Tatlı su parti 1 sürümü bulunamadı.');
   assert(batch.taskId === 'AKV-DATA-020', 'Tatlı su parti 1 görev kimliği yanlış.');
   assert(batch.legacy.length === 20, `Parti 1 legacy kayıt sayısı 20 olmalı; ${batch.legacy.length} bulundu.`);
@@ -44,11 +45,12 @@ export function validateFreshwaterBatch1(repositoryRoot) {
   assert(duplicateValues(canonicalIds).length === 0, 'Parti 1 canonical kimliklerinde tekrar var.');
   assert(JSON.stringify([...legacyIds].sort()) === JSON.stringify([...canonicalIds].sort()), 'Legacy ve canonical parti kimlikleri eşleşmiyor.');
 
-  assert(data.fresh.length === 298, `Tatlı su toplamı 298 olmalı; ${data.fresh.length} bulundu.`);
+  assert(data.fresh.length === 318, `Tatlı su toplamı 318 olmalı; ${data.fresh.length} bulundu.`);
   assert(data.salt.length === 302, `Tuzlu su toplamı 302 kalmalı; ${data.salt.length} bulundu.`);
-  assert(data.fish.length === 600, `Legacy canlı toplamı 600 olmalı; ${data.fish.length} bulundu.`);
-  assert(data.inhabitants.length === 600, `Canonical canlı toplamı 600 olmalı; ${data.inhabitants.length} bulundu.`);
-  assert(data.fresh.filter((record) => !legacyIds.includes(record.id)).length === 278, 'Eski 278 tatlı su kaydı eksiksiz korunmadı.');
+  assert(data.fish.length === 620, `Legacy canlı toplamı 620 olmalı; ${data.fish.length} bulundu.`);
+  assert(data.inhabitants.length === 620, `Canonical canlı toplamı 620 olmalı; ${data.inhabitants.length} bulundu.`);
+  const allBatchIds = new Set([...legacyIds, ...(batch2?.legacy ?? []).map((record) => record.id)]);
+  assert(data.fresh.filter((record) => !allBatchIds.has(record.id)).length === 278, 'Eski 278 tatlı su kaydı eksiksiz korunmadı.');
 
   const schema = JSON.parse(readFileSync(resolve(repositoryRoot, 'schemas/inhabitant-v1.schema.json'), 'utf8'));
   const ajv = new Ajv2020({ allErrors: true, strict: true });
@@ -83,8 +85,8 @@ export function validateFreshwaterBatch1(repositoryRoot) {
     }
   }
 
-  assert(data.inhabitantCatalog?.all?.length === 600, 'Ortak katalog 600 kaydı içermiyor.');
-  assert(data.inhabitantCatalog?.collections?.fish?.length === 487, 'Balık koleksiyonu beklenen 487 kaydı içermiyor.');
+  assert(data.inhabitantCatalog?.all?.length === 620, 'Ortak katalog 620 kaydı içermiyor.');
+  assert(data.inhabitantCatalog?.collections?.fish?.length === 507, 'Balık koleksiyonu beklenen 507 kaydı içermiyor.');
 
   const boot = readFileSync(resolve(repositoryRoot, 'boot.js'), 'utf8');
   const vite = readFileSync(resolve(repositoryRoot, 'vite.config.js'), 'utf8');
