@@ -1,7 +1,7 @@
 import { readFileSync } from 'node:fs';
 import { resolve } from 'node:path';
 
-import Ajv from 'ajv';
+import Ajv2020 from 'ajv/dist/2020.js';
 
 import { loadLegacyData } from './load-legacy-data.mjs';
 
@@ -51,7 +51,7 @@ export function validateFreshwaterBatch1(repositoryRoot) {
   assert(data.fresh.filter((record) => !legacyIds.includes(record.id)).length === 278, 'Eski 278 tatlı su kaydı eksiksiz korunmadı.');
 
   const schema = JSON.parse(readFileSync(resolve(repositoryRoot, 'schemas/inhabitant-v1.schema.json'), 'utf8'));
-  const ajv = new Ajv({ allErrors: true, strict: true });
+  const ajv = new Ajv2020({ allErrors: true, strict: true });
   const validate = ajv.compile(schema);
   if (!validate(batch.canonical)) {
     const details = validate.errors.map((error) => `${error.instancePath || '/'} ${error.message}`).join('\n');
@@ -84,7 +84,7 @@ export function validateFreshwaterBatch1(repositoryRoot) {
   }
 
   assert(data.inhabitantCatalog?.collections?.all?.length === 600, 'Ortak katalog 600 kaydı içermiyor.');
-  assert(data.inhabitantCatalog?.collections?.fish?.length === 467, 'Balık koleksiyonu beklenen 467 kaydı içermiyor.');
+  assert(data.inhabitantCatalog?.collections?.fish?.length === 487, 'Balık koleksiyonu beklenen 487 kaydı içermiyor.');
 
   const boot = readFileSync(resolve(repositoryRoot, 'boot.js'), 'utf8');
   const vite = readFileSync(resolve(repositoryRoot, 'vite.config.js'), 'utf8');
