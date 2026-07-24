@@ -23,6 +23,11 @@ const FRESHWATER_BATCH_FILES = [
   'data/curation/freshwater-batch-2-part-c.js',
   'data/curation/freshwater-batch-2-part-d.js',
   'data/curation/freshwater-batch-2.js',
+  'data/curation/freshwater-batch-3-part-a.js',
+  'data/curation/freshwater-batch-3-part-b.js',
+  'data/curation/freshwater-batch-3-part-c.js',
+  'data/curation/freshwater-batch-3-part-d.js',
+  'data/curation/freshwater-batch-3.js',
 ];
 
 function readText(repositoryRoot, relativePath) {
@@ -83,6 +88,7 @@ export function loadLegacyData(
       [
         context.window.AKV_FRESHWATER_BATCH_1,
         context.window.AKV_FRESHWATER_BATCH_2,
+        context.window.AKV_FRESHWATER_BATCH_3,
       ],
     );
   }
@@ -114,6 +120,7 @@ export function loadLegacyData(
     inhabitantCatalog: context.window.DB?.inhabitantCatalog ?? null,
     freshwaterBatch1: context.window.AKV_FRESHWATER_BATCH_1 ?? null,
     freshwaterBatch2: context.window.AKV_FRESHWATER_BATCH_2 ?? null,
+    freshwaterBatch3: context.window.AKV_FRESHWATER_BATCH_3 ?? null,
     engine: context.window.Engine,
   };
 }
