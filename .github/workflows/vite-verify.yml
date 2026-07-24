@@ -80,6 +80,9 @@ jobs:
       - name: Sonuç ekranı alt puan kartlarını doğrula
         run: npm run check:score-panel
 
+      - name: Neden etki çözüm kartlarını doğrula
+        run: npm run check:finding-panel
+
       - name: Temel 32 altın motor senaryosunu doğrula
         shell: bash
         run: |

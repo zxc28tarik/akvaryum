@@ -105,7 +105,9 @@
 - `AKV-UI-021` tamamlandı: dört bölüm puanı sonuç ekranında puan, durum, kayıp ve açılır bulgu ayrıntılarıyla görünür hâle getirildi.
 - Kritik toplam sınırı uygulanırsa ham bölüm toplamı ve uygulanan sınır açıklanıyor; bulgular neden, etki ve çözüm alanlarıyla gösteriliyor.
 - `npm run check:score-panel` 8 odaklı sözleşmeyle iki dil, bölüm sınıflandırması, erişilebilir puan çubukları, mobil tek sütun düzeni ve CI bağlantısını doğruluyor.
-- Sıradaki iş `AKV-UI-022`: neden/etki/çözüm sunumunu ana sorun, uyarı ve öneri listelerinin tamamına yaymak.
+- `AKV-UI-022` tamamlandı: kritik sorunlar, uyarılar ve öneriler üç ayrı grupta standart neden, etki, çözüm ve kural kimliği alanlarıyla gösteriliyor.
+- `npm run check:finding-panel` 8 odaklı sözleşmeyle üç motor listesini, iki dili, kart durumlarını, erişilebilir grup ilişkilerini, mobil düzeni ve CI bağlantısını doğruluyor.
+- Sprint 09 tamamlandı; sıradaki iş `AKV-DATA-020` kaynaklı tatlı su veri partisidir.
 - Sosyal bakım, tank uzunluğu, mercan bakım profilleri, Plant v1 ve Substrate v1 değerleri tür bazlı doğrulanmış veri değildir; kayıtlar `needs_review/low` durumunda tutuluyor.
 - Gerçek cihaz görsel ince ayarı gerekirse somut taşma raporu üzerinden küçük düzeltme yapılacak; ağır bir tarayıcı test altyapısı kurulmadı.
 
@@ -143,7 +145,7 @@
 
 | Kimlik | Durum | Görev | Bağımlılık | Kabul özeti |
 |---|---|---|---|---|
-| AKV-DATA-020 | TODO | Tatlı su veri partileriyle 350 kayda çık | DATA-011 | Partiler kaynaklı ve doğrulanmış |
+| AKV-DATA-020 | READY | Tatlı su veri partileriyle 350 kayda çık | DATA-011 | Partiler kaynaklı ve doğrulanmış |
 | AKV-DATA-021 | TODO | Tuzlu su veri partileriyle 400 kayda çık | DATA-011 | Partiler kaynaklı ve doğrulanmış |
 | AKV-DATA-022 | TODO | Acı su kategorisi ilk 30 kayıt | DATA-002 | Ayrı su tipi kuralları |
 | AKV-CORAL-001 | DONE | Mercanları soft/LPS/SPS ayır | DATA-010 | 50 mercanın ışık/akıntı/agresyon alanları dolu |
@@ -160,7 +162,7 @@
 | AKV-SAVE-001 | TODO | Yerel kurulum kaydı | ARCH-001 | Adlandır, aç, kopyala, sil |
 | AKV-SHARE-001 | TODO | Paylaşılabilir kurulum URL’si | SAVE-001 | Şema doğrulamalı URL |
 | AKV-UI-021 | DONE | Sonuç alt skorları | ENG-016 | 4 bölüm puanı, durum ve ayrıntı görünür |
-| AKV-UI-022 | READY | Neden/etki/çözüm kartları | ENG-002 | Her uyarıda standart çıktı |
+| AKV-UI-022 | DONE | Neden/etki/çözüm kartları | ENG-002 | Kritik, uyarı ve öneriler standart alanlarla görünür |
 | AKV-A11Y-001 | TODO | WCAG AA ana akış | UI-001 | Axe + klavye kontrolleri geçer |
 
 ## P3 — Üretim ve büyüme

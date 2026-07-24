@@ -183,6 +183,109 @@ function ScoreBreakdownPanel({ state, lang }) {
   );
 }
 
+const FINDING_COPY = Object.freeze({
+  tr: Object.freeze({
+    title: 'Sorunlar, uyarılar ve öneriler',
+    subtitle: 'Her bulgu neden oluştuğunu, akvaryuma etkisini ve uygulanabilecek çözümü ayrı ayrı gösterir.',
+    critical: 'Kritik sorunlar', warning: 'Uyarılar', tip: 'Öneriler',
+    reason: 'Neden', impact: 'Etkisi', resolution: 'Çözüm',
+    empty: 'Bu grupta gösterilecek bulgu yok.',
+  }),
+  en: Object.freeze({
+    title: 'Issues, warnings and recommendations',
+    subtitle: 'Each finding explains why it occurred, how it affects the aquarium and what action can resolve it.',
+    critical: 'Critical issues', warning: 'Warnings', tip: 'Recommendations',
+    reason: 'Reason', impact: 'Impact', resolution: 'Resolution',
+    empty: 'There are no findings in this group.',
+  }),
+});
+
+function normalizeExplanationFinding(finding, severity) {
+  return {
+    key: `${finding?.ruleId || severity}-${finding?.title || finding?.desc || ''}`,
+    ruleId: String(finding?.ruleId || ''), severity,
+    title: String(finding?.title || finding?.desc || finding?.ruleId || ''),
+    description: String(finding?.desc || ''),
+    reason: String(finding?.reason || finding?.desc || ''),
+    impact: String(finding?.impact || ''),
+    resolution: String(finding?.resolution || ''),
+  };
+}
+
+function buildFindingExplanationModel(result, lang) {
+  const copy = FINDING_COPY[lang === 'en' ? 'en' : 'tr'];
+  const groups = [
+    { key: 'critical', label: copy.critical, findings: (result?.issues || []).map(f => normalizeExplanationFinding(f, 'critical')) },
+    { key: 'warning', label: copy.warning, findings: (result?.warnings || []).map(f => normalizeExplanationFinding(f, 'warning')) },
+    { key: 'tip', label: copy.tip, findings: (result?.tips || []).map(f => normalizeExplanationFinding(f, 'tip')) },
+  ];
+  return {
+    title: copy.title, subtitle: copy.subtitle,
+    labels: { reason: copy.reason, impact: copy.impact, resolution: copy.resolution },
+    empty: copy.empty, groups,
+    total: groups.reduce((sum, group) => sum + group.findings.length, 0),
+  };
+}
+
+const FINDING_STYLE_ID = 'akvaryum-finding-explanation-styles';
+if (!document.getElementById(FINDING_STYLE_ID)) {
+  const style = document.createElement('style');
+  style.id = FINDING_STYLE_ID;
+  style.textContent = `
+    .finding-explanation-panel{max-width:1120px;margin:0 auto;padding:0 20px 42px;color:#102a35}
+    .finding-explanation-shell{background:#fff;border:1px solid rgba(28,111,114,.16);border-radius:24px;padding:24px;box-shadow:0 14px 40px rgba(16,42,53,.06)}
+    .finding-explanation-head{margin-bottom:20px}.finding-explanation-title{margin:0 0 8px;font-size:clamp(1.3rem,2vw,1.8rem)}.finding-explanation-subtitle{margin:0;max-width:760px;color:#536b74;line-height:1.55}
+    .finding-group+.finding-group{margin-top:22px}.finding-group-head{display:flex;align-items:center;gap:9px;margin-bottom:12px}.finding-group-title{margin:0;font-size:1rem}.finding-group-count{display:inline-flex;align-items:center;justify-content:center;min-width:25px;height:25px;padding:0 7px;border-radius:999px;background:#edf4f4;font-size:.75rem;font-weight:800}
+    .finding-card-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.finding-card{border:1px solid #e0eaea;border-radius:16px;padding:16px;background:#f9fcfc;min-width:0}.finding-card[data-severity="critical"]{background:#fff7f7;border-color:#efcaca}.finding-card[data-severity="warning"]{background:#fffbf2;border-color:#ead6a6}.finding-card[data-severity="tip"]{background:#f4fbf7;border-color:#cfe6d7}
+    .finding-card-title{margin:0 0 7px;font-size:.98rem}.finding-card-desc{margin:0 0 12px;color:#566d75;font-size:.86rem;line-height:1.48}.finding-card-fields{display:grid;gap:9px}.finding-card-field{padding-top:9px;border-top:1px solid rgba(50,90,98,.12);font-size:.83rem;line-height:1.48;color:#4c626a}.finding-card-field strong{display:block;margin-bottom:3px;color:#203b44}.finding-card-rule{margin-top:11px;font-size:.68rem;letter-spacing:.02em;color:#7b8d93;overflow-wrap:anywhere}.finding-group-empty{padding:14px;border:1px dashed #d5e3e3;border-radius:13px;color:#62777d;font-size:.84rem}
+    @media (max-width:760px){.finding-explanation-panel{padding:0 14px 32px}.finding-explanation-shell{padding:18px;border-radius:20px}.finding-card-grid{grid-template-columns:1fr}}
+  `;
+  document.head.append(style);
+}
+
+function FindingExplanationCard({ finding, labels }) {
+  return (
+    <article className="finding-card" data-severity={finding.severity}>
+      <h4 className="finding-card-title">{finding.title}</h4>
+      {finding.description && <p className="finding-card-desc">{finding.description}</p>}
+      <div className="finding-card-fields">
+        <div className="finding-card-field"><strong>{labels.reason}</strong>{finding.reason}</div>
+        <div className="finding-card-field"><strong>{labels.impact}</strong>{finding.impact}</div>
+        <div className="finding-card-field"><strong>{labels.resolution}</strong>{finding.resolution}</div>
+      </div>
+      {finding.ruleId && <div className="finding-card-rule">{finding.ruleId}</div>}
+    </article>
+  );
+}
+
+function FindingExplanationPanel({ state, lang }) {
+  const model = useMemo(() => buildFindingExplanationModel(window.Engine.analyze({ ...state, lang }), lang), [state, lang]);
+  if (!model.total) return null;
+  return (
+    <section className="finding-explanation-panel" aria-labelledby="finding-explanation-title">
+      <div className="finding-explanation-shell">
+        <header className="finding-explanation-head">
+          <h2 className="finding-explanation-title" id="finding-explanation-title">{model.title}</h2>
+          <p className="finding-explanation-subtitle">{model.subtitle}</p>
+        </header>
+        {model.groups.map(group => (
+          <section className="finding-group" key={group.key} aria-labelledby={`finding-group-${group.key}`}>
+            <div className="finding-group-head">
+              <h3 className="finding-group-title" id={`finding-group-${group.key}`}>{group.label}</h3>
+              <span className="finding-group-count" aria-label={`${group.label}: ${group.findings.length}`}>{group.findings.length}</span>
+            </div>
+            {group.findings.length > 0 ? (
+              <div className="finding-card-grid">
+                {group.findings.map((finding, index) => <FindingExplanationCard key={`${finding.key}-${index}`} finding={finding} labels={model.labels} />)}
+              </div>
+            ) : <div className="finding-group-empty">{model.empty}</div>}
+          </section>
+        ))}
+      </div>
+    </section>
+  );
+}
+
 const RAW_FLOWS = {
   tank: ['path', 'tank', 'water', 'fish', 'plants', 'substrate', 'result'],
   fish: ['path', 'water', 'fish', 'tank', 'plants', 'substrate', 'result'],
@@ -229,7 +332,7 @@ function App() {
   if (stepName === 'fish') stepEl = <FishStep state={state} setState={setState} t={t} lang={lang} />;
   if (stepName === 'plants') stepEl = <PlantsStep state={state} setState={setState} t={t} lang={lang} />;
   if (stepName === 'substrate') stepEl = <SubstrateStep state={state} setState={setState} t={t} lang={lang} />;
-  if (stepName === 'result') stepEl = <><ResultStep state={state} setState={setState} t={t} lang={lang} /><ScoreBreakdownPanel state={state} lang={lang} /></>;
+  if (stepName === 'result') stepEl = <><ResultStep state={state} setState={setState} t={t} lang={lang} /><ScoreBreakdownPanel state={state} lang={lang} /><FindingExplanationPanel state={state} lang={lang} /></>;
 
   const showRecipe = stepName !== 'path' && stepName !== 'result';
   const isResult = stepName === 'result';

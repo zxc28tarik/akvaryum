@@ -30,6 +30,7 @@
     "check:engine-pairs": "node scripts/check-engine-compatibility-overrides.mjs",
     "check:engine-scores": "node scripts/check-engine-score-breakdown.mjs",
     "check:score-panel": "node scripts/check-score-breakdown-panel.mjs",
+    "check:finding-panel": "node scripts/check-finding-explanation-panel.mjs",
     "check:engine-golden": "node scripts/check-engine-golden-scenarios.mjs",
     "check:engine-golden25": "npm run check:engine-golden",
     "check:taxonomy": "node scripts/check-taxonomy-audit.mjs",
