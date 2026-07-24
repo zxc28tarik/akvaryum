@@ -53,6 +53,15 @@ jobs:
       - name: İlk kaynaklı tatlı su veri partisini doğrula
         run: npm run check:freshwater-batch1
 
+      - name: Başarısız tatlı su partisi tanısını yükle
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: freshwater-batch-1-failure
+          path: freshwater-batch-1-error.txt
+          if-no-files-found: ignore
+          retention-days: 2
+
       - name: Plant v1 migrasyonunu doğrula
         run: npm run check:plants
 
