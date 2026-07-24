@@ -76,7 +76,7 @@ Bu plan tek geliştirici veya küçük ekip için **sıralı çalışma paketler
 
 **Çıktı:** Soft/LPS/SPS mercan ayrımı production verisinde ışık, akıntı ve agresyon profilleriyle çalışıyor. Resif motoru yedi hedefi ayrı değerlendiriyor. İki tür çifti partisi toplam 23 uyumlu, 17 koşullu, 5 dikkat ve 5 uyumsuz kayıt içeriyor; dokuz dış kaynağa bağlı 50 kaydın tamamı `verified/medium`. `check:engine-pairs` 19 odaklı senaryoyla genel kuralın üstüne yazma sırasını ve bağımsız çevresel güvenlik kurallarının korunmasını doğruluyor.
 
-**Sonraki iş:** Sprint 10 kapsamında `AKV-DATA-020` ile ilk kaynaklı tatlı su veri partisine başlamak.
+**Sonraki iş:** Sprint 10 kapsamındaki kaynaklı veri büyümesi devam ediyor.
 
 ## Sprint 09 — Skor ve sonuç deneyimi — tamamlandı
 
@@ -89,18 +89,22 @@ Bu plan tek geliştirici veya küçük ekip için **sıralı çalışma paketler
 
 **Çıktı:** Motor `result.scoreBreakdown` altında dört alt puan, durum, ilgili kural kimlikleri, açıklama ve uygulanan kritik üst sınırları üretiyor. Sonuç ekranı çevre 30, davranış 30, tank 25 ve habitat 15 puanını ayrı kartlarda; kaybedilen puan, kritik/uyarı ayrımı ve açılır neden/etki/çözüm ayrıntılarıyla gösteriyor. Ayrıca bütün kritik sorun, uyarı ve öneriler üç ayrı grupta standart neden, etki, çözüm ve kural kimliği alanlarıyla sunuluyor. Çevresel kritik sonuçta toplam en fazla 39, davranışsal kritikte 49, kesin tank yetersizliğinde 59 ve kritik habitat sonucunda 69 oluyor.
 
-**Sonraki çıktı:** Sprint 10 kaynaklı veri büyümesiyle başlayacak.
+**Sonraki çıktı:** Sprint 10 kaynaklı veri büyümesi devam ediyor.
 
-## Sprint 10 — Veri sürümü 1 — sıradaki
+## Sprint 10 — Veri sürümü 1 — devam ediyor
 
-- AKV-DATA-020
+- AKV-DATA-020 — devam ediyor: ilk 20 kaynaklı tatlı su kaydı tamamlandı; 278 → 298
 - AKV-DATA-021
 - AKV-PLANT-010
 - AKV-SUB-010
 
-**İlk görev:** `AKV-DATA-020` kapsamında tatlı su kayıtlarını 278’den 350’ye kaynaklı ve doğrulanmış partilerle çıkarmak.
+**Tamamlanan ilk parti:** 20 yeni tatlı su balığı ayrı legacy ve `Inhabitant v1` kayıtlarıyla eklendi. Eski 278 tatlı su kaydı korundu; toplam canlı sayısı 600 oldu. Yeni kayıtlar `reviewed/medium` durumunda ve alan bazlı kaynak bağlantıları taşıyor.
 
-**Çıktı:** 750 toplam canlı, 40 bitki, 15 taban hedefi.
+**AKV-DATA-020 ilerlemesi:** 298/350. Kalan 52 kayıt, 15–20 kayıtlık ayrı kaynaklı partilerle eklenecek.
+
+**Sıradaki iş:** `AKV-DATA-020 — Tatlı su veri partisi 2`.
+
+**Sprint hedefi:** 750 toplam canlı, 40 bitki, 15 taban.
 
 ## Sprint 11 — Karşılaştırma ve kayıt
 
