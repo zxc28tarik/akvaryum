@@ -1,7 +1,9 @@
 # AKV-UI-021 — Sonuç Alt Puan Kartları
 
-**Durum:** REVIEW  
+**Durum:** DONE  
 **Başlangıç tarihi:** 24 Temmuz 2026  
+**Tamamlanma tarihi:** 24 Temmuz 2026  
+**Uygulama PR’ı:** #25  
 **Bağımlılık:** AKV-ENG-016
 
 ## Amaç
@@ -54,6 +56,15 @@ Kontrol kapsamı:
 - mobil tek sütun düzeni;
 - GitHub Actions bağlantısı.
 
+PR #25 GitHub Actions doğrulamasında aşağıdakilerin tamamı geçti:
+
+- `check:score-panel`;
+- dört alt puan motor testi;
+- 32 temel motor senaryosu;
+- bütün veri, migrasyon, katalog ve mobil kontroller;
+- production build;
+- native production paket doğrulaması.
+
 ## Kabul kriterleri
 
 - [x] Dört bölüm puanı sonuç ekranında görünür.
@@ -63,11 +74,9 @@ Kontrol kapsamı:
 - [x] Türkçe ve İngilizce desteklenir.
 - [x] Mobil tek sütun düzeni bulunur.
 - [x] Otomatik arayüz sözleşme testi CI hattına bağlanır.
-- [ ] Pull request doğrulaması başarıyla tamamlanır.
+- [x] Pull request doğrulaması başarıyla tamamlanır.
 
 ## Sonraki görev
-
-Bu görev kapandıktan sonra sıradaki ürün işi:
 
 ```text
 AKV-UI-022 — Neden / etki / çözüm kartlarını ana sonuç bulgularına yayma
