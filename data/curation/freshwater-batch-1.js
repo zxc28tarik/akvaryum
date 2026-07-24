@@ -166,7 +166,7 @@
           'behavior', 'feeding', 'compatibility', 'habitat', 'care', 'appearance', 'notes',
         ],
         derivedFields: ['status', 'category', 'taxonomy', 'tags', 'summary', 'verification'],
-        unknownFields: [],
+        unknownFields: ['compatibility.shrimpSafe', 'compatibility.snailSafe'],
       },
     };
   }
