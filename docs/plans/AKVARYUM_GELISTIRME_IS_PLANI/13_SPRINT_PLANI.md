@@ -93,16 +93,16 @@ Bu plan tek geliştirici veya küçük ekip için **sıralı çalışma paketler
 
 ## Sprint 10 — Veri sürümü 1 — devam ediyor
 
-- AKV-DATA-020 — devam ediyor: ilk 20 kaynaklı tatlı su kaydı tamamlandı; 278 → 298
+- AKV-DATA-020 — devam ediyor: iki kaynaklı tatlı su partisi tamamlandı; 278 → 318
 - AKV-DATA-021
 - AKV-PLANT-010
 - AKV-SUB-010
 
-**Tamamlanan ilk parti:** 20 yeni tatlı su balığı ayrı legacy ve `Inhabitant v1` kayıtlarıyla eklendi. Eski 278 tatlı su kaydı korundu; toplam canlı sayısı 600 oldu. Yeni kayıtlar `reviewed/medium` durumunda ve alan bazlı kaynak bağlantıları taşıyor.
+**Tamamlanan iki parti:** Toplam 40 yeni tatlı su balığı ayrı legacy ve `Inhabitant v1` kayıtlarıyla eklendi. Eski 278 tatlı su kaydı korundu; toplam canlı sayısı 620 oldu. Yeni kayıtlar `reviewed/medium` durumunda, alan bazlı kaynak bağlantıları taşıyor ve kimlik/bilimsel ad çakışması üretmiyor.
 
-**AKV-DATA-020 ilerlemesi:** 298/350. Kalan 52 kayıt, 15–20 kayıtlık ayrı kaynaklı partilerle eklenecek.
+**AKV-DATA-020 ilerlemesi:** 318/350. Kalan 32 kayıt, 15–20 kayıtlık ayrı kaynaklı partilerle eklenecek.
 
-**Sıradaki iş:** `AKV-DATA-020 — Tatlı su veri partisi 2`.
+**Sıradaki iş:** `AKV-DATA-020 — Tatlı su veri partisi 3`.
 
 **Sprint hedefi:** 750 toplam canlı, 40 bitki, 15 taban.
 

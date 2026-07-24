@@ -2,14 +2,20 @@ import { readFileSync } from 'node:fs';
 import vm from 'node:vm';
 
 const catalogUrl = new URL('../../data/sources/source-catalog.json', import.meta.url);
-const freshwaterSourceUrl = new URL('../../data/sources/freshwater-batch-1-sources.json', import.meta.url);
+const freshwaterBatch1SourceUrl = new URL('../../data/sources/freshwater-batch-1-sources.json', import.meta.url);
+const freshwaterBatch2SourceUrl = new URL('../../data/sources/freshwater-batch-2-sources.json', import.meta.url);
 const baseCatalog = JSON.parse(readFileSync(catalogUrl, 'utf8'));
-const freshwaterSourceExtension = JSON.parse(readFileSync(freshwaterSourceUrl, 'utf8'));
+const freshwaterBatch1SourceExtension = JSON.parse(readFileSync(freshwaterBatch1SourceUrl, 'utf8'));
+const freshwaterBatch2SourceExtension = JSON.parse(readFileSync(freshwaterBatch2SourceUrl, 'utf8'));
 
 export const SOURCE_CATALOG_DOCUMENT = {
-  version: freshwaterSourceExtension.catalogVersion,
-  updatedAt: freshwaterSourceExtension.updatedAt,
-  sources: [...baseCatalog.sources, ...freshwaterSourceExtension.sources],
+  version: freshwaterBatch2SourceExtension.catalogVersion,
+  updatedAt: freshwaterBatch2SourceExtension.updatedAt,
+  sources: [
+    ...baseCatalog.sources,
+    ...freshwaterBatch1SourceExtension.sources,
+    ...freshwaterBatch2SourceExtension.sources,
+  ],
 };
 export const SOURCE_CATALOG = SOURCE_CATALOG_DOCUMENT.sources;
 
@@ -19,33 +25,52 @@ const SOURCE_BY_COLLECTION = {
   tankPresets: 'legacy-tank-preset-dataset-v1',
 };
 
-const FRESHWATER_BATCH_FILES = [
-  '../../data/curation/freshwater-batch-1-part-a.js',
-  '../../data/curation/freshwater-batch-1-part-b.js',
-  '../../data/curation/freshwater-batch-1-part-c.js',
-  '../../data/curation/freshwater-batch-1-part-d.js',
-  '../../data/curation/freshwater-batch-1.js',
+const FRESHWATER_BATCH_DEFINITIONS = [
+  {
+    globalName: 'AKV_FRESHWATER_BATCH_1',
+    files: [
+      '../../data/curation/freshwater-batch-1-part-a.js',
+      '../../data/curation/freshwater-batch-1-part-b.js',
+      '../../data/curation/freshwater-batch-1-part-c.js',
+      '../../data/curation/freshwater-batch-1-part-d.js',
+      '../../data/curation/freshwater-batch-1.js',
+    ],
+  },
+  {
+    globalName: 'AKV_FRESHWATER_BATCH_2',
+    files: [
+      '../../data/curation/freshwater-batch-2-part-a.js',
+      '../../data/curation/freshwater-batch-2-part-b.js',
+      '../../data/curation/freshwater-batch-2-part-c.js',
+      '../../data/curation/freshwater-batch-2-part-d.js',
+      '../../data/curation/freshwater-batch-2.js',
+    ],
+  },
 ];
 
-function loadFreshwaterBatch() {
+function loadFreshwaterBatches() {
   const context = vm.createContext({ window: { DB_FRESH: [] } });
-  for (const relativePath of FRESHWATER_BATCH_FILES) {
-    const source = readFileSync(new URL(relativePath, import.meta.url), 'utf8');
-    new vm.Script(source, { filename: relativePath }).runInContext(context);
+  for (const definition of FRESHWATER_BATCH_DEFINITIONS) {
+    for (const relativePath of definition.files) {
+      const source = readFileSync(new URL(relativePath, import.meta.url), 'utf8');
+      new vm.Script(source, { filename: relativePath }).runInContext(context);
+    }
   }
-  return context.window.AKV_FRESHWATER_BATCH_1;
+  return FRESHWATER_BATCH_DEFINITIONS.map((definition) => context.window[definition.globalName]);
 }
 
-const FRESHWATER_BATCH = loadFreshwaterBatch();
+const FRESHWATER_BATCHES = loadFreshwaterBatches();
 const FRESHWATER_PROVENANCE_BY_ID = new Map(
-  FRESHWATER_BATCH.canonical.map((record) => [
-    record.id,
-    {
-      sourceIds: record.sourceIds,
-      fieldSourceIds: record.fieldSourceIds,
-      verification: record.verification,
-    },
-  ]),
+  FRESHWATER_BATCHES
+    .flatMap((batch) => batch.canonical)
+    .map((record) => [
+      record.id,
+      {
+        sourceIds: record.sourceIds,
+        fieldSourceIds: record.fieldSourceIds,
+        verification: record.verification,
+      },
+    ]),
 );
 
 function unique(values) {

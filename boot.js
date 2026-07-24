@@ -74,11 +74,16 @@
         i18n,
         freshFish,
         saltFish,
-        freshBatchA,
-        freshBatchB,
-        freshBatchC,
-        freshBatchD,
-        freshBatchCore,
+        freshBatch1A,
+        freshBatch1B,
+        freshBatch1C,
+        freshBatch1D,
+        freshBatch1Core,
+        freshBatch2A,
+        freshBatch2B,
+        freshBatch2C,
+        freshBatch2D,
+        freshBatch2Core,
         data,
         compatibilityOverrides,
         engine,
@@ -108,6 +113,11 @@
         fetchText('data/curation/freshwater-batch-1-part-c.js'),
         fetchText('data/curation/freshwater-batch-1-part-d.js'),
         fetchText('data/curation/freshwater-batch-1.js'),
+        fetchText('data/curation/freshwater-batch-2-part-a.js'),
+        fetchText('data/curation/freshwater-batch-2-part-b.js'),
+        fetchText('data/curation/freshwater-batch-2-part-c.js'),
+        fetchText('data/curation/freshwater-batch-2-part-d.js'),
+        fetchText('data/curation/freshwater-batch-2.js'),
         fetchText('data.js'),
         fetchText('data/curation/compatibility-overrides-v1.json'),
         fetchText('engine.js'),
@@ -137,11 +147,16 @@
       runJavaScript(i18n, 'i18n.js');
       runJavaScript(freshFish, 'fish-fresh.js');
       runJavaScript(saltFish, 'fish-salt.js');
-      runJavaScript(freshBatchA, 'freshwater-batch-1-part-a.js');
-      runJavaScript(freshBatchB, 'freshwater-batch-1-part-b.js');
-      runJavaScript(freshBatchC, 'freshwater-batch-1-part-c.js');
-      runJavaScript(freshBatchD, 'freshwater-batch-1-part-d.js');
-      runJavaScript(freshBatchCore, 'freshwater-batch-1.js');
+      runJavaScript(freshBatch1A, 'freshwater-batch-1-part-a.js');
+      runJavaScript(freshBatch1B, 'freshwater-batch-1-part-b.js');
+      runJavaScript(freshBatch1C, 'freshwater-batch-1-part-c.js');
+      runJavaScript(freshBatch1D, 'freshwater-batch-1-part-d.js');
+      runJavaScript(freshBatch1Core, 'freshwater-batch-1.js');
+      runJavaScript(freshBatch2A, 'freshwater-batch-2-part-a.js');
+      runJavaScript(freshBatch2B, 'freshwater-batch-2-part-b.js');
+      runJavaScript(freshBatch2C, 'freshwater-batch-2-part-c.js');
+      runJavaScript(freshBatch2D, 'freshwater-batch-2-part-d.js');
+      runJavaScript(freshBatch2Core, 'freshwater-batch-2.js');
       runJavaScript(data, 'data.js');
       window.DB.compatibilityOverrides = JSON.parse(compatibilityOverrides);
       runJavaScript(engine, 'engine.js');
