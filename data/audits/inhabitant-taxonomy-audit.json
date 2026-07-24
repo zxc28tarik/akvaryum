@@ -1,13 +1,13 @@
 {
   "version": 1,
   "generatedAt": "2026-07-24",
-  "recordCount": 620,
+  "recordCount": 636,
   "scope": "Kimlik, bilimsel ad, ortak ad, açık nomenklatür ve mevcut cins-aile alanlarının iç tutarlılık denetimi",
   "acceptedNameVerification": {
     "verifiedRecords": 0,
-    "reviewedRecords": 40,
+    "reviewedRecords": 56,
     "needsExternalReview": 580,
-    "note": "İlk iki AKV-DATA-020 partisiyle 40 kayıt FishBase tür özetleriyle incelendi ve reviewed/medium durumda tutuldu. Eski 580 kayıt için dış taksonomi doğrulaması devam ediyor."
+    "note": "İlk üç AKV-DATA-020 partisiyle 56 kayıt FishBase tür özetleriyle incelendi ve reviewed/medium durumda tutuldu. Eski 580 kayıt için dış taksonomi doğrulaması devam ediyor."
   },
   "countsByType": {
     "duplicate_common_name_en": 1,
