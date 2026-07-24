@@ -41,6 +41,15 @@ jobs:
       - name: Inhabitant v1 migrasyonunu doğrula
         run: npm run check:migration
 
+      - name: Başarısız migrasyon tanısını yükle
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: inhabitant-migration-failure
+          path: inhabitant-migration-error.txt
+          if-no-files-found: ignore
+          retention-days: 2
+
       - name: İlk kaynaklı tatlı su veri partisini doğrula
         run: npm run check:freshwater-batch1
 
