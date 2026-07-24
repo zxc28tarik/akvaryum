@@ -2,7 +2,7 @@ name: Vite doğrulama
 
 on:
   push:
-    branches: [main]
+    branches: [main, agent/akv-data-020-freshwater-batch-3]
   pull_request:
 
 permissions:
