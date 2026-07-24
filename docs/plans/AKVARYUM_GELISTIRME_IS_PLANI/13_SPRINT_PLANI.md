@@ -67,24 +67,27 @@ Bu plan tek geliştirici veya küçük ekip için **sıralı çalışma paketler
 
 **Çıktı:** Hacim, biyolojik yük ve davranış ayrı hesaplanıyor. Avcı–av motoru kaynaklı profil bulunduğunda güvenli/riskli istisna ve av boyu eşiği kullanıyor; profil bulunmayan türlerde eski davranış korunuyor. Production katalog için henüz ağız ölçüsü uydurulmadı.
 
-## Sprint 08 — Resif ve omurgasız — devam ediyor
+## Sprint 08 — Resif ve omurgasız — tamamlandı
 
 - AKV-CORAL-001 — tamamlandı: 18 soft, 20 LPS ve 12 SPS olmak üzere 50 mercanın ışık, akıntı ve agresyon alanları dolduruldu
-- AKV-ENG-014 — sıradaki iş: omurgasız ve mercan güvenliği ayrımı
-- AKV-ENG-015 — ilk 25 doğrulanmış tür çifti istisnası
+- AKV-ENG-014 — tamamlandı: soft/LPS/SPS ve shrimp/snail/crab/clam güvenliği ayrıldı
+- AKV-ENG-015A — tamamlandı: ilk 25 kaynaklı ve doğrulanmış tür çifti istisnası production motoruna bağlandı
+- AKV-ENG-015B — tamamlandı: ikinci 25 kaynaklı ve doğrulanmış tür çifti istisnası production motoruna bağlandı; AKV-ENG-015 50/50 kapandı
 
-**Mevcut çıktı:** Soft/LPS/SPS mercan ayrımı production verisinde ışık, akıntı ve agresyon profilleriyle çalışıyor. Elli mercanın tamamı düşük güvenli ve tür bazlı dış kaynak incelemesi gerektiren curation değerleri taşıyor. `check:corals` 11 odaklı senaryoyla veri ve production bağlantısını doğruluyor.
+**Çıktı:** Soft/LPS/SPS mercan ayrımı production verisinde ışık, akıntı ve agresyon profilleriyle çalışıyor. Resif motoru yedi hedefi ayrı değerlendiriyor. İki tür çifti partisi toplam 23 uyumlu, 17 koşullu, 5 dikkat ve 5 uyumsuz kayıt içeriyor; dokuz dış kaynağa bağlı 50 kaydın tamamı `verified/medium`. `check:engine-pairs` 19 odaklı senaryoyla genel kuralın üstüne yazma sırasını ve bağımsız çevresel güvenlik kurallarının korunmasını doğruluyor.
 
-**Sprint hedefi:** Mercan/omurgasız güvenliği ayrılmış resif değerlendirmesi.
+**Sonraki iş:** Sprint 09 kapsamında `AKV-UI-021` ile hazır dört alt puanı sonuç ekranında göstermek.
 
-## Sprint 09 — Skor ve sonuç deneyimi
+## Sprint 09 — Skor ve sonuç deneyimi — devam ediyor
 
-- AKV-ENG-016
+- AKV-ENG-016 — tamamlandı: 30/30/25/15 puan sözleşmesi ve kritik toplam üst sınırları production motoruna bağlandı
 - AKV-UI-021
 - AKV-UI-022
-- Yeni skor sisteminin kritik davranışlarını koruyan gerekli senaryolar
+- Yeni skor sisteminin kritik davranışlarını koruyan 13 odaklı senaryo — tamamlandı
 
-**Çıktı:** Dört alt skorlu açıklanabilir sonuç ekranı.
+**Mevcut çıktı:** Motor `result.scoreBreakdown` altında dört alt puan, durum, ilgili kural kimlikleri, açıklama ve uygulanan kritik üst sınırları üretiyor. Çevresel kritik sonuçta toplam en fazla 39, davranışsal kritikte 49, kesin tank yetersizliğinde 59 ve kritik habitat sonucunda 69 oluyor.
+
+**Kalan çıktı:** `AKV-UI-021` dört puanı görünür hâle getirecek; `AKV-UI-022` neden/etki/çözüm kartlarını sonuç ekranına bağlayacak.
 
 ## Sprint 10 — Veri sürümü 1
 

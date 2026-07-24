@@ -75,13 +75,16 @@
         freshFish,
         saltFish,
         data,
+        compatibilityOverrides,
         engine,
         engineHealthGuard,
         engineSocialRules,
         engineConspecificRules,
         enginePredatorPreyRules,
-        engineDomainResults,
         engineReefSafetyRules,
+        engineCompatibilityOverrides,
+        engineDomainResults,
+        engineScoreBreakdown,
         resultViews,
         components,
         catalogFilterModel,
@@ -96,13 +99,16 @@
         inflateBase64('.runtime/fish-fresh.js.gz.b64'),
         inflateBase64('.runtime/fish-salt.js.gz.b64'),
         fetchText('data.js'),
+        fetchText('data/curation/compatibility-overrides-v1.json'),
         fetchText('engine.js'),
         fetchText('engine-health-guard.js'),
         fetchText('engine-social-rules.js'),
         fetchText('engine-conspecific-rules.js'),
         fetchText('engine-predator-prey-rules.js'),
-        fetchText('engine-domain-results.js'),
         fetchText('engine-reef-invertebrate-rules.js'),
+        fetchText('engine-compatibility-overrides.js'),
+        fetchText('engine-domain-results.js'),
+        fetchText('engine-score-breakdown.js'),
         inflateBase64('.runtime/result-views.jsx.gz.b64'),
         inflateBase64('.runtime/components.jsx.gz.b64'),
         fetchText('catalog-filter-model.js'),
@@ -122,13 +128,16 @@
       runJavaScript(freshFish, 'fish-fresh.js');
       runJavaScript(saltFish, 'fish-salt.js');
       runJavaScript(data, 'data.js');
+      window.DB.compatibilityOverrides = JSON.parse(compatibilityOverrides);
       runJavaScript(engine, 'engine.js');
       runJavaScript(engineHealthGuard, 'engine-health-guard.js');
       runJavaScript(engineSocialRules, 'engine-social-rules.js');
       runJavaScript(engineConspecificRules, 'engine-conspecific-rules.js');
       runJavaScript(enginePredatorPreyRules, 'engine-predator-prey-rules.js');
-      runJavaScript(engineDomainResults, 'engine-domain-results.js');
       runJavaScript(engineReefSafetyRules, 'engine-reef-invertebrate-rules.js');
+      runJavaScript(engineCompatibilityOverrides, 'engine-compatibility-overrides.js');
+      runJavaScript(engineDomainResults, 'engine-domain-results.js');
+      runJavaScript(engineScoreBreakdown, 'engine-score-breakdown.js');
       runJavaScript(catalogFilterModel, 'catalog-filter-model.js');
       runJavaScript(inhabitantDetailModel, 'inhabitant-detail-model.js');
       runJsx(resultViews, 'result-views.jsx');
