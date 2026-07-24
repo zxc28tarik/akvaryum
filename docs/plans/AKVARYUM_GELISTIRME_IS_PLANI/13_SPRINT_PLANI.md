@@ -76,18 +76,19 @@ Bu plan tek geliştirici veya küçük ekip için **sıralı çalışma paketler
 
 **Çıktı:** Soft/LPS/SPS mercan ayrımı production verisinde ışık, akıntı ve agresyon profilleriyle çalışıyor. Resif motoru yedi hedefi ayrı değerlendiriyor. İki tür çifti partisi toplam 23 uyumlu, 17 koşullu, 5 dikkat ve 5 uyumsuz kayıt içeriyor; dokuz dış kaynağa bağlı 50 kaydın tamamı `verified/medium`. `check:engine-pairs` 19 odaklı senaryoyla genel kuralın üstüne yazma sırasını ve bağımsız çevresel güvenlik kurallarının korunmasını doğruluyor.
 
-**Sonraki iş:** Sprint 09 kapsamında `AKV-UI-021` ile hazır dört alt puanı sonuç ekranında göstermek.
+**Sonraki iş:** Sprint 09 kapsamında `AKV-UI-022` ile neden, etki ve çözüm sunumunu ana sonuç bulgularına yaymak.
 
 ## Sprint 09 — Skor ve sonuç deneyimi — devam ediyor
 
 - AKV-ENG-016 — tamamlandı: 30/30/25/15 puan sözleşmesi ve kritik toplam üst sınırları production motoruna bağlandı
-- AKV-UI-021
+- AKV-UI-021 — tamamlandı: dört alt puan sonuç ekranında kartlar, açıklamalar ve kritik sınır notuyla görünür
 - AKV-UI-022
 - Yeni skor sisteminin kritik davranışlarını koruyan 13 odaklı senaryo — tamamlandı
+- Alt puan kartlarının görünüm ve bağlantı sözleşmesini koruyan 8 odaklı senaryo — tamamlandı
 
-**Mevcut çıktı:** Motor `result.scoreBreakdown` altında dört alt puan, durum, ilgili kural kimlikleri, açıklama ve uygulanan kritik üst sınırları üretiyor. Çevresel kritik sonuçta toplam en fazla 39, davranışsal kritikte 49, kesin tank yetersizliğinde 59 ve kritik habitat sonucunda 69 oluyor.
+**Mevcut çıktı:** Motor `result.scoreBreakdown` altında dört alt puan, durum, ilgili kural kimlikleri, açıklama ve uygulanan kritik üst sınırları üretiyor. Sonuç ekranı çevre 30, davranış 30, tank 25 ve habitat 15 puanını ayrı kartlarda; kaybedilen puan, kritik/uyarı ayrımı ve açılır neden/etki/çözüm ayrıntılarıyla gösteriyor. Çevresel kritik sonuçta toplam en fazla 39, davranışsal kritikte 49, kesin tank yetersizliğinde 59 ve kritik habitat sonucunda 69 oluyor.
 
-**Kalan çıktı:** `AKV-UI-021` dört puanı görünür hâle getirecek; `AKV-UI-022` neden/etki/çözüm kartlarını sonuç ekranına bağlayacak.
+**Kalan çıktı:** `AKV-UI-022` neden/etki/çözüm kartlarını ana sorun, uyarı ve öneri listelerinin tamamına yayacak.
 
 ## Sprint 10 — Veri sürümü 1
 
