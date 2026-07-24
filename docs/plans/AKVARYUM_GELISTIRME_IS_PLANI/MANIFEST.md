@@ -52,5 +52,6 @@
 | `45_AKV_UI_021_SONUC_ALT_PUAN_KARTLARI.md` | Dört alt puanın sonuç ekranında açıklanabilir, iki dilli ve erişilebilir kartlarla gösterilmesi | Yüklendi |
 | `46_AKV_UI_022_NEDEN_ETKI_COZUM_KARTLARI.md` | Kritik sorun, uyarı ve önerilerin neden, etki, çözüm ve kural kimliği alanlarıyla gösterilmesi | Yüklendi |
 | `47_AKV_DATA_020_TATLI_SU_PARTI_1.md` | İlk 20 kaynaklı tatlı su kaydı, 298/350 ilerleme ve 600 canlı envanteri | Yüklendi |
+| `48_AKV_DATA_020_TATLI_SU_PARTI_2.md` | İkinci 20 kaynaklı tatlı su kaydı, 318/350 ilerleme ve 620 canlı envanteri | Yüklendi |
 
 Planın tamamı yerel ZIP paketinde korunmaktadır. GitHub’a aktarılan dosyalar aktif geliştirme sırasında öncelikli kaynak kabul edilir; kalan uzmanlık belgeleri ilgili göreve başlanmadan önce depoya eklenir.
