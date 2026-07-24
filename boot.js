@@ -74,6 +74,11 @@
         i18n,
         freshFish,
         saltFish,
+        freshBatchA,
+        freshBatchB,
+        freshBatchC,
+        freshBatchD,
+        freshBatchCore,
         data,
         compatibilityOverrides,
         engine,
@@ -98,6 +103,11 @@
         fetchText('i18n.js'),
         inflateBase64('.runtime/fish-fresh.js.gz.b64'),
         inflateBase64('.runtime/fish-salt.js.gz.b64'),
+        fetchText('data/curation/freshwater-batch-1-part-a.js'),
+        fetchText('data/curation/freshwater-batch-1-part-b.js'),
+        fetchText('data/curation/freshwater-batch-1-part-c.js'),
+        fetchText('data/curation/freshwater-batch-1-part-d.js'),
+        fetchText('data/curation/freshwater-batch-1.js'),
         fetchText('data.js'),
         fetchText('data/curation/compatibility-overrides-v1.json'),
         fetchText('engine.js'),
@@ -127,6 +137,11 @@
       runJavaScript(i18n, 'i18n.js');
       runJavaScript(freshFish, 'fish-fresh.js');
       runJavaScript(saltFish, 'fish-salt.js');
+      runJavaScript(freshBatchA, 'freshwater-batch-1-part-a.js');
+      runJavaScript(freshBatchB, 'freshwater-batch-1-part-b.js');
+      runJavaScript(freshBatchC, 'freshwater-batch-1-part-c.js');
+      runJavaScript(freshBatchD, 'freshwater-batch-1-part-d.js');
+      runJavaScript(freshBatchCore, 'freshwater-batch-1.js');
       runJavaScript(data, 'data.js');
       window.DB.compatibilityOverrides = JSON.parse(compatibilityOverrides);
       runJavaScript(engine, 'engine.js');
