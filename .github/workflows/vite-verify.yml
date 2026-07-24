@@ -41,6 +41,9 @@ jobs:
       - name: Inhabitant v1 migrasyonunu doğrula
         run: npm run check:migration
 
+      - name: İlk kaynaklı tatlı su veri partisini doğrula
+        run: npm run check:freshwater-batch1
+
       - name: Plant v1 migrasyonunu doğrula
         run: npm run check:plants
 
