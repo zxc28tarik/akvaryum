@@ -7,7 +7,7 @@ import { buildInhabitantCatalog } from '../../data/catalog/index.mjs';
 import { MIGRATION_SOURCE_ID } from '../../data/migration/legacy-to-inhabitant.mjs';
 import { loadLegacyData } from './load-legacy-data.mjs';
 
-const EXPECTED_TOTAL = 580;
+const EXPECTED_TOTAL = 600;
 
 function formatAjvErrors(errors = []) {
   return errors

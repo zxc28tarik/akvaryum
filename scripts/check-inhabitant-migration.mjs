@@ -5,6 +5,5 @@ import { validateInhabitantMigration } from './lib/validate-inhabitant-migration
 
 const repositoryRoot = resolve(dirname(fileURLToPath(import.meta.url)), '..');
 const report = validateInhabitantMigration(repositoryRoot);
-
 console.log('AKVARYUM Inhabitant v1 migrasyonu doğrulandı.');
 console.log(JSON.stringify(report, null, 2));
