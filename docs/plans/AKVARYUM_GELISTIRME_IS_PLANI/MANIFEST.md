@@ -50,5 +50,6 @@
 | `43_AKV_ENG_015B_IKINCI_25_TUR_CIFTI_ISTISNASI.md` | İkinci 25 kaynaklı tür çifti istisnası ve AKV-ENG-015 ana görevinin 50/50 kapanışı | Yüklendi |
 | `44_AKV_ENG_016_DORT_ALT_PUAN_SISTEMI.md` | 30/30/25/15 açıklanabilir puan sözleşmesi, kritik üst sınırlar ve doğrulama sonucu | Yüklendi |
 | `45_AKV_UI_021_SONUC_ALT_PUAN_KARTLARI.md` | Dört alt puanın sonuç ekranında açıklanabilir, iki dilli ve erişilebilir kartlarla gösterilmesi | Yüklendi |
+| `46_AKV_UI_022_NEDEN_ETKI_COZUM_KARTLARI.md` | Kritik sorun, uyarı ve önerilerin neden, etki, çözüm ve kural kimliği alanlarıyla gösterilmesi | Yüklendi |
 
 Planın tamamı yerel ZIP paketinde korunmaktadır. GitHub’a aktarılan dosyalar aktif geliştirme sırasında öncelikli kaynak kabul edilir; kalan uzmanlık belgeleri ilgili göreve başlanmadan önce depoya eklenir.
