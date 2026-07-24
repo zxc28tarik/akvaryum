@@ -12,7 +12,6 @@
     throw new Error(`AKV-DATA-020 parti 1: 20 kayıt bekleniyordu, ${specs.length} bulundu.`);
   }
 
-  const dietLegacy = { herbivore: 'herbi', omnivore: 'omni', carnivore: 'carni' };
   const zoneLegacy = (zones) => zones.includes('surface') ? 'top' : (zones.includes('bottom') || zones.includes('sand') ? 'bottom' : 'mid');
   const unique = (values) => [...new Set(values.filter(Boolean))];
 
@@ -30,7 +29,7 @@
       gh: [...spec.gh],
       aggression: spec.aggression,
       schooling: spec.school,
-      diet: dietLegacy[spec.diet],
+      diet: spec.diet,
       adultSize: spec.size,
       layer: zoneLegacy(spec.zone),
       plantSafe: spec.plant,
