@@ -23,6 +23,7 @@ import { validateEngineScoreBreakdown } from './scripts/lib/validate-engine-scor
 import { validateEngineSocialRules } from './scripts/lib/validate-engine-social-rules.mjs';
 import { validateFreshwaterBatch1 } from './scripts/lib/validate-freshwater-batch-1.mjs';
 import { validateFreshwaterBatch2 } from './scripts/lib/validate-freshwater-batch-2.mjs';
+import { validateFreshwaterBatch3 } from './scripts/lib/validate-freshwater-batch-3.mjs';
 import { validateInhabitantCatalog } from './scripts/lib/validate-inhabitant-catalog.mjs';
 import { validateInhabitantDetail } from './scripts/lib/validate-inhabitant-detail.mjs';
 import { validateInhabitantMigration } from './scripts/lib/validate-inhabitant-migration.mjs';
@@ -71,6 +72,11 @@ const plainSources = {
   'freshwater-batch-2-part-c.js': 'data/curation/freshwater-batch-2-part-c.js',
   'freshwater-batch-2-part-d.js': 'data/curation/freshwater-batch-2-part-d.js',
   'freshwater-batch-2.js': 'data/curation/freshwater-batch-2.js',
+  'freshwater-batch-3-part-a.js': 'data/curation/freshwater-batch-3-part-a.js',
+  'freshwater-batch-3-part-b.js': 'data/curation/freshwater-batch-3-part-b.js',
+  'freshwater-batch-3-part-c.js': 'data/curation/freshwater-batch-3-part-c.js',
+  'freshwater-batch-3-part-d.js': 'data/curation/freshwater-batch-3-part-d.js',
+  'freshwater-batch-3.js': 'data/curation/freshwater-batch-3.js',
 };
 
 function readPlain(relativePath) {
@@ -93,6 +99,7 @@ function nativeLegacyModules() {
       const migrationReport = validateInhabitantMigration(repositoryRoot);
       const freshwaterBatch1Report = validateFreshwaterBatch1(repositoryRoot);
       const freshwaterBatch2Report = validateFreshwaterBatch2(repositoryRoot);
+      const freshwaterBatch3Report = validateFreshwaterBatch3(repositoryRoot);
       const plantReport = validatePlantMigration(repositoryRoot);
       const substrateReport = validateSubstrateMigration(repositoryRoot);
       const coralReport = validateCoralCare(repositoryRoot);
@@ -119,6 +126,7 @@ function nativeLegacyModules() {
       this.info(`AKVARYUM Inhabitant migrasyonu doğrulandı: ${migrationReport.migratedRecords} kayıt, ${migrationReport.preservedIds} korunan kimlik.`);
       this.info(`AKVARYUM tatlı su partisi 1 doğrulandı: ${freshwaterBatch1Report.batchRecords} yeni kayıt, ${freshwaterBatch1Report.totalFreshwater} tatlı su.`);
       this.info(`AKVARYUM tatlı su partisi 2 doğrulandı: ${freshwaterBatch2Report.batchRecords} yeni kayıt, ${freshwaterBatch2Report.totalFreshwater} tatlı su.`);
+      this.info(`AKVARYUM tatlı su partisi 3 doğrulandı: ${freshwaterBatch3Report.batchRecords} yeni kayıt, ${freshwaterBatch3Report.totalFreshwater} tatlı su.`);
       this.info(`AKVARYUM Plant migrasyonu doğrulandı: ${plantReport.migratedRecords} kayıt, ${plantReport.preservedIds} korunan kimlik.`);
       this.info(`AKVARYUM Substrate migrasyonu doğrulandı: ${substrateReport.migratedRecords} kayıt, ${substrateReport.preservedIds} korunan kimlik.`);
       this.info(`AKVARYUM mercan bakımı doğrulandı: ${coralReport.corals} mercan, ${coralReport.genusOverrides} cins profili.`);
@@ -186,6 +194,11 @@ function nativeLegacyModules() {
             "import 'virtual:akvaryum/freshwater-batch-2-part-c.js';",
             "import 'virtual:akvaryum/freshwater-batch-2-part-d.js';",
             "import 'virtual:akvaryum/freshwater-batch-2.js';",
+            "import 'virtual:akvaryum/freshwater-batch-3-part-a.js';",
+            "import 'virtual:akvaryum/freshwater-batch-3-part-b.js';",
+            "import 'virtual:akvaryum/freshwater-batch-3-part-c.js';",
+            "import 'virtual:akvaryum/freshwater-batch-3-part-d.js';",
+            "import 'virtual:akvaryum/freshwater-batch-3.js';",
             "import { migrateLegacyInhabitants } from 'virtual:akvaryum/legacy-to-inhabitant.mjs';",
             "import { migrateLegacyPlants } from 'virtual:akvaryum/legacy-to-plant.mjs';",
             "import { migrateLegacySubstrates } from 'virtual:akvaryum/legacy-to-substrate.mjs';",
@@ -194,7 +207,7 @@ function nativeLegacyModules() {
             "import { applyCoralCareProfiles } from 'virtual:akvaryum/coral-care-v1.mjs';",
             source,
             buildRuntimeSourceProvenanceBootstrap(),
-            'const __freshwaterBatchCanonical = new Map([...(window.AKV_FRESHWATER_BATCH_1?.canonical || []), ...(window.AKV_FRESHWATER_BATCH_2?.canonical || [])].map((record) => [record.id, record]));',
+            'const __freshwaterBatchCanonical = new Map([...(window.AKV_FRESHWATER_BATCH_1?.canonical || []), ...(window.AKV_FRESHWATER_BATCH_2?.canonical || []), ...(window.AKV_FRESHWATER_BATCH_3?.canonical || [])].map((record) => [record.id, record]));',
             'const __migratedInhabitants = applyCoralCareProfiles(applyPriorityTankLength(applyPrioritySocialCare(migrateLegacyInhabitants(window.DB.fish || []))));',
             'window.DB.inhabitants = __migratedInhabitants.map((record) => __freshwaterBatchCanonical.get(record.id) || record);',
             'window.DB.aquaticPlants = migrateLegacyPlants(window.DB.plants || []);',
