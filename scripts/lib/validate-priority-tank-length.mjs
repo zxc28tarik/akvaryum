@@ -149,11 +149,12 @@ export function validatePriorityTankLength(repositoryRoot) {
 
   for (const record of curated) {
     if (!prioritySet.has(record.id)) {
-      if (record.tank.minLengthCm !== undefined) {
-        throw new Error(`${record.id}: öncelik seti dışındaki kayda tank uzunluğu uygulandı.`);
-      }
       if (record.sourceIds.includes(PRIORITY_TANK_LENGTH_SOURCE_ID)) {
         throw new Error(`${record.id}: öncelik seti dışındaki kayda tank uzunluğu kaynağı uygulandı.`);
+      }
+      if (record.tank.minLengthCm !== undefined
+        && !(record.fieldSourceIds.tank ?? []).some((sourceId) => sourceId !== PRIORITY_TANK_LENGTH_SOURCE_ID)) {
+        throw new Error(`${record.id}: öncelik dışı tank uzunluğunun bağımsız kaynağı yok.`);
       }
     }
   }
