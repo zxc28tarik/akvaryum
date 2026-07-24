@@ -44,6 +44,9 @@ jobs:
       - name: İlk kaynaklı tatlı su veri partisini doğrula
         run: npm run check:freshwater-batch1
 
+      - name: İkinci kaynaklı tatlı su veri partisini doğrula
+        run: npm run check:freshwater-batch2
+
       - name: Plant v1 migrasyonunu doğrula
         run: npm run check:plants
 
