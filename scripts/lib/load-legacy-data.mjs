@@ -12,6 +12,14 @@ import { migrateLegacySubstrates } from '../../data/migration/legacy-to-substrat
 import { enrichLegacyFish } from './classify-legacy-fish.mjs';
 import { applySourceProvenance } from './source-provenance.mjs';
 
+const FRESHWATER_BATCH_FILES = [
+  'data/curation/freshwater-batch-1-part-a.js',
+  'data/curation/freshwater-batch-1-part-b.js',
+  'data/curation/freshwater-batch-1-part-c.js',
+  'data/curation/freshwater-batch-1-part-d.js',
+  'data/curation/freshwater-batch-1.js',
+];
+
 function readText(repositoryRoot, relativePath) {
   return readFileSync(resolve(repositoryRoot, relativePath), 'utf8');
 }
@@ -19,6 +27,11 @@ function readText(repositoryRoot, relativePath) {
 function readArchive(repositoryRoot, relativePath) {
   const encoded = readText(repositoryRoot, relativePath).trim();
   return gunzipSync(Buffer.from(encoded, 'base64')).toString('utf8');
+}
+
+function replaceBatchCanonical(records, batch) {
+  const canonicalById = new Map((batch?.canonical ?? []).map((record) => [record.id, record]));
+  return records.map((record) => canonicalById.get(record.id) ?? record);
 }
 
 export function loadLegacyData(
@@ -45,6 +58,9 @@ export function loadLegacyData(
 
   context.window.DB_FRESH = enrichLegacyFish(context.window.DB_FRESH ?? [], freshSource);
   context.window.DB_SALT = enrichLegacyFish(context.window.DB_SALT ?? [], saltSource);
+  for (const relativePath of FRESHWATER_BATCH_FILES) {
+    run(readText(repositoryRoot, relativePath), relativePath);
+  }
 
   run(readText(repositoryRoot, 'data.js'), 'data.js');
   if (withProvenance || withMigration || withPriorityCuration
@@ -52,7 +68,11 @@ export function loadLegacyData(
     applySourceProvenance(context.window.DB);
   }
   if (withMigration || withPriorityCuration) {
-    context.window.DB.inhabitants = migrateLegacyInhabitants(context.window.DB.fish ?? []);
+    const migrated = migrateLegacyInhabitants(context.window.DB.fish ?? []);
+    context.window.DB.inhabitants = replaceBatchCanonical(
+      migrated,
+      context.window.AKV_FRESHWATER_BATCH_1,
+    );
   }
   if (withPriorityCuration) {
     context.window.DB.inhabitants = applyPrioritySocialCare(context.window.DB.inhabitants);
@@ -80,6 +100,7 @@ export function loadLegacyData(
     sources: context.window.DB?.sources ?? [],
     sourceCatalogVersion: context.window.DB?.sourceCatalogVersion ?? null,
     inhabitantCatalog: context.window.DB?.inhabitantCatalog ?? null,
+    freshwaterBatch1: context.window.AKV_FRESHWATER_BATCH_1 ?? null,
     engine: context.window.Engine,
   };
 }
