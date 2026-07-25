@@ -7,6 +7,31 @@
     configurable: true,
     get() { return undefined; },
     set(value) {
+      const renameGlowlight = (record) => {
+        if (record.id !== 'glowlight-danio') return;
+        record.id = 'flagrans-danio';
+        if ('nameTr' in record) {
+          record.nameTr = 'Flagrans Danio';
+          record.nameEn = 'Flagrans Danio';
+          record.sci = 'Danio flagrans';
+        } else {
+          record.name = { tr: 'Flagrans Danio', en: 'Flagrans Danio' };
+          record.scientificName = 'Danio flagrans';
+        }
+        record.taxonomy.genus = 'Danio';
+        record.taxonomy.family = 'Danionidae';
+      };
+
+      for (const record of value?.legacy || []) renameGlowlight(record);
+      for (const record of value?.canonical || []) {
+        renameGlowlight(record);
+        if (record.id === 'red-spotted-rhinogobius') record.taxonomy.family = 'Gobiidae';
+      }
+      for (const record of window.DB_FRESH || []) {
+        renameGlowlight(record);
+        if (record.id === 'red-spotted-rhinogobius') record.taxonomy.family = 'Gobiidae';
+      }
+
       const ids = new Set((value?.legacy || []).map((record) => record.id));
       for (const record of window.DB_FRESH || []) {
         if (!ids.has(record.id)) continue;
