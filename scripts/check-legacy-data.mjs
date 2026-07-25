@@ -9,9 +9,9 @@ const ids = data.fish.map((item) => item.id);
 const duplicateIds = ids.filter((id, index) => ids.indexOf(id) !== index);
 
 const expected = {
-  fresh: 334,
+  fresh: 448,
   salt: 302,
-  fish: 636,
+  fish: 750,
   plants: 26,
   substrates: 8,
 };
@@ -38,4 +38,11 @@ if (typeof data.engine?.analyze !== 'function') {
   throw new Error('Engine.analyze yüklenemedi.');
 }
 
-console.log(JSON.stringify({ ...actual, preservedLegacyFreshwater: 278, batchFreshwater: 56, duplicateFishIds: 0 }, null, 2));
+console.log(JSON.stringify({
+  ...actual,
+  preservedLegacyFreshwater: 278,
+  reviewedBatchFreshwater: 56,
+  bulkDraftFreshwater: 114,
+  batchFreshwater: 170,
+  duplicateFishIds: 0,
+}, null, 2));
