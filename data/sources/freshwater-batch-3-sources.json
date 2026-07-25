@@ -51,8 +51,8 @@
       "accessedAt": "2026-07-24",
       "lastCheckedAt": "2026-07-24",
       "fields": ["name", "scientificName", "taxonomy.genus", "taxonomy.family", "water", "size", "tank", "social", "behavior", "feeding", "compatibility", "habitat", "care", "summary", "appearance", "notes"],
-      "sourceType": "internal",
-      "status": "needs_review",
+      "sourceType": "derived",
+      "status": "unverified",
       "confidence": "low",
       "note": "114 tür hızlı katalog büyümesi için aday havuzu olarak eklendi. Bilimsel ad, aile ve bütün bakım değerleri tür bazında dış doğrulama bekler; kayıtlar final bakım tavsiyesi değildir."
     }
