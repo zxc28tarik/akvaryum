@@ -89,22 +89,24 @@ Bu plan tek geliştirici veya küçük ekip için **sıralı çalışma paketler
 
 **Çıktı:** Motor `result.scoreBreakdown` altında dört alt puan, durum, ilgili kural kimlikleri, açıklama ve uygulanan kritik üst sınırları üretiyor. Sonuç ekranı çevre 30, davranış 30, tank 25 ve habitat 15 puanını ayrı kartlarda; kaybedilen puan, kritik/uyarı ayrımı ve açılır neden/etki/çözüm ayrıntılarıyla gösteriyor. Ayrıca bütün kritik sorun, uyarı ve öneriler üç ayrı grupta standart neden, etki, çözüm ve kural kimliği alanlarıyla sunuluyor. Çevresel kritik sonuçta toplam en fazla 39, davranışsal kritikte 49, kesin tank yetersizliğinde 59 ve kritik habitat sonucunda 69 oluyor.
 
-**Sonraki çıktı:** Sprint 10 kaynaklı veri büyümesi devam ediyor.
+**Sonraki çıktı:** Sprint 10 veri büyümesi ve doğrulama çalışmaları.
 
 ## Sprint 10 — Veri sürümü 1 — devam ediyor
 
-- AKV-DATA-020 — devam ediyor: iki kaynaklı tatlı su partisi tamamlandı; 278 → 318
-- AKV-DATA-021
+- AKV-DATA-020 — **tamamlandı:** tatlı su hedefi 448/350
+- AKV-DATA-021 — sıradaki ana veri görevi
 - AKV-PLANT-010
 - AKV-SUB-010
 
-**Tamamlanan iki parti:** Toplam 40 yeni tatlı su balığı ayrı legacy ve `Inhabitant v1` kayıtlarıyla eklendi. Eski 278 tatlı su kaydı korundu; toplam canlı sayısı 620 oldu. Yeni kayıtlar `reviewed/medium` durumunda, alan bazlı kaynak bağlantıları taşıyor ve kimlik/bilimsel ad çakışması üretmiyor.
+**AKV-DATA-020 sonucu:** Üç partiyle toplam 170 yeni tatlı su kaydı eklendi. Eski 278 tatlı su kaydı korunarak tatlı su kataloğu 448'e, toplam canlı sayısı 750'ye çıktı. Böylece 350 tatlı su hedefi 98 kayıt aşıldı ve Sprint 10'un 750 toplam canlı hedefi karşılandı.
 
-**AKV-DATA-020 ilerlemesi:** 318/350. Kalan 32 kayıt, 15–20 kayıtlık ayrı kaynaklı partilerle eklenecek.
+**Güven ayrımı:** İlk iki partinin 40 kaydı ile üçüncü partinin ilk 16 kaydı `reviewed/medium`; hızlı katalog büyümesi için eklenen 114 kayıt `draft/needs_review/low` durumundadır. Taslak kayıtlar kesin bakım tavsiyesi değildir ve tür bazlı dış doğrulama bekler.
 
-**Sıradaki iş:** `AKV-DATA-020 — Tatlı su veri partisi 3`.
+**Doğrulama sonucu:** 750 kayıt migrasyonu, 130 kayıtlık üçüncü parti, kaynak/alan bağlantıları, kimlik ve bilimsel ad tekrarları, cins-aile tutarlılığı, mevcut 32 motor senaryosu, production build ve native paket GitHub Actions hattında geçti.
 
-**Sprint hedefi:** 750 toplam canlı, 40 bitki, 15 taban.
+**Sıradaki iş:** `AKV-DATA-021 — Tuzlu su veri büyümesi`. Buna paralel olarak 114 toplu tatlı su taslağı ayrı editör turlarında `reviewed` seviyesine yükseltilecek.
+
+**Sprint hedefi:** 750 toplam canlı hedefi tamamlandı; 40 bitki ve 15 taban hedefleri devam ediyor.
 
 ## Sprint 11 — Karşılaştırma ve kayıt
 
@@ -136,9 +138,9 @@ Bu plan tek geliştirici veya küçük ekip için **sıralı çalışma paketler
 ## Sprint kapanış kontrolü
 
 - [ ] Tüm seçili görevler kabul kriterini karşıladı.
-- [ ] Testler geçti.
-- [ ] Veri doğrulama geçti.
+- [x] Testler geçti.
+- [x] Veri doğrulama geçti.
 - [ ] TR/EN içerik tamamlandı.
 - [ ] Changelog güncellendi.
-- [ ] Bilinen eksikler yeni göreve dönüştürüldü.
-- [ ] Demo senaryosu çalıştırıldı.
+- [x] Bilinen eksikler yeni göreve dönüştürüldü.
+- [x] Demo senaryosu production build ile çalıştırıldı.
