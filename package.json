@@ -19,6 +19,7 @@
     "check:migration": "node scripts/check-inhabitant-migration.mjs",
     "check:freshwater-batch1": "node scripts/check-freshwater-batch-1.mjs",
     "check:freshwater-batch2": "node scripts/check-freshwater-batch-2.mjs",
+    "check:freshwater-batch3": "node scripts/check-freshwater-batch-3.mjs",
     "check:plants": "node scripts/check-plant-migration.mjs",
     "check:substrates": "node scripts/check-substrate-migration.mjs",
     "check:corals": "node scripts/check-coral-care.mjs",

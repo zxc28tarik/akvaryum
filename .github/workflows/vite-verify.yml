@@ -47,6 +47,9 @@ jobs:
       - name: İkinci kaynaklı tatlı su veri partisini doğrula
         run: npm run check:freshwater-batch2
 
+      - name: Üçüncü kaynaklı tatlı su veri partisini doğrula
+        run: npm run check:freshwater-batch3
+
       - name: Plant v1 migrasyonunu doğrula
         run: npm run check:plants
 
@@ -120,7 +123,19 @@ jobs:
         run: npm run check:tanklength100
 
       - name: Bilimsel ad ve kimlik tekrarlarını denetle
-        run: npm run check:taxonomy
+        shell: bash
+        run: |
+          set -o pipefail
+          npm run check:taxonomy 2>&1 | tee taxonomy-audit.log
+
+      - name: Başarısız taksonomi günlüğünü yükle
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: taxonomy-audit-failure
+          path: taxonomy-audit.log
+          if-no-files-found: error
+          retention-days: 7
 
       - name: Balık, omurgasız ve mercan kataloglarını doğrula
         run: npm run check:catalog

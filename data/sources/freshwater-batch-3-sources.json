@@ -1,0 +1,60 @@
+{
+  "catalogVersion": 12,
+  "updatedAt": "2026-07-24",
+  "sources": [
+    {
+      "id": "fishbase-freshwater-batch-3-2026",
+      "title": "FishBase tür özetleri — AKV-DATA-020 tatlı su partisi 3",
+      "publisher": "FishBase",
+      "url": "https://www.fishbase.se/search.php",
+      "location": "AKV-DATA-020/batch-3#species-summary-pages",
+      "accessedAt": "2026-07-24",
+      "lastCheckedAt": "2026-07-24",
+      "fields": ["name", "scientificName", "taxonomy.genus", "taxonomy.family", "water", "size", "habitat"],
+      "sourceType": "institutional",
+      "status": "verified",
+      "confidence": "high",
+      "note": "Partideki ilk 16 türün kabul edilen bilimsel adı, taksonomisi, yetişkin boyu ve doğal yaşam bilgileri FishBase kayıtlarından kontrol edildi."
+    },
+    {
+      "id": "seriouslyfish-freshwater-batch-3-2026",
+      "title": "Tür bakım profilleri — AKV-DATA-020 tatlı su partisi 3",
+      "publisher": "SeriouslyFish ve çapraz bakım kaynakları",
+      "url": "https://www.seriouslyfish.com/",
+      "location": "AKV-DATA-020/batch-3#care-profile-review",
+      "accessedAt": "2026-07-24",
+      "lastCheckedAt": "2026-07-24",
+      "fields": ["water", "tank", "social", "behavior", "feeding", "compatibility", "habitat", "care", "summary", "notes"],
+      "sourceType": "expert",
+      "status": "reviewed",
+      "confidence": "medium",
+      "note": "İlk 16 türün tank, grup, beslenme, akıntı, oksijen ve habitat alanlarında ihtiyatlı ürün alt sınırları kullanıldı."
+    },
+    {
+      "id": "freshwater-batch-3-editorial-v1",
+      "title": "AKV-DATA-020 tatlı su partisi 3 editoryal eşleme",
+      "publisher": "AKVARYUM projesi",
+      "location": "data/curation/freshwater-batch-3.js",
+      "accessedAt": "2026-07-24",
+      "lastCheckedAt": "2026-07-24",
+      "fields": ["name", "summary", "appearance", "notes"],
+      "sourceType": "derived",
+      "status": "reviewed",
+      "confidence": "medium",
+      "note": "İlk 16 türün iki dilli özet ve uygulama görünüm alanlarını taşır."
+    },
+    {
+      "id": "freshwater-bulk-draft-2026-v1",
+      "title": "AKV-DATA-020 toplu tatlı su aday havuzu",
+      "publisher": "AKVARYUM projesi",
+      "location": "data/curation/freshwater-batch-3.js#BULK_DRAFT_ROWS",
+      "accessedAt": "2026-07-24",
+      "lastCheckedAt": "2026-07-24",
+      "fields": ["name", "scientificName", "taxonomy.genus", "taxonomy.family", "water", "size", "tank", "social", "behavior", "feeding", "compatibility", "habitat", "care", "summary", "appearance", "notes"],
+      "sourceType": "derived",
+      "status": "unverified",
+      "confidence": "low",
+      "note": "114 tür hızlı katalog büyümesi için aday havuzu olarak eklendi. Bilimsel ad, aile ve bütün bakım değerleri tür bazında dış doğrulama bekler; kayıtlar final bakım tavsiyesi değildir."
+    }
+  ]
+}

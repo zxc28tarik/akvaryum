@@ -4,17 +4,20 @@ import vm from 'node:vm';
 const catalogUrl = new URL('../../data/sources/source-catalog.json', import.meta.url);
 const freshwaterBatch1SourceUrl = new URL('../../data/sources/freshwater-batch-1-sources.json', import.meta.url);
 const freshwaterBatch2SourceUrl = new URL('../../data/sources/freshwater-batch-2-sources.json', import.meta.url);
+const freshwaterBatch3SourceUrl = new URL('../../data/sources/freshwater-batch-3-sources.json', import.meta.url);
 const baseCatalog = JSON.parse(readFileSync(catalogUrl, 'utf8'));
 const freshwaterBatch1SourceExtension = JSON.parse(readFileSync(freshwaterBatch1SourceUrl, 'utf8'));
 const freshwaterBatch2SourceExtension = JSON.parse(readFileSync(freshwaterBatch2SourceUrl, 'utf8'));
+const freshwaterBatch3SourceExtension = JSON.parse(readFileSync(freshwaterBatch3SourceUrl, 'utf8'));
 
 export const SOURCE_CATALOG_DOCUMENT = {
-  version: freshwaterBatch2SourceExtension.catalogVersion,
-  updatedAt: freshwaterBatch2SourceExtension.updatedAt,
+  version: freshwaterBatch3SourceExtension.catalogVersion,
+  updatedAt: freshwaterBatch3SourceExtension.updatedAt,
   sources: [
     ...baseCatalog.sources,
     ...freshwaterBatch1SourceExtension.sources,
     ...freshwaterBatch2SourceExtension.sources,
+    ...freshwaterBatch3SourceExtension.sources,
   ],
 };
 export const SOURCE_CATALOG = SOURCE_CATALOG_DOCUMENT.sources;
@@ -44,6 +47,16 @@ const FRESHWATER_BATCH_DEFINITIONS = [
       '../../data/curation/freshwater-batch-2-part-c.js',
       '../../data/curation/freshwater-batch-2-part-d.js',
       '../../data/curation/freshwater-batch-2.js',
+    ],
+  },
+  {
+    globalName: 'AKV_FRESHWATER_BATCH_3',
+    files: [
+      '../../data/curation/freshwater-batch-3-part-a.js',
+      '../../data/curation/freshwater-batch-3-part-b.js',
+      '../../data/curation/freshwater-batch-3-part-c.js',
+      '../../data/curation/freshwater-batch-3-part-d.js',
+      '../../data/curation/freshwater-batch-3.js',
     ],
   },
 ];

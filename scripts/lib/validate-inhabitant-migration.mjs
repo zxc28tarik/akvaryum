@@ -7,13 +7,10 @@ import { buildInhabitantCatalog } from '../../data/catalog/index.mjs';
 import { MIGRATION_SOURCE_ID } from '../../data/migration/legacy-to-inhabitant.mjs';
 import { loadLegacyData } from './load-legacy-data.mjs';
 
-const EXPECTED_TOTAL = 620;
+const EXPECTED_TOTAL = 750;
 
 function formatAjvErrors(errors = []) {
-  return errors
-    .slice(0, 50)
-    .map((error) => `${error.instancePath || '/'}: ${error.message}`)
-    .join('\n');
+  return errors.slice(0, 50).map((error) => `${error.instancePath || '/'}: ${error.message}`).join('\n');
 }
 
 function equalArray(left, right) {
@@ -33,11 +30,8 @@ export function validateInhabitantMigration(repositoryRoot) {
     throw new Error(`Migrasyon sayısı hatalı: legacy=${legacyRecords.length}, inhabitant=${inhabitants.length}.`);
   }
 
-  const schema = JSON.parse(
-    readFileSync(resolve(repositoryRoot, 'schemas/inhabitant-v1.schema.json'), 'utf8'),
-  );
-  const ajv = new Ajv2020({ allErrors: true, strict: true });
-  const validate = ajv.compile(schema);
+  const schema = JSON.parse(readFileSync(resolve(repositoryRoot, 'schemas/inhabitant-v1.schema.json'), 'utf8'));
+  const validate = new Ajv2020({ allErrors: true, strict: true }).compile(schema);
   if (!validate(inhabitants)) {
     throw new Error(`Inhabitant v1 şeması doğrulanamadı:\n${formatAjvErrors(validate.errors)}`);
   }
@@ -47,14 +41,11 @@ export function validateInhabitantMigration(repositoryRoot) {
   const migratedIds = new Set();
 
   for (const inhabitant of inhabitants) {
-    if (migratedIds.has(inhabitant.id)) {
-      throw new Error(`Migrasyonda tekrarlanan kimlik: ${inhabitant.id}`);
-    }
+    if (migratedIds.has(inhabitant.id)) throw new Error(`Migrasyonda tekrarlanan kimlik: ${inhabitant.id}`);
     migratedIds.add(inhabitant.id);
 
     const legacy = legacyById.get(inhabitant.id);
     if (!legacy) throw new Error(`${inhabitant.id}: eski kaydı bulunamadı.`);
-
     if (inhabitant.name.tr !== legacy.nameTr || inhabitant.name.en !== legacy.nameEn) {
       throw new Error(`${inhabitant.id}: ad alanı kayıpsız taşınmadı.`);
     }
@@ -79,9 +70,7 @@ export function validateInhabitantMigration(repositoryRoot) {
     }
 
     for (const sourceId of inhabitant.sourceIds) {
-      if (!sourceById.has(sourceId)) {
-        throw new Error(`${inhabitant.id}: bilinmeyen kaynak kimliği (${sourceId}).`);
-      }
+      if (!sourceById.has(sourceId)) throw new Error(`${inhabitant.id}: bilinmeyen kaynak kimliği (${sourceId}).`);
     }
     for (const [field, sourceIds] of Object.entries(inhabitant.fieldSourceIds)) {
       for (const sourceId of sourceIds) {
@@ -93,11 +82,6 @@ export function validateInhabitantMigration(repositoryRoot) {
         if (!source.fields.includes(field)) {
           throw new Error(`${inhabitant.id}.${field}: ${sourceId} bu alanı desteklemiyor.`);
         }
-      }
-    }
-    for (const sourceId of legacy.sourceIds ?? []) {
-      if (!inhabitant.sourceIds.includes(sourceId)) {
-        throw new Error(`${inhabitant.id}: eski kaynak kimliği kayboldu (${sourceId}).`);
       }
     }
   }

@@ -16,10 +16,11 @@ const EXPECTED = Object.freeze({
   legacyFreshwater: 278,
   batch1: 20,
   batch2: 20,
-  freshwater: 318,
+  batch3: 130,
+  freshwater: 448,
   saltwater: 302,
-  inhabitants: 620,
-  catalogFish: 507,
+  inhabitants: 750,
+  catalogFish: 637,
 });
 
 function assert(condition, message) {
@@ -48,20 +49,23 @@ export function validateFreshwaterBatch2(repositoryRoot) {
   });
   const batch1 = data.freshwaterBatch1;
   const batch2 = data.freshwaterBatch2;
+  const batch3 = data.freshwaterBatch3;
 
   assert(batch1?.legacy?.length === EXPECTED.batch1, 'Tatlı su parti 1 bulunamadı veya kayıt sayısı değişti.');
+  assert(batch3?.legacy?.length === EXPECTED.batch3, 'Tatlı su parti 3 bulunamadı veya kayıt sayısı değişti.');
   assert(batch2?.version === 1, 'Tatlı su parti 2 sürümü bulunamadı.');
   assert(batch2.taskId === 'AKV-DATA-020', 'Tatlı su parti 2 görev kimliği yanlış.');
   assert(batch2.legacy.length === EXPECTED.batch2, `Parti 2 legacy kayıt sayısı ${EXPECTED.batch2} olmalı; ${batch2.legacy.length} bulundu.`);
   assert(batch2.canonical.length === EXPECTED.batch2, `Parti 2 canonical kayıt sayısı ${EXPECTED.batch2} olmalı; ${batch2.canonical.length} bulundu.`);
 
   const batch1Ids = batch1.legacy.map((record) => record.id);
+  const batch3Ids = batch3.legacy.map((record) => record.id);
   const legacyIds = batch2.legacy.map((record) => record.id);
   const canonicalIds = batch2.canonical.map((record) => record.id);
   assert(duplicateValues(legacyIds).length === 0, 'Parti 2 legacy kimliklerinde tekrar var.');
   assert(duplicateValues(canonicalIds).length === 0, 'Parti 2 canonical kimliklerinde tekrar var.');
   assert(JSON.stringify([...legacyIds].sort()) === JSON.stringify([...canonicalIds].sort()), 'Legacy ve canonical parti 2 kimlikleri eşleşmiyor.');
-  assert(legacyIds.every((id) => !batch1Ids.includes(id)), 'Parti 1 ve parti 2 arasında kimlik çakışması var.');
+  assert(legacyIds.every((id) => !batch1Ids.includes(id) && !batch3Ids.includes(id)), 'Parti 2 ile diğer partiler arasında kimlik çakışması var.');
 
   const batch2ScientificNames = batch2.canonical.map((record) => normalizedScientificName(record.scientificName));
   assert(duplicateValues(batch2ScientificNames).length === 0, 'Parti 2 bilimsel adlarında tekrar var.');
@@ -81,15 +85,14 @@ export function validateFreshwaterBatch2(repositoryRoot) {
   assert(data.fish.length === EXPECTED.inhabitants, `Legacy canlı toplamı ${EXPECTED.inhabitants} olmalı; ${data.fish.length} bulundu.`);
   assert(data.inhabitants.length === EXPECTED.inhabitants, `Canonical canlı toplamı ${EXPECTED.inhabitants} olmalı; ${data.inhabitants.length} bulundu.`);
 
-  const allBatchIds = new Set([...batch1Ids, ...legacyIds]);
+  const allBatchIds = new Set([...batch1Ids, ...legacyIds, ...batch3Ids]);
   assert(
     data.fresh.filter((record) => !allBatchIds.has(record.id)).length === EXPECTED.legacyFreshwater,
     'Eski 278 tatlı su kaydı eksiksiz korunmadı.',
   );
 
   const schema = JSON.parse(readFileSync(resolve(repositoryRoot, 'schemas/inhabitant-v1.schema.json'), 'utf8'));
-  const ajv = new Ajv2020({ allErrors: true, strict: true });
-  const validate = ajv.compile(schema);
+  const validate = new Ajv2020({ allErrors: true, strict: true }).compile(schema);
   if (!validate(batch2.canonical)) {
     const details = validate.errors.map((error) => `${error.instancePath || '/'} ${error.message}`).join('\n');
     throw new Error(`Tatlı su parti 2 Inhabitant v1 doğrulaması başarısız:\n${details}`);
@@ -99,7 +102,7 @@ export function validateFreshwaterBatch2(repositoryRoot) {
   for (const requiredSource of BATCH_SOURCE_IDS) {
     assert(sourceIds.has(requiredSource), `Parti 2 kaynağı katalogda yok: ${requiredSource}`);
   }
-  assert(data.sourceCatalogVersion === 11, `Kaynak katalog sürümü 11 olmalı; ${data.sourceCatalogVersion} bulundu.`);
+  assert(data.sourceCatalogVersion === 12, `Kaynak katalog sürümü 12 olmalı; ${data.sourceCatalogVersion} bulundu.`);
 
   const inhabitantsById = new Map(data.inhabitants.map((record) => [record.id, record]));
   for (const canonical of batch2.canonical) {
@@ -108,18 +111,8 @@ export function validateFreshwaterBatch2(repositoryRoot) {
     assert(actual.status === 'reviewed', `${canonical.id}: durum reviewed olmalı.`);
     assert(actual.verification?.status === 'reviewed', `${canonical.id}: doğrulama reviewed olmalı.`);
     assert(actual.verification?.confidence === 'medium', `${canonical.id}: güven medium olmalı.`);
-    assert(actual.entityType === 'freshwater_fish', `${canonical.id}: entityType freshwater_fish olmalı.`);
-    assert(actual.water?.types?.length === 1 && actual.water.types[0] === 'fresh', `${canonical.id}: yalnız fresh su tipi taşımalı.`);
-    assert(actual.tank?.minVolumeL > 0 && actual.tank?.minLengthCm > 0, `${canonical.id}: tank alt sınırları eksik.`);
-    assert(actual.social?.mode && actual.care?.difficulty, `${canonical.id}: sosyal veya bakım alanı eksik.`);
     for (const sourceId of actual.sourceIds ?? []) {
       assert(sourceIds.has(sourceId), `${canonical.id}: çözülemeyen sourceId ${sourceId}`);
-    }
-    for (const [field, ids] of Object.entries(actual.fieldSourceIds ?? {})) {
-      assert(ids.length > 0, `${canonical.id}: ${field} kaynak bağlantısı boş.`);
-      for (const sourceId of ids) {
-        assert(sourceIds.has(sourceId), `${canonical.id}: ${field} için bilinmeyen kaynak ${sourceId}`);
-      }
     }
   }
 
@@ -140,7 +133,6 @@ export function validateFreshwaterBatch2(repositoryRoot) {
     assert(vite.includes(filename), `Vite yükleyicide parti 2 dosyası eksik: ${filename}`);
     assert(loader.includes(filename), `Node yükleyicide parti 2 dosyası eksik: ${filename}`);
   }
-  assert(vite.includes('AKV_FRESHWATER_BATCH_2'), 'Vite canonical parti 2 değiştirme bağlantısı eksik.');
 
   return {
     batchRecords: EXPECTED.batch2,

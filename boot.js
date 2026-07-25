@@ -84,6 +84,11 @@
         freshBatch2C,
         freshBatch2D,
         freshBatch2Core,
+        freshBatch3A,
+        freshBatch3B,
+        freshBatch3C,
+        freshBatch3D,
+        freshBatch3Core,
         data,
         compatibilityOverrides,
         engine,
@@ -118,6 +123,11 @@
         fetchText('data/curation/freshwater-batch-2-part-c.js'),
         fetchText('data/curation/freshwater-batch-2-part-d.js'),
         fetchText('data/curation/freshwater-batch-2.js'),
+        fetchText('data/curation/freshwater-batch-3-part-a.js'),
+        fetchText('data/curation/freshwater-batch-3-part-b.js'),
+        fetchText('data/curation/freshwater-batch-3-part-c.js'),
+        fetchText('data/curation/freshwater-batch-3-part-d.js'),
+        fetchText('data/curation/freshwater-batch-3.js'),
         fetchText('data.js'),
         fetchText('data/curation/compatibility-overrides-v1.json'),
         fetchText('engine.js'),
@@ -157,6 +167,11 @@
       runJavaScript(freshBatch2C, 'freshwater-batch-2-part-c.js');
       runJavaScript(freshBatch2D, 'freshwater-batch-2-part-d.js');
       runJavaScript(freshBatch2Core, 'freshwater-batch-2.js');
+      runJavaScript(freshBatch3A, 'freshwater-batch-3-part-a.js');
+      runJavaScript(freshBatch3B, 'freshwater-batch-3-part-b.js');
+      runJavaScript(freshBatch3C, 'freshwater-batch-3-part-c.js');
+      runJavaScript(freshBatch3D, 'freshwater-batch-3-part-d.js');
+      runJavaScript(freshBatch3Core, 'freshwater-batch-3.js');
       runJavaScript(data, 'data.js');
       window.DB.compatibilityOverrides = JSON.parse(compatibilityOverrides);
       runJavaScript(engine, 'engine.js');
