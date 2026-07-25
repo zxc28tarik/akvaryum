@@ -14,7 +14,7 @@
       "sourceType": "institutional",
       "status": "verified",
       "confidence": "high",
-      "note": "Partideki 16 türün kabul edilen bilimsel adı, taksonomisi, yetişkin boyu ve doğal yaşam bilgileri FishBase kayıtlarından kontrol edildi."
+      "note": "Partideki ilk 16 türün kabul edilen bilimsel adı, taksonomisi, yetişkin boyu ve doğal yaşam bilgileri FishBase kayıtlarından kontrol edildi."
     },
     {
       "id": "seriouslyfish-freshwater-batch-3-2026",
@@ -28,7 +28,7 @@
       "sourceType": "expert",
       "status": "reviewed",
       "confidence": "medium",
-      "note": "Tank, grup, beslenme, akıntı, oksijen ve habitat alanlarında ihtiyatlı ürün alt sınırları kullanıldı; kayıtlar tam doğrulanmış sayılmadı."
+      "note": "İlk 16 türün tank, grup, beslenme, akıntı, oksijen ve habitat alanlarında ihtiyatlı ürün alt sınırları kullanıldı."
     },
     {
       "id": "freshwater-batch-3-editorial-v1",
@@ -41,7 +41,20 @@
       "sourceType": "derived",
       "status": "reviewed",
       "confidence": "medium",
-      "note": "Türkçe adlar, iki dilli özetler ve uygulama içi görünüm alanları bakım verilerinden ayrı editoryal katmanda tutulur."
+      "note": "İlk 16 türün iki dilli özet ve uygulama görünüm alanlarını taşır."
+    },
+    {
+      "id": "freshwater-bulk-draft-2026-v1",
+      "title": "AKV-DATA-020 toplu tatlı su aday havuzu",
+      "publisher": "AKVARYUM projesi",
+      "location": "data/curation/freshwater-batch-3.js#BULK_DRAFT_ROWS",
+      "accessedAt": "2026-07-24",
+      "lastCheckedAt": "2026-07-24",
+      "fields": ["name", "scientificName", "taxonomy.genus", "taxonomy.family", "water", "size", "tank", "social", "behavior", "feeding", "compatibility", "habitat", "care", "summary", "appearance", "notes"],
+      "sourceType": "internal",
+      "status": "needs_review",
+      "confidence": "low",
+      "note": "114 tür hızlı katalog büyümesi için aday havuzu olarak eklendi. Bilimsel ad, aile ve bütün bakım değerleri tür bazında dış doğrulama bekler; kayıtlar final bakım tavsiyesi değildir."
     }
   ]
 }
