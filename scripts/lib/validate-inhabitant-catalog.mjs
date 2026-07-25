@@ -2,8 +2,8 @@ import { buildInhabitantCatalog } from '../../data/catalog/index.mjs';
 import { loadLegacyData } from './load-legacy-data.mjs';
 
 const EXPECTED_COUNTS = Object.freeze({
-  total: 636,
-  fish: 523,
+  total: 750,
+  fish: 637,
   invertebrates: 63,
   corals: 50,
 });
