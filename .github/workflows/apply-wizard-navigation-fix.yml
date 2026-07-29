@@ -1,0 +1,42 @@
+name: Sihirbaz düzeltmesini uygula
+
+on:
+  push:
+    branches: [agent/fix-wizard-step-navigation]
+
+permissions:
+  contents: write
+
+jobs:
+  patch:
+    if: github.actor != 'github-actions[bot]'
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Depoyu al
+        uses: actions/checkout@v6
+        with:
+          ref: agent/fix-wizard-step-navigation
+          fetch-depth: 0
+
+      - name: Node.js kur
+        uses: actions/setup-node@v6
+        with:
+          node-version: 22.18.0
+          package-manager-cache: false
+
+      - name: Düzeltmeyi uygula
+        run: node scripts/apply-wizard-navigation-fix.mjs
+
+      - name: Değişiklikleri kaydet
+        shell: bash
+        run: |
+          if git diff --quiet; then
+            echo "Uygulanacak yeni değişiklik yok."
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add app.jsx package.json vite.config.js .github/workflows/vite-verify.yml
+          git commit -m "fix: sihirbaz adım geçişlerini güvenli hale getir"
+          git push origin HEAD:agent/fix-wizard-step-navigation
