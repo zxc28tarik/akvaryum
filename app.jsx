@@ -307,15 +307,45 @@ function App() {
   useEffect(() => { setState(s => ({ ...s, lang })); }, [lang]);
   const t = window.I18N[lang];
   const flow = flowFor(state);
-  const stepName = flow[stepIdx];
+  const maxStepIdx = Math.max(0, flow.length - 1);
+  const safeStepIdx = Math.min(Math.max(0, stepIdx), maxStepIdx);
+  const stepName = flow[safeStepIdx] || 'path';
+
+  useEffect(() => {
+    if (stepIdx !== safeStepIdx) setStepIdx(safeStepIdx);
+  }, [stepIdx, safeStepIdx]);
 
   function restart() {
     setState({ lang, fish: [], plants: [] }); setStepIdx(0); setView('home');
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }
-  function next() { if (stepIdx < flow.length - 1) { setStepIdx(stepIdx + 1); window.scrollTo({ top: 0, behavior: 'smooth' }); } }
-  function back() { if (stepIdx > 0) { setStepIdx(stepIdx - 1); window.scrollTo({ top: 0, behavior: 'smooth' }); } }
-  function jumpTo(target) { const idx = typeof target === 'number' ? target : flow.indexOf(target); if (idx >= 0 && idx < flow.length) { setStepIdx(idx); window.scrollTo({ top: 0, behavior: 'smooth' }); } }
+  function next() {
+    const currentFlow = flowFor(state);
+    setStepIdx(current => {
+      const maxIndex = Math.max(0, currentFlow.length - 1);
+      const normalized = Math.min(Math.max(0, current), maxIndex);
+      return Math.min(normalized + 1, maxIndex);
+    });
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+  function back() {
+    const currentFlow = flowFor(state);
+    setStepIdx(current => {
+      const maxIndex = Math.max(0, currentFlow.length - 1);
+      const normalized = Math.min(Math.max(0, current), maxIndex);
+      return Math.max(0, normalized - 1);
+    });
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+  function jumpTo(target) {
+    const currentFlow = flowFor(state);
+    setStepIdx(current => {
+      const normalized = Math.min(Math.max(0, current), Math.max(0, currentFlow.length - 1));
+      const targetIndex = typeof target === 'number' ? target : currentFlow.indexOf(target);
+      return targetIndex >= 0 && targetIndex < currentFlow.length ? targetIndex : normalized;
+    });
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
 
   const STEP_LABELS = { tank: t.tank_eyebrow, water: t.water_eyebrow, fish: t.fish_eyebrow, plants: t.plants_eyebrow, substrate: t.substrate_eyebrow, result: t.result_eyebrow };
   function pickPath(id) { setState(s => ({ ...s, path: id })); setStepIdx(1); }
@@ -337,7 +367,7 @@ function App() {
   const showRecipe = stepName !== 'path' && stepName !== 'result';
   const isResult = stepName === 'result';
   const stepsForProgress = flow.slice(1);
-  const progressCurrent = Math.max(0, stepIdx - 1);
+  const progressCurrent = Math.max(0, safeStepIdx - 1);
 
   if (view === 'home') {
     return <div className="app"><Bubbles /><Topbar lang={lang} setLang={setLang} step={0} total={0} onRestart={restart} t={t} /><Landing t={t} onStart={() => { setView('wizard'); setStepIdx(0); window.scrollTo({ top: 0 }); }} /></div>;
@@ -348,7 +378,7 @@ function App() {
       <Bubbles />
       <Topbar lang={lang} setLang={setLang} step={progressCurrent} total={stepsForProgress.length} onRestart={restart} t={t} />
       <main className="stage">{showRecipe && <RecipeStrip state={state} t={t} jumpTo={jumpTo} />}{stepEl}</main>
-      {stepName !== 'path' && <div className="foot-nav"><button className="btn btn-ghost" onClick={back}>← {t.back}</button><Progress steps={stepsForProgress} current={progressCurrent} labels={stepsForProgress.map(s => STEP_LABELS[s] || s)} onJump={i => jumpTo(i + 1)} />{isResult ? <button className="btn btn-secondary" onClick={restart}>{t.restart} ↻</button> : <button className="btn btn-primary" onClick={next} disabled={!canProceed}>{stepIdx === flow.length - 2 ? t.finish : t.next} →</button>}</div>}
+      {stepName !== 'path' && <div className="foot-nav"><button className="btn btn-ghost" onClick={back}>← {t.back}</button><Progress steps={stepsForProgress} current={progressCurrent} labels={stepsForProgress.map(s => STEP_LABELS[s] || s)} onJump={i => jumpTo(i + 1)} />{isResult ? <button className="btn btn-secondary" onClick={restart}>{t.restart} ↻</button> : <button className="btn btn-primary" onClick={next} disabled={!canProceed}>{safeStepIdx === flow.length - 2 ? t.finish : t.next} →</button>}</div>}
     </div>
   );
 }
