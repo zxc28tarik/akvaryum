@@ -1,0 +1,43 @@
+name: Gerçek tarayıcı akış testi
+
+on:
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  browser-e2e:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+
+    steps:
+      - name: Depoyu al
+        uses: actions/checkout@v6
+
+      - name: Node.js kur
+        uses: actions/setup-node@v6
+        with:
+          node-version: 22.18.0
+          package-manager-cache: false
+
+      - name: Bağımlılıkları kur
+        run: npm install --no-audit --no-fund
+
+      - name: Chromium ve sistem bağımlılıklarını kur
+        run: npx playwright install --with-deps chromium
+
+      - name: Masaüstü ve mobil tarayıcı testlerini çalıştır
+        run: npm run check:e2e
+
+      - name: Playwright raporunu yükle
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-report
+          path: |
+            playwright-report
+            test-results
+          if-no-files-found: ignore
+          retention-days: 7
