@@ -3,6 +3,14 @@ name: Sihirbaz düzeltmesini uygula
 on:
   push:
     branches: [agent/fix-wizard-step-navigation]
+  pull_request:
+    branches: [main]
+    paths:
+      - app.jsx
+      - scripts/apply-wizard-navigation-fix.mjs
+      - scripts/check-wizard-flow.mjs
+      - scripts/lib/validate-wizard-flow.mjs
+      - .github/workflows/apply-wizard-navigation-fix.yml
 
 permissions:
   contents: write
