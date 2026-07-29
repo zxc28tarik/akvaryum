@@ -28,6 +28,7 @@ import { validateInhabitantCatalog } from './scripts/lib/validate-inhabitant-cat
 import { validateInhabitantDetail } from './scripts/lib/validate-inhabitant-detail.mjs';
 import { validateInhabitantMigration } from './scripts/lib/validate-inhabitant-migration.mjs';
 import { validateMobileFlow } from './scripts/lib/validate-mobile-flow.mjs';
+import { validateWizardFlow } from './scripts/lib/validate-wizard-flow.mjs';
 import { validatePlantMigration } from './scripts/lib/validate-plant-migration.mjs';
 import { validatePrioritySocialCare } from './scripts/lib/validate-priority-social-care.mjs';
 import { validatePriorityTankLength } from './scripts/lib/validate-priority-tank-length.mjs';
@@ -116,6 +117,7 @@ function nativeLegacyModules() {
       const catalogFilterReport = validateCatalogFilters(repositoryRoot);
       const inhabitantDetailReport = validateInhabitantDetail(repositoryRoot);
       const mobileFlowReport = validateMobileFlow(repositoryRoot);
+      const wizardFlowReport = validateWizardFlow(repositoryRoot);
       const priorityReport = validatePrioritySocialCare(repositoryRoot);
       const tankLengthReport = validatePriorityTankLength(repositoryRoot);
       const taxonomyReport = validateTaxonomyAudit(repositoryRoot, { requireSnapshot: true });
@@ -143,6 +145,7 @@ function nativeLegacyModules() {
       this.info(`AKVARYUM katalog filtreleri doğrulandı: ${catalogFilterReport.scenarios} senaryo, ${catalogFilterReport.advancedFilters} gelişmiş filtre.`);
       this.info(`AKVARYUM canlı ayrıntı paneli doğrulandı: ${inhabitantDetailReport.scenarios} senaryo, ${inhabitantDetailReport.sections} bölüm.`);
       this.info(`AKVARYUM mobil ana akışı doğrulandı: ${mobileFlowReport.scenarios} senaryo, ${mobileFlowReport.smokeWidthPx}px hedef.`);
+      this.info(`AKVARYUM sihirbaz akışı doğrulandı: ${wizardFlowReport.navigationScenarios} geçiş, ${wizardFlowReport.analyzedRecords} sonuç duman testi.`);
       this.info(`AKVARYUM öncelik 100 doğrulandı: ${priorityReport.completedSocialStructures} sosyal yapı, ${priorityReport.completedCareDifficulties} bakım zorluğu.`);
       this.info(`AKVARYUM tank uzunluğu doğrulandı: ${tankLengthReport.completedTankLengths} kayıt.`);
       this.info(`AKVARYUM taksonomi raporu doğrulandı: ${taxonomyReport.audit.findings.length} kayıtlı inceleme bulgusu, engelleyici çakışma yok.`);
