@@ -414,8 +414,7 @@ function App() {
   }
 
   return (
-    <div className="app">
-      <Bubbles />
+    <div className="app app-wizard">
       <Topbar lang={lang} setLang={setLang} step={progressCurrent} total={stepsForProgress.length} onRestart={restart} t={t} />
       <main className="stage">{showRecipe && <RecipeStrip state={state} t={t} jumpTo={jumpTo} />}{stepEl}</main>
       {stepName !== 'path' && <div className="foot-nav"><button className="btn btn-ghost" onClick={back}>← {t.back}</button><Progress steps={stepsForProgress} current={progressCurrent} labels={stepsForProgress.map(s => STEP_LABELS[s] || s)} onJump={i => jumpTo(i + 1)} />{isResult ? <button className="btn btn-secondary" onClick={restart}>{t.restart} ↻</button> : <button className="btn btn-primary" onClick={next} disabled={!canProceed}>{safeStepIdx === flow.length - 2 ? t.finish : t.next} →</button>}</div>}
