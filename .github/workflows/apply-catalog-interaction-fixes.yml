@@ -1,0 +1,47 @@
+name: Katalog etkileşim düzeltmelerini uygula
+
+on:
+  push:
+    branches: [agent/browser-flow-regression-audit]
+    paths:
+      - scripts/apply-catalog-interaction-fixes.mjs
+      - .github/workflows/apply-catalog-interaction-fixes.yml
+
+permissions:
+  contents: write
+
+jobs:
+  patch:
+    if: github.actor != 'github-actions[bot]'
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+
+    steps:
+      - name: Depoyu al
+        uses: actions/checkout@v6
+        with:
+          ref: agent/browser-flow-regression-audit
+          fetch-depth: 0
+
+      - name: Node.js kur
+        uses: actions/setup-node@v6
+        with:
+          node-version: 22.18.0
+          package-manager-cache: false
+
+      - name: Düzeltmeleri uygula
+        run: node scripts/apply-catalog-interaction-fixes.mjs
+
+      - name: Kalıcı değişiklikleri kaydet
+        shell: bash
+        run: |
+          if git diff --quiet -- catalog-filters.jsx scripts/lib/validate-catalog-filters.mjs; then
+            echo "Uygulanacak yeni değişiklik yok."
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add catalog-filters.jsx scripts/lib/validate-catalog-filters.mjs
+          git commit -m "fix: katalog ilk render ve filtre etkileşimini hızlandır"
+          git pull --rebase origin agent/browser-flow-regression-audit
+          git push origin HEAD:agent/browser-flow-regression-audit
