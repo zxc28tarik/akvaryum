@@ -7,7 +7,7 @@
     throw new Error('Katalog filtre arayüzü için React, UI ve CatalogFilterModel gereklidir.');
   }
 
-  const { useEffect, useMemo, useState } = React;
+  const { useEffect, useMemo, useState, startTransition } = React;
   const model = window.CatalogFilterModel;
   const PAGE_SIZE = 36;
   const STYLE_ID = 'akvaryum-catalog-filters-style';
@@ -224,11 +224,13 @@
     const totalSelected = (state.fish || []).reduce((sum, item) => sum + item.qty, 0);
 
     function patchFilter(key, value) {
-      setFilters((current) => ({ ...current, [key]: value }));
+      startTransition(() => {
+        setFilters((current) => ({ ...current, [key]: value }));
+      });
     }
 
     function resetFilters() {
-      setFilters(model.createDefaults());
+      startTransition(() => setFilters(model.createDefaults()));
       setAdvancedOpen(false);
     }
 

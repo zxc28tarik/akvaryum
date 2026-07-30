@@ -1,4 +1,4 @@
-const { useState, useEffect, useMemo } = React;
+const { useState, useEffect, useMemo, startTransition } = React;
 const { Bubbles, Topbar, RecipeStrip, Progress, Landing, PathStep, TankStep, WaterStep, FishStep, PlantsStep, SubstrateStep, ResultStep } = window.UI;
 
 const SCORE_SECTION_ORDER = Object.freeze(['environmental', 'behavior', 'tank', 'habitat']);
@@ -341,10 +341,12 @@ function App() {
     const currentFlow = flowFor(state);
     const expectedIndex = safeStepIdx;
     const targetIndex = Math.min(expectedIndex + 1, Math.max(0, currentFlow.length - 1));
-    setStepIdx(current => {
-      const maxIndex = Math.max(0, currentFlow.length - 1);
-      const normalized = Math.min(Math.max(0, current), maxIndex);
-      return normalized === expectedIndex ? targetIndex : normalized;
+    startTransition(() => {
+      setStepIdx(current => {
+        const maxIndex = Math.max(0, currentFlow.length - 1);
+        const normalized = Math.min(Math.max(0, current), maxIndex);
+        return normalized === expectedIndex ? targetIndex : normalized;
+      });
     });
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }
@@ -352,10 +354,12 @@ function App() {
     const currentFlow = flowFor(state);
     const expectedIndex = safeStepIdx;
     const targetIndex = Math.max(0, expectedIndex - 1);
-    setStepIdx(current => {
-      const maxIndex = Math.max(0, currentFlow.length - 1);
-      const normalized = Math.min(Math.max(0, current), maxIndex);
-      return normalized === expectedIndex ? targetIndex : normalized;
+    startTransition(() => {
+      setStepIdx(current => {
+        const maxIndex = Math.max(0, currentFlow.length - 1);
+        const normalized = Math.min(Math.max(0, current), maxIndex);
+        return normalized === expectedIndex ? targetIndex : normalized;
+      });
     });
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }
