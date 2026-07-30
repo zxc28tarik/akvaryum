@@ -2,9 +2,10 @@ import { defineConfig, devices } from '@playwright/test';
 
 export default defineConfig({
   testDir: './e2e',
+  timeout: 15_000,
   fullyParallel: false,
   forbidOnly: Boolean(process.env.CI),
-  retries: process.env.CI ? 1 : 0,
+  retries: 0,
   workers: process.env.CI ? 1 : undefined,
   reporter: [
     ['list'],
@@ -12,8 +13,8 @@ export default defineConfig({
   ],
   use: {
     baseURL: 'http://127.0.0.1:4173/akvaryum/',
-    actionTimeout: 10_000,
-    navigationTimeout: 20_000,
+    actionTimeout: 7_500,
+    navigationTimeout: 15_000,
     trace: 'retain-on-failure',
     screenshot: 'only-on-failure',
     video: 'retain-on-failure',
