@@ -9,7 +9,7 @@
 
   const { useDeferredValue, useEffect, useMemo, useState } = React;
   const model = window.CatalogFilterModel;
-  const PAGE_SIZE = 36;
+  const PAGE_SIZE = 18;
   const STYLE_ID = 'akvaryum-catalog-filters-style';
 
   const COPY = {
@@ -129,8 +129,8 @@
       .catalog-selected-title{display:flex;justify-content:space-between;align-items:center;margin:0 0 11px;font:600 14px/1.2 Inter,sans-serif}
       .catalog-selected-list{display:flex;flex-wrap:wrap;gap:9px}.catalog-selected-item{display:flex;align-items:center;gap:8px;padding:7px 8px 7px 11px;border-radius:999px;background:#e8f4f4;color:#1b555b;font:600 12px/1 Inter,sans-serif}
       .catalog-selected-item button{width:25px;height:25px;border:0;border-radius:50%;background:#fff;color:#1b555b;font:700 15px/1 Inter,sans-serif;cursor:pointer}
-      .catalog-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
-      .catalog-card{position:relative;display:grid;grid-template-columns:auto 1fr;gap:13px;min-height:164px;padding:17px;border:1px solid #c7dfe0;border-radius:18px;background:rgba(255,255,255,.9);box-shadow:0 10px 30px rgba(28,75,80,.055);transition:.18s ease}
+      .catalog-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;contain:layout style}
+      .catalog-card{position:relative;display:grid;grid-template-columns:auto 1fr;gap:13px;min-height:164px;content-visibility:auto;contain-intrinsic-size:164px;padding:17px;border:1px solid #c7dfe0;border-radius:18px;background:rgba(255,255,255,.9);box-shadow:0 10px 30px rgba(28,75,80,.055);transition:.18s ease}
       .catalog-card:hover{border-color:#86bfc3;transform:translateY(-2px);box-shadow:0 14px 34px rgba(28,75,80,.09)}
       .catalog-card.is-selected{border-color:#258b92;box-shadow:0 0 0 2px rgba(37,139,146,.11),0 14px 34px rgba(28,75,80,.09)}
       .catalog-swatch{width:45px;height:45px;border-radius:14px;background:linear-gradient(135deg,var(--c1,#8ac9ce),var(--c2,#276e76));box-shadow:inset 0 0 0 1px rgba(255,255,255,.55)}
@@ -172,16 +172,20 @@
     };
   }
 
+  ensureStyles();
+
   function CatalogFishStep({ state, setState, lang }) {
-    ensureStyles();
     const copy = COPY[lang] || COPY.tr;
     const [filters, setFilters] = useState(() => model.parseSearch(window.location.search));
     const deferredFilters = useDeferredValue(filters);
     const [advancedOpen, setAdvancedOpen] = useState(() => model.activeFilterCount(model.parseSearch(window.location.search)) > 0);
     const [visibleCount, setVisibleCount] = useState(PAGE_SIZE);
 
-    const records = window.DB?.fish || window.DB?.inhabitantCatalog?.all || window.DB?.inhabitants || [];
+    const allRecords = window.DB?.fish || window.DB?.inhabitantCatalog?.all || window.DB?.inhabitants || [];
     const water = state.water || null;
+    const records = useMemo(() => (
+      water ? allRecords.filter((record) => model.recordWaterTypes(record).includes(water)) : allRecords
+    ), [allRecords, water]);
 
     useEffect(() => {
       const onPopState = () => setFilters(model.parseSearch(window.location.search));
@@ -199,13 +203,13 @@
     }, [filters]);
 
     const filtered = useMemo(
-      () => model.filterRecords(records, deferredFilters, { water, lang }),
-      [records, deferredFilters, water, lang],
+      () => model.filterRecords(records, deferredFilters, { lang }),
+      [records, deferredFilters, lang],
     );
 
     const categoryCounts = useMemo(
-      () => model.countByCategory(records, deferredFilters, { water, lang }),
-      [records, deferredFilters, water, lang],
+      () => model.countByCategory(records, deferredFilters, { lang }),
+      [records, deferredFilters, lang],
     );
 
     const selectedMap = useMemo(
@@ -232,14 +236,9 @@
 
     function resetFilters() {
       const defaults = model.createDefaults();
-      const nextSearch = model.serializeSearch(defaults, window.location.search);
-      const nextUrl = `${window.location.pathname}${nextSearch}${window.location.hash}`;
-      window.history.replaceState(window.history.state, '', nextUrl);
-      window.setTimeout(() => {
-        setAdvancedOpen(false);
-        setFilters(defaults);
-        setVisibleCount(PAGE_SIZE);
-      }, 0);
+      setAdvancedOpen(false);
+      setFilters(defaults);
+      setVisibleCount(PAGE_SIZE);
     }
 
     function setQuantity(id, nextQuantity) {

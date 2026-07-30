@@ -251,7 +251,7 @@ export function validateCatalogFilters(repositoryRoot) {
   assert.match(uiSource, /window\.UI\.FishStep\s*=\s*CatalogFishStep/, 'Yeni filtre arayüzü FishStep üzerine bağlanmalıdır.');
   assert.match(uiSource, /window\.history\.replaceState/, 'Filtreler URL’ye yazılmalıdır.');
   assert.match(uiSource, /popstate/, 'Tarayıcı geri-ileri hareketi filtreleri güncellemelidir.');
-  assert.match(uiSource, /PAGE_SIZE\s*=\s*36/, 'Büyük katalog kontrollü dilimlerle gösterilmelidir.');
+  assert.match(uiSource, /PAGE_SIZE\s*=\s*18/, 'Büyük katalog kontrollü ve hızlı dilimlerle gösterilmelidir.');
   scenarios += 1;
 
   assert.match(bootSource, /catalog-filter-model\.js/, 'Kök statik yükleyici filtre modelini yüklemelidir.');
