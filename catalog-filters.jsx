@@ -230,8 +230,9 @@
     }
 
     function resetFilters() {
-      startTransition(() => setFilters(model.createDefaults()));
+      const defaults = model.createDefaults();
       setAdvancedOpen(false);
+      window.requestAnimationFrame(() => setFilters(defaults));
     }
 
     function setQuantity(id, nextQuantity) {
