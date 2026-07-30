@@ -1,0 +1,47 @@
+name: Kalan tarayıcı akış düzeltmelerini uygula
+
+on:
+  push:
+    branches: [agent/browser-flow-regression-audit]
+    paths:
+      - scripts/apply-browser-flow-completion.mjs
+      - .github/workflows/apply-browser-flow-completion.yml
+
+permissions:
+  contents: write
+
+jobs:
+  patch:
+    if: github.actor != 'github-actions[bot]'
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+
+    steps:
+      - name: Depoyu al
+        uses: actions/checkout@v6
+        with:
+          ref: agent/browser-flow-regression-audit
+          fetch-depth: 0
+
+      - name: Node.js kur
+        uses: actions/setup-node@v6
+        with:
+          node-version: 22.18.0
+          package-manager-cache: false
+
+      - name: Düzeltmeleri uygula
+        run: node scripts/apply-browser-flow-completion.mjs
+
+      - name: Uygulama değişikliklerini kaydet
+        shell: bash
+        run: |
+          if git diff --quiet -- app.jsx catalog-filters.jsx; then
+            echo "Uygulanacak yeni uygulama değişikliği yok."
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add app.jsx catalog-filters.jsx
+          git commit -m "fix: kalan katalog akış kilitlerini gider"
+          git pull --rebase origin agent/browser-flow-regression-audit
+          git push origin HEAD:agent/browser-flow-regression-audit
