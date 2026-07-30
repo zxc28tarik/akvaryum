@@ -24,7 +24,8 @@ export function validateScoreBreakdownPanel(repositoryRoot) {
   assert.match(app, /Critical safety cap applied/);
   scenarios += 1;
 
-  assert.match(app, /<ScoreBreakdownPanel state=\{state\} lang=\{lang\}/);
+  assert.match(app, /function ResultEnhancements/);
+  assert.match(app, /<ScoreBreakdownPanel result=\{result\} state=\{state\} lang=\{lang\}/);
   assert.match(app, /window\.Engine\.analyze/);
   assert.match(app, /result\?\.scoreBreakdown/);
   scenarios += 1;
