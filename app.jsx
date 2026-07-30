@@ -1,4 +1,4 @@
-const { useState, useEffect, useLayoutEffect, useMemo } = React;
+const { useState, useEffect, useLayoutEffect, useMemo, useRef } = React;
 const { Bubbles, Topbar, RecipeStrip, Progress, Landing, PathStep, TankStep, WaterStep, FishStep, PlantsStep, SubstrateStep, ResultStep } = window.UI;
 
 const SCORE_SECTION_ORDER = Object.freeze(['environmental', 'behavior', 'tank', 'habitat']);
@@ -313,6 +313,7 @@ function App() {
   const [view, setView] = useState('home');
   const [state, setState] = useState({ lang: 'tr', fish: [], plants: [] });
   const [stepIdx, setStepIdx] = useState(0);
+  const navigationPendingRef = useRef(false);
 
   useEffect(() => { setState(s => ({ ...s, lang })); }, [lang]);
   useLayoutEffect(() => {
@@ -350,35 +351,39 @@ function App() {
     setState({ lang, fish: [], plants: [] }); setStepIdx(0); setView('home');
     window.scrollTo({ top: 0, behavior: 'auto' });
   }
+  function scheduleStepChange(expectedIndex, targetIndex, currentFlow) {
+    if (navigationPendingRef.current) return;
+    navigationPendingRef.current = true;
+    window.setTimeout(() => {
+      setStepIdx(current => {
+        const maxIndex = Math.max(0, currentFlow.length - 1);
+        const normalized = Math.min(Math.max(0, current), maxIndex);
+        return normalized === expectedIndex ? targetIndex : normalized;
+      });
+      navigationPendingRef.current = false;
+    }, 0);
+  }
   function next() {
     const currentFlow = flowFor(state);
     const expectedIndex = safeStepIdx;
     const targetIndex = Math.min(expectedIndex + 1, Math.max(0, currentFlow.length - 1));
-    setStepIdx(current => {
-      const maxIndex = Math.max(0, currentFlow.length - 1);
-      const normalized = Math.min(Math.max(0, current), maxIndex);
-      return normalized === expectedIndex ? targetIndex : normalized;
-    });
+    scheduleStepChange(expectedIndex, targetIndex, currentFlow);
     window.scrollTo({ top: 0, behavior: 'auto' });
   }
   function back() {
     const currentFlow = flowFor(state);
     const expectedIndex = safeStepIdx;
     const targetIndex = Math.max(0, expectedIndex - 1);
-    setStepIdx(current => {
-      const maxIndex = Math.max(0, currentFlow.length - 1);
-      const normalized = Math.min(Math.max(0, current), maxIndex);
-      return normalized === expectedIndex ? targetIndex : normalized;
-    });
+    scheduleStepChange(expectedIndex, targetIndex, currentFlow);
     window.scrollTo({ top: 0, behavior: 'auto' });
   }
   function jumpTo(target) {
     const currentFlow = flowFor(state);
-    setStepIdx(current => {
-      const normalized = Math.min(Math.max(0, current), Math.max(0, currentFlow.length - 1));
-      const targetIndex = typeof target === 'number' ? target : currentFlow.indexOf(target);
-      return targetIndex >= 0 && targetIndex < currentFlow.length ? targetIndex : normalized;
-    });
+    const expectedIndex = safeStepIdx;
+    const targetIndex = typeof target === 'number' ? target : currentFlow.indexOf(target);
+    if (targetIndex >= 0 && targetIndex < currentFlow.length) {
+      scheduleStepChange(expectedIndex, targetIndex, currentFlow);
+    }
     window.scrollTo({ top: 0, behavior: 'auto' });
   }
 

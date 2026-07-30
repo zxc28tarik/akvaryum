@@ -235,11 +235,11 @@
       const nextSearch = model.serializeSearch(defaults, window.location.search);
       const nextUrl = `${window.location.pathname}${nextSearch}${window.location.hash}`;
       window.history.replaceState(window.history.state, '', nextUrl);
-      ReactDOM.flushSync(() => {
+      window.setTimeout(() => {
         setAdvancedOpen(false);
         setFilters(defaults);
         setVisibleCount(PAGE_SIZE);
-      });
+      }, 0);
     }
 
     function setQuantity(id, nextQuantity) {
