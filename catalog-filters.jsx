@@ -7,7 +7,7 @@
     throw new Error('Katalog filtre arayüzü için React, UI ve CatalogFilterModel gereklidir.');
   }
 
-  const { useEffect, useMemo, useState, startTransition } = React;
+  const { useDeferredValue, useEffect, useMemo, useState } = React;
   const model = window.CatalogFilterModel;
   const PAGE_SIZE = 36;
   const STYLE_ID = 'akvaryum-catalog-filters-style';
@@ -108,11 +108,11 @@
       .catalog-title{margin:0;font:600 clamp(32px,5vw,58px)/1.02 Lora,serif;letter-spacing:-.035em}
       .catalog-subtitle{max-width:720px;margin:12px 0 0;color:#48636b;font:400 15px/1.65 Inter,sans-serif}
       .catalog-water-badge{flex:none;padding:10px 14px;border:1px solid #c3dcdd;border-radius:999px;background:rgba(255,255,255,.75);font:600 12px/1 Inter,sans-serif;color:#236c73}
-      .catalog-toolbar{position:sticky;top:68px;z-index:8;padding:14px;border:1px solid rgba(169,207,210,.9);border-radius:20px;background:rgba(244,251,251,.94);box-shadow:0 14px 38px rgba(27,84,89,.08);backdrop-filter:blur(14px)}
+      .catalog-toolbar{position:sticky;top:68px;z-index:8;padding:14px;border:1px solid rgba(169,207,210,.9);border-radius:20px;background:rgba(244,251,251,.94);box-shadow:0 14px 38px rgba(27,84,89,.08);}
       .catalog-search-row{display:grid;grid-template-columns:minmax(220px,1fr) auto auto;gap:10px;align-items:center}
       .catalog-search{width:100%;box-sizing:border-box;padding:13px 15px;border:1px solid #bdd7d9;border-radius:13px;background:#fff;color:#0a1f2e;font:500 14px/1.2 Inter,sans-serif;outline:none}
       .catalog-search:focus,.catalog-select:focus{border-color:#258b92;box-shadow:0 0 0 3px rgba(37,139,146,.13)}
-      .catalog-filter-toggle,.catalog-reset,.catalog-more{border:1px solid #b8d4d6;border-radius:12px;background:#fff;color:#155d64;font:600 13px/1 Inter,sans-serif;cursor:pointer;transition:.18s ease}
+      .catalog-filter-toggle,.catalog-reset,.catalog-more{border:1px solid #b8d4d6;border-radius:12px;background:#fff;color:#155d64;font:600 13px/1 Inter,sans-serif;cursor:pointer;transition:.18s ease;contain:layout paint style}
       .catalog-filter-toggle{padding:13px 15px}.catalog-reset{padding:13px 14px}.catalog-more{display:block;margin:22px auto 0;padding:13px 22px}
       .catalog-filter-toggle:hover,.catalog-reset:hover,.catalog-more:hover{border-color:#258b92;transform:translateY(-1px)}
       .catalog-count-pill{display:inline-flex;min-width:18px;height:18px;align-items:center;justify-content:center;margin-left:7px;padding:0 5px;border-radius:999px;background:#d9eeee;color:#155d64;font-size:10px}
@@ -142,7 +142,7 @@
       .catalog-stepper{display:flex;align-items:center;gap:8px}.catalog-stepper button{width:34px;height:34px;border:1px solid #b5d1d3;border-radius:10px;background:#fff;color:#176e75;font:700 18px/1 Inter,sans-serif;cursor:pointer}.catalog-stepper output{min-width:28px;text-align:center;font:700 14px/1 Inter,sans-serif;color:#153f45}
       .catalog-empty{padding:54px 24px;text-align:center;border:1px dashed #aacdce;border-radius:20px;background:rgba(255,255,255,.55)}.catalog-empty strong{display:block;margin-bottom:7px;font:600 20px/1.3 Lora,serif}.catalog-empty span{color:#668086;font:400 14px/1.5 Inter,sans-serif}
       @media(max-width:920px){.catalog-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.catalog-advanced{grid-template-columns:repeat(2,minmax(150px,1fr))}.catalog-toolbar{top:58px}}
-      @media(max-width:640px){.catalog-step{width:min(100% - 20px,1180px);margin-bottom:150px}.catalog-head{align-items:flex-start;flex-direction:column}.catalog-water-badge{align-self:flex-start}.catalog-toolbar{position:relative;top:auto;padding:11px}.catalog-search-row{grid-template-columns:1fr 1fr}.catalog-search{grid-column:1/-1}.catalog-grid{grid-template-columns:1fr}.catalog-advanced{grid-template-columns:1fr}.catalog-checks{grid-column:1;flex-direction:column;align-items:flex-start;gap:10px}.catalog-summary{align-items:flex-start;flex-direction:column}.catalog-title{font-size:38px}}
+      @media(max-width:640px){.catalog-card,.catalog-card:hover,.catalog-card.is-selected{box-shadow:none;transform:none}.catalog-step{width:min(100% - 20px,1180px);margin-bottom:150px}.catalog-head{align-items:flex-start;flex-direction:column}.catalog-water-badge{align-self:flex-start}.catalog-toolbar{position:relative;top:auto;padding:11px}.catalog-search-row{grid-template-columns:1fr 1fr}.catalog-search{grid-column:1/-1}.catalog-grid{grid-template-columns:1fr}.catalog-advanced{grid-template-columns:1fr}.catalog-checks{grid-column:1;flex-direction:column;align-items:flex-start;gap:10px}.catalog-summary{align-items:flex-start;flex-direction:column}.catalog-title{font-size:38px}}
     `;
     document.head.append(style);
   }
@@ -176,6 +176,7 @@
     ensureStyles();
     const copy = COPY[lang] || COPY.tr;
     const [filters, setFilters] = useState(() => model.parseSearch(window.location.search));
+    const deferredFilters = useDeferredValue(filters);
     const [advancedOpen, setAdvancedOpen] = useState(() => model.activeFilterCount(model.parseSearch(window.location.search)) > 0);
     const [visibleCount, setVisibleCount] = useState(PAGE_SIZE);
 
@@ -198,13 +199,13 @@
     }, [filters]);
 
     const filtered = useMemo(
-      () => model.filterRecords(records, filters, { water, lang }),
-      [records, filters, water, lang],
+      () => model.filterRecords(records, deferredFilters, { water, lang }),
+      [records, deferredFilters, water, lang],
     );
 
     const categoryCounts = useMemo(
-      () => model.countByCategory(records, filters, { water, lang }),
-      [records, filters, water, lang],
+      () => model.countByCategory(records, deferredFilters, { water, lang }),
+      [records, deferredFilters, water, lang],
     );
 
     const selectedMap = useMemo(
@@ -212,27 +213,26 @@
       [state.fish],
     );
 
+    const recordById = useMemo(() => new Map(records.map((record) => [record.id, record])), [records]);
+
     const selectedRecords = useMemo(() => (
       (state.fish || []).map((item) => {
-        const record = records.find((candidate) => candidate.id === item.id);
+        const record = recordById.get(item.id);
         return record ? { record, qty: item.qty } : null;
       }).filter(Boolean)
-    ), [records, state.fish]);
+    ), [recordById, state.fish]);
 
     const activeCount = model.activeFilterCount(filters);
     const visibleRecords = filtered.slice(0, visibleCount);
     const totalSelected = (state.fish || []).reduce((sum, item) => sum + item.qty, 0);
 
     function patchFilter(key, value) {
-      startTransition(() => {
-        setFilters((current) => ({ ...current, [key]: value }));
-      });
+      setFilters((current) => ({ ...current, [key]: value }));
     }
 
     function resetFilters() {
-      const defaults = model.createDefaults();
       setAdvancedOpen(false);
-      window.requestAnimationFrame(() => setFilters(defaults));
+      setFilters(model.createDefaults());
     }
 
     function setQuantity(id, nextQuantity) {

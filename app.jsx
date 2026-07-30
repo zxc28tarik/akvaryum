@@ -1,4 +1,4 @@
-const { useState, useEffect, useMemo, startTransition } = React;
+const { useState, useEffect, useMemo } = React;
 const { Bubbles, Topbar, RecipeStrip, Progress, Landing, PathStep, TankStep, WaterStep, FishStep, PlantsStep, SubstrateStep, ResultStep } = window.UI;
 
 const SCORE_SECTION_ORDER = Object.freeze(['environmental', 'behavior', 'tank', 'habitat']);
@@ -157,8 +157,8 @@ function ScoreFinding({ finding, labels }) {
   );
 }
 
-function ScoreBreakdownPanel({ state, lang }) {
-  const model = useMemo(() => buildScorePanelModel(window.Engine.analyze({ ...state, lang }), lang), [state, lang]);
+function ScoreBreakdownPanel({ result, state, lang }) {
+  const model = useMemo(() => buildScorePanelModel(result || window.Engine.analyze({ ...state, lang }), lang), [result, state, lang]);
   if (!model) return null;
   return (
     <section className="score-breakdown-panel" aria-labelledby="score-breakdown-title">
@@ -258,8 +258,8 @@ function FindingExplanationCard({ finding, labels }) {
   );
 }
 
-function FindingExplanationPanel({ state, lang }) {
-  const model = useMemo(() => buildFindingExplanationModel(window.Engine.analyze({ ...state, lang }), lang), [state, lang]);
+function FindingExplanationPanel({ result, state, lang }) {
+  const model = useMemo(() => buildFindingExplanationModel(result || window.Engine.analyze({ ...state, lang }), lang), [result, state, lang]);
   if (!model.total) return null;
   return (
     <section className="finding-explanation-panel" aria-labelledby="finding-explanation-title">
@@ -283,6 +283,16 @@ function FindingExplanationPanel({ state, lang }) {
         ))}
       </div>
     </section>
+  );
+}
+
+function ResultEnhancements({ state, lang }) {
+  const result = useMemo(() => window.Engine.analyze({ ...state, lang }), [state, lang]);
+  return (
+    <>
+      <ScoreBreakdownPanel result={result} state={state} lang={lang} />
+      <FindingExplanationPanel result={result} state={state} lang={lang} />
+    </>
   );
 }
 
@@ -335,20 +345,18 @@ function App() {
 
   function restart() {
     setState({ lang, fish: [], plants: [] }); setStepIdx(0); setView('home');
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    window.scrollTo({ top: 0, behavior: 'auto' });
   }
   function next() {
     const currentFlow = flowFor(state);
     const expectedIndex = safeStepIdx;
     const targetIndex = Math.min(expectedIndex + 1, Math.max(0, currentFlow.length - 1));
-    startTransition(() => {
-      setStepIdx(current => {
-        const maxIndex = Math.max(0, currentFlow.length - 1);
-        const normalized = Math.min(Math.max(0, current), maxIndex);
-        return normalized === expectedIndex ? targetIndex : normalized;
-      });
+    setStepIdx(current => {
+      const maxIndex = Math.max(0, currentFlow.length - 1);
+      const normalized = Math.min(Math.max(0, current), maxIndex);
+      return normalized === expectedIndex ? targetIndex : normalized;
     });
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    window.scrollTo({ top: 0, behavior: 'auto' });
   }
   function back() {
     const currentFlow = flowFor(state);
@@ -361,7 +369,7 @@ function App() {
         return normalized === expectedIndex ? targetIndex : normalized;
       });
     });
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    window.scrollTo({ top: 0, behavior: 'auto' });
   }
   function jumpTo(target) {
     const currentFlow = flowFor(state);
@@ -370,7 +378,7 @@ function App() {
       const targetIndex = typeof target === 'number' ? target : currentFlow.indexOf(target);
       return targetIndex >= 0 && targetIndex < currentFlow.length ? targetIndex : normalized;
     });
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    window.scrollTo({ top: 0, behavior: 'auto' });
   }
 
   const STEP_LABELS = { tank: t.tank_eyebrow, water: t.water_eyebrow, fish: t.fish_eyebrow, plants: t.plants_eyebrow, substrate: t.substrate_eyebrow, result: t.result_eyebrow };
@@ -388,7 +396,7 @@ function App() {
   if (stepName === 'fish') stepEl = <FishStep state={state} setState={setState} t={t} lang={lang} />;
   if (stepName === 'plants') stepEl = <PlantsStep state={state} setState={setState} t={t} lang={lang} />;
   if (stepName === 'substrate') stepEl = <SubstrateStep state={state} setState={setState} t={t} lang={lang} />;
-  if (stepName === 'result') stepEl = <><ResultStep state={state} setState={setState} t={t} lang={lang} /><ScoreBreakdownPanel state={state} lang={lang} /><FindingExplanationPanel state={state} lang={lang} /></>;
+  if (stepName === 'result') stepEl = <><ResultStep state={state} setState={setState} t={t} lang={lang} /><ResultEnhancements state={state} lang={lang} /></>;
 
   const showRecipe = stepName !== 'path' && stepName !== 'result';
   const isResult = stepName === 'result';
