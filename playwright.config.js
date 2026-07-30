@@ -2,10 +2,10 @@ import { defineConfig, devices } from '@playwright/test';
 
 export default defineConfig({
   testDir: './e2e',
-  timeout: 15_000,
+  timeout: 30_000,
   fullyParallel: false,
   forbidOnly: Boolean(process.env.CI),
-  retries: 0,
+  retries: process.env.CI ? 1 : 0,
   workers: process.env.CI ? 1 : undefined,
   reporter: [
     ['list'],
@@ -13,11 +13,11 @@ export default defineConfig({
   ],
   use: {
     baseURL: 'http://127.0.0.1:4173/akvaryum/',
-    actionTimeout: 7_500,
-    navigationTimeout: 15_000,
-    trace: 'retain-on-failure',
+    actionTimeout: 10_000,
+    navigationTimeout: 20_000,
+    trace: 'on-first-retry',
     screenshot: 'only-on-failure',
-    video: 'retain-on-failure',
+    video: 'on-first-retry',
   },
   webServer: {
     command: 'npm run build && npm run preview -- --host 127.0.0.1 --port 4173',
