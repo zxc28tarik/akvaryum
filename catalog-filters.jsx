@@ -180,7 +180,7 @@
     const [advancedOpen, setAdvancedOpen] = useState(() => model.activeFilterCount(model.parseSearch(window.location.search)) > 0);
     const [visibleCount, setVisibleCount] = useState(PAGE_SIZE);
 
-    const records = window.DB?.inhabitantCatalog?.all || window.DB?.inhabitants || window.DB?.fish || [];
+    const records = window.DB?.fish || window.DB?.inhabitantCatalog?.all || window.DB?.inhabitants || [];
     const water = state.water || null;
 
     useEffect(() => {
@@ -231,8 +231,15 @@
     }
 
     function resetFilters() {
-      setAdvancedOpen(false);
-      setFilters(model.createDefaults());
+      const defaults = model.createDefaults();
+      const nextSearch = model.serializeSearch(defaults, window.location.search);
+      const nextUrl = `${window.location.pathname}${nextSearch}${window.location.hash}`;
+      window.history.replaceState(window.history.state, '', nextUrl);
+      ReactDOM.flushSync(() => {
+        setAdvancedOpen(false);
+        setFilters(defaults);
+        setVisibleCount(PAGE_SIZE);
+      });
     }
 
     function setQuantity(id, nextQuantity) {

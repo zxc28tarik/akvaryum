@@ -1,4 +1,4 @@
-const { useState, useEffect, useMemo } = React;
+const { useState, useEffect, useLayoutEffect, useMemo } = React;
 const { Bubbles, Topbar, RecipeStrip, Progress, Landing, PathStep, TankStep, WaterStep, FishStep, PlantsStep, SubstrateStep, ResultStep } = window.UI;
 
 const SCORE_SECTION_ORDER = Object.freeze(['environmental', 'behavior', 'tank', 'habitat']);
@@ -315,14 +315,17 @@ function App() {
   const [stepIdx, setStepIdx] = useState(0);
 
   useEffect(() => { setState(s => ({ ...s, lang })); }, [lang]);
-  useEffect(() => {
+  useLayoutEffect(() => {
     if (!state.water) return;
     setState(current => {
       const originalFish = current.fish || [];
       const originalPlants = current.plants || [];
       const fish = originalFish.filter(item => {
         const definition = window.DB?.fish?.find(candidate => candidate.id === item.id);
-        return definition?.water === current.water;
+        const waterTypes = Array.isArray(definition?.water?.types)
+          ? definition.water.types
+          : [definition?.water];
+        return waterTypes.includes(current.water);
       });
       const plants = current.water === 'fresh' ? originalPlants : [];
       const substrateDefinition = window.DB?.substrates?.find(item => item.id === current.substrate);
@@ -362,12 +365,10 @@ function App() {
     const currentFlow = flowFor(state);
     const expectedIndex = safeStepIdx;
     const targetIndex = Math.max(0, expectedIndex - 1);
-    startTransition(() => {
-      setStepIdx(current => {
-        const maxIndex = Math.max(0, currentFlow.length - 1);
-        const normalized = Math.min(Math.max(0, current), maxIndex);
-        return normalized === expectedIndex ? targetIndex : normalized;
-      });
+    setStepIdx(current => {
+      const maxIndex = Math.max(0, currentFlow.length - 1);
+      const normalized = Math.min(Math.max(0, current), maxIndex);
+      return normalized === expectedIndex ? targetIndex : normalized;
     });
     window.scrollTo({ top: 0, behavior: 'auto' });
   }
@@ -398,7 +399,7 @@ function App() {
   if (stepName === 'substrate') stepEl = <SubstrateStep state={state} setState={setState} t={t} lang={lang} />;
   if (stepName === 'result') stepEl = <><ResultStep state={state} setState={setState} t={t} lang={lang} /><ResultEnhancements state={state} lang={lang} /></>;
 
-  const showRecipe = stepName !== 'path' && stepName !== 'result';
+  const showRecipe = stepName !== 'path' && stepName !== 'fish' && stepName !== 'result';
   const isResult = stepName === 'result';
   const stepsForProgress = flow.slice(1);
   const progressCurrent = Math.max(0, safeStepIdx - 1);
