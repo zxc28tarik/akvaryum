@@ -305,6 +305,24 @@ function App() {
   const [stepIdx, setStepIdx] = useState(0);
 
   useEffect(() => { setState(s => ({ ...s, lang })); }, [lang]);
+  useEffect(() => {
+    if (!state.water) return;
+    setState(current => {
+      const originalFish = current.fish || [];
+      const originalPlants = current.plants || [];
+      const fish = originalFish.filter(item => {
+        const definition = window.DB?.fish?.find(candidate => candidate.id === item.id);
+        return definition?.water === current.water;
+      });
+      const plants = current.water === 'fresh' ? originalPlants : [];
+      const substrateDefinition = window.DB?.substrates?.find(item => item.id === current.substrate);
+      const substrate = substrateDefinition?.water?.includes(current.water) ? current.substrate : null;
+      const changed = fish.length !== originalFish.length
+        || plants.length !== originalPlants.length
+        || substrate !== current.substrate;
+      return changed ? { ...current, fish, plants, substrate } : current;
+    });
+  }, [state.water]);
   const t = window.I18N[lang];
   const flow = flowFor(state);
   const maxStepIdx = Math.max(0, flow.length - 1);
@@ -321,19 +339,23 @@ function App() {
   }
   function next() {
     const currentFlow = flowFor(state);
+    const expectedIndex = safeStepIdx;
+    const targetIndex = Math.min(expectedIndex + 1, Math.max(0, currentFlow.length - 1));
     setStepIdx(current => {
       const maxIndex = Math.max(0, currentFlow.length - 1);
       const normalized = Math.min(Math.max(0, current), maxIndex);
-      return Math.min(normalized + 1, maxIndex);
+      return normalized === expectedIndex ? targetIndex : normalized;
     });
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }
   function back() {
     const currentFlow = flowFor(state);
+    const expectedIndex = safeStepIdx;
+    const targetIndex = Math.max(0, expectedIndex - 1);
     setStepIdx(current => {
       const maxIndex = Math.max(0, currentFlow.length - 1);
       const normalized = Math.min(Math.max(0, current), maxIndex);
-      return Math.max(0, normalized - 1);
+      return normalized === expectedIndex ? targetIndex : normalized;
     });
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }
