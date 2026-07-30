@@ -14,7 +14,7 @@ function captureRuntimeErrors(page) {
 
 async function startWizard(page, pathLabel = 'Tankla başla') {
   await page.goto('./');
-  await page.getByRole('button', { name: /Kuruluma Başla/ }).click();
+  await page.locator('.hero-copy .btn-primary').click();
   await expect(page.getByRole('heading', { name: 'Akvaryumunu nereden kurmaya başlayalım?' })).toBeVisible();
   await page.getByRole('button', { name: new RegExp(pathLabel) }).click();
 }
@@ -88,7 +88,7 @@ test('su tipi değişince eski canlı, bitki ve substrat seçimleri temizlenir',
 test('boş sonuç üreten URL filtresi sıfırlanınca katalog yeniden açılır', async ({ page }) => {
   const errors = captureRuntimeErrors(page);
   await page.goto('./?q=zzzz-katalogda-olmayan-kayit&cat=gecersiz&care=gecersiz&sort=gecersiz');
-  await page.getByRole('button', { name: /Kuruluma Başla/ }).click();
+  await page.locator('.hero-copy .btn-primary').click();
   await page.getByRole('button', { name: /Balıkla başla/ }).click();
   await chooseWater(page, 'Tatlı su');
   await primaryNavigation(page).click();
