@@ -12,9 +12,9 @@ permissions:
   contents: read
 
 jobs:
-  browser-e2e:
+  catalog-performance:
     runs-on: ubuntu-latest
-    timeout-minutes: 15
+    timeout-minutes: 8
 
     steps:
       - name: Depoyu al
@@ -32,17 +32,63 @@ jobs:
       - name: Gerçek katalog filtre performansını ölç
         run: node scripts/check-catalog-runtime-performance.mjs
 
+  browser-e2e:
+    needs: catalog-performance
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - id: desktop-double-click
+            project: desktop-chromium
+            grep: '^hızlı çift tıklama'
+          - id: desktop-water-switch
+            project: desktop-chromium
+            grep: '^su tipi değişince'
+          - id: desktop-filter-reset
+            project: desktop-chromium
+            grep: '^boş sonuç üreten URL filtresi'
+          - id: desktop-load
+            project: desktop-chromium
+            grep: '^15 tür ve 30 bireyde'
+          - id: mobile-double-click
+            project: mobile-chromium
+            grep: '^hızlı çift tıklama'
+          - id: mobile-water-switch
+            project: mobile-chromium
+            grep: '^su tipi değişince'
+          - id: mobile-filter-reset
+            project: mobile-chromium
+            grep: '^boş sonuç üreten URL filtresi'
+          - id: mobile-footer
+            project: mobile-chromium
+            grep: '^mobil alt gezinme'
+
+    steps:
+      - name: Depoyu al
+        uses: actions/checkout@v6
+
+      - name: Node.js kur
+        uses: actions/setup-node@v6
+        with:
+          node-version: 22.18.0
+          package-manager-cache: false
+
+      - name: Bağımlılıkları kur
+        run: npm install --no-audit --no-fund
+
       - name: Chromium ve sistem bağımlılıklarını kur
         run: npx playwright install --with-deps chromium
 
-      - name: Masaüstü ve mobil tarayıcı testlerini çalıştır
-        run: npm run check:e2e
+      - name: Gerçek kullanıcı senaryosunu çalıştır
+        run: npx playwright test e2e/wizard-flow.spec.js --project="${{ matrix.project }}" --grep="${{ matrix.grep }}"
 
       - name: Playwright raporunu yükle
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: playwright-report
+          name: playwright-${{ matrix.id }}
           path: |
             playwright-report
             test-results
