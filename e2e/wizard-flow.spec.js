@@ -74,14 +74,19 @@ async function expectAboveFooter(page, target) {
 
 async function expectCatalogReady(page) {
   await waitForRender(500);
-  await expect(page.locator('.catalog-card').first()).toBeVisible({ timeout: 30_000 });
+  await expect(page.locator('.catalog-card[data-inhabitant-id]').first()).toBeVisible({ timeout: 30_000 });
   await expect(page.locator('.catalog-add').first()).toBeVisible({ timeout: 30_000 });
 }
 
 async function addDistinctInhabitants(page, count) {
-  for (let index = 0; index < count; index += 1) {
-    const add = page.locator('.catalog-add').first();
-    await clickVisible(page, add, 30_000);
+  const ids = await page.locator('.catalog-card[data-inhabitant-id]').evaluateAll((cards, requestedCount) => (
+    cards.slice(0, requestedCount).map(card => card.dataset.inhabitantId).filter(Boolean)
+  ), count);
+  expect(ids.length, `${count} farklı katalog kartı bulunmalıdır.`).toBe(count);
+
+  for (let index = 0; index < ids.length; index += 1) {
+    const card = page.locator(`.catalog-card[data-inhabitant-id="${ids[index]}"]`);
+    await clickVisible(page, card.locator('.catalog-add'), 30_000);
     await expect(page.locator('.catalog-selected-item')).toHaveCount(index + 1, { timeout: 15_000 });
   }
 }
@@ -126,7 +131,7 @@ test('su tipi değişince eski canlı, bitki ve substrat seçimleri temizlenir',
   await clickPrimaryAndWait(page, page.locator('.tile-grid'));
   await clickVisible(page, page.locator('.tile-grid .tile').first());
   await clickPrimaryAndWait(page, page.locator('.stage .option-card').first());
-  await clickVisible(page, page.locator('.stage .option-card').first());
+  await clickVisible(page, page.locator('.stage .option-card').filter({ hasText: 'Çakıl' }).first());
 
   await clickVisible(page, page.locator('.recipe-strip button').filter({ hasText: 'Tatlı su' }));
   await expect(page.getByRole('heading', { name: 'Hangi tip suyla çalışacaksın?' })).toBeVisible();
