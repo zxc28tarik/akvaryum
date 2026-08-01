@@ -7,7 +7,7 @@
     throw new Error('Katalog filtre arayüzü için React, UI ve CatalogFilterModel gereklidir.');
   }
 
-  const { useDeferredValue, useEffect, useMemo, useState } = React;
+  const { useEffect, useMemo, useState } = React;
   const model = window.CatalogFilterModel;
   const PAGE_SIZE = 18;
   const STYLE_ID = 'akvaryum-catalog-filters-style';
@@ -177,7 +177,6 @@
   function CatalogFishStep({ state, setState, lang }) {
     const copy = COPY[lang] || COPY.tr;
     const [filters, setFilters] = useState(() => model.parseSearch(window.location.search));
-    const deferredFilters = useDeferredValue(filters);
     const [advancedOpen, setAdvancedOpen] = useState(() => model.activeFilterCount(model.parseSearch(window.location.search)) > 0);
     const [visibleCount, setVisibleCount] = useState(PAGE_SIZE);
 
@@ -203,13 +202,13 @@
     }, [filters]);
 
     const filtered = useMemo(
-      () => model.filterRecords(records, deferredFilters, { lang }),
-      [records, deferredFilters, lang],
+      () => model.filterRecords(records, filters, { lang }),
+      [records, filters, lang],
     );
 
     const categoryCounts = useMemo(
-      () => model.countByCategory(records, deferredFilters, { lang }),
-      [records, deferredFilters, lang],
+      () => model.countByCategory(records, filters, { lang }),
+      [records, filters, lang],
     );
 
     const selectedMap = useMemo(
