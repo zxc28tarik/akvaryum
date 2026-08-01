@@ -35,8 +35,15 @@ function primaryNavigation(page) {
   return page.locator('.foot-nav .btn-primary');
 }
 
+async function clickPrimary(page) {
+  const button = primaryNavigation(page);
+  await expect(button).toBeVisible();
+  await expect(button).toBeEnabled();
+  await button.evaluate(element => element.click());
+}
+
 async function clickPrimaryAndWait(page, target, timeout = 30_000) {
-  await clickVisible(page, primaryNavigation(page));
+  await clickPrimary(page);
   await waitForRender(300);
   await expect(target).toBeVisible({ timeout });
 }
@@ -188,7 +195,7 @@ test('15 tür ve 30 bireyde sonuç ekranı çökmeden açılır', async ({ page,
   await clickVisible(page, page.locator('.stage .option-card').first());
 
   const startedAt = Date.now();
-  await clickVisible(page, primaryNavigation(page));
+  await clickPrimary(page);
   await waitForRender(300);
   await expect(page.getByRole('heading', { name: 'Akvaryum reçeten hazır' })).toBeVisible({ timeout: 20_000 });
   expect(Date.now() - startedAt).toBeLessThan(15_000);
