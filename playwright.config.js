@@ -15,9 +15,9 @@ export default defineConfig({
     baseURL: 'http://127.0.0.1:4173/akvaryum/',
     actionTimeout: 15_000,
     navigationTimeout: 20_000,
-    trace: 'retain-on-failure',
+    trace: 'off',
     screenshot: 'only-on-failure',
-    video: 'retain-on-failure',
+    video: 'off',
   },
   webServer: {
     command: 'npm run build && npm run preview -- --host 127.0.0.1 --port 4173',
