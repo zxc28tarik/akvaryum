@@ -1,4 +1,4 @@
-const { useState, useEffect, useLayoutEffect, useMemo, useRef } = React;
+const { useState, useEffect, useMemo, useRef } = React;
 const { Bubbles, Topbar, RecipeStrip, Progress, Landing, PathStep, TankStep, WaterStep, FishStep, PlantsStep, SubstrateStep, ResultStep } = window.UI;
 
 const SCORE_SECTION_ORDER = Object.freeze(['environmental', 'behavior', 'tank', 'habitat']);
@@ -316,27 +316,25 @@ function App() {
   const navigationPendingRef = useRef(false);
 
   useEffect(() => { setState(s => ({ ...s, lang })); }, [lang]);
-  useLayoutEffect(() => {
-    if (!state.water) return;
+  function setWaterState(updater) {
     setState(current => {
-      const originalFish = current.fish || [];
-      const originalPlants = current.plants || [];
+      const next = typeof updater === 'function' ? updater(current) : updater;
+      if (!next || !next.water || next.water === current.water) return next;
+
+      const originalFish = next.fish || [];
       const fish = originalFish.filter(item => {
         const definition = window.DB?.fish?.find(candidate => candidate.id === item.id);
         const waterTypes = Array.isArray(definition?.water?.types)
           ? definition.water.types
           : [definition?.water];
-        return waterTypes.includes(current.water);
+        return waterTypes.includes(next.water);
       });
-      const plants = current.water === 'fresh' ? originalPlants : [];
-      const substrateDefinition = window.DB?.substrates?.find(item => item.id === current.substrate);
-      const substrate = substrateDefinition?.water?.includes(current.water) ? current.substrate : null;
-      const changed = fish.length !== originalFish.length
-        || plants.length !== originalPlants.length
-        || substrate !== current.substrate;
-      return changed ? { ...current, fish, plants, substrate } : current;
+      const plants = next.water === 'fresh' ? (next.plants || []) : [];
+      const substrateDefinition = window.DB?.substrates?.find(item => item.id === next.substrate);
+      const substrate = substrateDefinition?.water?.includes(next.water) ? next.substrate : null;
+      return { ...next, fish, plants, substrate };
     });
-  }, [state.water]);
+  }
   const t = window.I18N[lang];
   const flow = flowFor(state);
   const maxStepIdx = Math.max(0, flow.length - 1);
@@ -398,7 +396,7 @@ function App() {
   let stepEl = null;
   if (stepName === 'path') stepEl = <PathStep onPick={pickPath} t={t} />;
   if (stepName === 'tank') stepEl = <TankStep state={state} setState={setState} t={t} />;
-  if (stepName === 'water') stepEl = <WaterStep state={state} setState={setState} t={t} />;
+  if (stepName === 'water') stepEl = <WaterStep state={state} setState={setWaterState} t={t} />;
   if (stepName === 'fish') stepEl = <FishStep state={state} setState={setState} t={t} lang={lang} />;
   if (stepName === 'plants') stepEl = <PlantsStep state={state} setState={setState} t={t} lang={lang} />;
   if (stepName === 'substrate') stepEl = <SubstrateStep state={state} setState={setState} t={t} lang={lang} />;
