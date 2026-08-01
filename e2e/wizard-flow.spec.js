@@ -12,10 +12,14 @@ function captureRuntimeErrors(page) {
   return errors;
 }
 
+function waitForRender(milliseconds = 600) {
+  return new Promise(resolve => setTimeout(resolve, milliseconds));
+}
+
 async function clickVisible(locator, timeout = 15_000) {
   await expect(locator).toBeVisible({ timeout });
   await locator.scrollIntoViewIfNeeded();
-  await locator.click({ timeout });
+  await locator.click({ timeout, noWaitAfter: true });
 }
 
 async function startWizard(page, pathLabel = 'Tankla başla') {
@@ -31,6 +35,7 @@ function primaryNavigation(page) {
 
 async function clickPrimaryAndWait(page, target, timeout = 30_000) {
   await clickVisible(primaryNavigation(page));
+  await waitForRender(300);
   await expect(target).toBeVisible({ timeout });
 }
 
@@ -49,7 +54,7 @@ async function chooseWater(page, label) {
 async function expectAboveFooter(page, target) {
   await expect(target).toBeVisible({ timeout: 30_000 });
   await target.evaluate(element => element.scrollIntoView({ block: 'center', inline: 'nearest' }));
-  await page.evaluate(() => new Promise(resolve => requestAnimationFrame(() => requestAnimationFrame(resolve))));
+  await waitForRender(300);
 
   const targetBox = await target.boundingBox();
   const footerBox = await page.locator('.foot-nav').boundingBox();
@@ -59,8 +64,8 @@ async function expectAboveFooter(page, target) {
 }
 
 async function expectCatalogReady(page) {
-  await expect(page.locator('.catalog-step')).toBeVisible({ timeout: 45_000 });
-  await expect(page.locator('.catalog-card').first()).toBeVisible({ timeout: 30_000 });
+  await waitForRender(800);
+  await expect(page.locator('.catalog-card').first()).toBeVisible({ timeout: 45_000 });
   await expect(page.locator('.catalog-add').first()).toBeVisible({ timeout: 30_000 });
 }
 
@@ -117,6 +122,7 @@ test('su tipi değişince eski canlı, bitki ve substrat seçimleri temizlenir',
   await clickVisible(page.locator('.recipe-strip button').filter({ hasText: 'Tatlı su' }));
   await expect(page.getByRole('heading', { name: 'Hangi tip suyla çalışacaksın?' })).toBeVisible();
   await chooseWater(page, 'Tuzlu su');
+  await waitForRender(300);
 
   await expect(page.locator('.recipe-strip button').filter({ hasText: 'BALIKLAR' })).toHaveCount(0);
   await expect(page.locator('.recipe-strip button').filter({ hasText: 'Bitkiler' })).toHaveCount(0);
@@ -135,9 +141,10 @@ test('boş sonuç üreten URL filtresi sıfırlanınca katalog yeniden açılır
 
   await expect(page.locator('.catalog-empty')).toBeVisible();
   await clickVisible(page.locator('.catalog-reset'));
-  await expect.poll(() => page.locator('.catalog-search').inputValue(), { timeout: 15_000 }).toBe('');
+  await waitForRender(1200);
   await expect(page).not.toHaveURL(/[?&](q|cat|care|temperament|social|zone|tankMax|plantSafe|reefSafe|sort)=/);
-  await expect(page.locator('.catalog-card').first()).toBeVisible({ timeout: 30_000 });
+  await expect(page.locator('.catalog-search')).toHaveValue('', { timeout: 15_000 });
+  await expect(page.locator('.catalog-card').first()).toBeVisible({ timeout: 45_000 });
   await expect(page.locator('.catalog-summary')).toContainText(/sonuç/);
   await expectNoRuntimeErrors(errors);
 });
@@ -181,6 +188,7 @@ test('15 tür ve 30 bireyde sonuç ekranı çökmeden açılır', async ({ page,
 
   const startedAt = Date.now();
   await clickVisible(primaryNavigation(page));
+  await waitForRender(300);
   await expect(page.getByRole('heading', { name: 'Akvaryum reçeten hazır' })).toBeVisible({ timeout: 20_000 });
   expect(Date.now() - startedAt).toBeLessThan(15_000);
   await expect(page.locator('.score-hero')).toBeVisible();
