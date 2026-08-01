@@ -220,8 +220,9 @@
             button.dataset.catalogDetail = matchedRecord.id;
             action.prepend(button);
           }
-          button.textContent = copy.details;
-          button.setAttribute('aria-label', `${copy.details}: ${catalogModel.recordName(matchedRecord, lang)}`);
+          if (button.textContent !== copy.details) button.textContent = copy.details;
+          const detailLabel = `${copy.details}: ${catalogModel.recordName(matchedRecord, lang)}`;
+          if (button.getAttribute('aria-label') !== detailLabel) button.setAttribute('aria-label', detailLabel);
         }
       };
 
