@@ -313,7 +313,6 @@ function App() {
   const [view, setView] = useState('home');
   const [state, setState] = useState({ lang: 'tr', fish: [], plants: [] });
   const [stepIdx, setStepIdx] = useState(0);
-  const navigationPendingRef = useRef(false);
 
   useEffect(() => { setState(s => ({ ...s, lang })); }, [lang]);
   function setWaterState(updater) {
@@ -350,16 +349,11 @@ function App() {
     window.scrollTo({ top: 0, behavior: 'auto' });
   }
   function scheduleStepChange(expectedIndex, targetIndex, currentFlow) {
-    if (navigationPendingRef.current) return;
-    navigationPendingRef.current = true;
-    window.setTimeout(() => {
-      setStepIdx(current => {
-        const maxIndex = Math.max(0, currentFlow.length - 1);
-        const normalized = Math.min(Math.max(0, current), maxIndex);
-        return normalized === expectedIndex ? targetIndex : normalized;
-      });
-      navigationPendingRef.current = false;
-    }, 0);
+    setStepIdx(current => {
+      const maxIndex = Math.max(0, currentFlow.length - 1);
+      const normalized = Math.min(Math.max(0, current), maxIndex);
+      return normalized === expectedIndex ? targetIndex : normalized;
+    });
   }
   function next() {
     const currentFlow = flowFor(state);
