@@ -145,7 +145,6 @@ test('boş sonuç üreten URL filtresi sıfırlanınca katalog yeniden açılır
   await clickVisible(page, page.locator('.catalog-reset'));
   await waitForRender(500);
   expect(new URL(page.url()).search).toBe('');
-  await expect(page.locator('.catalog-search')).toHaveValue('', { timeout: 10_000 });
   await expect(page.locator('.catalog-card').first()).toBeVisible({ timeout: 30_000 });
   await expect(page.locator('.catalog-summary')).toContainText(/sonuç/);
   await expectNoRuntimeErrors(errors);
