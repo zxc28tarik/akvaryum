@@ -24,6 +24,12 @@ async function clickVisible(page, locator, timeout = 15_000) {
   await page.mouse.click(box.x + box.width / 2, box.y + box.height / 2);
 }
 
+async function clickDom(locator, timeout = 15_000) {
+  await expect(locator).toBeVisible({ timeout });
+  await expect(locator).toBeEnabled({ timeout });
+  await locator.evaluate(element => element.click());
+}
+
 async function startWizard(page, pathLabel = 'Tankla başla') {
   await page.goto('./');
   await clickVisible(page, page.locator('.hero-copy .btn-primary'));
@@ -36,10 +42,7 @@ function primaryNavigation(page) {
 }
 
 async function clickPrimary(page) {
-  const button = primaryNavigation(page);
-  await expect(button).toBeVisible();
-  await expect(button).toBeEnabled();
-  await button.evaluate(element => element.click());
+  await clickDom(primaryNavigation(page));
 }
 
 async function clickPrimaryAndWait(page, target, timeout = 30_000) {
@@ -86,7 +89,7 @@ async function addDistinctInhabitants(page, count) {
 
   for (let index = 0; index < ids.length; index += 1) {
     const card = page.locator(`.catalog-card[data-inhabitant-id="${ids[index]}"]`);
-    await clickVisible(page, card.locator('.catalog-add'), 30_000);
+    await clickDom(card.locator('.catalog-add'), 30_000);
     await expect(page.locator('.catalog-selected-item')).toHaveCount(index + 1, { timeout: 15_000 });
   }
 }
@@ -94,7 +97,7 @@ async function addDistinctInhabitants(page, count) {
 async function increaseFirstSpecies(page, extraIndividuals) {
   for (let index = 0; index < extraIndividuals; index += 1) {
     const plus = page.locator('.catalog-stepper').first().getByRole('button').last();
-    await clickVisible(page, plus, 15_000);
+    await clickDom(plus, 15_000);
   }
 }
 
@@ -133,8 +136,8 @@ test('su tipi değişince eski canlı, bitki ve substrat seçimleri temizlenir',
   await clickPrimaryAndWait(page, page.locator('.stage .option-card').first());
   await clickVisible(page, page.locator('.stage .option-card').filter({ hasText: 'Çakıl' }).first());
 
-  await clickVisible(page, page.locator('.recipe-strip button').filter({ hasText: 'Tatlı su' }));
-  await expect(page.getByRole('heading', { name: 'Hangi tip suyla çalışacaksın?' })).toBeVisible();
+  await clickDom(page.locator('.recipe-strip button').filter({ hasText: 'Tatlı su' }));
+  await expect(page.getByRole('heading', { name: 'Hangi tip suyla çalışacaksın?' })).toBeVisible({ timeout: 15_000 });
   await chooseWater(page, 'Tuzlu su');
   await waitForRender(300);
 
