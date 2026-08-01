@@ -12,11 +12,17 @@ function captureRuntimeErrors(page) {
   return errors;
 }
 
+async function clickVisible(locator, timeout = 15_000) {
+  await expect(locator).toBeVisible({ timeout });
+  await locator.scrollIntoViewIfNeeded();
+  await locator.click({ timeout });
+}
+
 async function startWizard(page, pathLabel = 'Tankla başla') {
   await page.goto('./');
-  await page.locator('.hero-copy .btn-primary').click();
+  await clickVisible(page.locator('.hero-copy .btn-primary'));
   await expect(page.getByRole('heading', { name: 'Akvaryumunu nereden kurmaya başlayalım?' })).toBeVisible();
-  await page.getByRole('button', { name: new RegExp(pathLabel) }).click();
+  await clickVisible(page.getByRole('button', { name: new RegExp(pathLabel) }));
 }
 
 function primaryNavigation(page) {
@@ -24,25 +30,26 @@ function primaryNavigation(page) {
 }
 
 async function clickPrimaryAndWait(page, target, timeout = 30_000) {
-  await primaryNavigation(page).click();
+  await clickVisible(primaryNavigation(page));
   await expect(target).toBeVisible({ timeout });
 }
 
 async function chooseTankPreset(page, position = 'first') {
   const presets = page.locator('.stage .option-card');
   const target = position === 'last' ? presets.last() : presets.first();
-  await target.click();
+  await clickVisible(target);
   await expect(primaryNavigation(page)).toBeEnabled();
 }
 
 async function chooseWater(page, label) {
-  await page.locator('.water-card').filter({ hasText: label }).click();
+  await clickVisible(page.locator('.water-card').filter({ hasText: label }));
   await expect(primaryNavigation(page)).toBeEnabled();
 }
 
 async function expectAboveFooter(page, target) {
-  await target.scrollIntoViewIfNeeded();
-  await expect(target).toBeVisible();
+  await expect(target).toBeVisible({ timeout: 30_000 });
+  await target.evaluate(element => element.scrollIntoView({ block: 'center', inline: 'nearest' }));
+  await page.evaluate(() => new Promise(resolve => requestAnimationFrame(() => requestAnimationFrame(resolve))));
 
   const targetBox = await target.boundingBox();
   const footerBox = await page.locator('.foot-nav').boundingBox();
@@ -51,11 +58,16 @@ async function expectAboveFooter(page, target) {
   expect(targetBox.y + targetBox.height).toBeLessThanOrEqual(footerBox.y - 2);
 }
 
+async function expectCatalogReady(page) {
+  await expect(page.locator('.catalog-step')).toBeVisible({ timeout: 45_000 });
+  await expect(page.locator('.catalog-card').first()).toBeVisible({ timeout: 30_000 });
+  await expect(page.locator('.catalog-add').first()).toBeVisible({ timeout: 30_000 });
+}
+
 async function addDistinctInhabitants(page, count) {
   for (let index = 0; index < count; index += 1) {
     const add = page.locator('.catalog-add').first();
-    await expect(add, `Canlı ${index + 1} için Ekle düğmesi oluşmadı`).toBeAttached({ timeout: 30_000 });
-    await add.evaluate(button => button.click());
+    await clickVisible(add, 30_000);
     await expect(page.locator('.catalog-selected-item')).toHaveCount(index + 1, { timeout: 15_000 });
   }
 }
@@ -63,8 +75,7 @@ async function addDistinctInhabitants(page, count) {
 async function increaseFirstSpecies(page, extraIndividuals) {
   for (let index = 0; index < extraIndividuals; index += 1) {
     const plus = page.locator('.catalog-stepper').first().getByRole('button').last();
-    await expect(plus).toBeAttached({ timeout: 15_000 });
-    await plus.evaluate(button => button.click());
+    await clickVisible(plus, 15_000);
   }
 }
 
@@ -95,14 +106,15 @@ test('su tipi değişince eski canlı, bitki ve substrat seçimleri temizlenir',
   await clickPrimaryAndWait(page, page.getByRole('heading', { name: 'Hangi tip suyla çalışacaksın?' }));
   await chooseWater(page, 'Tatlı su');
   await clickPrimaryAndWait(page, page.locator('.catalog-step'), 45_000);
+  await expectCatalogReady(page);
 
   await addDistinctInhabitants(page, 1);
   await clickPrimaryAndWait(page, page.locator('.tile-grid'));
-  await page.locator('.tile-grid .tile').first().click();
+  await clickVisible(page.locator('.tile-grid .tile').first());
   await clickPrimaryAndWait(page, page.locator('.stage .option-card').first());
-  await page.locator('.stage .option-card').first().click();
+  await clickVisible(page.locator('.stage .option-card').first());
 
-  await page.locator('.recipe-strip button').filter({ hasText: 'Tatlı su' }).click();
+  await clickVisible(page.locator('.recipe-strip button').filter({ hasText: 'Tatlı su' }));
   await expect(page.getByRole('heading', { name: 'Hangi tip suyla çalışacaksın?' })).toBeVisible();
   await chooseWater(page, 'Tuzlu su');
 
@@ -116,15 +128,16 @@ test('boş sonuç üreten URL filtresi sıfırlanınca katalog yeniden açılır
   test.setTimeout(90_000);
   const errors = captureRuntimeErrors(page);
   await page.goto('./?q=zzzz-katalogda-olmayan-kayit&cat=gecersiz&care=gecersiz&sort=gecersiz');
-  await page.locator('.hero-copy .btn-primary').click();
-  await page.getByRole('button', { name: /Balıkla başla/ }).click();
+  await clickVisible(page.locator('.hero-copy .btn-primary'));
+  await clickVisible(page.getByRole('button', { name: /Balıkla başla/ }));
   await chooseWater(page, 'Tatlı su');
   await clickPrimaryAndWait(page, page.locator('.catalog-step'), 45_000);
 
   await expect(page.locator('.catalog-empty')).toBeVisible();
-  await page.locator('.catalog-reset').evaluate(button => button.click());
-  await expect(page.locator('.catalog-search')).toHaveValue('', { timeout: 15_000 });
-  await expect(page.locator('.catalog-card').first()).toBeAttached({ timeout: 30_000 });
+  await clickVisible(page.locator('.catalog-reset'));
+  await expect.poll(() => page.locator('.catalog-search').inputValue(), { timeout: 15_000 }).toBe('');
+  await expect(page).not.toHaveURL(/[?&](q|cat|care|temperament|social|zone|tankMax|plantSafe|reefSafe|sort)=/);
+  await expect(page.locator('.catalog-card').first()).toBeVisible({ timeout: 30_000 });
   await expect(page.locator('.catalog-summary')).toContainText(/sonuç/);
   await expectNoRuntimeErrors(errors);
 });
@@ -136,6 +149,7 @@ test('mobil alt gezinme son katalog kontrolünü kapatmaz', async ({ page, isMob
   await startWizard(page, 'Balıkla başla');
   await chooseWater(page, 'Tatlı su');
   await clickPrimaryAndWait(page, page.locator('.catalog-step'), 45_000);
+  await expectCatalogReady(page);
   await addDistinctInhabitants(page, 1);
 
   const moreButton = page.locator('.catalog-more');
@@ -155,6 +169,7 @@ test('15 tür ve 30 bireyde sonuç ekranı çökmeden açılır', async ({ page,
   await clickPrimaryAndWait(page, page.getByRole('heading', { name: 'Hangi tip suyla çalışacaksın?' }));
   await chooseWater(page, 'Tatlı su');
   await clickPrimaryAndWait(page, page.locator('.catalog-step'), 45_000);
+  await expectCatalogReady(page);
 
   await addDistinctInhabitants(page, 15);
   await increaseFirstSpecies(page, 15);
@@ -162,10 +177,10 @@ test('15 tür ve 30 bireyde sonuç ekranı çökmeden açılır', async ({ page,
 
   await clickPrimaryAndWait(page, page.locator('.tile-grid'));
   await clickPrimaryAndWait(page, page.locator('.stage .option-card').first());
-  await page.locator('.stage .option-card').first().click();
+  await clickVisible(page.locator('.stage .option-card').first());
 
   const startedAt = Date.now();
-  await primaryNavigation(page).click();
+  await clickVisible(primaryNavigation(page));
   await expect(page.getByRole('heading', { name: 'Akvaryum reçeten hazır' })).toBeVisible({ timeout: 20_000 });
   expect(Date.now() - startedAt).toBeLessThan(15_000);
   await expect(page.locator('.score-hero')).toBeVisible();
