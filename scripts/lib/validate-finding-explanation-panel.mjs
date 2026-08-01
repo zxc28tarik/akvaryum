@@ -35,7 +35,8 @@ export function validateFindingExplanationPanel(repositoryRoot) {
   assert.match(app, /finding\.resolution/);
   scenarios += 1;
 
-  assert.match(app, /<FindingExplanationPanel state=\{state\} lang=\{lang\}/);
+  assert.match(app, /function ResultEnhancements/);
+  assert.match(app, /<FindingExplanationPanel result=\{result\} state=\{state\} lang=\{lang\}/);
   assert.match(app, /window\.Engine\.analyze/);
   assert.match(app, /<FindingExplanationCard/);
   scenarios += 1;

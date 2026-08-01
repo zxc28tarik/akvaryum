@@ -1,4 +1,4 @@
-const { useState, useEffect, useMemo } = React;
+const { useState, useEffect, useMemo, useRef } = React;
 const { Bubbles, Topbar, RecipeStrip, Progress, Landing, PathStep, TankStep, WaterStep, FishStep, PlantsStep, SubstrateStep, ResultStep } = window.UI;
 
 const SCORE_SECTION_ORDER = Object.freeze(['environmental', 'behavior', 'tank', 'habitat']);
@@ -157,8 +157,8 @@ function ScoreFinding({ finding, labels }) {
   );
 }
 
-function ScoreBreakdownPanel({ state, lang }) {
-  const model = useMemo(() => buildScorePanelModel(window.Engine.analyze({ ...state, lang }), lang), [state, lang]);
+function ScoreBreakdownPanel({ result, state, lang }) {
+  const model = useMemo(() => buildScorePanelModel(result || window.Engine.analyze({ ...state, lang }), lang), [result, state, lang]);
   if (!model) return null;
   return (
     <section className="score-breakdown-panel" aria-labelledby="score-breakdown-title">
@@ -258,8 +258,8 @@ function FindingExplanationCard({ finding, labels }) {
   );
 }
 
-function FindingExplanationPanel({ state, lang }) {
-  const model = useMemo(() => buildFindingExplanationModel(window.Engine.analyze({ ...state, lang }), lang), [state, lang]);
+function FindingExplanationPanel({ result, state, lang }) {
+  const model = useMemo(() => buildFindingExplanationModel(result || window.Engine.analyze({ ...state, lang }), lang), [result, state, lang]);
   if (!model.total) return null;
   return (
     <section className="finding-explanation-panel" aria-labelledby="finding-explanation-title">
@@ -286,6 +286,16 @@ function FindingExplanationPanel({ state, lang }) {
   );
 }
 
+function ResultEnhancements({ state, lang }) {
+  const result = useMemo(() => window.Engine.analyze({ ...state, lang }), [state, lang]);
+  return (
+    <>
+      <ScoreBreakdownPanel result={result} state={state} lang={lang} />
+      <FindingExplanationPanel result={result} state={state} lang={lang} />
+    </>
+  );
+}
+
 const RAW_FLOWS = {
   tank: ['path', 'tank', 'water', 'fish', 'plants', 'substrate', 'result'],
   fish: ['path', 'water', 'fish', 'tank', 'plants', 'substrate', 'result'],
@@ -305,6 +315,25 @@ function App() {
   const [stepIdx, setStepIdx] = useState(0);
 
   useEffect(() => { setState(s => ({ ...s, lang })); }, [lang]);
+  function setWaterState(updater) {
+    setState(current => {
+      const next = typeof updater === 'function' ? updater(current) : updater;
+      if (!next || !next.water || next.water === current.water) return next;
+
+      const originalFish = next.fish || [];
+      const fish = originalFish.filter(item => {
+        const definition = window.DB?.fish?.find(candidate => candidate.id === item.id);
+        const waterTypes = Array.isArray(definition?.water?.types)
+          ? definition.water.types
+          : [definition?.water];
+        return waterTypes.includes(next.water);
+      });
+      const plants = next.water === 'fresh' ? (next.plants || []) : [];
+      const substrateDefinition = window.DB?.substrates?.find(item => item.id === next.substrate);
+      const substrate = substrateDefinition?.water?.includes(next.water) ? next.substrate : null;
+      return { ...next, fish, plants, substrate };
+    });
+  }
   const t = window.I18N[lang];
   const flow = flowFor(state);
   const maxStepIdx = Math.max(0, flow.length - 1);
@@ -317,34 +346,37 @@ function App() {
 
   function restart() {
     setState({ lang, fish: [], plants: [] }); setStepIdx(0); setView('home');
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    window.scrollTo({ top: 0, behavior: 'auto' });
+  }
+  function scheduleStepChange(expectedIndex, targetIndex, currentFlow) {
+    setStepIdx(current => {
+      const maxIndex = Math.max(0, currentFlow.length - 1);
+      const normalized = Math.min(Math.max(0, current), maxIndex);
+      return normalized === expectedIndex ? targetIndex : normalized;
+    });
   }
   function next() {
     const currentFlow = flowFor(state);
-    setStepIdx(current => {
-      const maxIndex = Math.max(0, currentFlow.length - 1);
-      const normalized = Math.min(Math.max(0, current), maxIndex);
-      return Math.min(normalized + 1, maxIndex);
-    });
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    const expectedIndex = safeStepIdx;
+    const targetIndex = Math.min(expectedIndex + 1, Math.max(0, currentFlow.length - 1));
+    scheduleStepChange(expectedIndex, targetIndex, currentFlow);
+    window.scrollTo({ top: 0, behavior: 'auto' });
   }
   function back() {
     const currentFlow = flowFor(state);
-    setStepIdx(current => {
-      const maxIndex = Math.max(0, currentFlow.length - 1);
-      const normalized = Math.min(Math.max(0, current), maxIndex);
-      return Math.max(0, normalized - 1);
-    });
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    const expectedIndex = safeStepIdx;
+    const targetIndex = Math.max(0, expectedIndex - 1);
+    scheduleStepChange(expectedIndex, targetIndex, currentFlow);
+    window.scrollTo({ top: 0, behavior: 'auto' });
   }
   function jumpTo(target) {
     const currentFlow = flowFor(state);
-    setStepIdx(current => {
-      const normalized = Math.min(Math.max(0, current), Math.max(0, currentFlow.length - 1));
-      const targetIndex = typeof target === 'number' ? target : currentFlow.indexOf(target);
-      return targetIndex >= 0 && targetIndex < currentFlow.length ? targetIndex : normalized;
-    });
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    const expectedIndex = safeStepIdx;
+    const targetIndex = typeof target === 'number' ? target : currentFlow.indexOf(target);
+    if (targetIndex >= 0 && targetIndex < currentFlow.length) {
+      scheduleStepChange(expectedIndex, targetIndex, currentFlow);
+    }
+    window.scrollTo({ top: 0, behavior: 'auto' });
   }
 
   const STEP_LABELS = { tank: t.tank_eyebrow, water: t.water_eyebrow, fish: t.fish_eyebrow, plants: t.plants_eyebrow, substrate: t.substrate_eyebrow, result: t.result_eyebrow };
@@ -358,13 +390,13 @@ function App() {
   let stepEl = null;
   if (stepName === 'path') stepEl = <PathStep onPick={pickPath} t={t} />;
   if (stepName === 'tank') stepEl = <TankStep state={state} setState={setState} t={t} />;
-  if (stepName === 'water') stepEl = <WaterStep state={state} setState={setState} t={t} />;
+  if (stepName === 'water') stepEl = <WaterStep state={state} setState={setWaterState} t={t} />;
   if (stepName === 'fish') stepEl = <FishStep state={state} setState={setState} t={t} lang={lang} />;
   if (stepName === 'plants') stepEl = <PlantsStep state={state} setState={setState} t={t} lang={lang} />;
   if (stepName === 'substrate') stepEl = <SubstrateStep state={state} setState={setState} t={t} lang={lang} />;
-  if (stepName === 'result') stepEl = <><ResultStep state={state} setState={setState} t={t} lang={lang} /><ScoreBreakdownPanel state={state} lang={lang} /><FindingExplanationPanel state={state} lang={lang} /></>;
+  if (stepName === 'result') stepEl = <><ResultStep state={state} setState={setState} t={t} lang={lang} /><ResultEnhancements state={state} lang={lang} /></>;
 
-  const showRecipe = stepName !== 'path' && stepName !== 'result';
+  const showRecipe = stepName !== 'path' && stepName !== 'fish' && stepName !== 'result';
   const isResult = stepName === 'result';
   const stepsForProgress = flow.slice(1);
   const progressCurrent = Math.max(0, safeStepIdx - 1);
@@ -374,8 +406,7 @@ function App() {
   }
 
   return (
-    <div className="app">
-      <Bubbles />
+    <div className="app app-wizard">
       <Topbar lang={lang} setLang={setLang} step={progressCurrent} total={stepsForProgress.length} onRestart={restart} t={t} />
       <main className="stage">{showRecipe && <RecipeStrip state={state} t={t} jumpTo={jumpTo} />}{stepEl}</main>
       {stepName !== 'path' && <div className="foot-nav"><button className="btn btn-ghost" onClick={back}>← {t.back}</button><Progress steps={stepsForProgress} current={progressCurrent} labels={stepsForProgress.map(s => STEP_LABELS[s] || s)} onJump={i => jumpTo(i + 1)} />{isResult ? <button className="btn btn-secondary" onClick={restart}>{t.restart} ↻</button> : <button className="btn btn-primary" onClick={next} disabled={!canProceed}>{safeStepIdx === flow.length - 2 ? t.finish : t.next} →</button>}</div>}
