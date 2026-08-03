@@ -52,6 +52,16 @@ async function domClick(locator, timeout = 20_000) {
   await locator.evaluate(element => element.click());
 }
 
+async function setRangeValue(locator, value) {
+  await expect(locator).toBeVisible();
+  await locator.evaluate((element, nextValue) => {
+    const descriptor = Object.getOwnPropertyDescriptor(HTMLInputElement.prototype, 'value');
+    descriptor.set.call(element, String(nextValue));
+    element.dispatchEvent(new Event('input', { bubbles: true }));
+    element.dispatchEvent(new Event('change', { bubbles: true }));
+  }, value);
+}
+
 async function openWizard(page, path) {
   await page.goto('./');
   await realClick(page.locator('.hero-copy .btn-primary'));
@@ -87,7 +97,7 @@ async function expectStep(page, step) {
     return;
   }
   if (step === 'plants') {
-    await expect(page.getByRole('heading', { name: 'Bitki ve mercan seçimi' })).toBeVisible({ timeout: 30_000 });
+    await expect(page.getByRole('heading', { name: 'Bitkiler' })).toBeVisible({ timeout: 30_000 });
     await expect(page.locator('.tile-grid .tile').first()).toBeVisible({ timeout: 30_000 });
     return;
   }
@@ -116,8 +126,7 @@ async function chooseWater(page, water) {
 }
 
 async function addFirstInhabitant(page) {
-  const add = page.locator('.catalog-add').first();
-  await realClick(add, 30_000);
+  await realClick(page.locator('.catalog-add').first(), 30_000);
   await expect(page.locator('.catalog-selected-item')).toHaveCount(1, { timeout: 20_000 });
   await expect(primary(page)).toBeEnabled();
 }
@@ -142,42 +151,33 @@ async function operateStep(page, step, water) {
 async function completeFlow(page, path, water) {
   await openWizard(page, path);
   const flow = FLOWS[path][water];
-  for (let index = 0; index < flow.length; index += 1) {
-    const step = flow[index];
+  for (const step of flow) {
     await operateStep(page, step, water);
     if (step !== 'result') await next(page);
   }
   return flow;
 }
 
-async function assertNoRuntimeErrors(errors) {
+function assertNoRuntimeErrors(errors) {
   expect(errors, errors.join('\n')).toEqual([]);
 }
 
-const flowScenarios = [
-  { path: 'tank', water: 'fresh', mobile: true },
-  { path: 'tank', water: 'salt', mobile: true },
-  { path: 'fish', water: 'fresh', mobile: false },
-  { path: 'fish', water: 'salt', mobile: false },
-  { path: 'water', water: 'fresh', mobile: false },
-  { path: 'water', water: 'salt', mobile: false },
-];
+for (const path of ['tank', 'fish', 'water']) {
+  for (const water of ['fresh', 'salt']) {
+    test(`${path} başlangıcı ${water} akışı sonuç ekranına kadar tamamlanır`, async ({ page }) => {
+      test.setTimeout(120_000);
+      const errors = captureRuntimeErrors(page);
+      const flow = await completeFlow(page, path, water);
 
-for (const scenario of flowScenarios) {
-  test(`${scenario.path} başlangıcı ${scenario.water} akışı sonuç ekranına kadar tamamlanır`, async ({ page, isMobile }) => {
-    test.skip(Boolean(isMobile) && !scenario.mobile, 'Bu kombinasyon masaüstü tam matrisinde doğrulanır.');
-    test.setTimeout(120_000);
-    const errors = captureRuntimeErrors(page);
-    const flow = await completeFlow(page, scenario.path, scenario.water);
+      if (water === 'salt') {
+        expect(flow).not.toContain('plants');
+        await expect(page.locator('.foot-nav button').filter({ hasText: 'BİTKİ & MERCAN' })).toHaveCount(0);
+      }
 
-    if (scenario.water === 'salt') {
-      expect(flow).not.toContain('plants');
-      await expect(page.locator('.recipe-strip button').filter({ hasText: 'Bitkiler' })).toHaveCount(0);
-    }
-
-    await expect(page.locator('.score-breakdown-panel')).toBeVisible({ timeout: 30_000 });
-    await assertNoRuntimeErrors(errors);
-  });
+      await expect(page.locator('.score-breakdown-panel')).toBeVisible({ timeout: 30_000 });
+      assertNoRuntimeErrors(errors);
+    });
+  }
 }
 
 test('geri, ileri ve reçete şeridi geçişleri seçimleri korur', async ({ page }) => {
@@ -201,26 +201,30 @@ test('geri, ileri ve reçete şeridi geçişleri seçimleri korur', async ({ pag
   await expectStep(page, 'fish');
   await expect(page.locator('.catalog-selected-item')).toHaveCount(1);
 
-  await domClick(page.locator('.recipe-strip button').filter({ hasText: 'Tatlı su' }));
+  await next(page);
+  await expectStep(page, 'plants');
+  await domClick(page.getByRole('button', { name: /SU TİPİ.*Tatlı su/ }));
   await expectStep(page, 'water');
-  await assertNoRuntimeErrors(errors);
+  assertNoRuntimeErrors(errors);
 });
 
-test('özel tank ölçüleri girilebilir ve hacim geçişi açar', async ({ page }) => {
+test('özel tank ölçüsü kaydırıcıları hacmi günceller ve geçişi açar', async ({ page }) => {
   const errors = captureRuntimeErrors(page);
   await openWizard(page, 'tank');
   await expectStep(page, 'tank');
+  await realClick(page.getByRole('button', { name: 'Özel ölçü' }));
 
-  const customButton = page.getByRole('button', { name: 'Özel ölçü' });
-  await realClick(customButton);
-  await page.getByLabel(/Uzunluk/).fill('100');
-  await page.getByLabel(/Genişlik/).fill('40');
-  await page.getByLabel(/Yükseklik/).fill('50');
+  const sliders = page.getByRole('slider');
+  await expect(sliders).toHaveCount(3);
+  await setRangeValue(sliders.nth(0), 100);
+  await setRangeValue(sliders.nth(1), 40);
+  await setRangeValue(sliders.nth(2), 50);
+  await expect(page.getByText('Yaklaşık 200 litre')).toBeVisible();
   await expect(primary(page)).toBeEnabled();
 
   await next(page);
   await expectStep(page, 'water');
-  await assertNoRuntimeErrors(errors);
+  assertNoRuntimeErrors(errors);
 });
 
 test('Türkçe ve İngilizce arayüz arasında geçiş yapılır', async ({ page }) => {
@@ -230,7 +234,7 @@ test('Türkçe ve İngilizce arayüz arasında geçiş yapılır', async ({ page
   await expect(page.getByRole('heading', { name: 'Design the aquarium of your dreams, step by step.' })).toBeVisible();
   await realClick(page.getByRole('button', { name: 'TR', exact: true }));
   await expect(page.getByRole('heading', { name: 'Hayalindeki akvaryumu adım adım tasarla.' })).toBeVisible();
-  await assertNoRuntimeErrors(errors);
+  assertNoRuntimeErrors(errors);
 });
 
 test('katalog arama, kategori, gelişmiş filtre, URL ve sıfırlama işlemleri çalışır', async ({ page }) => {
@@ -267,7 +271,7 @@ test('katalog arama, kategori, gelişmiş filtre, URL ve sıfırlama işlemleri 
   await pause(500);
   expect(new URL(page.url()).search).toBe('');
   await expect(page.locator('.catalog-card').first()).toBeVisible({ timeout: 30_000 });
-  await assertNoRuntimeErrors(errors);
+  assertNoRuntimeErrors(errors);
 });
 
 test('canlı detay paneli, ekleme, artırma, azaltma, kapatma ve kaldırma çalışır', async ({ page, isMobile }) => {
@@ -297,15 +301,12 @@ test('canlı detay paneli, ekleme, artırma, azaltma, kapatma ve kaldırma çal�
   await page.keyboard.press('Escape');
   await expect(dialog).toHaveCount(0);
   await expect(page.locator('.catalog-selected-item')).toHaveCount(1);
-
   await realClick(page.locator('.catalog-selected-item button'));
   await expect(page.locator('.catalog-selected-item')).toHaveCount(0);
   await expect(primary(page)).toBeDisabled();
 
-  if (isMobile) {
-    await expect(page.locator('.foot-nav')).toBeVisible();
-  }
-  await assertNoRuntimeErrors(errors);
+  if (isMobile) await expect(page.locator('.foot-nav')).toBeVisible();
+  assertNoRuntimeErrors(errors);
 });
 
 test('sonuç sekmeleri, yazdırma ve yeniden başlatma işlemleri çalışır', async ({ page, isMobile }) => {
@@ -323,8 +324,7 @@ test('sonuç sekmeleri, yazdırma ve yeniden başlatma işlemleri çalışır', 
   ];
 
   for (const [buttonName, expectedText] of tabs) {
-    const tab = page.getByRole('button', { name: buttonName, exact: true });
-    await realClick(tab, 30_000);
+    await realClick(page.getByRole('button', { name: buttonName, exact: true }), 30_000);
     await expect(page.getByText(expectedText, { exact: false }).first()).toBeVisible({ timeout: 30_000 });
   }
 
@@ -335,13 +335,12 @@ test('sonuç sekmeleri, yazdırma ve yeniden başlatma işlemleri çalışır', 
   await realClick(page.getByRole('button', { name: 'Reçeteyi Yazdır' }));
   expect(await page.evaluate(() => window.__akvaryumPrintCalls)).toBe(1);
 
-  const restart = page.locator('.foot-nav .btn-secondary');
-  await domClick(restart);
+  await domClick(page.locator('.foot-nav .btn-secondary'));
   await expect(page.getByRole('heading', { name: 'Hayalindeki akvaryumu adım adım tasarla.' })).toBeVisible({ timeout: 30_000 });
   await expect(page.locator('.foot-nav')).toHaveCount(0);
 
   if (isMobile) {
-    await expect(page.locator('body')).not.toHaveCSS('overflow-x', 'scroll');
+    expect(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth + 1)).toBe(true);
   }
-  await assertNoRuntimeErrors(errors);
+  assertNoRuntimeErrors(errors);
 });
