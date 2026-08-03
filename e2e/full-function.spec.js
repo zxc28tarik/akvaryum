@@ -23,8 +23,22 @@ async function realClick(locator, timeout = 20_000) {
   await expect(locator).toBeVisible({ timeout });
   await expect(locator).toBeEnabled({ timeout });
   await locator.scrollIntoViewIfNeeded();
-  const box = await locator.boundingBox();
+
+  let box = await locator.boundingBox();
   if (!box) throw new Error('Tıklanacak öğenin ekran konumu alınamadı.');
+
+  const footer = locator.page().locator('.foot-nav:visible');
+  if (await footer.count()) {
+    const footerBox = await footer.boundingBox();
+    const overlap = footerBox ? (box.y + box.height) - footerBox.y : 0;
+    if (overlap >= 0) {
+      await locator.page().evaluate(distance => window.scrollBy(0, distance), overlap + 24);
+      await pause(120);
+      box = await locator.boundingBox();
+      if (!box) throw new Error('Kaydırma sonrasında tıklanacak öğenin konumu alınamadı.');
+    }
+  }
+
   await locator.page().mouse.click(box.x + box.width / 2, box.y + box.height / 2);
 }
 
