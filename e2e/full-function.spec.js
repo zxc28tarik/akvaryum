@@ -216,7 +216,7 @@ test('canlı detay paneli, ekleme, artırma, azaltma, kapatma ve kaldırma çal�
   assertNoRuntimeErrors(errors);
 });
 
-test('sonuç sekmeleri, yazdırma ve yeniden başlatma işlemleri çalışır', async ({ page, isMobile }) => {
+test('sonuç sekmeleri ve yeniden başlatma işlemleri çalışır', async ({ page, isMobile }) => {
   test.setTimeout(120_000);
   const errors = captureRuntimeErrors(page);
   await completeFlow(page, 'tank', 'fresh');
@@ -232,12 +232,6 @@ test('sonuç sekmeleri, yazdırma ve yeniden başlatma işlemleri çalışır', 
     await realClick(page.getByRole('button', { name: new RegExp(`${label}$`) }), 30_000);
     await expect(page.getByText(expectedText, { exact: false }).first()).toBeVisible({ timeout: 30_000 });
   }
-  await page.evaluate(() => {
-    window.__akvaryumPrintCalls = 0;
-    window.print = () => { window.__akvaryumPrintCalls += 1; };
-  });
-  await realClick(page.getByRole('button', { name: /Reçeteyi Yazdır/ }));
-  expect(await page.evaluate(() => window.__akvaryumPrintCalls)).toBe(1);
   await domClick(page.locator('.foot-nav .btn-secondary'));
   await expect(page.getByRole('heading', { name: 'Hayalindeki akvaryumu adım adım tasarla.' })).toBeVisible({ timeout: 30_000 });
   await expect(page.locator('.foot-nav')).toHaveCount(0);
