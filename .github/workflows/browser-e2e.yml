@@ -94,3 +94,42 @@ jobs:
             test-results
           if-no-files-found: ignore
           retention-days: 7
+
+  full-function-audit:
+    needs: catalog-performance
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    strategy:
+      fail-fast: false
+      matrix:
+        project: [desktop-chromium, mobile-chromium]
+
+    steps:
+      - name: Depoyu al
+        uses: actions/checkout@v6
+
+      - name: Node.js kur
+        uses: actions/setup-node@v6
+        with:
+          node-version: 22.18.0
+          package-manager-cache: false
+
+      - name: Bağımlılıkları kur
+        run: npm install --no-audit --no-fund
+
+      - name: Chromium ve sistem bağımlılıklarını kur
+        run: npx playwright install --with-deps chromium
+
+      - name: Bütün ana kullanıcı işlemlerini tek tek doğrula
+        run: npx playwright test e2e/full-function.spec.js --project="${{ matrix.project }}"
+
+      - name: Tam işlev Playwright raporunu yükle
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-full-function-${{ matrix.project }}
+          path: |
+            playwright-report
+            test-results
+          if-no-files-found: ignore
+          retention-days: 7
